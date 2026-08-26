@@ -1,0 +1,493 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dr. Mohammad Jamhuri, M.Si — Profil Akademik</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,560;1,9..144,500&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper: #FBF7EC;
+    --paper-soft: #F4EEDF;
+    --ink: #1D2942;
+    --ink-soft: #5A6482;
+    --brass: #A9762C;
+    --brass-deep: #7E5A1F;
+    --pine: #2F4A3C;
+    --line: #DED2B4;
+    --line-soft: #E9E1CC;
+    --max: 880px;
+  }
+  *{ box-sizing:border-box; }
+  html{ scroll-behavior:smooth; }
+  body{
+    margin:0;
+    background:var(--paper);
+    color:var(--ink);
+    font-family:'Inter', sans-serif;
+    font-size:16px;
+    line-height:1.6;
+    -webkit-font-smoothing:antialiased;
+  }
+  a{ color:inherit; }
+  .wrap{ max-width:var(--max); margin:0 auto; padding:0 28px; }
+
+  /* ---------- texture ---------- */
+  .grain{
+    position:fixed; inset:0; pointer-events:none; z-index:0; opacity:.5;
+    background-image:
+      radial-gradient(var(--line-soft) 1px, transparent 1px);
+    background-size: 22px 22px;
+    -webkit-mask-image: linear-gradient(to bottom, black, transparent 900px);
+            mask-image: linear-gradient(to bottom, black, transparent 900px);
+  }
+
+  /* ---------- hero ---------- */
+  header.hero{ position:relative; padding:88px 0 56px; z-index:1; }
+  .eyebrow{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:12px; letter-spacing:.14em; text-transform:uppercase;
+    color:var(--brass-deep); margin:0 0 22px;
+    display:flex; align-items:center; gap:10px;
+  }
+  .eyebrow::before{ content:""; width:26px; height:1px; background:var(--brass); display:inline-block; }
+
+  .hero-grid{ display:grid; grid-template-columns: 1fr 220px; gap:36px; align-items:start; }
+  @media (max-width:640px){ .hero-grid{ grid-template-columns:1fr; } .hero-visual{ order:-1; width:150px; margin:0 auto 8px; } }
+
+  h1{
+    font-family:'Fraunces', serif;
+    font-weight:560;
+    font-size:clamp(2.3rem, 5.4vw, 3.4rem);
+    line-height:1.05;
+    margin:0 0 14px;
+    letter-spacing:-0.01em;
+  }
+  .tagline{
+    font-family:'Fraunces', serif;
+    font-style:italic;
+    font-weight:400;
+    font-size:1.18rem;
+    color:var(--ink-soft);
+    margin:0 0 26px;
+    max-width:46ch;
+  }
+  .role{
+    font-size:.98rem;
+    color:var(--ink-soft);
+    margin:0 0 22px;
+  }
+  .role b{ color:var(--ink); font-weight:600; }
+
+  .badges{ display:flex; flex-wrap:wrap; gap:9px; margin-bottom:26px; }
+  .badge{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:12px;
+    color:var(--pine);
+    background:var(--paper-soft);
+    border:1px solid var(--line);
+    padding:5px 10px;
+    border-radius:3px;
+    white-space:nowrap;
+  }
+  .badge span{ color:var(--ink-soft); }
+
+  .links{ display:flex; flex-wrap:wrap; gap:10px; }
+  .links a{
+    text-decoration:none;
+    font-size:.9rem;
+    font-weight:500;
+    padding:9px 15px;
+    border-radius:2px;
+    border:1px solid var(--ink);
+    transition:background .15s ease, color .15s ease;
+  }
+  .links a:hover{ background:var(--ink); color:var(--paper); }
+  .links a.primary{ background:var(--brass); border-color:var(--brass); color:var(--paper); }
+  .links a.primary:hover{ background:var(--brass-deep); border-color:var(--brass-deep); }
+
+  .avatar-frame{
+    width:220px; aspect-ratio:1/1; border:1px solid var(--line);
+    padding:6px; background:var(--paper-soft);
+  }
+  .avatar-frame img{ width:100%; height:100%; object-fit:cover; display:block; filter:grayscale(.15) contrast(1.02); }
+
+  /* ---------- convergence signature ---------- */
+  .converge{ margin-top:18px; }
+  .converge svg{ width:220px; height:auto; display:block; }
+  .converge-cap{
+    font-family:'IBM Plex Mono', monospace; font-size:10.5px; color:var(--ink-soft);
+    text-align:center; margin-top:6px; letter-spacing:.03em;
+  }
+  .path-draw{
+    stroke-dasharray: 340;
+    stroke-dashoffset: 340;
+    animation: draw 1.6s ease forwards .3s;
+  }
+  @keyframes draw{ to{ stroke-dashoffset:0; } }
+  @media (prefers-reduced-motion: reduce){
+    .path-draw{ animation:none; stroke-dashoffset:0; }
+  }
+
+  /* ---------- sections ---------- */
+  section{ position:relative; z-index:1; padding:44px 0; border-top:1px solid var(--line); }
+  .sec-head{ display:flex; align-items:baseline; justify-content:space-between; margin-bottom:26px; gap:16px; flex-wrap:wrap; }
+  .sec-title{
+    font-family:'Fraunces', serif; font-weight:560; font-size:1.5rem; margin:0;
+  }
+  .sec-note{ font-family:'IBM Plex Mono', monospace; font-size:12px; color:var(--ink-soft); }
+
+  .lede{ max-width:64ch; color:var(--ink-soft); font-size:1.02rem; }
+  .lede b{ color:var(--ink); font-weight:600; }
+
+  /* education timeline */
+  .timeline{ list-style:none; margin:0; padding:0; border-left:1px solid var(--line); }
+  .timeline li{ position:relative; padding:2px 0 22px 26px; }
+  .timeline li::before{
+    content:""; position:absolute; left:-5px; top:6px; width:9px; height:9px;
+    background:var(--paper); border:2px solid var(--brass); border-radius:50%;
+  }
+  .timeline .deg{ font-family:'IBM Plex Mono', monospace; font-size:12px; color:var(--brass-deep); letter-spacing:.05em; }
+  .timeline .school{ font-weight:600; margin-top:2px; }
+  .timeline .yr{ color:var(--ink-soft); font-size:.9rem; }
+
+  /* publications */
+  .pub-list{ list-style:none; margin:0; padding:0; }
+  .pub{ padding:18px 0; border-bottom:1px solid var(--line-soft); }
+  .pub:first-child{ padding-top:0; }
+  .pub-top{ display:flex; justify-content:space-between; gap:16px; align-items:baseline; }
+  .pub-title{ font-weight:600; font-size:1.02rem; text-decoration:none; }
+  .pub-title:hover{ color:var(--brass-deep); }
+  .pub-year{ font-family:'IBM Plex Mono', monospace; font-size:12px; color:var(--ink-soft); white-space:nowrap; flex-shrink:0; }
+  .pub-venue{ font-style:italic; color:var(--ink-soft); font-size:.92rem; margin-top:3px; }
+  .pub-type{
+    font-family:'IBM Plex Mono', monospace; font-size:10.5px; text-transform:uppercase;
+    color:var(--pine); letter-spacing:.06em; margin-right:8px;
+  }
+
+  /* medium grid */
+  .writing-grid{ display:grid; grid-template-columns:1fr 1fr; gap:2px; background:var(--line-soft); border:1px solid var(--line-soft); }
+  @media (max-width:640px){ .writing-grid{ grid-template-columns:1fr; } }
+  .wcard{
+    background:var(--paper); padding:20px; text-decoration:none; color:var(--ink);
+    display:flex; flex-direction:column; gap:8px; min-height:118px; justify-content:space-between;
+    transition:background .15s ease;
+  }
+  .wcard:hover{ background:var(--paper-soft); }
+  .wcard-title{ font-weight:600; font-size:.98rem; line-height:1.35; }
+  .wcard-meta{ display:flex; justify-content:space-between; align-items:center; font-family:'IBM Plex Mono', monospace; font-size:11px; color:var(--ink-soft); }
+  .wcard-arrow{ color:var(--brass-deep); }
+
+  footer{ padding:40px 0 70px; position:relative; z-index:1; }
+  .foot-links{ display:flex; flex-wrap:wrap; gap:16px; margin-bottom:18px; font-size:.9rem; }
+  .foot-links a{ text-decoration:none; color:var(--ink-soft); border-bottom:1px solid transparent; }
+  .foot-links a:hover{ color:var(--ink); border-color:var(--ink); }
+  .foot-note{ font-family:'IBM Plex Mono', monospace; font-size:11.5px; color:var(--ink-soft); }
+</style>
+</head>
+<body>
+
+<div class="grain"></div>
+
+<div class="wrap">
+  <header class="hero">
+    <p class="eyebrow">Profil Akademik</p>
+    <div class="hero-grid">
+      <div>
+        <h1>Dr. Mohammad<br>Jamhuri, M.Si</h1>
+        <p class="tagline">Mendekati solusi satu iterasi pada satu waktu — analisis numerik yang bertemu dengan pembelajaran mesin.</p>
+        <p class="role">Dosen, <b>Program Studi Matematika</b> — Universitas Islam Negeri Maulana Malik Ibrahim, Malang</p>
+        <div class="badges">
+          <div class="badge">Scopus ID <span>56192281800</span></div>
+          <div class="badge">Sinta ID <span>6041862</span></div>
+          <div class="badge">Jabatan Fungsional <span>Lektor</span></div>
+        </div>
+        <div class="links">
+          <a class="primary" href="https://scholar.google.com/citations?hl=en&user=LWUoel0AAAAJ&view_op=list_works&sortby=pubdate">Google Scholar</a>
+          <a href="mailto:m.jamhuri@mat.uin-malang.ac.id">Email</a>
+          <a href="https://www.researchgate.net/profile/Mohammad-Jamhuri-3">ResearchGate</a>
+          <a href="https://sinta.kemdiktisaintek.go.id/authors/profile/6041862">Sinta</a>
+          <a href="https://www.scopus.com/authid/detail.uri?authorId=56192281800">Scopus</a>
+          <a href="https://jamhuri.medium.com/">Medium</a>
+          <a href="https://matematika.uin-malang.ac.id/dr-mohammad-jamhuri-m-si/">Laman Jurusan</a>
+        </div>
+      </div>
+
+      <div>
+        <div class="avatar-frame">
+          <img src="https://matematika.uin-malang.ac.id/wp-content/uploads/2025/08/Dr-Jamhuri.png" alt="Dr. Mohammad Jamhuri, M.Si" onerror="this.parentElement.style.display='none'">
+        </div>
+        <div class="converge">
+          <svg viewBox="0 0 220 150" fill="none">
+            <path class="path-draw" d="M14 18 L 46 118 L 92 42 L 118 96 L 138 66 L 150 82 L 158 74" stroke="var(--brass)" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
+            <circle cx="14" cy="18" r="3" fill="var(--pine)"/>
+            <circle cx="46" cy="118" r="3" fill="var(--pine)"/>
+            <circle cx="92" cy="42" r="3" fill="var(--pine)"/>
+            <circle cx="118" cy="96" r="2.6" fill="var(--pine)"/>
+            <circle cx="138" cy="66" r="2.2" fill="var(--pine)"/>
+            <circle cx="150" cy="82" r="1.8" fill="var(--pine)"/>
+            <circle cx="158" cy="74" r="4.5" fill="none" stroke="var(--brass-deep)" stroke-width="1.4"/>
+            <text x="6" y="12" font-family="IBM Plex Mono, monospace" font-size="9" fill="var(--ink-soft)">x₀</text>
+            <text x="165" y="78" font-family="IBM Plex Mono, monospace" font-size="9" fill="var(--brass-deep)">x*</text>
+          </svg>
+          <p class="converge-cap">iterasi Newton–Gauss menuju x*</p>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <section id="fokus">
+    <div class="sec-head">
+      <h2 class="sec-title">Fokus Riset</h2>
+      <span class="sec-note">Matematika Terapan</span>
+    </div>
+    <p class="lede">Topik riset berpusat pada <b>analisis numerik</b> dan <b>machine learning</b> — khususnya metode optimisasi berbasis turunan kedua (Gauss–Newton, Hessian-free Newton–CG) yang diterapkan pada persoalan klasifikasi, prediksi deret waktu, hingga analisis data genomik dan varian virus. Sebagian karya juga menjembatani metode numerik klasik dengan praktik machine learning kontemporer, dari regresi logistik hingga jaringan saraf tiruan.</p>
+  </section>
+
+  <section id="pendidikan">
+    <div class="sec-head">
+      <h2 class="sec-title">Pendidikan</h2>
+      <span class="sec-note">S1 → S3</span>
+    </div>
+    <ul class="timeline">
+      <li>
+        <div class="deg">S1 · Matematika</div>
+        <div class="school">Universitas Islam Negeri (UIN) Maulana Malik Ibrahim, Malang <span class="yr">· 2004</span></div>
+      </li>
+      <li>
+        <div class="deg">S2 · Matematika</div>
+        <div class="school">Institut Teknologi Sepuluh Nopember (ITS), Surabaya <span class="yr">· 2009</span></div>
+      </li>
+      <li>
+        <div class="deg">S3 · Matematika</div>
+        <div class="school">Institut Teknologi Sepuluh Nopember (ITS), Surabaya <span class="yr">· 2025</span></div>
+      </li>
+    </ul>
+  </section>
+
+  <section id="publikasi">
+    <div class="sec-head">
+      <h2 class="sec-title">Publikasi Terpilih</h2>
+      <span class="sec-note">terbaru lebih dulu</span>
+    </div>
+    <ul class="pub-list">
+      <li class="pub">
+        <div class="pub-top">
+          <a class="pub-title" href="https://www.researchgate.net/publication/412291148_Measuring_and_removing_near-duplicate_contamination_in_alignment-free_SARS-CoV-2_lineage_classification_benchmarks">Measuring and Removing Near-Duplicate Contamination in Alignment-Free SARS-CoV-2 Lineage Classification Benchmarks</a>
+          <span class="pub-year">2026</span>
+        </div>
+        <div class="pub-venue"><span class="pub-type">Preprint</span>ResearchGate</div>
+      </li>
+      <li class="pub">
+        <div class="pub-top">
+          <a class="pub-title" href="https://www.researchgate.net/publication/410826981_Error_Bounds_and_Stability_of_Damped_Diagonal_Generalized_Gauss--Newton_Preconditioning_for_Neural_Network_Optimization">Error Bounds and Stability of Damped Diagonal Generalized Gauss–Newton Preconditioning for Neural Network Optimization</a>
+          <span class="pub-year">2026</span>
+        </div>
+        <div class="pub-venue"><span class="pub-type">Preprint</span>ResearchGate</div>
+      </li>
+      <li class="pub">
+        <div class="pub-top">
+          <a class="pub-title" href="https://www.researchgate.net/publication/412071744_Where_to_Spend_a_Memory_Budget_in_Gauss-Newton_Preconditioning">Where to Spend a Memory Budget in Gauss-Newton Preconditioning?</a>
+          <span class="pub-year">2026</span>
+        </div>
+        <div class="pub-venue"><span class="pub-type">Preprint</span>ResearchGate</div>
+      </li>
+      <li class="pub">
+        <div class="pub-top">
+          <a class="pub-title" href="https://www.researchgate.net/publication/403867975_A_Damped_Hessian-Free_Newton--Conjugate_Gradient_Method_for_Weighted_Multiclass_Neural_Classification">A Damped Hessian-Free Newton–Conjugate Gradient Method for Weighted Multiclass Neural Classification</a>
+          <span class="pub-year">2026</span>
+        </div>
+        <div class="pub-venue"><span class="pub-type">Artikel</span>CAUCHY Jurnal Matematika Murni dan Aplikasi</div>
+      </li>
+      <li class="pub">
+        <div class="pub-top">
+          <a class="pub-title" href="https://www.researchgate.net/publication/404412962_Deep_Neural_Network-Based_Student_Performance_Prediction_with_Hessian-Free_Optimization">Deep Neural Network-Based Student Performance Prediction with Hessian-Free Optimization</a>
+          <span class="pub-year">2026</span>
+        </div>
+        <div class="pub-venue"><span class="pub-type">Artikel</span>Jurnal Riset Mahasiswa Matematika</div>
+      </li>
+      <li class="pub">
+        <div class="pub-top">
+          <a class="pub-title" href="https://www.researchgate.net/publication/399363952_Inexact_Generalized_Gauss--Newton--CG_for_Binary_Cross-Entropy_Minimization">Inexact Generalized Gauss–Newton–CG for Binary Cross-Entropy Minimization</a>
+          <span class="pub-year">2025</span>
+        </div>
+        <div class="pub-venue"><span class="pub-type">Artikel</span>Jurnal Riset Mahasiswa Matematika</div>
+      </li>
+      <li class="pub">
+        <div class="pub-top">
+          <a class="pub-title" href="https://www.researchgate.net/publication/398129752_On_the_Approximation_Capabilities_of_Deep_Neural_Networks_for_Multivariate_Time_Series_Modeling">On the Approximation Capabilities of Deep Neural Networks for Multivariate Time Series Modeling</a>
+          <span class="pub-year">2025</span>
+        </div>
+        <div class="pub-venue"><span class="pub-type">Artikel</span>CAUCHY Jurnal Matematika Murni dan Aplikasi</div>
+      </li>
+      <li class="pub">
+        <div class="pub-top">
+          <a class="pub-title" href="https://www.researchgate.net/publication/398986391_Panduan_Praktis_Machine_Learning_dengan_Python">Panduan Praktis Machine Learning dengan Python</a>
+          <span class="pub-year">2025</span>
+        </div>
+        <div class="pub-venue"><span class="pub-type">Buku</span>Buku ajar machine learning berbahasa Indonesia</div>
+      </li>
+      <li class="pub">
+        <div class="pub-top">
+          <a class="pub-title" href="https://www.researchgate.net/publication/395119952_Cross-Dataset_Evaluation_of_Support_Vector_Machines_A_Reproducible_Calibration-Aware_Baseline_for_Tabular_Classification">Cross-Dataset Evaluation of Support Vector Machines: A Reproducible, Calibration-Aware Baseline for Tabular Classification</a>
+          <span class="pub-year">2025</span>
+        </div>
+        <div class="pub-venue"><span class="pub-type">Artikel</span>Jurnal Riset Mahasiswa Matematika</div>
+      </li>
+      <li class="pub">
+        <div class="pub-top">
+          <a class="pub-title" href="https://www.researchgate.net/publication/395251610_Reliable_and_Efficient_Sentiment_Analysis_on_IMDb_with_Logistic_Regression">Reliable and Efficient Sentiment Analysis on IMDb with Logistic Regression</a>
+          <span class="pub-year">2025</span>
+        </div>
+        <div class="pub-venue"><span class="pub-type">Artikel</span>CAUCHY Jurnal Matematika Murni dan Aplikasi</div>
+      </li>
+      <li class="pub">
+        <div class="pub-top">
+          <a class="pub-title" href="https://www.researchgate.net/publication/388598984_Hydrophobicity_signal_analysis_for_robust_SARS-CoV-2_classification">Hydrophobicity Signal Analysis for Robust SARS-CoV-2 Classification</a>
+          <span class="pub-year">2025</span>
+        </div>
+        <div class="pub-venue"><span class="pub-type">Artikel</span>Indonesian Journal of Electrical Engineering and Computer Science</div>
+      </li>
+      <li class="pub">
+        <div class="pub-top">
+          <a class="pub-title" href="https://www.researchgate.net/publication/389018470_Neural_networks_optimization_via_Gauss-Newton_based_QR_factorization_on_SARS-CoV-2_variant_classification">Neural Networks Optimization via Gauss–Newton Based QR Factorization on SARS-CoV-2 Variant Classification</a>
+          <span class="pub-year">2025</span>
+        </div>
+        <div class="pub-venue"><span class="pub-type">Artikel</span>Systems and Soft Computing</div>
+      </li>
+    </ul>
+    <p class="lede" style="margin-top:22px;">Daftar lengkap 24 publikasi tersedia di <a href="https://scholar.google.com/citations?hl=en&user=LWUoel0AAAAJ&view_op=list_works&sortby=pubdate" style="color:var(--brass-deep);">Google Scholar</a> dan <a href="https://www.researchgate.net/profile/Mohammad-Jamhuri-3" style="color:var(--brass-deep);">ResearchGate</a>.</p>
+  </section>
+
+  <section id="buku">
+    <div class="sec-head">
+      <h2 class="sec-title">Buku</h2>
+      <span class="sec-note">ber-ISBN</span>
+    </div>
+    <ul class="pub-list">
+      <li class="pub">
+        <div class="pub-top">
+          <a class="pub-title" href="https://play.google.com/store/books/details?id=ehEFEgAAQBAJ">Metode Numerik: Teori, Algoritma, dan Analisis Galat</a>
+          <span class="pub-year">Play Books</span>
+        </div>
+        <div class="pub-venue"><span class="pub-type">Buku</span>Google Play Books</div>
+      </li>
+      <li class="pub">
+        <div class="pub-top">
+          <a class="pub-title" href="https://play.google.com/store/books/details/Mohammad_Jamhuri_Python_untuk_Machine_Learning_dan?id=RXwFEgAAQBAJ">Python untuk Machine Learning dan Data Science</a>
+          <span class="pub-year">Play Books</span>
+        </div>
+        <div class="pub-venue"><span class="pub-type">Buku</span>Google Play Books · bersama Hisyam Fahmi, Muhammad Khudzaifah</div>
+      </li>
+      <li class="pub">
+        <div class="pub-top">
+          <a class="pub-title" href="https://play.google.com/store/books/details/Mohammad_Jamhuri_Metode_Metode_Optimisasi_pada_Neu?id=pMzwEQAAQBAJ&hl=en">Metode-Metode Optimisasi pada Neural Network: Teori Matematika, Analisis Numerik, dan Praktikum Python</a>
+          <span class="pub-year">Play Books</span>
+        </div>
+        <div class="pub-venue"><span class="pub-type">Buku</span>Google Play Books</div>
+      </li>
+      <li class="pub">
+        <div class="pub-top">
+          <a class="pub-title" href="https://play.google.com/store/books/details/Mohammad_Jamhuri_Second_Order_Optimization_Methods?id=DQ3zEQAAQBAJ&hl=en">Second-Order Optimization Methods: and Their Implementation in Feedforward Neural Networks</a>
+          <span class="pub-year">Play Books</span>
+        </div>
+        <div class="pub-venue"><span class="pub-type">Buku</span>Google Play Books</div>
+      </li>
+      <li class="pub">
+        <div class="pub-top">
+          <a class="pub-title" href="https://play.google.com/store/books/details/Dr_Mohammad_Jamhuri_Support_Vector_Machine?id=x-bzEQAAQBAJ&hl=en">Support Vector Machine: Dari Intuisi Geometris Menuju Implementasi</a>
+          <span class="pub-year">Play Books</span>
+        </div>
+        <div class="pub-venue"><span class="pub-type">Buku</span>Google Play Books</div>
+      </li>
+      <li class="pub">
+        <div class="pub-top">
+          <a class="pub-title" href="https://www.researchgate.net/publication/410767452_Jaringan_Syaraf_Tiruan_Feedforward_Satu_Hidden_Layer">Jaringan Syaraf Tiruan Feedforward Satu Hidden Layer — Satu Model, Tiga Wajah: Matematika, NumPy, dan TensorFlow</a>
+          <span class="pub-year">2026</span>
+        </div>
+        <div class="pub-venue"><span class="pub-type">Buku</span>Penerbit Ediide Infografika</div>
+      </li>
+      <li class="pub">
+        <div class="pub-top">
+          <a class="pub-title" href="https://www.researchgate.net/publication/398986391_Panduan_Praktis_Machine_Learning_dengan_Python">Panduan Praktis Machine Learning dengan Python</a>
+          <span class="pub-year">2025</span>
+        </div>
+        <div class="pub-venue"><span class="pub-type">Buku</span>Penerbit Adab · ISBN 978-634-235-917-4 · E-ISBN 978-634-235-916-7 (PDF) · bersama M.I. Irawan, I. Mukhlash, A. Kusumastuti</div>
+      </li>
+      <li class="pub">
+        <div class="pub-top">
+          <a class="pub-title" href="http://repository.uin-malang.ac.id/23726/">Dasar-Dasar Ekonometrika</a>
+          <span class="pub-year">2025</span>
+        </div>
+        <div class="pub-venue"><span class="pub-type">Buku</span>CV Hei Publishing Indonesia · ISBN 978-634-7067-43-2 · buku kolaborasi 12 penulis</div>
+      </li>
+      <li class="pub">
+        <div class="pub-top">
+          <a class="pub-title" href="#" data-pending-link="true">Artificial Intelligence dalam Pembelajaran Menulis: Perspektif dan Praktik</a>
+          <span class="pub-year">2025</span>
+        </div>
+        <div class="pub-venue"><span class="pub-type">Buku</span>Future Science · ISBN 978-634-7430-09-0 · buku kolaborasi 12 penulis</div>
+      </li>
+    </ul>
+  </section>
+
+  <section id="tulisan">
+    <div class="sec-head">
+      <h2 class="sec-title">Tulisan</h2>
+      <span class="sec-note">di Medium</span>
+    </div>
+    <div class="writing-grid">
+      <a class="wcard" href="https://jamhuri.medium.com/integrasi-matematika-dan-islam-808a7ff51d09">
+        <div class="wcard-title">Integrasi Matematika dan Islam</div>
+        <div class="wcard-meta"><span>7 Sep 2024</span><span class="wcard-arrow">Baca →</span></div>
+      </a>
+      <a class="wcard" href="https://jamhuri.medium.com/dasar-dasar-teori-dan-persamaan-gelombang-e36ffde31163">
+        <div class="wcard-title">Dasar-Dasar Teori dan Persamaan Gelombang</div>
+        <div class="wcard-meta"><span>1 Sep 2024</span><span class="wcard-arrow">Baca →</span></div>
+      </a>
+      <a class="wcard" href="https://jamhuri.medium.com/understanding-the-adaptive-gradient-adagrad-40d1e9e473fd">
+        <div class="wcard-title">Understanding the Adaptive Gradient (AdaGrad)</div>
+        <div class="wcard-meta"><span>25 Apr 2023</span><span class="wcard-arrow">Baca →</span></div>
+      </a>
+      <a class="wcard" href="https://jamhuri.medium.com/understanding-stochastic-gradient-descent-sgd-c31454313a9a">
+        <div class="wcard-title">Understanding Stochastic Gradient Descent (SGD)</div>
+        <div class="wcard-meta"><span>22 Apr 2023</span><span class="wcard-arrow">Baca →</span></div>
+      </a>
+      <a class="wcard" href="https://jamhuri.medium.com/gradient-derivation-for-single-layer-neural-networks-in-multiclass-classification-e44584e84511">
+        <div class="wcard-title">Gradient Derivation for Single-Layer Neural Networks in Multiclass Classification</div>
+        <div class="wcard-meta"><span>19 Apr 2023</span><span class="wcard-arrow">Baca →</span></div>
+      </a>
+      <a class="wcard" href="https://jamhuri.medium.com/understanding-the-adam-optimization-algorithm-a-deep-dive-into-the-formulas-3ac5fc5b7cd3">
+        <div class="wcard-title">Understanding the Adam Optimization Algorithm</div>
+        <div class="wcard-meta"><span>15 Apr 2023</span><span class="wcard-arrow">Baca →</span></div>
+      </a>
+      <a class="wcard" href="https://jamhuri.medium.com/mastering-multiclass-classification-with-single-layer-perceptrons-matlab-implementation-from-d8d30e979dec">
+        <div class="wcard-title">Mastering Multiclass Classification with Single-Layer Perceptrons (MATLAB)</div>
+        <div class="wcard-meta"><span>12 Apr 2023</span><span class="wcard-arrow">Baca →</span></div>
+      </a>
+      <a class="wcard" href="https://jamhuri.medium.com/building-a-multilayer-neural-network-from-scratch-to-classify-the-iris-dataset-b4d4bb6fc3c7">
+        <div class="wcard-title">Building a Multilayer Neural Network from Scratch (Iris Dataset)</div>
+        <div class="wcard-meta"><span>10 Apr 2023</span><span class="wcard-arrow">Baca →</span></div>
+      </a>
+    </div>
+    <p class="lede" style="margin-top:22px;">Arsip lengkap tulisan ada di <a href="https://jamhuri.medium.com/" style="color:var(--brass-deep);">jamhuri.medium.com</a>.</p>
+  </section>
+
+  <footer>
+    <div class="foot-links">
+      <a href="https://matematika.uin-malang.ac.id/dr-mohammad-jamhuri-m-si/">Laman Jurusan</a>
+      <a href="https://scholar.google.com/citations?hl=en&user=LWUoel0AAAAJ&view_op=list_works&sortby=pubdate">Google Scholar</a>
+      <a href="https://www.researchgate.net/profile/Mohammad-Jamhuri-3">ResearchGate</a>
+      <a href="https://jamhuri.medium.com/">Medium</a>
+      <a href="#buku">Buku</a>
+      <a href="mailto:m.jamhuri@mat.uin-malang.ac.id">m.jamhuri@mat.uin-malang.ac.id</a>
+      <a href="https://matematika.uin-malang.ac.id/wp-content/uploads/2025/08/Staff-Handbook-Dr-Jamhuri.pdf">Staff Handbook (PDF)</a>
+    </div>
+    <p class="foot-note">Disusun dari data publik Google Scholar, Medium, dan laman Program Studi Matematika UIN Maulana Malik Ibrahim Malang.</p>
+  </footer>
+</div>
+
+</body>
+</html>
