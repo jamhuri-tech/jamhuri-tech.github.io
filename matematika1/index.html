@@ -75,7 +75,20 @@
     .reveal .tutur{ font-size:1.0em; }
     .reveal table{ font-size:.78em; }
     .reveal img.gbr{ max-height:38vh; }
+
+    /* tombol navigasi diperbesar dan dipertegas agar mudah disentuh */
+    .reveal .controls{
+      right:8px; bottom:8px;
+      --controls-arrow-size: 12px;
+      --controls-spacing: 6px;
+    }
+    .reveal .controls .controls-arrow{ opacity:.9; }
+    .reveal .slide-number{ font-size:14px; padding:4px 8px; }
   }
+
+  /* nomor slide dan bilah kemajuan dibuat cukup jelas di semua ukuran */
+  .reveal .progress{ height:4px; color:var(--jingga); }
+  .reveal .slide-number{ background:rgba(22,69,107,.75); }
 </style>
 </head>
 <body>
@@ -727,7 +740,14 @@
     height: 700,
     margin: 0.06,
     minScale: 0.2,
-    maxScale: 2.0
+    maxScale: 2.0,
+
+    // Reveal.js 5 secara bawaan beralih ke tampilan gulir bila lebar
+    // layar di bawah 435 piksel, dan pada mode itu tombol navigasi
+    // sengaja disembunyikan. Telepon dalam posisi tegak masuk ke
+    // kategori tersebut. Nilai 0 mematikan peralihan itu, sehingga
+    // tampilannya tetap berupa slide beserta tombol navigasinya.
+    scrollActivationWidth: 0
   });
 
   // ---------------------------------------------------------------
@@ -738,14 +758,41 @@
   //  pengguna, misalnya sentuhan atau klik. Karena itu disediakan dua
   //  jalan: tombol pada sampul, dan sentuhan pertama pada slide.
   // ---------------------------------------------------------------
+  // Memutar tampilan ke posisi mendatar. Hanya dilayani oleh peramban
+  // Android saat halaman sedang dalam layar penuh; di tempat lain
+  // permintaan ini diabaikan tanpa menimbulkan galat.
+  function kunciMendatar() {
+    try {
+      if (screen.orientation && screen.orientation.lock) {
+        var j = screen.orientation.lock('landscape');
+        if (j && j.catch) j.catch(function () {});
+      }
+    } catch (e) { /* diabaikan */ }
+  }
+
   function layarPenuh() {
     var el = document.documentElement;
     var minta = el.requestFullscreen || el.webkitRequestFullscreen
              || el.mozRequestFullScreen || el.msRequestFullscreen;
-    if (!minta) return false;                 // peramban tidak mendukung
-    if (document.fullscreenElement) return true;  // sudah penuh
-    try { minta.call(el); return true; } catch (e) { return false; }
+    if (!minta) return false;                     // peramban tidak mendukung
+    if (document.fullscreenElement) { kunciMendatar(); return true; }
+    try {
+      var janji = minta.call(el);
+      // Orientasi baru dapat dikunci setelah layar penuh benar-benar aktif.
+      if (janji && janji.then) janji.then(kunciMendatar).catch(function () {});
+      else setTimeout(kunciMendatar, 120);
+      return true;
+    } catch (e) { return false; }
   }
+
+  // Bila pengguna keluar dari layar penuh, kunci orientasi dilepas
+  // supaya telepon kembali mengikuti putaran layarnya sendiri.
+  document.addEventListener('fullscreenchange', function () {
+    if (!document.fullscreenElement) {
+      try { if (screen.orientation && screen.orientation.unlock) screen.orientation.unlock(); }
+      catch (e) { /* diabaikan */ }
+    }
+  });
 
   var tombol = document.getElementById('mulai');
   if (tombol) {
