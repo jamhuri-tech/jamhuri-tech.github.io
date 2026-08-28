@@ -44,8 +44,17 @@
   .reveal .label{ color:var(--jingga); font-size:0.5em; letter-spacing:0.12em;
            text-transform:uppercase; margin-bottom:0.4em; }
 
+  /* Ukuran gambar dinyatakan dalam koordinat slide (1050 x 700), bukan
+     dalam satuan layar. Reveal.js memperbesar atau memperkecil seluruh
+     slide sekaligus, sehingga satuan vh justru membuat gambar mengecil
+     dua kali. Berkas SVG-nya sengaja dilepas dari ukuran bawaan dan
+     hanya menyisakan viewBox, agar perbandingan sisinya tetap terjaga
+     sementara ukurannya mengikuti aturan di bawah ini. */
   .reveal img.gbr{ background:none; border:none; box-shadow:none;
-           max-height:46vh; width:auto; margin:0 auto 0.6em auto; display:block; }
+           display:block; margin:0 auto .7em auto;
+           height:300px; width:auto; max-width:94%; }
+  /* untuk slide yang hanya berisi gambar, tanpa teks di bawahnya */
+  .reveal img.gbr.penuh{ height:430px; }
 
   /* tabel */
   .reveal table{ font-size:0.62em; margin:0 auto; border-collapse:collapse; }
@@ -74,7 +83,6 @@
   @media (max-width:600px){
     .reveal .tutur{ font-size:1.0em; }
     .reveal table{ font-size:.78em; }
-    .reveal img.gbr{ max-height:38vh; }
 
     /* tombol navigasi diperbesar dan dipertegas agar mudah disentuh */
     .reveal .controls{
@@ -129,7 +137,7 @@
 </section>
 
 <section class="tengah">
-  <img class="gbr" src="gambar/jembatan.svg" alt="Perbandingan jembatan papan dan jembatan bentang panjang">
+  <img class="gbr penuh" src="gambar/jembatan.svg" alt="Perbandingan jembatan papan dan jembatan bentang panjang">
 </section>
 
 <section>
