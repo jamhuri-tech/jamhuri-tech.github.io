@@ -6,6 +6,15 @@
 <title>Matematika I — Kuliah Pengantar</title>
 <meta name="description" content="Kuliah pengantar Matematika I, Program Studi Teknik Sipil.">
 
+<!-- Bila halaman ini ditambahkan ke layar utama telepon, ia terbuka
+     tanpa bilah alamat, sehingga langsung memenuhi layar. -->
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#16456B">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Matematika I">
+
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/reveal.css">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/theme/white.css">
 
@@ -51,6 +60,16 @@
 
   .reveal .catatanKecil{ font-size:.62em; color:#6b7680; }
 
+  /* tombol layar penuh pada sampul */
+  .tombolPenuh{
+    display:inline-block; margin-top:1.2em; padding:.7em 1.6em;
+    background:var(--biruTua); color:#fff; border:none; border-radius:6px;
+    font-size:.62em; font-family:inherit; cursor:pointer; letter-spacing:.02em;
+  }
+  .tombolPenuh:hover{ background:var(--biruMuda); }
+  /* sembunyikan tombol saat sudah berada di layar penuh */
+  :fullscreen .tombolPenuh{ display:none; }
+
   /* di layar sempit, perbesar keterbacaan */
   @media (max-width:600px){
     .reveal .tutur{ font-size:1.0em; }
@@ -68,10 +87,11 @@
   <p class="label">Matematika I &nbsp;·&nbsp; 2 SKS &nbsp;·&nbsp; Teknik Sipil</p>
   <h1 style="font-size:2.1em;margin:.2em 0">Kuliah Pengantar</h1>
   <p style="font-size:.8em">Pertemuan pertama, dan belum ada yang perlu dihitung</p>
-  <p class="catatanKecil" style="margin-top:2em">
+  <p class="catatanKecil" style="margin-top:1.6em">
     Mohammad Jamhuri<br>
     <span style="font-size:.9em">Geser ke samping atau tekan panah untuk berpindah slide</span>
   </p>
+  <button class="tombolPenuh" id="mulai">Mulai layar penuh</button>
 </section>
 
 <section>
@@ -709,6 +729,55 @@
     minScale: 0.2,
     maxScale: 2.0
   });
+
+  // ---------------------------------------------------------------
+  //  Layar penuh
+  //
+  //  Peramban tidak mengizinkan halaman masuk layar penuh dengan
+  //  sendirinya. Perintah itu hanya diterima bila datang dari tindakan
+  //  pengguna, misalnya sentuhan atau klik. Karena itu disediakan dua
+  //  jalan: tombol pada sampul, dan sentuhan pertama pada slide.
+  // ---------------------------------------------------------------
+  function layarPenuh() {
+    var el = document.documentElement;
+    var minta = el.requestFullscreen || el.webkitRequestFullscreen
+             || el.mozRequestFullScreen || el.msRequestFullscreen;
+    if (!minta) return false;                 // peramban tidak mendukung
+    if (document.fullscreenElement) return true;  // sudah penuh
+    try { minta.call(el); return true; } catch (e) { return false; }
+  }
+
+  var tombol = document.getElementById('mulai');
+  if (tombol) {
+    // Peramban di iPhone tidak mendukung layar penuh sama sekali.
+    // Di sana tombol diganti petunjuk menambahkan ke layar utama.
+    var bisaPenuh = !!(document.documentElement.requestFullscreen
+                    || document.documentElement.webkitRequestFullscreen);
+    if (!bisaPenuh) {
+      tombol.textContent = 'Bagikan, lalu Tambah ke Layar Utama';
+      tombol.disabled = true;
+      tombol.style.opacity = '.75';
+      tombol.style.cursor = 'default';
+    } else {
+      tombol.addEventListener('click', function (ev) {
+        ev.stopPropagation();
+        layarPenuh();
+        Reveal.next();
+      });
+    }
+  }
+
+  // Sentuhan atau klik pertama pada slide mana pun ikut membuka layar
+  // penuh, sehingga penonton yang langsung menggeser tanpa menekan
+  // tombol tetap memperoleh tampilan penuh.
+  var sudahDicoba = false;
+  function cobaSekali() {
+    if (sudahDicoba) return;
+    sudahDicoba = true;
+    layarPenuh();
+  }
+  document.addEventListener('click', cobaSekali, { once: true });
+  document.addEventListener('touchend', cobaSekali, { once: true });
 </script>
 </body>
 </html>
