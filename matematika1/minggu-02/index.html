@@ -1,0 +1,712 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Matematika I — Minggu 2: Fungsi dan Grafik</title>
+<meta name="description" content="Fungsi dan grafik dalam konteks teknik. Matematika I, Program Studi Teknik Sipil.">
+
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#16456B">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Minggu 2">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/reveal.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/theme/white.css">
+
+<style>
+  :root{
+    --biruTua:#16456B; --biruMuda:#2E7BB5; --jingga:#E8703A;
+    --abuGelap:#3F4A55; --abuTerang:#F2F5F8; --kuning:#E4B429;
+    --merahBata:#C0392B; --tosca:#1F9C8F;
+  }
+  .reveal{ font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+           color:var(--abuGelap); }
+  .reveal h1,.reveal h2,.reveal h3{ color:var(--biruTua); text-transform:none;
+           font-weight:700; letter-spacing:normal; }
+  .reveal section{ text-align:left; }
+  .reveal .tengah{ text-align:center; }
+
+  .reveal .tutur{ font-size:1.05em; line-height:1.45; }
+  .reveal .tutur p{ margin:0 0 0.75em 0; }
+  .reveal .kutip{ font-style:italic; color:var(--biruTua); }
+
+  .reveal .kunci{ color:var(--biruTua); font-weight:700; }
+  .reveal .sorot{ color:var(--jingga); font-weight:700; }
+  .reveal em.v{ font-style:italic; }
+
+  .reveal .label{ color:var(--jingga); font-size:0.5em; letter-spacing:0.12em;
+           text-transform:uppercase; margin-bottom:0.4em; }
+
+  /* Ukuran gambar dinyatakan dalam koordinat slide (1050 x 700), bukan
+     satuan layar, sebab Reveal.js sudah menskalakan seluruh slide. */
+  .reveal img.gbr{ background:none; border:none; box-shadow:none;
+           display:block; margin:0 auto .7em auto;
+           height:300px; width:auto; max-width:94%; }
+  .reveal img.gbr.penuh{ height:430px; }
+
+  /* kotak rumus atau definisi yang ditonjolkan */
+  .reveal .papan{
+    background:var(--abuTerang); border-left:5px solid var(--biruTua);
+    border-radius:5px; padding:.7em 1em; margin:.3em auto 1em auto;
+    max-width:88%; color:var(--biruTua); font-size:1.05em;
+  }
+  .reveal .rumus{ text-align:center; font-size:1.15em; margin:.7em 0; }
+
+  .reveal .catatanKecil{ font-size:.62em; color:#6b7680; }
+
+  .tombolPenuh{
+    display:inline-block; margin-top:1.2em; padding:.7em 1.6em;
+    background:var(--biruTua); color:#fff; border:none; border-radius:6px;
+    font-size:.62em; font-family:inherit; cursor:pointer; letter-spacing:.02em;
+  }
+  .tombolPenuh:hover{ background:var(--biruMuda); }
+  :fullscreen .tombolPenuh{ display:none; }
+
+  .reveal .progress{ height:4px; color:var(--jingga); }
+  .reveal .slide-number{ background:rgba(22,69,107,.75); }
+
+  @media (max-width:600px){
+    .reveal .tutur{ font-size:1.0em; }
+    .reveal .controls{ right:8px; bottom:8px;
+      --controls-arrow-size: 12px; --controls-spacing: 6px; }
+    .reveal .controls .controls-arrow{ opacity:.9; }
+    .reveal .slide-number{ font-size:14px; padding:4px 8px; }
+  }
+</style>
+</head>
+<body>
+<div class="reveal">
+<div class="slides">
+
+<!-- ============================ SAMPUL ============================ -->
+<section class="tengah">
+  <p class="label">Matematika I &nbsp;·&nbsp; Minggu 2</p>
+  <h1 style="font-size:2.1em;margin:.2em 0">Fungsi dan Grafik</h1>
+  <p style="font-size:.8em">Bahasa untuk menuliskan hubungan</p>
+  <p class="catatanKecil" style="margin-top:1.6em">
+    Mohammad Jamhuri &nbsp;·&nbsp; Teknik Sipil<br>
+    <span style="font-size:.9em">Geser ke samping atau tekan panah untuk berpindah slide</span>
+  </p>
+  <button class="tombolPenuh" id="mulai">Mulai layar penuh</button>
+</section>
+
+<section>
+  <div class="tutur"><p>Minggu lalu kita melihat sebuah balok yang
+     melengkung karena dibebani.</p></div>
+</section>
+
+<section class="tengah">
+  <img class="gbr" src="../gambar/balok-sumbu.svg" alt="Balok melengkung dengan sumbu x dan lendutan y">
+  <div class="tutur"><p>Waktu itu saya bilang: hubungan antara
+     <span class="kunci"><em class="v">x</em></span> dan
+     <span class="kunci"><em class="v">y</em></span> ini namanya
+     <span class="kunci">fungsi</span>. Hari ini kita bahas apa
+     maksudnya.</p></div>
+</section>
+
+<section>
+  <div class="tutur"><p>Dan kenapa gagasan sesederhana itu ternyata
+     dipakai di hampir seluruh pekerjaan teknik.</p></div>
+</section>
+
+<!-- ======================= BAGIAN 1 ======================= -->
+<section class="tengah">
+  <p class="label">Bagian satu</p>
+  <h2>Apa itu fungsi?</h2>
+</section>
+
+<section>
+  <div class="tutur"><p>Sebelum masuk ke definisi, mari lihat tiga hal
+     yang sehari-hari dihadapi insinyur sipil.</p></div>
+</section>
+
+<section class="tengah">
+  <img class="gbr penuh" src="gambar/sebab-akibat.svg" alt="Beban menentukan lendutan, kedalaman air menentukan debit, umur beton menentukan kekuatan">
+</section>
+
+<section>
+  <div class="tutur">
+    <p>Ketiganya berpola sama. Ada sesuatu yang kita
+       <span class="kunci">atur atau ketahui</span>, dan ada sesuatu yang
+       <span class="kunci">mengikuti</span> darinya.</p>
+  </div>
+</section>
+
+<section>
+  <div class="tutur">
+    <p>Kalau bebannya bertambah, lendutannya bertambah. Kalau airnya
+       lebih dalam, debitnya lebih besar.</p>
+    <p>Hubungan semacam inilah yang disebut fungsi.</p>
+  </div>
+</section>
+
+<section class="tengah">
+  <img class="gbr" src="gambar/mesin.svg" alt="Diagram fungsi sebagai mesin: masukan x, keluaran f(x)">
+  <div class="tutur"><p>Bayangkan fungsi sebagai sebuah
+     <span class="kunci">mesin</span>. Masukkan sebuah nilai, keluar
+     sebuah nilai.</p></div>
+</section>
+
+<section>
+  <div class="papan">Fungsi adalah aturan yang memasangkan setiap masukan
+     dengan <span class="sorot">tepat satu</span> keluaran.</div>
+  <div class="tutur"><p>Perhatikan dua kata itu: <em>tepat satu</em>.
+     Di situlah seluruh maknanya.</p></div>
+</section>
+
+<section>
+  <div class="tutur"><p>Kenapa harus tepat satu? Kenapa tidak boleh
+     dua?</p></div>
+</section>
+
+<section>
+  <div class="tutur">
+    <p>Bayangkan Anda menghitung sebuah balok, lalu mendapat jawaban:
+       dengan beban sebesar ini, lendutannya 8 milimeter.</p>
+    <p>Atau 30 milimeter.</p>
+  </div>
+</section>
+
+<section>
+  <div class="tutur">
+    <p>Yang mana yang Anda pakai untuk memutuskan balok itu aman atau
+       tidak?</p>
+    <p><span class="kunci">Perhitungan yang memberi dua jawaban sama saja
+       dengan tidak memberi jawaban.</span></p>
+  </div>
+</section>
+
+<section class="tengah">
+  <img class="gbr penuh" src="gambar/fungsi-bukan.svg" alt="Diagram panah: fungsi memasangkan satu masukan dengan satu keluaran, bukan fungsi memasangkan satu masukan dengan dua keluaran">
+</section>
+
+<section>
+  <div class="tutur">
+    <p>Jadi syarat “tepat satu” itu bukan aturan matematika yang
+       dibuat-buat.</p>
+    <p>Itu syarat supaya hasil hitungan bisa <span class="kunci">dipakai
+       untuk mengambil keputusan</span>.</p>
+  </div>
+</section>
+
+<!-- ======================= BAGIAN 2 ======================= -->
+<section class="tengah">
+  <p class="label">Bagian dua</p>
+  <h2>Cara menuliskannya</h2>
+</section>
+
+<section>
+  <div class="tutur">
+    <p>Kalau setiap kali harus menulis “lendutan bergantung pada posisi
+       di sepanjang balok”, kalimatnya kepanjangan.</p>
+    <p>Karena itu ada notasi.</p>
+  </div>
+</section>
+
+<section>
+  <div class="papan rumus"><em class="v">y</em> = <em class="v">f</em>(<em class="v">x</em>)</div>
+  <div class="tutur"><p>Dibaca: <span class="kunci"><em class="v">y</em>
+     adalah fungsi dari <em class="v">x</em></span>. Huruf
+     <em class="v">f</em> adalah nama fungsinya, seperti nama
+     orang.</p></div>
+</section>
+
+<section>
+  <div class="tutur">
+    <p>Kalau ada beberapa fungsi sekaligus, namanya dibedakan:
+       <em class="v">f</em>, <em class="v">g</em>, <em class="v">h</em>.
+       Atau diberi nama yang berarti, seperti
+       <em class="v">L</em>(<em class="v">x</em>) untuk lendutan dan
+       <em class="v">Q</em>(<em class="v">h</em>) untuk debit.</p>
+    <p>Menamai fungsi sesuai maknanya sangat menolong ketika soalnya
+       mulai panjang.</p>
+  </div>
+</section>
+
+<section>
+  <div class="tutur">
+    <p>Lalu <em class="v">f</em>(2) artinya apa?</p>
+    <p>Artinya: masukkan angka 2 ke dalam mesinnya, lalu lihat apa yang
+       keluar.</p>
+  </div>
+</section>
+
+<section>
+  <div class="tutur"><p>Misalkan lendutan sebuah balok dinyatakan
+     oleh</p></div>
+  <div class="papan rumus"><em class="v">L</em>(<em class="v">x</em>)
+     = 0,5<em class="v">x</em>² + 2<em class="v">x</em></div>
+  <div class="tutur"><p>dengan <em class="v">x</em> dalam meter dan
+     <em class="v">L</em> dalam milimeter.</p></div>
+</section>
+
+<section>
+  <div class="tutur"><p>Berapa lendutan di titik 4 meter dari tumpuan?
+     Ganti setiap <em class="v">x</em> dengan 4:</p></div>
+  <div class="papan rumus"><em class="v">L</em>(4) = 0,5(4)² + 2(4)
+     = 8 + 8 = <span class="sorot">16</span></div>
+  <div class="tutur"><p>Jadi lendutannya 16 milimeter.</p></div>
+</section>
+
+<section>
+  <div class="tutur">
+    <p>Perhatikan satu hal kecil yang sering terlewat: kita menulis
+       <span class="kunci">16 milimeter</span>, bukan sekadar 16.</p>
+    <p>Angka tanpa satuan tidak berarti apa-apa dalam pekerjaan
+       teknik.</p>
+  </div>
+</section>
+
+<section>
+  <div class="tutur">
+    <p>Kesalahan yang paling sering terjadi di sini adalah menganggap
+       <em class="v">f</em>(<em class="v">x</em>) berarti
+       <em class="v">f</em> <em>dikali</em> <em class="v">x</em>.</p>
+    <p>Bukan. Kurung itu bukan perkalian, melainkan cara menunjukkan
+       <span class="kunci">apa yang dimasukkan</span>.</p>
+  </div>
+</section>
+
+<!-- ======================= BAGIAN 3 ======================= -->
+<section class="tengah">
+  <p class="label">Bagian tiga</p>
+  <h2>Batas yang masuk akal</h2>
+</section>
+
+<section>
+  <div class="tutur">
+    <p>Sekarang pertanyaan yang lebih menarik.</p>
+    <p>Untuk rumus lendutan tadi, bolehkah kita memasukkan
+       <em class="v">x</em> = −3?</p>
+  </div>
+</section>
+
+<section>
+  <div class="tutur">
+    <p>Secara hitungan, boleh saja. Rumusnya tetap memberi jawaban.</p>
+    <p>Tetapi <em class="v">x</em> itu posisi di sepanjang balok. Posisi
+       negatif berarti <span class="kunci">di luar baloknya</span>. Tidak
+       ada artinya.</p>
+  </div>
+</section>
+
+<section>
+  <div class="tutur">
+    <p>Himpunan nilai masukan yang <span class="kunci">boleh
+       dipakai</span> disebut <span class="kunci">daerah asal</span>,
+       atau <em>domain</em>.</p>
+    <p>Untuk balok sepanjang 6 meter, daerah asalnya adalah
+       0 ≤ <em class="v">x</em> ≤ 6.</p>
+  </div>
+</section>
+
+<section class="tengah">
+  <img class="gbr" src="gambar/daerah-asal.svg" alt="Balok dengan penanda daerah asal 0 sampai 6 meter">
+  <div class="tutur"><p>Rumusnya memang berlaku di mana-mana. Tetapi
+     <span class="kunci">persoalannya</span> hanya berlaku di sepanjang
+     balok.</p></div>
+</section>
+
+<section>
+  <div class="tutur">
+    <p>Inilah bedanya matematika di sekolah dan matematika untuk
+       rekayasa.</p>
+    <p>Di sekolah, daerah asal ditentukan oleh rumusnya. Di lapangan,
+       daerah asal ditentukan oleh <span class="kunci">benda yang sedang
+       Anda hitung</span>.</p>
+  </div>
+</section>
+
+<section>
+  <div class="tutur"><p>Meski begitu, rumusnya sendiri juga bisa punya
+     larangan. Ada dua yang paling sering muncul.</p></div>
+</section>
+
+<section>
+  <div class="tutur"><p>Pertama, <span class="kunci">penyebut tidak boleh
+     nol</span>. Pada</p></div>
+  <div class="papan rumus"><em class="v">f</em>(<em class="v">x</em>) =
+     100 ⁄ (<em class="v">x</em> − 3)</div>
+  <div class="tutur"><p>nilai <em class="v">x</em> = 3 terlarang, sebab
+     pembagian dengan nol tidak terdefinisi.</p></div>
+</section>
+
+<section>
+  <div class="tutur"><p>Kedua, <span class="kunci">isi akar kuadrat tidak
+     boleh negatif</span>. Pada</p></div>
+  <div class="papan rumus"><em class="v">v</em>(<em class="v">h</em>) =
+     √(2<em class="v">gh</em>)</div>
+  <div class="tutur"><p>yaitu rumus kecepatan air yang keluar dari lubang
+     sedalam <em class="v">h</em>, nilai <em class="v">h</em> tidak boleh
+     negatif.</p></div>
+</section>
+
+<section>
+  <div class="tutur">
+    <p>Dan yang terakhir itu sekaligus masuk akal secara fisik: kedalaman
+       air memang tidak mungkin negatif.</p>
+    <p>Seringkali larangan rumus dan larangan kenyataan
+       <span class="kunci">kebetulan sejalan</span>.</p>
+  </div>
+</section>
+
+<!-- ======================= BAGIAN 4 ======================= -->
+<section class="tengah">
+  <p class="label">Bagian empat</p>
+  <h2>Melihat fungsi sebagai gambar</h2>
+</section>
+
+<section>
+  <div class="tutur">
+    <p>Rumus memberi tahu kita nilai. Tetapi rumus saja sulit
+       dibayangkan.</p>
+    <p>Karena itu fungsi digambar.</p>
+  </div>
+</section>
+
+<section>
+  <div class="tutur">
+    <p>Caranya sederhana: setiap pasangan masukan dan keluaran menjadi
+       <span class="kunci">satu titik</span> pada bidang.</p>
+    <p>Masukan diukur mendatar, keluaran diukur tegak.</p>
+  </div>
+</section>
+
+<section class="tengah">
+  <img class="gbr penuh" src="gambar/grafik-lendutan.svg" alt="Grafik lendutan balok dengan titik (4, 16) ditandai">
+</section>
+
+<section>
+  <div class="tutur">
+    <p>Titik jingga itu adalah hitungan kita tadi: pada 4 meter,
+       lendutannya 16 milimeter.</p>
+    <p>Sekarang seluruh perilaku balok terlihat sekaligus, tidak perlu
+       dihitung satu per satu.</p>
+  </div>
+</section>
+
+<section>
+  <div class="tutur">
+    <p>Dari gambar itu kita langsung melihat hal yang tidak tampak dari
+       rumusnya: lendutannya <span class="kunci">makin cepat
+       bertambah</span> ketika menjauh dari tumpuan.</p>
+    <p>Kurvanya tidak lurus, melainkan makin curam.</p>
+  </div>
+</section>
+
+<section>
+  <div class="tutur">
+    <p>Inilah sebabnya insinyur hampir selalu menggambar.</p>
+    <p>Bukan karena tidak bisa menghitung, melainkan karena
+       <span class="kunci">gambar memperlihatkan pola</span>, sedangkan
+       angka hanya memberi satu titik.</p>
+  </div>
+</section>
+
+<section>
+  <div class="tutur"><p>Sekarang, dari sebuah gambar, bagaimana kita tahu
+     itu fungsi atau bukan?</p></div>
+</section>
+
+<section class="tengah">
+  <img class="gbr" src="gambar/uji-garis-tegak.svg" alt="Uji garis tegak: kurva yang terkena satu kali dan kurva yang terkena dua kali">
+  <div class="tutur"><p>Tarik garis tegak di mana saja. Kalau ada garis
+     yang memotong kurva <span class="kunci">lebih dari sekali</span>,
+     berarti bukan fungsi.</p></div>
+</section>
+
+<section>
+  <div class="tutur">
+    <p>Alasannya persis seperti tadi: satu masukan memberi dua keluaran
+       sekaligus.</p>
+    <p>Cara ini disebut <span class="kunci">uji garis tegak</span>, dan
+       hanya perlu sekali lihat untuk memakainya.</p>
+  </div>
+</section>
+
+<!-- ======================= BAGIAN 5 ======================= -->
+<section class="tengah">
+  <p class="label">Bagian lima</p>
+  <h2>Bentuk yang sering ditemui</h2>
+</section>
+
+<section>
+  <div class="tutur">
+    <p>Tidak semua fungsi perlu dihafal. Tetapi ada beberapa bentuk yang
+       muncul berulang-ulang dalam pekerjaan teknik sipil.</p>
+    <p>Kita kenali empat saja.</p>
+  </div>
+</section>
+
+<section class="tengah">
+  <img class="gbr" src="gambar/linear.svg" alt="Grafik fungsi linear berupa garis lurus">
+  <div class="tutur"><p><span class="kunci">Fungsi linear</span>,
+     <em class="v">y</em> = <em class="v">mx</em> + <em class="v">c</em>.
+     Grafiknya garis lurus, dan perubahannya
+     <span class="kunci">tetap</span>. Contohnya kelandaian jalan, atau
+     biaya yang naik sekian rupiah per meter kubik.</p></div>
+</section>
+
+<section class="tengah">
+  <img class="gbr" src="gambar/kuadrat.svg" alt="Grafik fungsi kuadrat berupa parabola">
+  <div class="tutur"><p><span class="kunci">Fungsi kuadrat</span>,
+     <em class="v">y</em> = <em class="v">ax</em>² +
+     <em class="v">bx</em> + <em class="v">c</em>. Grafiknya parabola.
+     Inilah bentuk kabel jembatan gantung, lintasan air memancar, dan
+     lendutan balok yang tadi kita lihat.</p></div>
+</section>
+
+<section class="tengah">
+  <img class="gbr" src="gambar/akar.svg" alt="Grafik fungsi akar kuadrat">
+  <div class="tutur"><p><span class="kunci">Fungsi akar</span>,
+     <em class="v">y</em> = √<em class="v">x</em>. Naik cepat di awal lalu
+     melambat. Kecepatan air yang keluar dari bendungan mengikuti pola
+     ini.</p></div>
+</section>
+
+<section class="tengah">
+  <img class="gbr" src="gambar/kebalikan.svg" alt="Grafik fungsi kebalikan">
+  <div class="tutur"><p><span class="kunci">Fungsi kebalikan</span>,
+     <em class="v">y</em> = <em class="v">k</em> ⁄ <em class="v">x</em>.
+     Makin besar yang satu, makin kecil yang lain. Misalnya waktu
+     pengerjaan terhadap jumlah pekerja.</p></div>
+</section>
+
+<section>
+  <div class="tutur">
+    <p>Mengenali bentuk ini berguna sekali di lapangan.</p>
+    <p>Begitu melihat sebaran data hasil pengukuran, Anda sudah punya
+       dugaan <span class="kunci">rumus mana yang cocok</span> untuk
+       memodelkannya.</p>
+  </div>
+</section>
+
+<!-- ======================= BAGIAN 6 ======================= -->
+<section class="tengah">
+  <p class="label">Bagian enam</p>
+  <h2>Menggeser dan mengubah grafik</h2>
+</section>
+
+<section>
+  <div class="tutur"><p>Ada satu keterampilan yang sangat menghemat
+     waktu: mengubah grafik yang sudah dikenal, tanpa menghitung ulang
+     dari awal.</p></div>
+</section>
+
+<section class="tengah">
+  <img class="gbr" src="gambar/geser-atas.svg" alt="Grafik y sama dengan x kuadrat digeser ke atas dua satuan">
+  <div class="tutur"><p>Menambahkan angka di <span class="kunci">luar</span>
+     rumus menggeser grafik <span class="kunci">ke atas</span>.</p></div>
+</section>
+
+<section class="tengah">
+  <img class="gbr" src="gambar/geser-kanan.svg" alt="Grafik y sama dengan x kuadrat digeser ke kanan dua satuan">
+  <div class="tutur"><p>Mengurangkan angka di <span class="kunci">dalam</span>
+     kurung menggeser grafik <span class="kunci">ke kanan</span>. Arahnya
+     memang terasa terbalik, dan itu sumber kekeliruan yang sering
+     terjadi.</p></div>
+</section>
+
+<section>
+  <div class="tutur">
+    <p>Cara mengingatnya begini. Pada <em class="v">y</em> =
+       (<em class="v">x</em> − 2)², supaya isi kurungnya bernilai nol,
+       <em class="v">x</em> harus bernilai 2.</p>
+    <p>Titik terendahnya <span class="kunci">berpindah ke
+       <em class="v">x</em> = 2</span>. Jadi grafiknya bergeser ke
+       kanan.</p>
+  </div>
+</section>
+
+<section>
+  <div class="tutur">
+    <p>Pergeseran seperti ini bukan sekadar latihan.</p>
+    <p>Ketika Anda mengubah titik acuan pengukuran, misalnya memindahkan
+       patok nol dari ujung balok ke tengahnya, <span class="kunci">rumusnya
+       bergeser persis seperti itu</span>.</p>
+  </div>
+</section>
+
+<!-- ======================= BAGIAN 7 ======================= -->
+<section class="tengah">
+  <p class="label">Bagian tujuh</p>
+  <h2>Ketika satu rumus tidak cukup</h2>
+</section>
+
+<section>
+  <div class="tutur">
+    <p>Terakhir, satu bentuk yang khas sekali di teknik sipil.</p>
+    <p>Kadang satu rumus tidak cukup untuk menggambarkan keseluruhan
+       keadaan.</p>
+  </div>
+</section>
+
+<section>
+  <div class="tutur">
+    <p>Bayangkan tarif air bersih. Untuk sepuluh meter kubik pertama,
+       harganya sekian per meter kubik. Lewat dari itu, harganya naik.</p>
+    <p>Satu rumus tidak bisa menampung keduanya.</p>
+  </div>
+</section>
+
+<section class="tengah">
+  <img class="gbr" src="gambar/tarif.svg" alt="Grafik tarif air bertingkat dengan patahan di sepuluh meter kubik">
+  <div class="tutur"><p>Fungsi seperti ini disebut <span class="kunci">fungsi
+     potongan</span>: satu rumus untuk satu selang, rumus lain untuk
+     selang berikutnya.</p></div>
+</section>
+
+<section>
+  <div class="tutur"><p>Penulisannya memakai kurung kurawal:</p></div>
+  <div class="papan" style="font-size:1em">
+    <em class="v">T</em>(<em class="v">x</em>) =
+    <span style="display:inline-block;border-left:2px solid var(--biruTua);padding-left:.6em;margin-left:.3em;text-align:left">
+      3<em class="v">x</em>, &nbsp; untuk 0 ≤ <em class="v">x</em> ≤ 10<br>
+      30 + 6(<em class="v">x</em> − 10), &nbsp; untuk <em class="v">x</em> &gt; 10
+    </span>
+  </div>
+</section>
+
+<section>
+  <div class="tutur">
+    <p>Bentuk ini muncul di mana-mana: beban yang berbeda pada bentang
+       yang berbeda, tahapan pengecoran, tarif progresif, bahkan perilaku
+       baja sebelum dan sesudah meleleh.</p>
+    <p>Jadi jangan terkejut kalau nanti sering bertemu.</p>
+  </div>
+</section>
+
+<!-- ======================= PENUTUP ======================= -->
+<section class="tengah">
+  <p class="label">Penutup</p>
+  <h2>Yang perlu melekat</h2>
+</section>
+
+<section>
+  <div class="tutur"><p>Fungsi adalah aturan yang memasangkan setiap
+     masukan dengan <span class="kunci">tepat satu</span> keluaran. Syarat
+     itu ada supaya hasilnya bisa dipakai mengambil keputusan.</p></div>
+</section>
+
+<section>
+  <div class="tutur"><p>Daerah asal adalah nilai yang
+     <span class="kunci">boleh</span> dimasukkan. Dua sumber larangannya:
+     aturan rumus, dan kenyataan benda yang sedang dihitung.</p></div>
+</section>
+
+<section>
+  <div class="tutur"><p>Grafik memperlihatkan <span class="kunci">pola</span>
+     yang tidak tampak dari rumus. Uji garis tegak membedakan mana yang
+     fungsi dan mana yang bukan.</p></div>
+</section>
+
+<section>
+  <div class="tutur">
+    <p>Untuk minggu depan, kerjakan latihan pada bab fungsi di buku
+       pegangan, terutama soal tentang daerah asal.</p>
+    <p>Bacalah juga bab berikutnya: <span class="kunci">trigonometri</span>,
+       yang akan kita pakai untuk menguraikan gaya pada struktur.</p>
+  </div>
+</section>
+
+<section>
+  <div class="tutur">
+    <p>Dan satu pesan yang akan saya ulang sepanjang semester:</p>
+    <p>jangan hanya membaca penyelesaiannya.
+       <span class="kunci">Kerjakan sendiri</span>, dengan tangan, di
+       kertas.</p>
+  </div>
+</section>
+
+<section class="tengah">
+  <h2 style="font-size:2em">Ada pertanyaan?</h2>
+  <p class="catatanKecil" style="margin-top:2em">
+    <a href="../" style="color:var(--biruMuda)">Kembali ke slide kuliah pengantar</a>
+  </p>
+</section>
+
+</div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/reveal.js"></script>
+<script>
+  Reveal.initialize({
+    hash: true,
+    slideNumber: 'c/t',
+    controls: true,
+    progress: true,
+    touch: true,
+    center: true,
+    transition: 'fade',
+    width: 1050,
+    height: 700,
+    margin: 0.06,
+    minScale: 0.2,
+    maxScale: 2.0,
+    // Mematikan peralihan otomatis ke tampilan gulir pada layar sempit,
+    // sebab pada tampilan itu tombol navigasi ikut disembunyikan.
+    scrollActivationWidth: 0
+  });
+
+  function kunciMendatar() {
+    try {
+      if (screen.orientation && screen.orientation.lock) {
+        var j = screen.orientation.lock('landscape');
+        if (j && j.catch) j.catch(function () {});
+      }
+    } catch (e) { /* diabaikan */ }
+  }
+
+  function layarPenuh() {
+    var el = document.documentElement;
+    var minta = el.requestFullscreen || el.webkitRequestFullscreen
+             || el.mozRequestFullScreen || el.msRequestFullscreen;
+    if (!minta) return false;
+    if (document.fullscreenElement) { kunciMendatar(); return true; }
+    try {
+      var janji = minta.call(el);
+      if (janji && janji.then) janji.then(kunciMendatar).catch(function () {});
+      else setTimeout(kunciMendatar, 120);
+      return true;
+    } catch (e) { return false; }
+  }
+
+  document.addEventListener('fullscreenchange', function () {
+    if (!document.fullscreenElement) {
+      try { if (screen.orientation && screen.orientation.unlock) screen.orientation.unlock(); }
+      catch (e) {}
+    }
+  });
+
+  var tombol = document.getElementById('mulai');
+  if (tombol) {
+    var bisaPenuh = !!(document.documentElement.requestFullscreen
+                    || document.documentElement.webkitRequestFullscreen);
+    if (!bisaPenuh) {
+      tombol.textContent = 'Bagikan, lalu Tambah ke Layar Utama';
+      tombol.disabled = true;
+      tombol.style.opacity = '.75';
+      tombol.style.cursor = 'default';
+    } else {
+      tombol.addEventListener('click', function (ev) {
+        ev.stopPropagation();
+        layarPenuh();
+        Reveal.next();
+      });
+    }
+  }
+
+  var sudahDicoba = false;
+  function cobaSekali() {
+    if (sudahDicoba) return;
+    sudahDicoba = true;
+    layarPenuh();
+  }
+  document.addEventListener('click', cobaSekali, { once: true });
+  document.addEventListener('touchend', cobaSekali, { once: true });
+</script>
+</body>
+</html>

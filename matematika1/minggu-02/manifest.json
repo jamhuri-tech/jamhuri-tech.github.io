@@ -1,0 +1,21 @@
+{
+  "name": "Matematika I — Minggu 2: Fungsi dan Grafik",
+  "short_name": "Minggu 2",
+  "description": "Fungsi dan grafik dalam konteks teknik. Matematika I, Teknik Sipil.",
+  "lang": "id",
+  "start_url": "./",
+  "scope": "./",
+  "display": "fullscreen",
+  "display_override": ["fullscreen", "standalone"],
+  "orientation": "landscape",
+  "background_color": "#ffffff",
+  "theme_color": "#16456B",
+  "icons": [
+    {
+      "src": "../ikon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}
