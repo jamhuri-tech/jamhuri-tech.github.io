@@ -1,0 +1,608 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Metode Numerik — Pertemuan 3: Akar Persamaan Nonlinear, Metode Berjaminan</title>
+<meta name="description" content="Keberadaan akar, metode bagi dua, posisi palsu, dan iterasi titik tetap. Metode Numerik, Program Studi Matematika UIN Maulana Malik Ibrahim Malang.">
+
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#0E4749">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Pertemuan 3">
+
+<link rel="stylesheet" href="../aset/reveal/reveal.css">
+<link rel="stylesheet" href="../aset/katex/katex.min.css">
+<link rel="stylesheet" href="../aset/slide.css">
+</head>
+<body>
+
+<div class="reveal">
+<div class="slides">
+
+<section class="judul" data-background-color="#0E4749">
+  <p class="mata-kuliah">Metode Numerik &middot; Pertemuan 3</p>
+  <h1>Akar Persamaan Nonlinear<br>Metode Berjaminan</h1>
+  <div class="garis-emas"></div>
+  <p class="penulis">Dr. Mohammad Jamhuri</p>
+  <p class="lembaga">Program Studi Matematika &middot; Fakultas Sains dan Teknologi<br>UIN Maulana Malik Ibrahim Malang</p>
+  <p class="kaki-judul">Bab 2, bagian 1 dari 2 &middot; kelas 2 sks, 100 menit</p>
+</section>
+
+<section>
+  <h2>Peta pertemuan ini</h2>
+  <div class="dua-lajur">
+    <div>
+      <ol class="besar">
+        <li>Akar, kelipatan, dan cara memastikan keberadaannya</li>
+        <li>Metode bagi dua: lambat tetapi tidak pernah gagal</li>
+        <li>Metode posisi palsu dan kemacetannya</li>
+        <li>Iterasi titik tetap sebagai kerangka umum</li>
+        <li>Teorema pemetaan kontraksi</li>
+      </ol>
+    </div>
+    <div>
+      <div class="sorot fragment">
+        <p>Pertanyaan yang dijawab hari ini:</p>
+        <p class="miring">Bagaimana mencari akar tanpa rumus, dan bagaimana
+        memastikan pencariannya pasti berhasil?</p>
+      </div>
+      <p class="nota fragment">Pekan ini di laboratorium: <strong>Praktikum 2</strong>,
+      menjalankan sendiri metode-metode ini.</p>
+    </div>
+  </div>
+</section>
+
+<section class="antar" data-background-color="#0E4749">
+  <p class="nomor">1</p><h2>Perumusan masalah</h2>
+</section>
+
+<section>
+  <h2>Akar dan kelipatannya</h2>
+  <div class="kotak definisi">
+    <p class="kotak-judul">Definisi — Akar persamaan</p>
+    <p class="kecil">Bilangan \(r\) disebut <span class="tekan">akar</span>
+    \(f(x)=0\) apabila \(f(r)=0\), dan berkelipatan \(m\) apabila</p>
+    \[ f(x) = (x-r)^{m} q(x), \qquad q(r) \neq 0. \]
+    <p class="kecil">Akar dengan \(m=1\) disebut
+    <span class="tekan">akar sederhana</span>.</p>
+  </div>
+  <div class="dua-lajur rapat">
+    <div class="sorot fragment">
+      Kelipatan bukan keterangan sampingan: kelipatan itulah yang menentukan
+      apakah metode yang kita pakai berjalan cepat, lambat, atau gagal sama
+      sekali.
+    </div>
+    <div class="fragment">
+      <ul>
+        <li>\(f(x) = x^{2}\): akar \(r=0\) berkelipatan dua.</li>
+        <li>Di sekitar akar itu, \(f\)
+            <span class="awas">tidak pernah berganti tanda</span>.</li>
+        <li>Metode berbasis pengurungan buta terhadapnya.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section>
+  <h2>Memastikan akarnya ada sebelum mencarinya</h2>
+  <div class="kotak teorema">
+    <p class="kotak-judul">Teorema — Nilai antara</p>
+    <p class="kecil">Bila \(f\) kontinu pada \([a,b]\) dan \(f(a)f(b) &lt; 0\),
+    maka terdapat sekurangnya satu \(r \in (a,b)\) dengan \(f(r)=0\).</p>
+  </div>
+  <div class="dua-lajur rapat">
+    <div class="fragment">
+      <p>Selang \([a,b]\) dengan \(f(a)f(b) &lt; 0\) disebut
+      <span class="tekan">selang pengurung</span>.</p>
+      <p>Menjalankan metode tanpa memeriksa pengurungan berarti mencari sesuatu
+      yang belum tentu ada.</p>
+    </div>
+    <div class="fragment">
+      <div class="kotak jebakan">
+        <p class="kotak-judul">Jebakan umum</p>
+        <p class="kecil">Teoremanya memberi syarat <span class="awas">cukup</span>,
+        bukan perlu. Akar berkelipatan genap — misalnya \(x=0\) pada
+        \(f(x)=x^{2}\) — <span class="awas">tidak dapat dideteksi</span> lewat
+        pergantian tanda.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <h2>Fungsi acuan sepanjang bab ini</h2>
+  <div class="dua-lajur rapat">
+    <div>
+      \[ f(x) = x^{3} + 4x^{2} - 10 \quad\text{pada } [1,2] \]
+      \[ \begin{aligned}
+         f(1) &= 1 + 4 - 10 = -5 < 0 \\
+         f(2) &= 8 + 16 - 10 = 14 > 0
+         \end{aligned} \]
+      <p class="kecil">Tandanya berbeda, jadi ada akar di dalamnya. Akar
+      sejatinya \(r = 1{,}365230013\).</p>
+    </div>
+    <div class="fragment"><svg viewBox="0 0 520 300" class="grafik" role="img" aria-label="Kurva f(x) sama dengan x pangkat tiga tambah 4x kuadrat kurang 10 memotong sumbu x satu kali pada selang 1 sampai 2, di titik 1,365230">
+<g class="sumbu"><line x1="58" y1="258.0" x2="504.0" y2="258.0"/><line x1="58" y1="258.0" x2="58" y2="16"/><line x1="58.0" y1="258.0" x2="58.0" y2="263.0"/><text x="58.0" y="276.0" class="tk" text-anchor="middle">1</text><line x1="147.2" y1="258.0" x2="147.2" y2="263.0"/><text x="147.2" y="276.0" class="tk" text-anchor="middle">1,2</text><line x1="236.4" y1="258.0" x2="236.4" y2="263.0"/><text x="236.4" y="276.0" class="tk" text-anchor="middle">1,4</text><line x1="325.6" y1="258.0" x2="325.6" y2="263.0"/><text x="325.6" y="276.0" class="tk" text-anchor="middle">1,6</text><line x1="414.8" y1="258.0" x2="414.8" y2="263.0"/><text x="414.8" y="276.0" class="tk" text-anchor="middle">1,8</text><line x1="504.0" y1="258.0" x2="504.0" y2="263.0"/><text x="504.0" y="276.0" class="tk" text-anchor="middle">2</text><line x1="53.0" y1="246.5" x2="58.0" y2="246.5"/><text x="50.0" y="250.5" class="tk" text-anchor="end">-5</text><line x1="53.0" y1="188.9" x2="58.0" y2="188.9"/><text x="50.0" y="192.9" class="tk" text-anchor="end">0</text><line x1="53.0" y1="131.2" x2="58.0" y2="131.2"/><text x="50.0" y="135.2" class="tk" text-anchor="end">5</text><line x1="53.0" y1="73.6" x2="58.0" y2="73.6"/><text x="50.0" y="77.6" class="tk" text-anchor="end">10</text><line x1="53.0" y1="16.0" x2="58.0" y2="16.0"/><text x="50.0" y="20.0" class="tk" text-anchor="end">15</text></g>
+<line class="nol" x1="58.0" y1="188.9" x2="504.0" y2="188.9"/>
+<polyline class="deret-tosca" points="58.0,246.5 61.7,245.4 65.4,244.3 69.1,243.3 72.9,242.2 76.6,241.1 80.3,239.9 84.0,238.8 87.7,237.7 91.4,236.5 95.2,235.3 98.9,234.2 102.6,233.0 106.3,231.8 110.0,230.6 113.8,229.3 117.5,228.1 121.2,226.9 124.9,225.6 128.6,224.3 132.3,223.1 136.1,221.8 139.8,220.5 143.5,219.1 147.2,217.8 150.9,216.5 154.6,215.1 158.4,213.7 162.1,212.4 165.8,211.0 169.5,209.6 173.2,208.1 176.9,206.7 180.6,205.3 184.4,203.8 188.1,202.4 191.8,200.9 195.5,199.4 199.2,197.9 202.9,196.4 206.7,194.8 210.4,193.3 214.1,191.7 217.8,190.2 221.5,188.6 225.2,187.0 229.0,185.4 232.7,183.8 236.4,182.1 240.1,180.5 243.8,178.8 247.6,177.1 251.3,175.5 255.0,173.8 258.7,172.0 262.4,170.3 266.1,168.6 269.9,166.8 273.6,165.1 277.3,163.3 281.0,161.5 284.7,159.7 288.4,157.9 292.1,156.0 295.9,154.2 299.6,152.3 303.3,150.4 307.0,148.5 310.7,146.6 314.4,144.7 318.2,142.8 321.9,140.8 325.6,138.9 329.3,136.9 333.0,134.9 336.8,132.9 340.5,130.9 344.2,128.9 347.9,126.8 351.6,124.8 355.3,122.7 359.1,120.6 362.8,118.5 366.5,116.4 370.2,114.3 373.9,112.1 377.6,110.0 381.4,107.8 385.1,105.6 388.8,103.4 392.5,101.2 396.2,98.9 399.9,96.7 403.6,94.4 407.4,92.1 411.1,89.8 414.8,87.5 418.5,85.2 422.2,82.9 425.9,80.5 429.7,78.2 433.4,75.8 437.1,73.4 440.8,71.0 444.5,68.5 448.2,66.1 452.0,63.6 455.7,61.1 459.4,58.6 463.1,56.1 466.8,53.6 470.6,51.1 474.3,48.5 478.0,46.0 481.7,43.4 485.4,40.8 489.1,38.2 492.9,35.5 496.6,32.9 500.3,30.2 504.0,27.5"/>
+<circle class="t-merah-b" cx="220.9" cy="188.9" r="4"/>
+<text x="232.9" y="214.9" class="lbl-merah" text-anchor="middle">r = 1,365230</text>
+<text x="281" y="292" class="jd" text-anchor="middle">x</text>
+</svg></div>
+  </div>
+  <div class="sorot fragment">
+    Seluruh metode pada bab ini diuji pada fungsi yang sama, supaya
+    perbandingannya jujur.
+  </div>
+</section>
+
+<section class="antar" data-background-color="#0E4749">
+  <p class="nomor">2</p><h2>Metode bagi dua</h2>
+</section>
+
+<section>
+  <h2>Gagasan dan algoritmanya</h2>
+  <div class="dua-lajur">
+    <div class="kotak teorema">
+      <p class="kotak-judul">Algoritma — Metode bagi dua</p>
+      <ol>
+        <li>Pastikan \(f(a)f(b) &lt; 0\).</li>
+        <li>\(c \leftarrow (a+b)/2\).</li>
+        <li>Bila \(f(a)f(c) &lt; 0\), ganti \(b \leftarrow c\); selain itu ganti
+            \(a \leftarrow c\).</li>
+        <li>Ulangi sampai \(b-a\) cukup kecil.</li>
+      </ol>
+    </div>
+    <div class="fragment">
+      <ul>
+        <li>Setiap langkah menuntut <span class="tekan">satu</span> evaluasi \(f\).</li>
+        <li>Selangnya <em>selalu</em> menyusut separuh.</li>
+        <li>Pengurungannya <em>selalu</em> terjaga.</li>
+      </ul>
+      <div class="sorot">
+        Tidak ada syarat kemulusan, tidak ada turunan, tidak ada hampiran awal
+        yang harus cukup baik. Hanya kekontinuan.
+      </div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <h2>Jaminannya dapat dihitung sebelum menghitung</h2>
+  <div class="kotak teorema">
+    <p class="kotak-judul">Teorema — Konvergensi metode bagi dua</p>
+    <p class="kecil">Bila \(f\) kontinu pada \([a,b]\) dengan \(f(a)f(b) &lt; 0\),
+    maka barisan titik tengah \(\{c_{n}\}\) konvergen ke suatu akar \(r\) dengan</p>
+    \[ \lvert c_{n} - r\rvert \le \frac{b-a}{2^{\,n}}, \qquad n \ge 1. \]
+  </div>
+  <div class="dua-lajur rapat">
+    <div class="fragment">
+      <p class="kecil">Batas ini bersifat <span class="tekan">apriori</span>:
+      jumlah iterasi diketahui sebelum satu pun evaluasi dilakukan.</p>
+      \[ n \ge \log_{2}\!\left( \frac{b-a}{\tau} \right) \]
+    </div>
+    <div class="fragment">
+      <div class="sorot">
+        <p>Pada \([1,2]\) dengan \(\tau = 10^{-6}\):</p>
+        \[ n \ge \log_{2}(10^{6}) = 19{,}93 \]
+        <p>Dua puluh iterasi <span class="tekan">pasti</span> cukup — berapa pun
+        bentuk fungsinya.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <h2>Empat iterasi pertama, dihitung penuh</h2>
+  <div class="kotak contoh">
+    <p class="kotak-judul">Contoh — \(f(x) = x^{3} + 4x^{2} - 10\) pada \([1,2]\)</p>
+    <table>
+      <thead><tr><th>\(n\)</th><th>\(a_{n-1}\)</th><th>\(b_{n-1}\)</th>
+        <th>\(c_{n}\)</th><th>\(f(c_{n})\)</th><th>selang berikutnya</th></tr></thead>
+      <tbody>
+        <tr><td>1</td><td>1,000000</td><td>2,000000</td><td>1,500000</td>
+            <td>2,375000</td><td>[1; 1,5]</td></tr>
+        <tr><td>2</td><td>1,000000</td><td>1,500000</td><td>1,250000</td>
+            <td>−1,796875</td><td>[1,25; 1,5]</td></tr>
+        <tr><td>3</td><td>1,250000</td><td>1,500000</td><td>1,375000</td>
+            <td>0,162109</td><td>[1,25; 1,375]</td></tr>
+        <tr><td>4</td><td>1,250000</td><td>1,375000</td><td>1,312500</td>
+            <td>−0,848389</td><td>[1,3125; 1,375]</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="dua-lajur rapat">
+    <div class="fragment">
+      <p class="kecil">Galat keempat titik tengahnya:</p>
+      \[ 1{,}35\times10^{-1},\quad 1{,}15\times10^{-1},\quad
+         9{,}77\times10^{-3},\quad 5{,}27\times10^{-2} \]
+    </div>
+    <div class="sorot fragment">
+      Galat keempat <span class="awas">lebih besar</span> daripada galat ketiga.
+      Ini tidak melanggar apa pun.
+    </div>
+  </div>
+</section>
+
+<section>
+  <h2>Yang dijamin dan yang tidak dijamin</h2>
+  <div class="dua-lajur rapat">
+    <div>
+      <svg viewBox="0 0 520 300" class="grafik" role="img" aria-label="Galat titik tengah melompat-lompat di bawah garis batas dua pangkat minus k; yang menyusut separuh tiap langkah adalah panjang selangnya, bukan galatnya">
+<g class="kisi"><line x1="62.0" y1="258.0" x2="504.0" y2="258.0"/><line x1="62.0" y1="177.3" x2="504.0" y2="177.3"/><line x1="62.0" y1="96.7" x2="504.0" y2="96.7"/><line x1="62.0" y1="16.0" x2="504.0" y2="16.0"/></g><g class="sumbu"><line x1="62" y1="258.0" x2="504.0" y2="258.0"/><line x1="62" y1="258.0" x2="62" y2="16"/><line x1="57.0" y1="258.0" x2="62.0" y2="258.0"/><text x="54.0" y="262.0" class="tk" text-anchor="end">10<tspan dy="-5" font-size="9">-6</tspan></text><line x1="57.0" y1="177.3" x2="62.0" y2="177.3"/><text x="54.0" y="181.3" class="tk" text-anchor="end">10<tspan dy="-5" font-size="9">-4</tspan></text><line x1="57.0" y1="96.7" x2="62.0" y2="96.7"/><text x="54.0" y="100.7" class="tk" text-anchor="end">10<tspan dy="-5" font-size="9">-2</tspan></text><line x1="57.0" y1="16.0" x2="62.0" y2="16.0"/><text x="54.0" y="20.0" class="tk" text-anchor="end">10<tspan dy="-5" font-size="9">0</tspan></text><line x1="62.0" y1="258.0" x2="62.0" y2="263.0"/><text x="62.0" y="276.0" class="tk" text-anchor="middle">1</text><line x1="125.1" y1="258.0" x2="125.1" y2="263.0"/><text x="125.1" y="276.0" class="tk" text-anchor="middle">3</text><line x1="188.3" y1="258.0" x2="188.3" y2="263.0"/><text x="188.3" y="276.0" class="tk" text-anchor="middle">5</text><line x1="251.4" y1="258.0" x2="251.4" y2="263.0"/><text x="251.4" y="276.0" class="tk" text-anchor="middle">7</text><line x1="314.6" y1="258.0" x2="314.6" y2="263.0"/><text x="314.6" y="276.0" class="tk" text-anchor="middle">9</text><line x1="377.7" y1="258.0" x2="377.7" y2="263.0"/><text x="377.7" y="276.0" class="tk" text-anchor="middle">11</text><line x1="440.9" y1="258.0" x2="440.9" y2="263.0"/><text x="440.9" y="276.0" class="tk" text-anchor="middle">13</text><line x1="504.0" y1="258.0" x2="504.0" y2="263.0"/><text x="504.0" y="276.0" class="tk" text-anchor="middle">15</text></g>
+<polyline class="putus-merah" points="62.0,28.1 93.6,40.3 125.1,52.4 156.7,64.6 188.3,76.7 219.9,88.8 251.4,101.0 283.0,113.1 314.6,125.3 346.1,137.4 377.7,149.6 409.3,161.7 440.9,173.8 472.4,186.0 504.0,198.1"/>
+<polyline class="deret-tosca" points="62.0,51.1 93.6,53.9 125.1,97.1 156.7,67.5 188.3,83.3 219.9,106.0 251.4,125.2 283.0,125.3 314.6,232.2 346.1,137.5 377.7,149.7 409.3,162.0 440.9,174.5 472.4,187.3 504.0,200.8"/><g class="t-tosca"><circle cx="62.0" cy="51.1" r="2.8"/><circle cx="93.6" cy="53.9" r="2.8"/><circle cx="125.1" cy="97.1" r="2.8"/><circle cx="156.7" cy="67.5" r="2.8"/><circle cx="188.3" cy="83.3" r="2.8"/><circle cx="219.9" cy="106.0" r="2.8"/><circle cx="251.4" cy="125.2" r="2.8"/><circle cx="283.0" cy="125.3" r="2.8"/><circle cx="314.6" cy="232.2" r="2.8"/><circle cx="346.1" cy="137.5" r="2.8"/><circle cx="377.7" cy="149.7" r="2.8"/><circle cx="409.3" cy="162.0" r="2.8"/><circle cx="440.9" cy="174.5" r="2.8"/><circle cx="472.4" cy="187.3" r="2.8"/><circle cx="504.0" cy="200.8" r="2.8"/></g>
+<text x="283" y="292" class="jd" text-anchor="middle">iterasi k</text>
+</svg>
+      <p class="legenda"><span class="kk hijau"></span> galat sesungguhnya
+        &nbsp;&nbsp; <span class="kk merah putus"></span> batas \(2^{-k}\)</p>
+    </div>
+    <div class="fragment">
+      <ul>
+        <li>Garis putus-putus: batas \(2^{-k}\).</li>
+        <li>Galat sesungguhnya <span class="tekan">melompat-lompat</span> di
+            bawahnya.</li>
+        <li>Yang menyusut separuh tiap langkah adalah <em>panjang selangnya</em>,
+            bukan galat titik tengahnya.</li>
+      </ul>
+      <div class="sorot">
+        Titik tengah dapat kebetulan jatuh sangat dekat ke akar, lalu menjauh
+        lagi. Yang tidak pernah membesar hanyalah
+        <span class="tekan">batas atasnya</span>.
+      </div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <h2>Peraga: selang bagi dua menyempit</h2>
+  <p class="anak-judul">Klik atau tekan panah untuk melangkah</p>
+  <div class="tengah"><svg viewBox="0 0 900 200" class="grafik lebar" role="img" aria-label="Selang pengurung menyempit separuh pada setiap langkah, dan selalu memuat akar sejati 1,365230">
+<line class="sb" x1="60.0" y1="112.0" x2="840.0" y2="112.0"/>
+<text class="tk" x="60.0" y="166.0" text-anchor="middle">1</text>
+<text class="tk" x="840.0" y="166.0" text-anchor="middle">2</text>
+<g class="fragment current-visible" data-fragment-index="0">
+<rect class="selang" x="60.0" y="99.0" width="780.0" height="26"/>
+<line class="ujung" x1="60.0" y1="92.0" x2="60.0" y2="132.0"/>
+<line class="ujung" x1="840.0" y1="92.0" x2="840.0" y2="132.0"/>
+<circle class="t-merah-b" cx="450.0" cy="112.0" r="4.5"/>
+<text class="lbl-merah" x="450.0" y="146.0" text-anchor="middle">c1 = 1,500000</text>
+<text class="lbl-tosca" x="450.0" y="84.0" text-anchor="middle">f(c1) = +2,375</text>
+<text class="tk" x="450.0" y="24" text-anchor="middle">panjang selang = 1</text>
+</g>
+<g class="fragment current-visible" data-fragment-index="1">
+<rect class="selang" x="60.0" y="99.0" width="390.0" height="26"/>
+<line class="ujung" x1="60.0" y1="92.0" x2="60.0" y2="132.0"/>
+<line class="ujung" x1="450.0" y1="92.0" x2="450.0" y2="132.0"/>
+<circle class="t-merah-b" cx="255.0" cy="112.0" r="4.5"/>
+<text class="lbl-merah" x="255.0" y="146.0" text-anchor="middle">c2 = 1,250000</text>
+<text class="lbl-tosca" x="255.0" y="84.0" text-anchor="middle">f(c2) = −1,797</text>
+<text class="tk" x="450.0" y="24" text-anchor="middle">panjang selang = 1/2</text>
+</g>
+<g class="fragment current-visible" data-fragment-index="2">
+<rect class="selang" x="255.0" y="99.0" width="195.0" height="26"/>
+<line class="ujung" x1="255.0" y1="92.0" x2="255.0" y2="132.0"/>
+<line class="ujung" x1="450.0" y1="92.0" x2="450.0" y2="132.0"/>
+<circle class="t-merah-b" cx="352.5" cy="112.0" r="4.5"/>
+<text class="lbl-merah" x="352.5" y="146.0" text-anchor="middle">c3 = 1,375000</text>
+<text class="lbl-tosca" x="352.5" y="84.0" text-anchor="middle">f(c3) = +0,162</text>
+<text class="tk" x="450.0" y="24" text-anchor="middle">panjang selang = 1/4</text>
+</g>
+<g class="fragment current-visible" data-fragment-index="3">
+<rect class="selang" x="255.0" y="99.0" width="97.5" height="26"/>
+<line class="ujung" x1="255.0" y1="92.0" x2="255.0" y2="132.0"/>
+<line class="ujung" x1="352.5" y1="92.0" x2="352.5" y2="132.0"/>
+<circle class="t-merah-b" cx="303.8" cy="112.0" r="4.5"/>
+<text class="lbl-merah" x="303.8" y="146.0" text-anchor="middle">c4 = 1,312500</text>
+<text class="lbl-tosca" x="303.8" y="84.0" text-anchor="middle">f(c4) = −0,848</text>
+<text class="tk" x="450.0" y="24" text-anchor="middle">panjang selang = 1/8</text>
+</g>
+<g class="fragment current-visible" data-fragment-index="4">
+<rect class="selang" x="303.8" y="99.0" width="48.8" height="26"/>
+<line class="ujung" x1="303.8" y1="92.0" x2="303.8" y2="132.0"/>
+<line class="ujung" x1="352.5" y1="92.0" x2="352.5" y2="132.0"/>
+<circle class="t-merah-b" cx="328.1" cy="112.0" r="4.5"/>
+<text class="lbl-merah" x="328.1" y="146.0" text-anchor="middle">c5 = 1,343750</text>
+<text class="lbl-tosca" x="328.1" y="84.0" text-anchor="middle">f(c5) = −0,351</text>
+<text class="tk" x="450.0" y="24" text-anchor="middle">panjang selang = 1/16</text>
+</g>
+<g class="fragment current-visible" data-fragment-index="5">
+<rect class="selang" x="328.1" y="99.0" width="24.4" height="26"/>
+<line class="ujung" x1="328.1" y1="92.0" x2="328.1" y2="132.0"/>
+<line class="ujung" x1="352.5" y1="92.0" x2="352.5" y2="132.0"/>
+<circle class="t-merah-b" cx="340.3" cy="112.0" r="4.5"/>
+<text class="lbl-merah" x="340.3" y="146.0" text-anchor="middle">c6 = 1,359375</text>
+<text class="lbl-tosca" x="340.3" y="84.0" text-anchor="middle">f(c6) = −0,096</text>
+<text class="tk" x="450.0" y="24" text-anchor="middle">panjang selang = 1/32</text>
+</g>
+<polygon class="akar" points="344.9,107.0 338.9,93.0 350.9,93.0"/>
+</svg></div>
+  <p class="kecil tengah">Segitiga <span class="tanda-akar">&#9650;</span>
+  menandai akar sejati \(r = 1{,}365230\). Selangnya selalu memuatnya.</p>
+</section>
+
+<section class="antar" data-background-color="#0E4749">
+  <p class="nomor">3</p><h2>Metode posisi palsu</h2>
+</section>
+
+<section>
+  <h2>Memanfaatkan nilai \(f\), bukan sekadar tandanya</h2>
+  <div class="dua-lajur rapat">
+    <div>
+      <p class="kecil">Bagi dua membuang seluruh keterangan selain tanda. Posisi
+      palsu memakai nilainya: ambil titik potong
+      <span class="tekan">tali busur</span> dengan sumbu \(x\).</p>
+      \[ c = \frac{a f(b) - b f(a)}{f(b) - f(a)} \]
+      <p class="kecil">Pengurungannya tetap dijaga, persis seperti bagi dua.</p>
+    </div>
+    <div class="fragment"><svg viewBox="0 0 520 300" class="grafik" role="img" aria-label="Tali busur yang menghubungkan kedua ujung selang memotong sumbu x pada 1,263158, lebih dekat ke akar daripada titik tengah selang">
+<g class="sumbu"><line x1="44" y1="258.0" x2="504.0" y2="258.0"/><line x1="44" y1="258.0" x2="44" y2="16"/><line x1="44.0" y1="258.0" x2="44.0" y2="263.0"/><text x="44.0" y="276.0" class="tk" text-anchor="middle">1</text><line x1="159.0" y1="258.0" x2="159.0" y2="263.0"/><text x="159.0" y="276.0" class="tk" text-anchor="middle">1,25</text><line x1="274.0" y1="258.0" x2="274.0" y2="263.0"/><text x="274.0" y="276.0" class="tk" text-anchor="middle">1,5</text><line x1="389.0" y1="258.0" x2="389.0" y2="263.0"/><text x="389.0" y="276.0" class="tk" text-anchor="middle">1,75</text><line x1="504.0" y1="258.0" x2="504.0" y2="263.0"/><text x="504.0" y="276.0" class="tk" text-anchor="middle">2</text></g>
+<line class="nol" x1="44.0" y1="188.9" x2="504.0" y2="188.9"/>
+<line class="tali" x1="44.0" y1="246.5" x2="504.0" y2="27.5"/>
+<polyline class="deret-tosca" points="44.0,246.5 47.8,245.4 51.7,244.3 55.5,243.3 59.3,242.2 63.2,241.1 67.0,239.9 70.8,238.8 74.7,237.7 78.5,236.5 82.3,235.3 86.2,234.2 90.0,233.0 93.8,231.8 97.7,230.6 101.5,229.3 105.3,228.1 109.2,226.9 113.0,225.6 116.8,224.3 120.7,223.1 124.5,221.8 128.3,220.5 132.2,219.1 136.0,217.8 139.8,216.5 143.7,215.1 147.5,213.7 151.3,212.4 155.2,211.0 159.0,209.6 162.8,208.1 166.7,206.7 170.5,205.3 174.3,203.8 178.2,202.4 182.0,200.9 185.8,199.4 189.7,197.9 193.5,196.4 197.3,194.8 201.2,193.3 205.0,191.7 208.8,190.2 212.7,188.6 216.5,187.0 220.3,185.4 224.2,183.8 228.0,182.1 231.8,180.5 235.7,178.8 239.5,177.1 243.3,175.5 247.2,173.8 251.0,172.0 254.8,170.3 258.7,168.6 262.5,166.8 266.3,165.1 270.2,163.3 274.0,161.5 277.8,159.7 281.7,157.9 285.5,156.0 289.3,154.2 293.2,152.3 297.0,150.4 300.8,148.5 304.7,146.6 308.5,144.7 312.3,142.8 316.2,140.8 320.0,138.9 323.8,136.9 327.7,134.9 331.5,132.9 335.3,130.9 339.2,128.9 343.0,126.8 346.8,124.8 350.7,122.7 354.5,120.6 358.3,118.5 362.2,116.4 366.0,114.3 369.8,112.1 373.7,110.0 377.5,107.8 381.3,105.6 385.2,103.4 389.0,101.2 392.8,98.9 396.7,96.7 400.5,94.4 404.3,92.1 408.2,89.8 412.0,87.5 415.8,85.2 419.7,82.9 423.5,80.5 427.3,78.2 431.2,75.8 435.0,73.4 438.8,71.0 442.7,68.5 446.5,66.1 450.3,63.6 454.2,61.1 458.0,58.6 461.8,56.1 465.7,53.6 469.5,51.1 473.3,48.5 477.2,46.0 481.0,43.4 484.8,40.8 488.7,38.2 492.5,35.5 496.3,32.9 500.2,30.2 504.0,27.5"/>
+<circle class="t-merah-b" cx="165.1" cy="188.9" r="4"/>
+<text x="181.1" y="214.9" class="lbl-merah" text-anchor="middle">c = 1,263158</text>
+<text x="274" y="292" class="jd" text-anchor="middle">x</text>
+</svg></div>
+  </div>
+  <div class="sorot fragment">
+    Gagasannya masuk akal: tali busur lebih dekat ke \(f\) daripada garis
+    mendatar di tengah selang.
+  </div>
+</section>
+
+<section>
+  <h2>Tetapi satu ujungnya dapat macet</h2>
+  <div class="dua-lajur">
+    <div class="kotak jebakan">
+      <p class="kotak-judul">Jebakan umum</p>
+      <p class="kecil">Bila \(f\) cekung tetap pada selangnya, salah satu ujung
+      selang <span class="awas">tidak pernah bergerak</span>.</p>
+      <p class="kecil">Panjang selangnya karena itu
+      <span class="awas">tidak menuju nol</span>, dan batas galat apriori milik
+      bagi dua <em>hilang</em>.</p>
+    </div>
+    <div class="fragment">
+      <ul>
+        <li>Konvergensinya tetap terjadi, tetapi hanya
+            <span class="tekan">linear</span>.</li>
+        <li>Kriteria berhenti berbasis panjang selang menjadi tidak berguna.</li>
+        <li>Penangkalnya: varian Illinois, yang menyetengahkan nilai fungsi pada
+            ujung yang macet.</li>
+      </ul>
+      <div class="sorot">
+        Memakai lebih banyak keterangan tidak otomatis memberi metode yang lebih
+        baik.
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="antar" data-background-color="#0E4749">
+  <p class="nomor">4</p><h2>Iterasi titik tetap</h2>
+</section>
+
+<section>
+  <h2>Kerangka yang memuat hampir semuanya</h2>
+  <div class="dua-lajur">
+    <div>
+      <p class="kecil">Persamaan \(f(x)=0\) selalu dapat ditulis ulang menjadi</p>
+      \[ x = g(x), \]
+      <p class="kecil">misalnya dengan \(g(x) = x - f(x)\).</p>
+      <p class="kecil">Penyelesaiannya disebut <span class="tekan">titik tetap</span>
+      \(g\), dan dicari lewat iterasi</p>
+      \[ x_{k+1} = g(x_{k}). \]
+    </div>
+    <div class="fragment">
+      <div class="sorot">
+        Kerangka ini penting bukan karena ketangguhannya, melainkan karena
+        hampir seluruh metode iteratif berikutnya
+        <span class="tekan">merupakan kasus khususnya</span>.
+      </div>
+      <p>Newton, secant, dan metode kuasi-Newton pada Bab 5 seluruhnya berbentuk
+      \(x_{k+1} = g(x_{k})\) dengan \(g\) yang berbeda-beda.</p>
+    </div>
+  </div>
+</section>
+
+<section>
+  <h2>Teorema pemetaan kontraksi</h2>
+  <div class="kotak teorema">
+    <p class="kotak-judul">Teorema — Pemetaan kontraksi</p>
+    <p class="kecil">Misalkan \(g\) kontinu pada \([a,b]\) dan memenuhi</p>
+    <ul class="kecil">
+      <li><b>(i)</b> \(g(x) \in [a,b]\) untuk setiap \(x \in [a,b]\);</li>
+      <li><b>(ii)</b> terdapat \(L\) dengan \(0 &lt; L &lt; 1\) sehingga
+          \(\lvert g(x)-g(y)\rvert \le L\lvert x-y\rvert\) untuk setiap
+          \(x,y \in [a,b]\).</li>
+    </ul>
+    <p class="kecil">Maka \(g\) memiliki <span class="tekan">tepat satu</span>
+    titik tetap \(r \in [a,b]\), dan untuk setiap \(x_{0} \in [a,b]\) barisan
+    \(x_{k+1} = g(x_{k})\) konvergen ke \(r\).</p>
+  </div>
+  <div class="dua-lajur rapat">
+    <div class="fragment">
+      <p class="kecil">Bila \(g\) terdiferensialkan, syarat (ii) setara dengan
+      \(\lvert g'(x)\rvert \le L &lt; 1\) pada seluruh selang.</p>
+    </div>
+    <div class="sorot fragment">
+      Syarat (i) menjaga barisannya tetap di dalam selang. Syarat (ii)
+      memaksanya menyusut. Keduanya diperlukan.
+    </div>
+  </div>
+</section>
+
+<section>
+  <h2>Empat bentuk \(g\) untuk persamaan yang sama</h2>
+  <div class="kotak contoh">
+    <p class="kotak-judul">Contoh — \(x^{3} + 4x^{2} - 10 = 0\)</p>
+    \[ \begin{aligned}
+       g_{1}(x) &= x - x^{3} - 4x^{2} + 10, &\qquad
+       g_{2}(x) &= \tfrac{1}{2}\sqrt{10 - x^{3}}, \\[2pt]
+       g_{3}(x) &= \sqrt{\frac{10}{4+x}}, &\qquad
+       g_{4}(x) &= x - \frac{x^{3}+4x^{2}-10}{3x^{2}+8x}.
+       \end{aligned} \]
+  </div>
+  <div class="dua-lajur rapat">
+    <div class="fragment">
+      <p class="kecil">Keempatnya punya titik tetap yang sama, yaitu
+      \(r = 1{,}365230\). Menyelesaikan \(x = g(x)\) karena itu
+      <span class="tekan">setara secara aljabar</span> dengan menyelesaikan
+      \(f(x)=0\).</p>
+    </div>
+    <div class="sorot fragment">
+      Setara secara aljabar. <span class="awas">Sama sekali tidak setara</span>
+      secara numerik: satu di antaranya menyimpang, satu lagi konvergen
+      kuadratik.
+    </div>
+  </div>
+</section>
+
+<section>
+  <h2>Bentuk yang gagal, dan sebabnya terbaca pada turunannya</h2>
+  <div class="dua-lajur">
+    <div>
+      <p class="kecil">Mulai dari \(x_{0} = 1{,}5\) dengan \(g_{1}\):</p>
+      \[ \begin{aligned}
+         x_{1} &= -0{,}875 \\
+         x_{2} &= 6{,}732422 \\
+         x_{3} &= -469{,}720
+         \end{aligned} \]
+      <p class="kecil">Barisannya menjauh dengan cepat.</p>
+    </div>
+    <div class="fragment">
+      <p class="kecil">Sebabnya terbaca langsung:</p>
+      \[ g_{1}'(x) = 1 - 3x^{2} - 8x \]
+      \[ g_{1}'(r) = 1 - 5{,}5918 - 10{,}9218 = -15{,}513 \]
+      <div class="sorot">
+        Syarat \(\lvert g'\rvert &lt; 1\) dilanggar
+        <span class="awas">sepuluh kali lipat</span>. Kegagalannya sudah dapat
+        diramalkan sebelum satu iterasi pun dijalankan.
+      </div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <h2>Keempatnya berdampingan</h2>
+  <div class="dua-lajur rapat">
+    <div>
+      <svg viewBox="0 0 520 300" class="grafik" role="img" aria-label="Galat g3 menurun lurus pada skala logaritma, ciri konvergensi linear, sedangkan galat g4 menukik jauh lebih curam, ciri konvergensi kuadratik">
+<g class="kisi"><line x1="62.0" y1="258.0" x2="504.0" y2="258.0"/><line x1="62.0" y1="209.6" x2="504.0" y2="209.6"/><line x1="62.0" y1="161.2" x2="504.0" y2="161.2"/><line x1="62.0" y1="112.8" x2="504.0" y2="112.8"/><line x1="62.0" y1="64.4" x2="504.0" y2="64.4"/><line x1="62.0" y1="16.0" x2="504.0" y2="16.0"/></g><g class="sumbu"><line x1="62" y1="258.0" x2="504.0" y2="258.0"/><line x1="62" y1="258.0" x2="62" y2="16"/><line x1="57.0" y1="258.0" x2="62.0" y2="258.0"/><text x="54.0" y="262.0" class="tk" text-anchor="end">10<tspan dy="-5" font-size="9">-10</tspan></text><line x1="57.0" y1="209.6" x2="62.0" y2="209.6"/><text x="54.0" y="213.6" class="tk" text-anchor="end">10<tspan dy="-5" font-size="9">-8</tspan></text><line x1="57.0" y1="161.2" x2="62.0" y2="161.2"/><text x="54.0" y="165.2" class="tk" text-anchor="end">10<tspan dy="-5" font-size="9">-6</tspan></text><line x1="57.0" y1="112.8" x2="62.0" y2="112.8"/><text x="54.0" y="116.8" class="tk" text-anchor="end">10<tspan dy="-5" font-size="9">-4</tspan></text><line x1="57.0" y1="64.4" x2="62.0" y2="64.4"/><text x="54.0" y="68.4" class="tk" text-anchor="end">10<tspan dy="-5" font-size="9">-2</tspan></text><line x1="57.0" y1="16.0" x2="62.0" y2="16.0"/><text x="54.0" y="20.0" class="tk" text-anchor="end">10<tspan dy="-5" font-size="9">0</tspan></text><line x1="62.0" y1="258.0" x2="62.0" y2="263.0"/><text x="62.0" y="276.0" class="tk" text-anchor="middle">1</text><line x1="125.1" y1="258.0" x2="125.1" y2="263.0"/><text x="125.1" y="276.0" class="tk" text-anchor="middle">2</text><line x1="188.3" y1="258.0" x2="188.3" y2="263.0"/><text x="188.3" y="276.0" class="tk" text-anchor="middle">3</text><line x1="251.4" y1="258.0" x2="251.4" y2="263.0"/><text x="251.4" y="276.0" class="tk" text-anchor="middle">4</text><line x1="314.6" y1="258.0" x2="314.6" y2="263.0"/><text x="314.6" y="276.0" class="tk" text-anchor="middle">5</text><line x1="377.7" y1="258.0" x2="377.7" y2="263.0"/><text x="377.7" y="276.0" class="tk" text-anchor="middle">6</text><line x1="440.9" y1="258.0" x2="440.9" y2="263.0"/><text x="440.9" y="276.0" class="tk" text-anchor="middle">7</text><line x1="504.0" y1="258.0" x2="504.0" y2="263.0"/><text x="504.0" y="276.0" class="tk" text-anchor="middle">8</text></g>
+<polyline class="deret-tosca" points="62.0,42.8 125.1,50.6 188.3,57.2 251.4,64.5 314.6,71.4 377.7,78.5 440.9,85.5 504.0,92.5"/><g class="t-tosca"><circle cx="62.0" cy="42.8" r="2.8"/><circle cx="125.1" cy="50.6" r="2.8"/><circle cx="188.3" cy="57.2" r="2.8"/><circle cx="251.4" cy="64.5" r="2.8"/><circle cx="314.6" cy="71.4" r="2.8"/><circle cx="377.7" cy="78.5" r="2.8"/><circle cx="440.9" cy="85.5" r="2.8"/><circle cx="504.0" cy="92.5" r="2.8"/></g>
+<polyline class="deret-ambar" points="62.0,58.9 125.1,80.6 188.3,102.2 251.4,123.9 314.6,145.6 377.7,167.3 440.9,188.9 504.0,210.6"/><g class="t-ambar"><rect x="59.5" y="56.4" width="5" height="5"/><rect x="122.6" y="78.1" width="5" height="5"/><rect x="185.8" y="99.7" width="5" height="5"/><rect x="248.9" y="121.4" width="5" height="5"/><rect x="312.1" y="143.1" width="5" height="5"/><rect x="375.2" y="164.8" width="5" height="5"/><rect x="438.4" y="186.4" width="5" height="5"/><rect x="501.5" y="208.1" width="5" height="5"/></g>
+<text x="283" y="292" class="jd" text-anchor="middle">iterasi k</text>
+</svg>
+      <p class="legenda"><span class="kk hijau"></span> \(g_{3}\)
+        &nbsp;&nbsp; <span class="kk ambar"></span> \(g_{4}\)</p>
+    </div>
+    <div class="fragment">
+      <table>
+        <thead><tr><th>\(g\)</th><th>\(\lvert g'(r)\rvert\)</th>
+          <th>perilaku</th></tr></thead>
+        <tbody>
+          <tr><td>\(g_{1}\)</td><td>15,5</td>
+              <td><span class="awas">menyimpang</span></td></tr>
+          <tr><td>\(g_{2}\)</td><td>0,56</td><td>linear</td></tr>
+          <tr><td>\(g_{3}\)</td><td>0,13</td><td>linear cepat</td></tr>
+          <tr><td>\(g_{4}\)</td><td>0</td>
+              <td><span class="tekan">kuadratik</span></td></tr>
+        </tbody>
+      </table>
+      <div class="sorot">
+        Nilai \(\lvert g'(r)\rvert\) meramalkan seluruhnya: menyimpang, lambat,
+        cepat, atau kuadratik.
+      </div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <h2>Bentuk keempat itu ternyata sudah kita kenal</h2>
+  <div class="dua-lajur">
+    <div>
+      \[ g_{4}(x) = x - \frac{f(x)}{f'(x)} \]
+      <p>Itulah yang membuat \(g_{4}'(r) = 0\): pembagian dengan \(f'\)
+      menghapus suku orde pertama pada galatnya.</p>
+    </div>
+    <div class="fragment">
+      <div class="sorot">
+        <p>Konvergensi kuadratik bukan kebetulan pada \(g_{4}\), melainkan
+        <span class="tekan">akibat dari \(g'(r) = 0\)</span>.</p>
+        <p>Dan bentuk itu punya nama sendiri:
+        <span class="tekan">metode Newton</span>, yang menjadi pokok pertemuan
+        berikutnya.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <h2>Peraga: sarang laba-laba iterasi titik tetap</h2>
+  <p class="anak-judul">\(g_{3}(x) = \sqrt{10/(4+x)}\), mulai dari
+  \(x_{0} = 1{,}5\) &middot; klik untuk melangkah</p>
+  <div class="dua-lajur rapat">
+    <div class="tengah"><svg viewBox="0 0 470 400" class="grafik" role="img" aria-label="Garis memantul di antara kurva g dan garis y sama dengan x, lalu mengerucut ke titik potongnya yaitu titik tetap 1,365230">
+<g class="sumbu"><line x1="54" y1="354.0" x2="454.0" y2="354.0"/><line x1="54" y1="354.0" x2="54" y2="16"/><line x1="84.8" y1="354.0" x2="84.8" y2="359.0"/><text x="84.8" y="372.0" class="tk" text-anchor="middle">1,3</text><line x1="238.6" y1="354.0" x2="238.6" y2="359.0"/><text x="238.6" y="372.0" class="tk" text-anchor="middle">1,4</text><line x1="392.5" y1="354.0" x2="392.5" y2="359.0"/><text x="392.5" y="372.0" class="tk" text-anchor="middle">1,5</text><line x1="49.0" y1="328.0" x2="54.0" y2="328.0"/><text x="46.0" y="332.0" class="tk" text-anchor="end">1,3</text><line x1="49.0" y1="198.0" x2="54.0" y2="198.0"/><text x="46.0" y="202.0" class="tk" text-anchor="end">1,4</text><line x1="49.0" y1="68.0" x2="54.0" y2="68.0"/><text x="46.0" y="72.0" class="tk" text-anchor="end">1,5</text></g>
+<line class="garis-yx" x1="54.0" y1="354.0" x2="454.0" y2="16.0"/>
+<polyline class="deret-tosca" points="54.0,228.9 59.0,229.5 64.0,230.0 69.0,230.6 74.0,231.1 79.0,231.7 84.0,232.2 89.0,232.8 94.0,233.3 99.0,233.9 104.0,234.4 109.0,235.0 114.0,235.5 119.0,236.0 124.0,236.6 129.0,237.1 134.0,237.7 139.0,238.2 144.0,238.8 149.0,239.3 154.0,239.8 159.0,240.4 164.0,240.9 169.0,241.5 174.0,242.0 179.0,242.5 184.0,243.1 189.0,243.6 194.0,244.2 199.0,244.7 204.0,245.2 209.0,245.8 214.0,246.3 219.0,246.8 224.0,247.4 229.0,247.9 234.0,248.4 239.0,249.0 244.0,249.5 249.0,250.0 254.0,250.6 259.0,251.1 264.0,251.6 269.0,252.2 274.0,252.7 279.0,253.2 284.0,253.7 289.0,254.3 294.0,254.8 299.0,255.3 304.0,255.8 309.0,256.4 314.0,256.9 319.0,257.4 324.0,257.9 329.0,258.5 334.0,259.0 339.0,259.5 344.0,260.0 349.0,260.6 354.0,261.1 359.0,261.6 364.0,262.1 369.0,262.6 374.0,263.2 379.0,263.7 384.0,264.2 389.0,264.7 394.0,265.2 399.0,265.8 404.0,266.3 409.0,266.8 414.0,267.3 419.0,267.8 424.0,268.3 429.0,268.9 434.0,269.4 439.0,269.9 444.0,270.4 449.0,270.9 454.0,271.4"/>
+<line class="sarang fragment" data-fragment-index="0" x1="392.5" y1="68.0" x2="392.5" y2="265.1"/>
+<line class="sarang fragment" data-fragment-index="1" x1="392.5" y1="265.1" x2="159.2" y2="265.1"/>
+<line class="sarang fragment" data-fragment-index="2" x1="159.2" y1="265.1" x2="159.2" y2="240.4"/>
+<line class="sarang fragment" data-fragment-index="3" x1="159.2" y1="240.4" x2="188.4" y2="240.4"/>
+<line class="sarang fragment" data-fragment-index="4" x1="188.4" y1="240.4" x2="188.4" y2="243.6"/>
+<line class="sarang fragment" data-fragment-index="5" x1="188.4" y1="243.6" x2="184.7" y2="243.6"/>
+<circle class="titik-tetap" cx="185.1" cy="243.2" r="5"/>
+<text class="lbl-ambar" x="198.6" y="263.0">titik tetap</text>
+<text class="lbl-tosca" x="58.6" y="200.6">y = g₃</text>
+<text class="tk" x="323.2" y="44.6">y = x</text>
+</svg></div>
+    <div>
+      <table>
+        <thead><tr><th>\(k\)</th><th>\(x_{k}\)</th></tr></thead>
+        <tbody>
+          <tr><td>0</td><td>1,500000</td></tr>
+          <tr class="fragment" data-fragment-index="1"><td>1</td><td>1,348400</td></tr>
+          <tr class="fragment" data-fragment-index="3"><td>2</td><td>1,367376</td></tr>
+          <tr class="fragment" data-fragment-index="5"><td>3</td><td>1,364957</td></tr>
+        </tbody>
+      </table>
+      <div class="sorot">
+        Garis merah memantul di antara kurva \(g\) dan garis \(y = x\), lalu
+        <span class="tekan">mengerucut</span> ke titik potongnya.
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="penutup" data-background-color="#0E4749">
+  <div class="garis-emas"></div>
+  <p class="label">Pertemuan berikutnya</p>
+  <p class="isi">Metode Newton dan secant — jauh lebih cepat, tetapi kehilangan
+  seluruh jaminan yang kita miliki hari ini.</p>
+  <div class="garis-emas"></div>
+  <p class="lab">Pekan ini di laboratorium — <strong>Praktikum 2:</strong>
+     akar persamaan nonlinear, 1 sks, 90 menit.</p>
+</section>
+
+</div>
+</div>
+
+<p id="tanda">Dr. Mohammad Jamhuri &mdash; UIN Maulana Malik Ibrahim &middot; m.jamhuri@mat.uin-malang.ac.id</p>
+
+<button id="layar-penuh" title="Layar penuh (F)" aria-label="Layar penuh">
+  <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true">
+    <path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5" fill="none"
+          stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+  </svg>
+</button>
+
+<script src="../aset/reveal/reveal.js"></script>
+<script src="../aset/katex/katex.min.js"></script>
+<script src="../aset/katex/auto-render.min.js"></script>
+<script src="../aset/slide.js"></script>
+</body>
+</html>

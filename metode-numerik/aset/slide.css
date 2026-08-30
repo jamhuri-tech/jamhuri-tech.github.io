@@ -95,6 +95,34 @@
    Slide 'Mengukur kecepatan barisan hampiran' tanpa ini setinggi 712 px,
    sedangkan ruang yang tersedia 691 px. */
 .ringkas-bungkus .grafik{ max-width:470px; }
+
+/* ---------------------------------------- unsur khas Bab 2 (Pertemuan 3) */
+.grafik .nol{ stroke:var(--abu); stroke-width:1; stroke-dasharray:4 4; }
+.grafik .tali{ stroke:var(--ambar); stroke-width:2.4; }
+.grafik .putus-merah{ fill:none; stroke:var(--merah); stroke-width:2;
+  stroke-dasharray:6 4; }
+.grafik .t-merah-b{ fill:var(--merah); }
+.grafik .lbl-tosca{ font-size:13px; fill:var(--tosca); }
+.grafik .garis-yx{ stroke:var(--abu); stroke-width:1.2; }
+.grafik .sarang{ stroke:var(--merah); stroke-width:2; }
+.grafik .titik-tetap{ fill:var(--ambar); }
+
+/* peraga selang bagi dua */
+.grafik .selang{ fill:var(--tosca); opacity:.14; }
+.grafik .ujung{ stroke:var(--tosca); stroke-width:2.2; }
+.grafik .akar{ fill:var(--ambar); }
+.tanda-akar{ color:var(--ambar); }
+.kk.putus{ background:repeating-linear-gradient(90deg,
+  var(--merah) 0 6px, transparent 6px 10px); }
+
+/* Reveal memberi kelas fragmen pada unsur SVG juga, jadi peraga bertahap
+   cukup ditulis sebagai <g class="fragment current-visible"> di dalam SVG --
+   tanpa gambar terpisah untuk tiap langkah. */
+.reveal .slides section svg .fragment{ opacity:0; visibility:hidden; }
+.reveal .slides section svg .fragment.visible{ opacity:1; visibility:visible; }
+.reveal .slides section svg .fragment.current-visible{ opacity:0; visibility:hidden; }
+.reveal .slides section svg .fragment.current-visible.current-fragment{
+  opacity:1; visibility:visible; }
 .grafik .kisi line{ stroke:var(--krem-tua); stroke-width:1; }
 .grafik .sumbu line{ stroke:var(--abu); stroke-width:1.2; }
 .grafik .tk{ font-size:11px; fill:var(--abu); }

@@ -1,0 +1,14 @@
+{
+  "name": "Metode Numerik — Pertemuan 3: Akar Persamaan Nonlinear, Metode Berjaminan",
+  "short_name": "Pertemuan 3",
+  "description": "Keberadaan akar, metode bagi dua, posisi palsu, dan iterasi titik tetap.",
+  "lang": "id",
+  "start_url": "./",
+  "scope": "./",
+  "display": "fullscreen",
+  "display_override": ["fullscreen", "standalone"],
+  "orientation": "landscape",
+  "background_color": "#0E4749",
+  "theme_color": "#0E4749",
+  "icons": [{ "src": "../ikon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any maskable" }]
+}
