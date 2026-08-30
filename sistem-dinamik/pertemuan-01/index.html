@@ -1,0 +1,1105 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Pengantar Sistem Dinamik, Pertemuan 1: Apa Itu Sistem Dinamik?</title>
+<meta name="description" content="Vektor keadaan, fungsi transisi, sistem waktu diskret dan waktu kontinu. Pengantar Sistem Dinamik, Program Studi Matematika.">
+
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#16456B">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Sisdin 1">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/reveal.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/theme/white.css">
+
+<style>
+  :root{
+    --biruTua:#16456B; --biruMuda:#2E7BB5; --jingga:#E8703A;
+    --abuGelap:#3F4A55; --abuTerang:#F2F5F8; --kuning:#E4B429;
+    --merahBata:#C0392B; --tosca:#1F9C8F;
+  }
+  .reveal{ font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+           color:var(--abuGelap); }
+  .reveal h1,.reveal h2,.reveal h3{ color:var(--biruTua); text-transform:none;
+           font-weight:700; letter-spacing:normal; }
+  .reveal section{ text-align:left; }
+  .reveal .tengah{ text-align:center; }
+
+  .reveal .tutur{ font-size:1.05em; line-height:1.45; }
+  .reveal .tutur p{ margin:0 0 0.75em 0; }
+  .reveal .kutip{ font-style:italic; color:var(--biruTua); }
+
+  .reveal .kunci{ color:var(--biruTua); font-weight:700; }
+  .reveal .sorot{ color:var(--jingga); font-weight:700; }
+  .reveal em.v{ font-style:italic; }          /* lambang peubah */
+  .reveal .vek{ font-style:italic; font-weight:700; }  /* lambang vektor */
+
+  .reveal .label{ color:var(--jingga); font-size:0.5em; letter-spacing:0.12em;
+           text-transform:uppercase; margin-bottom:0.4em; }
+
+  /* Ukuran gambar dinyatakan dalam koordinat slide (1050 x 700), bukan
+     satuan layar, sebab Reveal.js sudah menskalakan seluruh slide. */
+  .reveal img.gbr{ background:none; border:none; box-shadow:none;
+           display:block; margin:0 auto .7em auto;
+           height:300px; width:auto; max-width:94%; }
+  .reveal img.gbr.penuh{ height:430px; }
+  .reveal img.gbr.pendek{ height:210px; }
+
+  /* kotak rumus atau definisi yang ditonjolkan */
+  .reveal .papan{
+    background:var(--abuTerang); border-left:5px solid var(--biruTua);
+    border-radius:5px; padding:.7em 1em; margin:.3em auto 1em auto;
+    max-width:88%; color:var(--biruTua); font-size:1.05em;
+  }
+  .reveal .papan.tanya{ border-left-color:var(--jingga); }
+  .reveal .papan.awas{ border-left-color:var(--merahBata); color:var(--merahBata); }
+  .reveal .rumus{ text-align:center; font-size:1.15em; margin:.7em 0; }
+
+  /* tabel pembanding dua ragam waktu */
+  .reveal table.banding{ font-size:.62em; border-collapse:collapse;
+           margin:0 auto; width:92%; }
+  .reveal table.banding th, .reveal table.banding td{
+           border:none; border-bottom:1px solid #dde3e9;
+           padding:.5em .7em; text-align:left; vertical-align:top; }
+  .reveal table.banding th{ color:var(--biruTua); font-weight:700; }
+  .reveal table.banding td:first-child{ color:#6b7680; }
+
+  /* daftar nilai iterasi */
+  .reveal table.nilai{ font-size:.66em; border-collapse:collapse; margin:0 auto; }
+  .reveal table.nilai td, .reveal table.nilai th{
+           padding:.28em .9em; border:none; text-align:right; }
+  .reveal table.nilai th{ color:var(--biruTua); border-bottom:1px solid #dde3e9; }
+
+  .reveal pre.kode{
+    font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+    font-size:.46em; line-height:1.35; background:var(--abuTerang);
+    border-left:5px solid var(--tosca); border-radius:5px;
+    padding:.9em 1.1em; margin:.3em auto; max-width:88%;
+    box-shadow:none; text-align:left; overflow-x:auto;
+  }
+
+  .reveal .catatanKecil{ font-size:.62em; color:#6b7680; }
+
+  .tombolPenuh{
+    display:inline-block; margin-top:1.2em; padding:.7em 1.6em;
+    background:var(--biruTua); color:#fff; border:none; border-radius:6px;
+    font-size:.62em; font-family:inherit; cursor:pointer; letter-spacing:.02em;
+  }
+  .tombolPenuh:hover{ background:var(--biruMuda); }
+  :fullscreen .tombolPenuh{ display:none; }
+
+  .reveal .progress{ height:4px; color:var(--jingga); }
+  .reveal .slide-number{ background:rgba(22,69,107,.75); }
+
+  @media (max-width:600px){
+    .reveal .tutur{ font-size:1.0em; }
+    .reveal .controls{ right:8px; bottom:8px;
+      --controls-arrow-size: 12px; --controls-spacing: 6px; }
+    .reveal .controls .controls-arrow{ opacity:.9; }
+    .reveal .slide-number{ font-size:14px; padding:4px 8px; }
+  }
+</style>
+</head>
+<body>
+<div class="reveal">
+<div class="slides">
+
+<!-- ============================ SAMPUL ============================ -->
+<section class="tengah">
+  <p class="label">Pengantar Sistem Dinamik &nbsp;·&nbsp; Pertemuan 1</p>
+  <h1 style="font-size:2.1em;margin:.2em 0">Apa Itu Sistem Dinamik?</h1>
+  <p style="font-size:.8em">Vektor keadaan, waktu diskret, dan waktu kontinu</p>
+  <p class="catatanKecil" style="margin-top:1.6em">
+    Dr. Mohammad Jamhuri &nbsp;·&nbsp; Program Studi Matematika<br>
+    <span style="font-size:.9em">Geser ke samping atau tekan panah untuk berpindah slide</span>
+  </p>
+  <button class="tombolPenuh" id="mulai">Mulai layar penuh</button>
+</section>
+
+<section>
+  <div class="tutur"><p>Pertemuan lalu kita baru membicarakan kontrak
+     perkuliahan: apa yang akan kita pelajari, dan bagaimana Anda dinilai.</p></div>
+</section>
+
+<section>
+  <div class="tutur"><p>Hari ini kita masuk ke isinya. Saya ingin memulai
+     dari satu pertanyaan yang bunyinya sangat sederhana.</p></div>
+</section>
+
+<section>
+  <div class="papan">
+    <p style="margin:0">Kalau saya tahu aturan yang menerangkan
+    <span class="sorot">bagaimana</span> sesuatu berubah, apa yang terjadi
+    pada benda itu dalam jangka panjang?</p>
+  </div>
+</section>
+
+<section>
+  <div class="tutur"><p>Perhatikan baik-baik bunyinya. Saya
+     <span class="sorot">tidak</span> bertanya berapa nilainya pada
+     detik ke-7,3.</p></div>
+</section>
+
+<section>
+  <div class="tutur"><p>Pertanyaan kita justru lebih besar dari itu. Kita ingin
+     tahu <span class="kunci">nasib</span> sistem itu, bukan satu angka
+     pada satu saat.</p></div>
+</section>
+
+<section class="tengah">
+  <img class="gbr" src="gambar/tiga-perilaku.svg" alt="Tiga pola perilaku jangka panjang: menuju keadaan tenang, berulang periodik, dan meledak">
+  <div class="tutur"><p>Sepanjang semester ini, tiga pola berikut akan
+     kita jumpai berulang kali.</p></div>
+</section>
+
+<section>
+  <div class="tutur"><p>Ada sistem yang <span class="kunci">mengendap</span>.
+     Nilainya bergerak menuju satu keadaan tenang, lalu berhenti di situ
+     selamanya.</p></div>
+</section>
+
+<section>
+  <div class="tutur"><p>Ada yang <span class="kunci">berulang</span>. Naik dan
+     turun dengan pola yang sama persis, tanpa pernah mengendap.</p></div>
+</section>
+
+<section>
+  <div class="tutur"><p>Ada yang <span class="kunci">meledak</span>. Nilainya
+     membesar tanpa batas, dan model itu biasanya berhenti masuk akal jauh
+     sebelum tak hingga tercapai.</p></div>
+</section>
+
+<section>
+  <div class="tutur">
+    <p>Dan ada satu kemungkinan lagi, yang paling menarik dari semuanya:</p>
+    <p>perilaku yang sepenuhnya <span class="kunci">pasti</span>, tetapi
+       tetap <span class="sorot">tidak terramalkan</span>.</p>
+  </div>
+</section>
+
+<section>
+  <div class="tutur"><p>Namanya <span class="sorot">chaos</span>. Kita simpan
+     sampai pertemuan keempat belas, karena untuk memahaminya kita perlu
+     seluruh perkakas yang dibangun sebelumnya.</p></div>
+</section>
+
+<section>
+  <div class="tutur"><p>Untuk sampai ke sana, kita butuh dua bahan saja.
+     Hari ini kita berkenalan dengan keduanya.</p></div>
+</section>
+
+<!-- ======================= BAGIAN 1 ======================= -->
+<section class="tengah">
+  <p class="label">Bagian satu</p>
+  <h2>Keadaan sebuah sistem</h2>
+</section>
+
+<section>
+  <div class="tutur"><p>Mari mulai dari benda yang paling sederhana. Sebuah
+     bola dilemparkan lurus ke atas.</p></div>
+</section>
+
+<section>
+  <div class="tutur"><p>Saya ingin meramalkan gerakannya. Pertanyaannya:
+     <span class="sorot">berapa banyak bilangan</span> yang harus saya
+     ketahui sekarang, supaya seluruh masa depan bola itu tertentukan?</p></div>
+</section>
+
+<section>
+  <div class="tutur"><p>Jawaban yang biasanya muncul pertama: cukup
+     tingginya saja.</p></div>
+</section>
+
+<section class="tengah">
+  <img class="gbr" src="gambar/bola-lempar.svg" alt="Lintasan bola dilempar ke atas, dua titik pada ketinggian sama dengan arah kecepatan berlawanan">
+  <div class="tutur"><p>Ternyata tidak cukup. Lihat dua titik ini. Keduanya
+     berada pada ketinggian yang <span class="kunci">persis sama</span>.</p></div>
+</section>
+
+<section>
+  <div class="tutur"><p>Yang satu sedang naik, yang lain sedang turun.
+     Nasibnya berlawanan, padahal tinggi keduanya sama.</p></div>
+</section>
+
+<section>
+  <div class="tutur"><p>Jadi tinggi saja belum menentukan apa-apa. Sekarang
+     tambahkan <span class="kunci">kecepatannya</span>, dan ketaktentuan itu
+     langsung lenyap.</p></div>
+</section>
+
+<section class="tengah">
+  <img class="gbr" src="gambar/ruang-keadaan.svg" alt="Bidang keadaan dengan sumbu h mendatar dan v tegak, dua keadaan terpisah jelas">
+  <div class="tutur"><p>Kalau kita gambar ulang dengan tinggi
+     <em class="v">h</em> mendatar dan kecepatan <em class="v">v</em> tegak,
+     kedua keadaan tadi terpisah dengan jelas.</p></div>
+</section>
+
+<section>
+  <div class="tutur"><p>Sepasang bilangan itulah yang kita sebut
+     <span class="kunci">keadaan</span> sistem. Mari kita rapikan menjadi
+     sebuah definisi.</p></div>
+</section>
+
+<section>
+  <div class="papan">
+    <p style="margin:0"><strong>Vektor keadaan</strong> sebuah sistem adalah
+    daftar bilangan <span class="sorot">terkecil</span> yang, bila diketahui
+    pada suatu saat, menentukan perilaku sistem pada seluruh saat berikutnya.</p>
+  </div>
+</section>
+
+<section>
+  <div class="tutur"><p>Perhatikan kata <span class="sorot">terkecil</span>
+     di dalam definisi itu. Kata itu bekerja ke dua arah sekaligus.</p></div>
+</section>
+
+<section>
+  <div class="tutur"><p>Kalau daftarnya <span class="kunci">kurang</span>,
+     masa depan tidak tertentukan. Itu kasus bola tadi ketika kita hanya
+     menyebut tingginya.</p></div>
+</section>
+
+<section>
+  <div class="tutur"><p>Kalau daftarnya <span class="kunci">berlebih</span>,
+     ada bilangan yang sebenarnya dapat dihitung dari bilangan yang lain,
+     jadi kehadirannya mubazir.</p></div>
+</section>
+
+<section>
+  <div class="tutur"><p>Untuk bola kita, vektor keadaannya adalah</p></div>
+  <div class="papan rumus">
+    <span class="vek">x</span> = (<em class="v">h</em>, <em class="v">v</em>)
+    &nbsp;&isin;&nbsp; &#8477;<sup>2</sup>
+  </div>
+  <div class="tutur"><p>Ruang tempat vektor keadaan itu hidup kita sebut
+     <span class="kunci">ruang keadaan</span>.</p></div>
+</section>
+
+<section>
+  <div class="tutur"><p>Sepanjang kuliah ini ruang keadaan selalu berupa
+     &#8477;<sup><em class="v">n</em></sup>. Pilihan itu bukan satu-satunya
+     yang mungkin, tetapi cukup luas untuk hampir semua model terapan.</p></div>
+</section>
+
+<section>
+  <div class="papan tanya">
+    <p style="margin:0">Kiat memeriksa kelengkapan: bayangkan Anda menutup
+    mata sekarang dan hanya diberi tahu bilangan-bilangan itu.
+    <span class="sorot">Bisakah Anda menghitung keadaan sesaat kemudian?</span></p>
+  </div>
+</section>
+
+<section>
+  <div class="tutur"><p>Kalau jawabannya belum bisa, ada informasi yang belum
+     tercakup. Kalau salah satu bilangan dapat dihitung dari yang lain,
+     daftarnya belum minimal.</p></div>
+</section>
+
+<section>
+  <div class="tutur"><p>Mari kita coba. Berapa komponen vektor keadaan untuk
+     keempat sistem ini?</p></div>
+</section>
+
+<section>
+  <div class="papan tanya">
+    <p style="margin:0 0 .4em 0">1. Bola dilempar ke atas, tetapi tidak lurus,
+       sehingga bergerak dalam sebuah bidang tegak.</p>
+    <p style="margin:0 0 .4em 0">2. Bandul sederhana yang berayun.</p>
+    <p style="margin:0 0 .4em 0">3. Barisan Fibonacci,
+       <em class="v">F</em><sub><em class="v">k</em>+1</sub> =
+       <em class="v">F</em><sub><em class="v">k</em></sub> +
+       <em class="v">F</em><sub><em class="v">k</em>&minus;1</sub>.</p>
+    <p style="margin:0">4. Saldo tabungan yang berbunga majemuk.</p>
+  </div>
+</section>
+
+<section>
+  <div class="tutur"><p>Jawaban nomor satu: <span class="kunci">empat</span>.
+     Kedudukan butuh dua bilangan, dan seperti tadi, kedudukan saja tidak
+     cukup. Jadi
+     <span class="vek">x</span> = (<em class="v">x</em>, <em class="v">y</em>,
+     <em class="v">v<sub>x</sub></em>, <em class="v">v<sub>y</sub></em>).</p></div>
+</section>
+
+<section>
+  <div class="tutur"><p>Nomor dua: <span class="kunci">dua</span>. Bandul pada
+     sudut yang sama bisa sedang bergerak ke kiri atau ke kanan, jadi sudut
+     <em class="v">&theta;</em> saja tidak cukup. Perlu kecepatan sudut
+     <em class="v">&omega;</em>.</p></div>
+</section>
+
+<section>
+  <div class="tutur"><p>Nomor tiga menarik. Aturannya memuat
+     <span class="sorot">dua suku terdahulu</span>, jadi satu bilangan tidak
+     menentukan bilangan berikutnya.</p></div>
+</section>
+
+<section>
+  <div class="tutur"><p>Ambil
+     <span class="vek">x</span>(<em class="v">k</em>) =
+     (<em class="v">F<sub>k</sub></em>,
+      <em class="v">F</em><sub><em class="v">k</em>&minus;1</sub>),
+     maka <em class="v">n</em> = 2. Kita akan kembali kepadanya di
+     Bab 2, sebab sistemnya bahkan linear.</p></div>
+</section>
+
+<section>
+  <div class="tutur"><p>Nomor empat: <span class="kunci">satu</span>. Saldo
+     hari ini menentukan saldo bulan depan, dan tidak ada informasi lain
+     yang diperlukan.</p></div>
+</section>
+
+<section>
+  <div class="tutur"><p>Sampai di sini kita baru punya bahan pertama.
+     Bahan kedua adalah aturan yang menyatakan bagaimana keadaan itu
+     <span class="kunci">berubah</span>.</p></div>
+</section>
+
+<section>
+  <div class="papan">
+    <p style="margin:0 0 .4em 0">Sebuah <strong>sistem dinamik</strong>
+    terdiri atas dua bahan:</p>
+    <p style="margin:0 0 .3em 0">1. ruang keadaan
+       &#8477;<sup><em class="v">n</em></sup>, tempat vektor keadaan
+       <span class="vek">x</span> hidup;</p>
+    <p style="margin:0">2. fungsi transisi
+       <span class="vek">f</span> yang memetakan
+       &#8477;<sup><em class="v">n</em></sup> ke dirinya sendiri.</p>
+  </div>
+</section>
+
+<section class="tengah">
+  <img class="gbr pendek" src="gambar/rantai.svg" alt="Rantai keadaan x(0) ke x(1) ke x(2) sampai x(k), tiap panah berlabel f">
+  <div class="tutur"><p>Fungsi <span class="vek">f</span> itulah yang
+     memindahkan keadaan sekarang ke keadaan berikutnya, lalu ke berikutnya
+     lagi, berulang tanpa henti.</p></div>
+</section>
+
+<section>
+  <div class="tutur"><p>Ada satu sifat yang perlu saya tegaskan sejak awal.
+     Sistem dinamik bersifat <span class="sorot">deterministik</span>.</p></div>
+</section>
+
+<section>
+  <div class="tutur"><p>Keadaan sekarang menentukan seluruh masa depan.
+     Tidak ada dadu di dalamnya, dan tidak ada pilihan.</p></div>
+</section>
+
+<section>
+  <div class="tutur"><p>Ingat itu baik-baik, sebab nanti ketika kita sampai
+     pada chaos, ketidakterdugaannya <span class="sorot">bukan</span> karena
+     keacakan.</p></div>
+</section>
+
+<section>
+  <div class="tutur"><p>Melainkan karena <span class="kunci">kepekaan
+     terhadap nilai awal</span>. Dua nilai awal yang selisihnya sangat kecil
+     dapat berakhir sangat jauh berbeda.</p></div>
+</section>
+
+<section>
+  <div class="tutur"><p>Sekarang, bagaimana tepatnya
+     <span class="vek">f</span> menggerakkan sistem? Jawabannya bergantung
+     pada cara kita memandang waktu, dan di sinilah teorinya bercabang
+     menjadi dua.</p></div>
+</section>
+
+<!-- ======================= BAGIAN 2 ======================= -->
+<section class="tengah">
+  <p class="label">Bagian dua</p>
+  <h2>Ketika waktu melompat</h2>
+</section>
+
+<section>
+  <div class="tutur"><p>Pada sebagian sistem, waktu tidak mengalir.
+     Waktu <span class="sorot">melompat</span>.</p></div>
+</section>
+
+<section>
+  <div class="tutur"><p>Bunga rekening dihitung sekali sebulan. Cacah
+     populasi serangga dicatat sekali setahun. Tombol kalkulator ditekan
+     sekali dalam satu langkah.</p></div>
+</section>
+
+<section>
+  <div class="tutur"><p>Untuk sistem semacam itu kita cukup menyatakan
+     keadaan berikutnya sebagai fungsi dari keadaan sekarang.</p></div>
+</section>
+
+<section>
+  <div class="papan rumus" style="font-size:1.05em">
+    <span class="vek">x</span>(0) = <span class="vek">x</span><sub>0</sub>,
+    &nbsp;&nbsp;&nbsp;
+    <span class="vek">x</span>(<em class="v">k</em>+1) =
+    <span class="vek">f</span>&thinsp;(<span class="vek">x</span>(<em class="v">k</em>)),
+    &nbsp;&nbsp;&nbsp; <em class="v">k</em> = 0, 1, 2, &hellip;
+  </div>
+  <div class="tutur"><p style="text-align:center">Itulah bentuk baku sistem
+     dinamik <span class="kunci">waktu diskret</span>.</p></div>
+</section>
+
+<section>
+  <div class="tutur"><p>Dari bentuk itu langsung diperoleh</p></div>
+  <div class="papan rumus">
+    <span class="vek">x</span>(<em class="v">k</em>) =
+    <span class="vek">f</span><sup>&thinsp;<em class="v">k</em></sup>(<span class="vek">x</span><sub>0</sub>)
+  </div>
+</section>
+
+<section>
+  <div class="papan awas">
+    <p style="margin:0"><span class="vek">f</span><sup>&thinsp;<em class="v">k</em></sup>
+    berarti <strong>penerapan <span class="vek">f</span> sebanyak
+    <em class="v">k</em> kali</strong>. Itu <strong>bukan</strong> pangkat
+    ke-<em class="v">k</em> dari nilai fungsinya.</p>
+  </div>
+</section>
+
+<section>
+  <div class="tutur"><p>Salah tafsir atas notasi itu adalah sumber kekeliruan
+     yang paling lazim di bidang ini. Kita akan berpegang pada perjanjian
+     tersebut secara ajek sampai akhir semester.</p></div>
+</section>
+
+<section>
+  <div class="tutur"><p>Barisan <span class="vek">x</span>(0),
+     <span class="vek">x</span>(1), <span class="vek">x</span>(2), dan
+     seterusnya punya nama sendiri. Kita menyebutnya
+     <span class="kunci">orbit</span>, atau lintasan, dari
+     <span class="vek">x</span><sub>0</sub>.</p></div>
+</section>
+
+<section>
+  <div class="tutur"><p>Contoh yang paling dekat dengan hidup sehari-hari:
+     sebuah rekening tabungan.</p></div>
+</section>
+
+<section>
+  <div class="tutur"><p>Bunganya 6 persen per tahun, dan tiap tahun Anda
+     menyetor lagi seratus ribu.</p></div>
+  <div class="papan rumus">
+    <em class="v">x</em>(<em class="v">k</em>+1) =
+    1,06&nbsp;<em class="v">x</em>(<em class="v">k</em>) + 100
+  </div>
+</section>
+
+<section>
+  <div class="tutur"><p>Di sini <em class="v">n</em> = 1, dan fungsi
+     transisinya <em class="v">f</em>(<em class="v">x</em>) =
+     1,06<em class="v">x</em> + 100. Bentuknya
+     <span class="kunci">linear</span>, dan kelas ini akan kita tuntaskan
+     pada Bab 2.</p></div>
+</section>
+
+<section>
+  <div class="tutur"><p>Sekarang saya ingin Anda mengeluarkan kalkulator.
+     Boleh yang di telepon.</p></div>
+</section>
+
+<section>
+  <div class="tutur"><p>Pastikan modenya <span class="sorot">radian</span>,
+     bukan derajat. Lalu ketik sembarang bilangan yang Anda suka.</p></div>
+</section>
+
+<section>
+  <div class="tutur"><p>Sekarang tekan tombol <span class="kunci">cos</span>
+     berulang-ulang. Sepuluh kali, dua puluh kali, sebanyak yang Anda mau.</p></div>
+</section>
+
+<section>
+  <div class="tutur"><p>Tanpa sadar, Anda sedang menjalankan sebuah sistem
+     dinamik:</p></div>
+  <div class="papan rumus">
+    <em class="v">x</em>(<em class="v">k</em>+1) =
+    cos&thinsp;<em class="v">x</em>(<em class="v">k</em>)
+  </div>
+</section>
+
+<section class="tengah">
+  <div class="tutur"><p style="margin-bottom:.6em">Mulai dari
+     <em class="v">x</em><sub>0</sub> = 2, inilah yang terjadi.</p></div>
+  <table class="nilai">
+    <tr><th><em class="v">k</em></th><th><em class="v">x</em>(<em class="v">k</em>)</th>
+        <th style="padding-left:2.4em"><em class="v">k</em></th><th><em class="v">x</em>(<em class="v">k</em>)</th></tr>
+    <tr><td>0</td><td>2,000000</td><td style="padding-left:2.4em">5</td><td>0,682506</td></tr>
+    <tr><td>1</td><td>&minus;0,416147</td><td style="padding-left:2.4em">6</td><td>0,775995</td></tr>
+    <tr><td>2</td><td>0,914653</td><td style="padding-left:2.4em">7</td><td>0,713725</td></tr>
+    <tr><td>3</td><td>0,610065</td><td style="padding-left:2.4em">8</td><td>0,755929</td></tr>
+    <tr><td>4</td><td>0,819611</td><td style="padding-left:2.4em">9</td><td>0,727635</td></tr>
+  </table>
+</section>
+
+<section class="tengah">
+  <img class="gbr" src="gambar/barisan-cos.svg" alt="Grafik nilai iterasi cosinus terhadap k, mengerucut ke 0,739085">
+  <div class="tutur"><p>Nilainya melompat-lompat di awal, lalu makin lama
+     makin rapat.</p></div>
+</section>
+
+<section>
+  <div class="tutur"><p>Dan inilah bagian yang menarik: berapa pun bilangan
+     yang Anda ketik tadi, hasilnya mengerucut ke
+     <span class="sorot">bilangan yang sama</span>.</p></div>
+</section>
+
+<section>
+  <div class="papan rumus">
+    <em class="v">x</em>* = 0,739085&hellip;
+  </div>
+  <div class="tutur"><p style="text-align:center">Bilangan itu adalah
+     penyelesaian tunggal persamaan
+     cos&thinsp;<em class="v">x</em> = <em class="v">x</em>.</p></div>
+</section>
+
+<section>
+  <div class="tutur"><p>Masuk akal: kalau ditekan cos sekali lagi, nilainya
+     tidak berubah. Keadaan yang seperti itu kita sebut
+     <span class="kunci">titik tetap</span>.</p></div>
+</section>
+
+<section>
+  <div class="tutur"><p>Titik tetap adalah gagasan pusat Bab 3, dan boleh
+     dibilang gagasan paling penting dalam mata kuliah ini.</p></div>
+</section>
+
+<section>
+  <div class="tutur"><p>Ada cara menggambar iterasi tadi yang jauh lebih
+     terang daripada tabel angka.</p></div>
+</section>
+
+<section class="tengah">
+  <img class="gbr penuh" src="gambar/jaring-cos.svg" alt="Diagram jaring laba-laba untuk iterasi kosinus menuju titik tetap">
+</section>
+
+<section>
+  <div class="tutur"><p>Dari <em class="v">x</em>(0) pada sumbu mendatar,
+     tarik garis tegak sampai menyentuh grafik
+     <em class="v">y</em> = <em class="v">f</em>(<em class="v">x</em>).
+     Ordinat titik potongnya adalah <em class="v">x</em>(1).</p></div>
+</section>
+
+<section>
+  <div class="tutur"><p>Untuk menjadikannya masukan berikutnya, tarik garis
+     mendatar sampai menyentuh garis
+     <em class="v">y</em> = <em class="v">x</em>. Garis itu berperan sebagai
+     <span class="kunci">cermin</span> yang mengembalikan keluaran menjadi
+     masukan.</p></div>
+</section>
+
+<section>
+  <div class="tutur"><p>Ulangi terus, dan gambarnya menyerupai
+     <span class="sorot">jaring laba-laba</span>. Dari bentuknya saja,
+     perilaku jangka panjang sering sudah terbaca.</p></div>
+</section>
+
+<section>
+  <div class="tutur"><p>Tentu saja, iterasi dua puluh kali dengan tangan itu
+     melelahkan. Komputer mengerjakannya dalam sekejap.</p></div>
+</section>
+
+<section class="tengah">
+  <p class="catatanKecil" style="text-align:left;max-width:88%;margin:0 auto .3em auto">Octave atau MATLAB</p>
+<pre class="kode">function [k, x] = iterasi(f, x0, n)
+  k = 0:n;
+  x = zeros(length(x0), n+1);
+  x(:,1) = x0;
+  for i = 1:n
+    x(:,i+1) = f(x(:,i));
+  end
+end
+
+[k, x] = iterasi(@(x) cos(x), 2, 20);
+plot(k, x, 'o-')</pre>
+</section>
+
+<section class="tengah">
+  <p class="catatanKecil" style="text-align:left;max-width:88%;margin:0 auto .3em auto">Python</p>
+<pre class="kode">import numpy as np
+import matplotlib.pyplot as plt
+
+def iterasi(f, x0, n):
+    x = [np.asarray(x0, float)]
+    for _ in range(n):
+        x.append(f(x[-1]))
+    return np.arange(n+1), np.array(x)
+
+k, x = iterasi(np.cos, 2.0, 20)
+plt.plot(k, x, 'o-'); plt.show()</pre>
+</section>
+
+<section>
+  <div class="papan tanya">
+    <p style="margin:0">Cobalah sendiri. Ganti nilai awalnya menjadi
+    <em class="v">x</em><sub>0</sub> = &minus;5, lalu 100, lalu 0. Apakah
+    barisannya selalu menuju bilangan yang sama? <span class="sorot">Apa
+    artinya itu?</span></p>
+  </div>
+</section>
+
+<!-- ======================= BAGIAN 3 ======================= -->
+<section class="tengah">
+  <p class="label">Bagian tiga</p>
+  <h2>Ketika waktu mengalir</h2>
+</section>
+
+<section>
+  <div class="tutur"><p>Pada sistem yang lain, waktu tidak melompat.
+     Waktu <span class="sorot">mengalir</span>, tanpa jeda.</p></div>
+</section>
+
+<section>
+  <div class="tutur"><p>Untuk sistem semacam itu, bertanya tentang
+     "keadaan berikutnya" tidak masuk akal. Tidak ada saat berikutnya,
+     sebab di antara dua saat selalu ada saat yang lain.</p></div>
+</section>
+
+<section>
+  <div class="tutur"><p>Yang masih bisa kita nyatakan adalah
+     <span class="kunci">seberapa cepat</span> keadaan itu berubah.</p></div>
+</section>
+
+<section>
+  <div class="papan rumus" style="font-size:1.05em">
+    <span class="vek">x</span>(0) = <span class="vek">x</span><sub>0</sub>,
+    &nbsp;&nbsp;&nbsp;
+    <span class="vek">x</span>&prime;(<em class="v">t</em>) =
+    <span class="vek">f</span>&thinsp;(<span class="vek">x</span>(<em class="v">t</em>))
+  </div>
+  <div class="tutur"><p style="text-align:center">Itulah bentuk baku sistem
+     dinamik <span class="kunci">waktu kontinu</span>.</p></div>
+</section>
+
+<section>
+  <div class="tutur"><p>Bentuk itu tidak lain adalah sistem
+     <span class="kunci">persamaan diferensial biasa</span> yang otonom.
+     Jadi sebagian dari Anda sebenarnya sudah lama berkenalan dengannya.</p></div>
+</section>
+
+<section>
+  <div class="tutur"><p>Otonom artinya ruas kanannya tidak memuat
+     <em class="v">t</em> secara eksplisit. Hukum geraknya sama pada setiap
+     saat.</p></div>
+</section>
+
+<section>
+  <div class="tutur"><p>Akibatnya, perilaku sistem hanya bergantung pada
+     <span class="sorot">keadaannya</span>, bukan pada kapan keadaan itu
+     terjadi.</p></div>
+</section>
+
+<section>
+  <div class="tutur"><p>Sistem yang tidak otonom pun selalu bisa
+     diotonomkan: jadikan <em class="v">t</em> sebagai komponen keadaan
+     tambahan. Harganya, dimensinya naik satu.</p></div>
+</section>
+
+<section>
+  <div class="tutur"><p>Mari kembali ke bola kita. Hukum kedua Newton
+     memberikan dua persamaan.</p></div>
+  <div class="papan rumus">
+    <em class="v">h</em>&prime; = <em class="v">v</em>,
+    &nbsp;&nbsp;&nbsp;&nbsp;
+    <em class="v">v</em>&prime; = &minus;<em class="v">g</em>
+  </div>
+</section>
+
+<section>
+  <div class="tutur"><p>Persamaan pertama bukan hukum fisika, melainkan
+     arti dari kata kecepatan. Persamaan kedualah yang membawa gravitasi.</p></div>
+</section>
+
+<section>
+  <div class="tutur"><p>Fungsi transisinya, jadi, adalah</p></div>
+  <div class="papan rumus">
+    <span class="vek">f</span>(<em class="v">h</em>, <em class="v">v</em>)
+    = (<em class="v">v</em>, &minus;<em class="v">g</em>)
+  </div>
+</section>
+
+<section>
+  <div class="tutur"><p>Penyelesaiannya sudah Anda kenal sejak sekolah
+     menengah.</p></div>
+  <div class="papan rumus">
+    <em class="v">h</em>(<em class="v">t</em>) =
+    <em class="v">h</em><sub>0</sub> +
+    <em class="v">v</em><sub>0</sub><em class="v">t</em> &minus;
+    &frac12;<em class="v">gt</em><sup>2</sup>,
+    &nbsp;&nbsp;&nbsp;
+    <em class="v">v</em>(<em class="v">t</em>) =
+    <em class="v">v</em><sub>0</sub> &minus; <em class="v">gt</em>
+  </div>
+</section>
+
+<section>
+  <div class="tutur"><p>Tetapi tunggu dulu. Dari mana rumus itu datang, dan
+     bagaimana kita yakin ia benar?</p></div>
+</section>
+
+<section>
+  <div class="tutur"><p>Ini kebiasaan yang ingin saya tanamkan sejak hari
+     pertama: <span class="sorot">menemukan penyelesaian itu sukar,
+     memeriksanya selalu mudah</span>.</p></div>
+</section>
+
+<section>
+  <div class="tutur"><p>Mari kita periksa. Langkah pertama, syarat awalnya.</p></div>
+  <div class="papan rumus">
+    <em class="v">h</em>(0) = <em class="v">h</em><sub>0</sub>,
+    &nbsp;&nbsp;&nbsp;
+    <em class="v">v</em>(0) = <em class="v">v</em><sub>0</sub>
+    &nbsp;&nbsp;&#10003;
+  </div>
+</section>
+
+<section>
+  <div class="tutur"><p>Langkah kedua, turunkan terhadap
+     <em class="v">t</em> dan bandingkan dengan persamaannya.</p></div>
+  <div class="papan rumus">
+    <em class="v">h</em>&prime;(<em class="v">t</em>) =
+    <em class="v">v</em><sub>0</sub> &minus; <em class="v">gt</em> =
+    <em class="v">v</em>(<em class="v">t</em>),
+    &nbsp;&nbsp;&nbsp;
+    <em class="v">v</em>&prime;(<em class="v">t</em>) =
+    &minus;<em class="v">g</em> &nbsp;&nbsp;&#10003;
+  </div>
+</section>
+
+<section>
+  <div class="tutur"><p>Selesai. Dua baris turunan, dan klaim tadi terbukti.
+     Pola kerja inilah yang akan berulang sepanjang Bab 2:
+     <span class="kunci">tebak bentuknya secara terarah, lalu verifikasi
+     dengan substitusi</span>.</p></div>
+</section>
+
+<section>
+  <div class="tutur"><p>Ada satu kiat lagi yang perlu Anda kuasai hari ini,
+     karena akan dipakai berkali-kali.</p></div>
+</section>
+
+<section>
+  <div class="tutur"><p>Bentuk baku kita hanya memuat turunan
+     <span class="sorot">pertama</span>. Lalu bagaimana dengan persamaan
+     berorde tinggi?</p></div>
+</section>
+
+<section>
+  <div class="tutur"><p>Ambil contoh</p></div>
+  <div class="papan rumus">
+    <em class="v">y</em>&#8244; + 2<em class="v">y</em>&#8243;
+    &minus; <em class="v">y</em>&prime; + 3<em class="v">y</em> = 0
+  </div>
+</section>
+
+<section>
+  <div class="tutur"><p>Caranya: jadikan fungsi itu sendiri beserta
+     turunan-turunannya, sampai satu tingkat di bawah ordenya, sebagai
+     komponen keadaan.</p></div>
+  <div class="papan rumus">
+    <em class="v">x</em><sub>1</sub> = <em class="v">y</em>,
+    &nbsp;&nbsp;
+    <em class="v">x</em><sub>2</sub> = <em class="v">y</em>&prime;,
+    &nbsp;&nbsp;
+    <em class="v">x</em><sub>3</sub> = <em class="v">y</em>&#8243;
+  </div>
+</section>
+
+<section>
+  <div class="tutur"><p>Dua persamaan pertama muncul cuma-cuma dari
+     penetapan itu:
+     <em class="v">x</em><sub>1</sub>&prime; = <em class="v">x</em><sub>2</sub>
+     dan
+     <em class="v">x</em><sub>2</sub>&prime; = <em class="v">x</em><sub>3</sub>.</p></div>
+</section>
+
+<section>
+  <div class="tutur"><p>Persamaan ketiga datang dari persamaan semula,
+     setelah <em class="v">y</em>&#8244; dipisahkan.</p></div>
+  <div class="papan rumus">
+    <em class="v">x</em><sub>3</sub>&prime; =
+    &minus;3<em class="v">x</em><sub>1</sub> +
+    <em class="v">x</em><sub>2</sub> &minus;
+    2<em class="v">x</em><sub>3</sub>
+  </div>
+</section>
+
+<section>
+  <div class="tutur"><p>Satu persamaan berorde tiga berubah menjadi sistem
+     orde satu berdimensi tiga. Kiat ini bersifat umum: setiap persamaan
+     berorde <em class="v">n</em> bisa ditulis sebagai sistem berdimensi
+     <em class="v">n</em>.</p></div>
+</section>
+
+<!-- ======================= BAGIAN 4 ======================= -->
+<section class="tengah">
+  <p class="label">Bagian empat</p>
+  <h2>Dua dunia, satu bahasa</h2>
+</section>
+
+<section class="tengah">
+  <img class="gbr" src="gambar/dua-dunia.svg" alt="Perbandingan waktu diskret berupa deretan titik dan waktu kontinu berupa kurva mulus">
+  <div class="tutur"><p>Kita sudah bertemu dua ragam waktu. Mari kita
+     sandingkan.</p></div>
+</section>
+
+<section class="tengah">
+  <table class="banding">
+    <tr><th></th><th>Waktu diskret</th><th>Waktu kontinu</th></tr>
+    <tr><td>Peubah waktu</td>
+        <td><em class="v">k</em> = 0, 1, 2, &hellip;</td>
+        <td><em class="v">t</em> &isin; &#8477;</td></tr>
+    <tr><td>Bentuk baku</td>
+        <td><span class="vek">x</span>(<em class="v">k</em>+1) =
+            <span class="vek">f</span>(<span class="vek">x</span>(<em class="v">k</em>))</td>
+        <td><span class="vek">x</span>&prime; =
+            <span class="vek">f</span>(<span class="vek">x</span>)</td></tr>
+    <tr><td>Penyelesaian</td>
+        <td><span class="vek">f</span><sup>&thinsp;<em class="v">k</em></sup>(<span class="vek">x</span><sub>0</sub>)</td>
+        <td>kurva mulus <span class="vek">x</span>(<em class="v">t</em>)</td></tr>
+    <tr><td>Alat gambar</td>
+        <td>jaring laba-laba</td>
+        <td>garis fase dan medan arah</td></tr>
+    <tr><td>Datang dari</td>
+        <td>proses berulang, cicilan, iterasi</td>
+        <td>hukum fisika, laju perubahan</td></tr>
+  </table>
+</section>
+
+<section>
+  <div class="tutur"><p>Yang perlu Anda perhatikan: kolom kirinya berbeda
+     dari kolom kanan, tetapi <span class="sorot">pertanyaannya sama
+     persis</span>.</p></div>
+</section>
+
+<section>
+  <div class="tutur"><p>Adakah keadaan yang tidak berubah? Adakah perilaku
+     yang berulang? Ke mana sistem ini menuju kalau dibiarkan berjalan
+     lama sekali?</p></div>
+</section>
+
+<section>
+  <div class="papan tanya">
+    <p style="margin:0">Sebutkan satu contoh dari bidang minat Anda sendiri
+    untuk masing-masing kolom. Adakah sistem yang wajar dimodelkan dengan
+    <span class="sorot">kedua</span> cara sekaligus?</p>
+  </div>
+</section>
+
+<section>
+  <div class="tutur"><p>Kerangka yang baru saja kita bangun ini kelihatannya
+     sempit, hanya dua rumus. Tetapi daya tampungnya luar biasa.</p></div>
+</section>
+
+<section class="tengah">
+  <img class="gbr" src="gambar/pegas.svg" alt="Balok bermassa m terhubung pegas ke dinding">
+  <div class="tutur"><p>Balok dan pegas, dengan
+     <em class="v">x</em>&prime; = <em class="v">v</em> dan
+     <em class="v">v</em>&prime; =
+     &minus;(<em class="v">k</em>/<em class="v">m</em>)<em class="v">x</em>.</p></div>
+</section>
+
+<section>
+  <div class="tutur"><p>Rangkaian listrik LC memenuhi persamaan yang
+     <span class="sorot">bentuk matriksnya sama persis</span>, dengan
+     massa berganti induktansi dan konstanta pegas berganti kebalikan
+     kapasitansi.</p></div>
+</section>
+
+<section>
+  <div class="tutur"><p>Dua sistem fisis yang sepenuhnya berbeda ternyata
+     satu sistem dinamik yang sama. Satu analisis matematis melayani banyak
+     dunia terapan sekaligus.</p></div>
+</section>
+
+<section class="tengah">
+  <img class="gbr" src="gambar/bandul.svg" alt="Bandul sederhana dengan simpangan sudut theta">
+  <div class="tutur"><p>Bandul sederhana memberi contoh pertama yang
+     benar-benar <span class="kunci">taklinear</span>, sebab ada
+     sin&thinsp;<em class="v">&theta;</em> di dalamnya.</p></div>
+</section>
+
+<section class="tengah">
+  <img class="gbr" src="gambar/logistik.svg" alt="Perbandingan pertumbuhan eksponensial dan pertumbuhan logistik">
+  <div class="tutur"><p>Pertumbuhan populasi dengan sumber daya terbatas,
+     yang melahirkan <span class="kunci">peta logistik</span>. Rupanya
+     sederhana, perilakunya mencakup chaos.</p></div>
+</section>
+
+<section class="tengah">
+  <img class="gbr" src="gambar/newton.svg" alt="Satu langkah metode Newton, garis singgung memotong sumbu mendatar">
+  <div class="tutur"><p>Bahkan metode Newton adalah sistem dinamik. Akar yang
+     dicari tepat merupakan <span class="kunci">titik tetap</span> peta
+     iterasinya.</p></div>
+</section>
+
+<section>
+  <div class="tutur"><p>Pergeseran sudut pandang itu mengubah pertanyaan
+     "apakah metode Newton konvergen" menjadi "apakah titik tetapnya
+     stabil". Pertanyaan kedua jauh lebih mudah dijawab.</p></div>
+</section>
+
+<!-- ======================= PENUTUP ======================= -->
+<section class="tengah">
+  <p class="label">Penutup</p>
+  <h2>Yang harus melekat</h2>
+</section>
+
+<section>
+  <div class="tutur"><p>Satu. Sistem dinamik terdiri atas dua bahan saja:
+     vektor keadaan <span class="vek">x</span> dan fungsi transisi
+     <span class="vek">f</span>.</p></div>
+</section>
+
+<section>
+  <div class="tutur"><p>Dua. Waktu diskret berbunyi
+     <span class="vek">x</span>(<em class="v">k</em>+1) =
+     <span class="vek">f</span>(<span class="vek">x</span>(<em class="v">k</em>)),
+     sehingga <span class="vek">x</span>(<em class="v">k</em>) =
+     <span class="vek">f</span><sup>&thinsp;<em class="v">k</em></sup>(<span class="vek">x</span><sub>0</sub>).</p></div>
+</section>
+
+<section>
+  <div class="tutur"><p>Tiga. Waktu kontinu berbunyi
+     <span class="vek">x</span>&prime; =
+     <span class="vek">f</span>(<span class="vek">x</span>), dengan
+     <span class="vek">x</span>(0) = <span class="vek">x</span><sub>0</sub>.</p></div>
+</section>
+
+<section>
+  <div class="tutur"><p>Empat. Yang kita kejar adalah
+     <span class="sorot">perilaku jangka panjang</span>, bukan rumus eksak.
+     Rumus eksak hanya tersedia untuk kelas yang sangat sempit.</p></div>
+</section>
+
+<section>
+  <div class="tutur"><p>Lima. Titik tetap adalah keadaan yang tidak berubah,
+     dan itu gagasan pusat Bab 3.</p></div>
+</section>
+
+<section>
+  <div class="tutur"><p>Beralih ke pertanyaan kualitatif bukan berarti
+     menurunkan tuntutan ketelitian. Pernyataan bahwa sebuah titik tetap
+     stabil adalah pernyataan matematis yang tegas, dan bisa dibuktikan.</p></div>
+</section>
+
+<section>
+  <div class="papan">
+    <p style="margin:0"><strong>Latihan.</strong> Buku pegangan, Soal 1.1
+    halaman 4 sampai 5: nomor 1, 2, 3, 5, 6, dan 7. Kerjakan nomor 5 dan 7
+    <span class="sorot">tanpa melihat catatan</span>. Keduanya menjadi
+    tulang punggung Bab 2.</p>
+  </div>
+</section>
+
+<section>
+  <div class="tutur">
+    <p>Untuk pertemuan depan, bacalah subbab ragam model, dan pasang Octave
+       atau Python di laptop Anda.</p>
+    <p>Kita akan melihat bahwa hampir semua model yang Anda temui di bidang
+       masing-masing berbentuk salah satu dari dua rumus hari ini.</p>
+  </div>
+</section>
+
+<section>
+  <div class="tutur">
+    <p>Satu pesan yang akan saya ulang sepanjang semester:</p>
+    <p>jangan hanya membaca penyelesaiannya.
+       <span class="kunci">Kerjakan sendiri</span>, dengan tangan, di
+       kertas, sebelum melihat jawabannya.</p>
+  </div>
+</section>
+
+<section class="tengah">
+  <h2 style="font-size:2em">Ada pertanyaan?</h2>
+  <p class="catatanKecil" style="margin-top:2em">
+    Diadaptasi dari Edward R. Scheinerman,
+    <em>Invitation to Dynamical Systems</em>, Bab 1, halaman 1 sampai 26.<br>
+    Dr. Mohammad Jamhuri &nbsp;·&nbsp; Program Studi Matematika,
+    UIN Maulana Malik Ibrahim Malang
+  </p>
+</section>
+
+</div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/reveal.js"></script>
+<script>
+  Reveal.initialize({
+    hash: true,
+    slideNumber: 'c/t',
+    controls: true,
+    progress: true,
+    touch: true,
+    center: true,
+    transition: 'fade',
+    width: 1050,
+    height: 700,
+    margin: 0.06,
+    minScale: 0.2,
+    maxScale: 2.0,
+    // Mematikan peralihan otomatis ke tampilan gulir pada layar sempit,
+    // sebab pada tampilan itu tombol navigasi ikut disembunyikan.
+    scrollActivationWidth: 0
+  });
+
+  function kunciMendatar() {
+    try {
+      if (screen.orientation && screen.orientation.lock) {
+        var j = screen.orientation.lock('landscape');
+        if (j && j.catch) j.catch(function () {});
+      }
+    } catch (e) { /* diabaikan */ }
+  }
+
+  function layarPenuh() {
+    var el = document.documentElement;
+    var minta = el.requestFullscreen || el.webkitRequestFullscreen
+             || el.mozRequestFullScreen || el.msRequestFullscreen;
+    if (!minta) return false;
+    if (document.fullscreenElement) { kunciMendatar(); return true; }
+    try {
+      var janji = minta.call(el);
+      if (janji && janji.then) janji.then(kunciMendatar).catch(function () {});
+      else setTimeout(kunciMendatar, 120);
+      return true;
+    } catch (e) { return false; }
+  }
+
+  document.addEventListener('fullscreenchange', function () {
+    if (!document.fullscreenElement) {
+      try { if (screen.orientation && screen.orientation.unlock) screen.orientation.unlock(); }
+      catch (e) {}
+    }
+  });
+
+  var tombol = document.getElementById('mulai');
+  if (tombol) {
+    var bisaPenuh = !!(document.documentElement.requestFullscreen
+                    || document.documentElement.webkitRequestFullscreen);
+    if (!bisaPenuh) {
+      tombol.textContent = 'Bagikan, lalu Tambah ke Layar Utama';
+      tombol.disabled = true;
+      tombol.style.opacity = '.75';
+      tombol.style.cursor = 'default';
+    } else {
+      tombol.addEventListener('click', function (ev) {
+        ev.stopPropagation();
+        layarPenuh();
+        Reveal.next();
+      });
+    }
+  }
+
+  var sudahDicoba = false;
+  function cobaSekali() {
+    if (sudahDicoba) return;
+    sudahDicoba = true;
+    layarPenuh();
+  }
+  document.addEventListener('click', cobaSekali, { once: true });
+  document.addEventListener('touchend', cobaSekali, { once: true });
+</script>
+</body>
+</html>

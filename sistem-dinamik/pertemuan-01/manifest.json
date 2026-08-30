@@ -1,0 +1,17 @@
+{
+  "name": "Pengantar Sistem Dinamik, Pertemuan 1: Apa Itu Sistem Dinamik?",
+  "short_name": "Sisdin 1",
+  "description": "Vektor keadaan, fungsi transisi, sistem waktu diskret dan waktu kontinu.",
+  "lang": "id",
+  "start_url": "./",
+  "scope": "./",
+  "display": "fullscreen",
+  "display_override": ["fullscreen", "standalone"],
+  "orientation": "landscape",
+  "background_color": "#ffffff",
+  "theme_color": "#16456B",
+  "icons": [
+    { "src": "../ikon.svg", "sizes": "any", "type": "image/svg+xml",
+      "purpose": "any maskable" }
+  ]
+}
