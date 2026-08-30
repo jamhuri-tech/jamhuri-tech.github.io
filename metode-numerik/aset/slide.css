@@ -86,6 +86,15 @@
 /* Gambar yang berdiri sendiri di tengah slide, bukan di dalam lajur: dibiarkan
    selebar bidang slide supaya terbaca dari bangku belakang. */
 .grafik.lebar{ max-width:100%; }
+/* Gambar yang bentuknya mendekati persegi tidak boleh dilebarkan penuh:
+   tingginya ikut meledak dan slide meluber ke luar layar. Diagram galat
+   maju-mundur berbanding 640:300, jadi pada lebar 860 px tingginya 403 px --
+   masih muat bersama judul dan kotak sorotnya. */
+.grafik.tegak{ max-width:860px; }
+/* Dipakai bila slide sudah penuh dan grafiknya perlu mengalah sedikit.
+   Slide 'Mengukur kecepatan barisan hampiran' tanpa ini setinggi 712 px,
+   sedangkan ruang yang tersedia 691 px. */
+.ringkas-bungkus .grafik{ max-width:470px; }
 .grafik .kisi line{ stroke:var(--krem-tua); stroke-width:1; }
 .grafik .sumbu line{ stroke:var(--abu); stroke-width:1.2; }
 .grafik .tk{ font-size:11px; fill:var(--abu); }
@@ -94,6 +103,38 @@
 .grafik .deret2{ fill:none; stroke:var(--merah); stroke-width:2.4; }
 .grafik .titik1{ fill:var(--tosca); }
 .grafik .titik2{ fill:var(--merah); }
+
+/* Tiga deret berdampingan, dipakai mulai Pertemuan 2. Bentuk penandanya
+   sengaja dibedakan -- bulat, persegi, segitiga -- supaya tetap terbedakan
+   pada proyektor yang warnanya pudar, dan bagi yang buta warna. */
+.grafik .deret-merah{ fill:none; stroke:var(--merah); stroke-width:2.4; }
+.grafik .deret-ambar{ fill:none; stroke:var(--ambar); stroke-width:2.4; }
+.grafik .deret-tosca{ fill:none; stroke:var(--tosca); stroke-width:2.4; }
+.grafik .t-merah{ fill:var(--merah); }
+.grafik .t-ambar{ fill:var(--ambar); }
+.grafik .t-tosca{ fill:var(--tosca); }
+.kk.ambar{ background:var(--ambar); }
+
+/* Diagram galat maju dan mundur */
+.grafik .kt-abubatu{ stroke:var(--batu); }
+.grafik .rumus-svg{ font-size:19px; fill:var(--batu); font-style:italic;
+  font-family:"Times New Roman",Times,serif; }
+.grafik .kecil-svg{ font-size:14px; fill:var(--tosca); }
+.grafik .tanda{ fill:none; stroke:var(--batu); stroke-width:1.5;
+  stroke-linecap:round; stroke-linejoin:round; }
+.grafik .pn-tosca{ stroke:var(--tosca); stroke-width:2.2; }
+.grafik .pni-tosca{ fill:var(--tosca); }
+.grafik .pn-merah{ stroke:var(--merah); stroke-width:2.2; }
+.grafik .pni-merah{ fill:var(--merah); }
+.grafik .pn-ambar{ stroke:var(--ambar); stroke-width:2.2; }
+.grafik .pni-ambar{ fill:var(--ambar); }
+.grafik .lbl-merah{ font-size:13px; fill:var(--merah); }
+.grafik .lbl-ambar{ font-size:13px; fill:var(--ambar); }
+
+/* Tiga kotak sejajar, untuk membandingkan tiga hal sekaligus. */
+.tiga-lajur{ display:grid; grid-template-columns:repeat(3,1fr); gap:.7em;
+  align-items:start; margin-top:.5em; }
+@media (max-width:820px){ .tiga-lajur{ grid-template-columns:1fr; } }
 
 .legenda{ font-size:.7em; color:var(--abu); text-align:center; margin-top:-.2em; }
 .kk{ display:inline-block; width:16px; height:3px; vertical-align:middle; }
