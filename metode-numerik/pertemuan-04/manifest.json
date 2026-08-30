@@ -1,0 +1,14 @@
+{
+  "name": "Metode Numerik — Pertemuan 4: Akar Persamaan Nonlinear, Metode Cepat",
+  "short_name": "Pertemuan 4",
+  "description": "Newton-Raphson, secant, akar kelipatan, kriteria berhenti, metode hibrida.",
+  "lang": "id",
+  "start_url": "./",
+  "scope": "./",
+  "display": "fullscreen",
+  "display_override": ["fullscreen", "standalone"],
+  "orientation": "landscape",
+  "background_color": "#0E4749",
+  "theme_color": "#0E4749",
+  "icons": [{ "src": "../ikon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any maskable" }]
+}

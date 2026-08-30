@@ -106,6 +106,11 @@
 .grafik .garis-yx{ stroke:var(--abu); stroke-width:1.2; }
 .grafik .sarang{ stroke:var(--merah); stroke-width:2; }
 .grafik .titik-tetap{ fill:var(--ambar); }
+.grafik .tegak-putus{ stroke:var(--abu); stroke-width:1; stroke-dasharray:3 3; }
+.grafik .deret-abu{ fill:none; stroke:var(--abu); stroke-width:2.2; }
+.grafik .t-abu{ fill:var(--abu); }
+.grafik .t-tosca-k{ fill:var(--tosca); }
+.kk.abu{ background:var(--abu); }
 
 /* peraga selang bagi dua */
 .grafik .selang{ fill:var(--tosca); opacity:.14; }
