@@ -38,7 +38,9 @@
       transitionSpeed: 'fast',
       width: 1280,
       height: 720,
-      margin: 0.045,
+      // Tepi dipersempit dari 4,5% menjadi 2%: slide ini dipakai di layar
+      // 16:9, dan ruang yang tersisa lebih berguna untuk gambar.
+      margin: 0.02,
       minScale: 0.2,
       maxScale: 1.8,
       // Layar sentuh: geser untuk berpindah slide.
@@ -94,9 +96,25 @@
     }, true);
   }
 
+  /* Reveal menandai slide berlatar gelap pada elemen <section>-nya, bukan pada
+     wadah .reveal, sehingga penanda halaman -- yang berada di luar .slides --
+     tidak dapat menyesuaikan warnanya lewat CSS saja. Tandanya dipindahkan ke
+     <body> setiap kali slide berganti. */
+  function ikutiLatar() {
+    function perbarui() {
+      var s = document.querySelector('.reveal .slides > section.present');
+      var gelap = !!(s && s.classList.contains('has-dark-background'));
+      document.body.classList.toggle('latar-gelap', gelap);
+    }
+    Reveal.on('ready', perbarui);
+    Reveal.on('slidechanged', perbarui);
+    perbarui();
+  }
+
   function mulai() {
     gambarRumus();
     jalankanReveal();
+    ikutiLatar();
     siapkanLayarPenuh();
   }
 

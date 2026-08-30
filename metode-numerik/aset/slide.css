@@ -83,6 +83,9 @@
 
 /* ---------------------------------------------------- gambar & grafik */
 .grafik{ width:100%; max-width:640px; height:auto; }
+/* Gambar yang berdiri sendiri di tengah slide, bukan di dalam lajur: dibiarkan
+   selebar bidang slide supaya terbaca dari bangku belakang. */
+.grafik.lebar{ max-width:100%; }
 .grafik .kisi line{ stroke:var(--krem-tua); stroke-width:1; }
 .grafik .sumbu line{ stroke:var(--abu); stroke-width:1.2; }
 .grafik .tk{ font-size:11px; fill:var(--abu); }
@@ -192,6 +195,21 @@
 .reveal .progress{ color:var(--ambar); height:4px; }
 .reveal .controls{ color:var(--tosca); }
 .reveal .slide-number{ background:none; color:var(--abu); font-size:15px; }
+
+/* ------------------------------------------------ penanda tiap halaman
+   Sengaja samar. Ia penanda kepemilikan, bukan isi -- kalau sampai menarik
+   mata menjauh dari rumus di tengah slide, ia gagal. Ditaruh di kiri bawah
+   sebab Reveal sudah memakai kanan bawah untuk panah dan nomor slide. */
+#tanda{
+  position:fixed; left:16px; bottom:12px; z-index:35; margin:0;
+  font-size:12px; letter-spacing:.02em; color:var(--abu);
+  opacity:.5; pointer-events:none; user-select:none;
+}
+/* Pada slide berlatar tosca, abu-abu gelap nyaris lenyap. Reveal memasang
+   kelas ini pada wadah .reveal setiap kali slidenya berlatar gelap. */
+.reveal.has-dark-background ~ #tanda,
+body.latar-gelap #tanda{ color:#9FB6B4; opacity:.42; }
+@media print{ #tanda{ display:none; } }
 
 /* Rumus KaTeX ikut mengecil bersama teks di sekitarnya. */
 .reveal .katex{ font-size:1.02em; }
