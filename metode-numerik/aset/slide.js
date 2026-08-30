@@ -124,11 +124,44 @@
     perbarui();
   }
 
+  /* Klik di mana pun pada slide memajukan presentasi, sama seperti tombol
+     Next -- tombol panah bawaan Reveal tetap ada dan tetap berfungsi.
+     Reveal.next() dipakai, bukan Reveal.right(), supaya fragmen di dalam satu
+     slide ikut dijalankan berurutan persis seperti menekan tombolnya.
+
+     Empat keadaan sengaja DIKECUALIKAN, dan tiap pengecualian ada sebabnya:
+
+       - klik selain tombol kiri, supaya menu klik-kanan tidak melompati slide
+       - mode peta slide (Esc), sebab di sana klik berarti memilih slide
+
+     Penangannya dipasang pada tahap TANGKAP, bukan tahap gelembung. Sebabnya
+     nyata: pada tahap gelembung, penangan Reveal sendiri sudah menutup mode
+     peta lebih dahulu, sehingga ketika penjaga di bawah memeriksanya modenya
+     sudah tidak aktif lagi -- klik pada peta slide berakibat melompati satu
+     slide, bukan memilih slide yang diklik.
+       - klik pada tombol, pranala, dan bilah kemajuan, yang sudah punya
+         tugasnya sendiri -- tanpa ini, menekan tombol layar penuh akan
+         sekaligus memajukan slide
+       - ketika ada teks yang sedang disorot, sebab menyorot rumus untuk
+         dibacakan tidak boleh berakibat berpindah halaman */
+  function siapkanKlikMaju() {
+    document.addEventListener('click', function (e) {
+      if (e.button !== 0) return;
+      if (Reveal.isOverview()) return;
+      if (e.target.closest('a, button, input, textarea, select, ' +
+                           '.controls, .progress, .slide-number, #layar-penuh')) return;
+      var sorot = window.getSelection && window.getSelection().toString();
+      if (sorot && sorot.length > 0) return;
+      Reveal.next();
+    }, true);
+  }
+
   function mulai() {
     gambarRumus();
     jalankanReveal();
     ikutiLatar();
     siapkanLayarPenuh();
+    siapkanKlikMaju();
   }
 
   if (document.readyState === 'loading') {
