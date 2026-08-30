@@ -36,10 +36,23 @@
       center: true,
       transition: 'slide',
       transitionSpeed: 'fast',
-      width: 1280,
+      // Kanvasnya 16:10 (1152 x 720), bukan 16:9, meskipun layarnya 16:9.
+      //
+      // Reveal menyekalakan kanvas supaya muat seluruhnya, dan karena kanvas
+      // ini lebih ramping daripada layarnya, yang membatasi adalah TINGGI.
+      // Akibatnya: tinggi terpakai penuh sebagaimana kanvas 16:9, sedangkan
+      // di kiri dan kanan tersisa ruang kosong yang seimbang.
+      //
+      // Itu disengaja. Sebagian proyektor memangkas tepi gambar, dan tepi
+      // mendatar yang paling sering kena. Dengan susunan ini, isi slide
+      // berhenti jauh sebelum tepi layar: pada proyektor 1920 x 1080, sisa
+      // kiri dan kanan masing-masing sekitar 9%, sedangkan atas dan bawah
+      // tetap 2%.
+      width: 1152,
       height: 720,
-      // Tepi dipersempit dari 4,5% menjadi 2%: slide ini dipakai di layar
-      // 16:9, dan ruang yang tersisa lebih berguna untuk gambar.
+      // Cukup 2%, sebab jarak dari tepi mendatar sudah dijamin oleh kanvas
+      // 16:10 di atas, bukan oleh angka ini. Pada proyektor 1920 x 1080
+      // hasilnya: kiri dan kanan 6,8%, atas dan bawah 2%.
       margin: 0.02,
       minScale: 0.2,
       maxScale: 1.8,
