@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Metode Numerik — Pertemuan 1: Galat dan Aritmetika Titik-Kambang</title>
+<meta name="description" content="Galat, aritmetika titik-kambang, dan pembatalan katastrofik. Metode Numerik, Program Studi Matematika UIN Maulana Malik Ibrahim Malang.">
+
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#0E4749">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Pertemuan 1">
+
+<!-- Pustaka disertakan di dalam repo, bukan diambil dari CDN: presentasi ini
+     dipakai mengajar, dan jaringan ruang kuliah tidak selalu ada. Sesudah
+     halaman ini termuat sekali, ia berjalan sepenuhnya luring. -->
+<link rel="stylesheet" href="../aset/reveal/reveal.css">
+<link rel="stylesheet" href="../aset/katex/katex.min.css">
+<link rel="stylesheet" href="../aset/slide.css">
+</head>
+<body>
+
+<div class="reveal">
+<div class="slides">
+
+<!-- ================================================== 1. judul -->
+<section class="judul" data-background-color="#0E4749">
+  <p class="mata-kuliah">Metode Numerik &middot; Pertemuan 1</p>
+  <h1>Galat dan Aritmetika<br>Titik-Kambang</h1>
+  <div class="garis-emas"></div>
+  <p class="penulis">Dr. Mohammad Jamhuri</p>
+  <p class="lembaga">Program Studi Matematika<br>UIN Maulana Malik Ibrahim Malang</p>
+  <p class="kaki-judul">Bab 1, bagian 1 dari 2 &middot; kelas 2 sks, 100 menit</p>
+</section>
+
+<!-- ================================================== 2. peta -->
+<section>
+  <h2>Peta pertemuan ini</h2>
+  <div class="dua-lajur">
+    <div>
+      <ol class="besar">
+        <li>Mengapa jawaban numerik selalu bergalat</li>
+        <li>Dari mana galat itu datang</li>
+        <li>Mengukur galat: mutlak, relatif, angka signifikan</li>
+        <li>Bagaimana komputer menyimpan bilangan</li>
+        <li>Pembatalan katastrofik dan cara menghindarinya</li>
+      </ol>
+    </div>
+    <div>
+      <div class="sorot fragment">
+        <p>Pertanyaan yang dijawab hari ini:</p>
+        <p class="miring">Jawaban komputer meleset berapa, dan siapa yang salah —
+        mesinnya atau rumus yang kita pakai?</p>
+      </div>
+      <p class="nota fragment">Pekan ini di laboratorium: <strong>Praktikum 1</strong>,
+      menjalankan sendiri apa yang dibahas hari ini.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ================================================== antarbagian 1 -->
+<section class="antar" data-background-color="#0E4749">
+  <p class="nomor">1</p>
+  <h2>Mengapa metode numerik</h2>
+</section>
+
+<!-- ================================================== 3. tiga persoalan -->
+<section>
+  <h2>Tiga persoalan yang tidak punya rumus tertutup</h2>
+  <div class="dua-lajur">
+    <div>
+      <p class="tekan">Akar polinomial derajat lima</p>
+      \[ x^{5} - x + 1 = 0 \]
+      <p class="kecil">Abel–Ruffini: tidak ada rumus akar memakai akar pangkat.</p>
+      <p class="tekan">Integral fungsi biasa</p>
+      \[ \int_{0}^{1} e^{-x^{2}}\,dx \]
+      <p class="kecil">Antiturunannya bukan fungsi elementer.</p>
+    </div>
+    <div class="fragment">
+      <p class="tekan">Sistem linear berukuran besar</p>
+      \[ \mathbf{A}\mathbf{x} = \mathbf{b},\qquad
+         \mathbf{A} \in \mathbb{R}^{10^{6}\times 10^{6}} \]
+      <p class="kecil">Aturan Cramer menuntut \(\sim 10^{6}!\) operasi.</p>
+      <div class="sorot">
+        Ketiganya <span class="awas">punya</span> penyelesaian. Yang tidak ada
+        adalah cara menuliskannya dengan rumus.
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================================================== 4. tukar -->
+<section>
+  <h2>Tukar: ketepatan dengan keterhitungan</h2>
+  <div class="tengah"><svg viewBox="0 0 600 150" class="grafik" role="img" aria-label="Penyelesaian eksak yang tak terhitung ditukar dengan penyelesaian hampiran yang terhitung, dengan menerima galat yang terkendali"><rect class="kt kt-birutosca" x="40" y="30" width="180" height="62" rx="8"/><text class="ktt" x="130" y="55" text-anchor="middle">Penyelesaian</text><text class="ktt tebal" x="130" y="76" text-anchor="middle">eksak</text><rect class="kt kt-ambar" x="380" y="30" width="180" height="62" rx="8"/><text class="ktt" x="470" y="55" text-anchor="middle">Penyelesaian</text><text class="ktt tebal-ambar" x="470" y="76" text-anchor="middle">hampiran</text><line class="pn tebal-pn" x1="228" y1="61" x2="364" y2="61"/><polygon class="pni-ambar" points="374,61 362,55 362,67"/><text class="pnt" x="296" y="50" text-anchor="middle">menerima galat</text><text class="pnt" x="296" y="80" text-anchor="middle">yang terkendali</text><text class="ket" x="130" y="118" text-anchor="middle">tak terhitung, atau</text><text class="ket" x="130" y="133" text-anchor="middle">tidak ada sama sekali</text><text class="ket" x="470" y="118" text-anchor="middle">terhitung dalam</text><text class="ket" x="470" y="133" text-anchor="middle">waktu wajar</text></svg></div>
+  <div class="sorot fragment">
+    Metode numerik bukan ilmu tentang jawaban yang salah, melainkan tentang
+    <span class="tekan">jawaban yang melesetnya diketahui dan dapat dikendalikan</span>.
+  </div>
+</section>
+
+<!-- ================================================== antarbagian 2 -->
+<section class="antar" data-background-color="#0E4749">
+  <p class="nomor">2</p>
+  <h2>Sumber-sumber galat</h2>
+</section>
+
+<!-- ================================================== 5. empat sumber -->
+<section>
+  <h2>Empat sumber galat, tiga di antaranya sudah ada sebelum menghitung</h2>
+  <div class="tengah"><svg viewBox="0 0 700 210" class="grafik" role="img" aria-label="Gejala nyata menjadi model matematis lalu masalah diskret lalu hasil numerik; galat model, galat pemotongan, dan galat pembulatan muncul pada tiga peralihan itu"><rect class="kt kt-abubiru" x="20" y="26" width="150" height="52" rx="7"/><text class="ktt" x="95" y="48" text-anchor="middle">Gejala</text><text class="ktt" x="95" y="65" text-anchor="middle">nyata</text><text class="ket" x="95" y="106" text-anchor="middle">penyederhanaan:</text><text class="ket" x="95" y="121" text-anchor="middle">gesekan diabaikan</text><rect class="kt kt-birutosca" x="190" y="26" width="150" height="52" rx="7"/><text class="ktt" x="265" y="48" text-anchor="middle">Model</text><text class="ktt" x="265" y="65" text-anchor="middle">matematis</text><text class="ket" x="265" y="106" text-anchor="middle">galat data:</text><text class="ket" x="265" y="121" text-anchor="middle">pengukuran, tetapan</text><rect class="kt kt-birutua" x="360" y="26" width="150" height="52" rx="7"/><text class="ktt" x="435" y="48" text-anchor="middle">Masalah</text><text class="ktt" x="435" y="65" text-anchor="middle">diskret</text><text class="ket" x="435" y="106" text-anchor="middle">deret dipotong,</text><text class="ket" x="435" y="121" text-anchor="middle">turunan diganti beda</text><rect class="kt kt-ambar" x="530" y="26" width="150" height="52" rx="7"/><text class="ktt" x="605" y="48" text-anchor="middle">Hasil</text><text class="ktt" x="605" y="65" text-anchor="middle">numerik</text><text class="ket" x="605" y="106" text-anchor="middle">mantisa terbatas</text><line class="pn" x1="170" y1="52" x2="188" y2="52"/><polygon class="pni" points="192,52 185,48 185,56"/><text class="pnt" x="179" y="42" text-anchor="middle">galat model</text><line class="pn" x1="340" y1="52" x2="358" y2="52"/><polygon class="pni" points="362,52 355,48 355,56"/><text class="pnt" x="349" y="42" text-anchor="middle">galat pemotongan</text><line class="pn" x1="510" y1="52" x2="528" y2="52"/><polygon class="pni" points="532,52 525,48 525,56"/><text class="pnt" x="519" y="42" text-anchor="middle">galat pembulatan</text></svg></div>
+  <div class="sorot fragment">
+    Hanya kotak terakhir yang urusan komputer. Tiga yang pertama sudah terjadi
+    sebelum satu baris program pun ditulis.
+  </div>
+</section>
+
+<!-- ================================================== 6. galat pemotongan -->
+<section>
+  <h2>Galat pemotongan: contoh yang paling sering dijumpai</h2>
+  <p class="kecil">Uraian Taylor \(e^{x}\) di sekitar nol, dipotong sesudah suku ke-\(n\):</p>
+  \[ e^{x} = \underbrace{\sum_{k=0}^{n}\frac{x^{k}}{k!}}_{\text{dihitung}}
+           + \underbrace{\frac{e^{\xi}x^{n+1}}{(n+1)!}}_{\text{dibuang}},
+     \qquad \xi \text{ di antara } 0 \text{ dan } x . \]
+  <div class="dua-lajur rapat">
+    <div class="fragment"><svg viewBox="0 0 520 300" class="grafik" role="img" aria-label="Galat pemotongan deret Taylor menyusut kira-kira sepuluh kali setiap satu suku ditambahkan">
+<g class="kisi"><line x1="62.0" y1="258.0" x2="504.0" y2="258.0"/><line x1="62.0" y1="198.0" x2="504.0" y2="198.0"/><line x1="62.0" y1="138.0" x2="504.0" y2="138.0"/><line x1="62.0" y1="78.0" x2="504.0" y2="78.0"/><line x1="62.0" y1="18.0" x2="504.0" y2="18.0"/></g>
+<g class="sumbu"><line x1="62" y1="258" x2="504" y2="258"/><line x1="62" y1="258" x2="62" y2="18"/><line x1="57.0" y1="258.0" x2="62.0" y2="258.0"/><line x1="57.0" y1="198.0" x2="62.0" y2="198.0"/><line x1="57.0" y1="138.0" x2="62.0" y2="138.0"/><line x1="57.0" y1="78.0" x2="62.0" y2="78.0"/><line x1="57.0" y1="18.0" x2="62.0" y2="18.0"/><line x1="150.4" y1="258.0" x2="150.4" y2="263.0"/><text x="150.4" y="276.0" class="tk" text-anchor="middle">2</text><line x1="238.8" y1="258.0" x2="238.8" y2="263.0"/><text x="238.8" y="276.0" class="tk" text-anchor="middle">4</text><line x1="327.2" y1="258.0" x2="327.2" y2="263.0"/><text x="327.2" y="276.0" class="tk" text-anchor="middle">6</text><line x1="415.6" y1="258.0" x2="415.6" y2="263.0"/><text x="415.6" y="276.0" class="tk" text-anchor="middle">8</text><line x1="504.0" y1="258.0" x2="504.0" y2="263.0"/><text x="504.0" y="276.0" class="tk" text-anchor="middle">10</text></g>
+<text x="54.0" y="262.0" class="tk" text-anchor="end">10<tspan dy="-5" font-size="9">-8</tspan></text><text x="54.0" y="202.0" class="tk" text-anchor="end">10<tspan dy="-5" font-size="9">-6</tspan></text><text x="54.0" y="142.0" class="tk" text-anchor="end">10<tspan dy="-5" font-size="9">-4</tspan></text><text x="54.0" y="82.0" class="tk" text-anchor="end">10<tspan dy="-5" font-size="9">-2</tspan></text><text x="54.0" y="22.0" class="tk" text-anchor="end">10<tspan dy="-5" font-size="9">0</tspan></text>
+<polyline class="deret1" points="106.2,22.3 150.4,37.8 194.6,56.6 238.8,78.1 283.0,101.7 327.2,127.4 371.4,154.6 415.6,183.4 459.8,213.6 504.0,244.9"/>
+<g class="titik1"><circle cx="106.2" cy="22.3" r="3.1"/><circle cx="150.4" cy="37.8" r="3.1"/><circle cx="194.6" cy="56.6" r="3.1"/><circle cx="238.8" cy="78.1" r="3.1"/><circle cx="283.0" cy="101.7" r="3.1"/><circle cx="327.2" cy="127.4" r="3.1"/><circle cx="371.4" cy="154.6" r="3.1"/><circle cx="415.6" cy="183.4" r="3.1"/><circle cx="459.8" cy="213.6" r="3.1"/><circle cx="504.0" cy="244.9" r="3.1"/></g>
+<text x="283" y="292" class="jd" text-anchor="middle">jumlah suku n</text>
+<text x="14" y="138" class="jd" text-anchor="middle" transform="rotate(-90 14 138)">galat mutlak di x = 1</text>
+</svg></div>
+    <div class="fragment">
+      <ul>
+        <li>Galatnya <span class="tekan">diketahui bentuknya</span>, bukan sekadar ditebak.</li>
+        <li>Menambah satu suku menyusutkannya kira-kira sepuluh kali.</li>
+        <li>Sifat inilah yang membuat galat pemotongan dapat <em>dikendalikan</em>.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ================================================== antarbagian 3 -->
+<section class="antar" data-background-color="#0E4749">
+  <p class="nomor">3</p>
+  <h2>Mengukur galat</h2>
+</section>
+
+<!-- ================================================== 7. mutlak & relatif -->
+<section>
+  <h2>Galat mutlak dan galat relatif</h2>
+  <div class="kotak definisi">
+    <p class="kotak-judul">Definisi — Galat</p>
+    <p class="kecil">Untuk hampiran \(\hat{x}\) terhadap nilai sejati \(x\):</p>
+    \[ E_{\text{mut}} = \lvert x - \hat{x}\rvert, \qquad
+       E_{\text{rel}} = \frac{\lvert x - \hat{x}\rvert}{\lvert x\rvert} \quad (x \neq 0). \]
+  </div>
+  <div class="kotak contoh fragment">
+    <p class="kotak-judul">Contoh — Membandingkan dua hampiran</p>
+    <table>
+      <thead><tr><th></th><th>\(x\)</th><th>\(\hat{x}\)</th><th></th></tr></thead>
+      <tbody>
+        <tr><td>Kasus 1</td><td>1.000.000</td><td>999.999</td>
+            <td>\(E_{\text{mut}} = 1\), &nbsp; \(E_{\text{rel}} = 10^{-6}\)</td></tr>
+        <tr><td>Kasus 2</td><td>0,0001</td><td>0,0002</td>
+            <td>\(E_{\text{mut}} = 10^{-4}\), &nbsp; \(E_{\text{rel}} = 1\)</td></tr>
+      </tbody>
+    </table>
+    <p class="kecil">Menurut galat mutlak, kasus 2 seratus juta kali lebih baik.
+    Menurut galat relatif, kasus 2 <span class="awas">meleset seratus persen</span>.</p>
+  </div>
+</section>
+
+<!-- ================================================== 8. mengapa relatif -->
+<section>
+  <h2>Mengapa galat relatif yang dipakai</h2>
+  <div class="dua-lajur">
+    <div>
+      <ul>
+        <li>Galat mutlak <span class="awas">bergantung satuan</span>. Mengubah meter
+            menjadi milimeter melipatseribukan seluruh galat mutlak tanpa membuat
+            satu hampiran pun lebih buruk.</li>
+        <li>Galat relatif <span class="tekan">tidak bergantung satuan</span>, dan
+            langsung memberi tahu berapa angka yang layak dipercaya.</li>
+      </ul>
+      <div class="sorot">
+        \(E_{\text{rel}} \leq 5\times 10^{-t}\) \(\;\Longrightarrow\;\)
+        tepat sampai kira-kira \(t\) angka signifikan.
+      </div>
+    </div>
+    <div class="fragment">
+      <div class="kotak jebakan">
+        <p class="kotak-judul">Jebakan umum</p>
+        <p class="kecil">Galat relatif tidak terdefinisi pada \(x = 0\) dan menjadi
+        liar ketika \(x\) sangat kecil.</p>
+        <p class="kecil">Untuk besaran yang dapat melewati nol, misalnya sisa iterasi,
+        pakai ukuran campuran</p>
+        \[ \frac{\lvert x-\hat x\rvert}{1 + \lvert x\rvert}, \]
+        <p class="kecil">yang berperilaku relatif saat \(x\) besar dan mutlak saat
+        \(x \to 0\).</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================================================== antarbagian 4 -->
+<section class="antar" data-background-color="#0E4749">
+  <p class="nomor">4</p>
+  <h2>Bilangan titik-kambang</h2>
+</section>
+
+<!-- ================================================== 9. sistem -->
+<section>
+  <h2>Sistem bilangan titik-kambang</h2>
+  <div class="kotak definisi">
+    <p class="kotak-judul">Definisi — \(\mathbb{F}(\beta,t,L,U)\)</p>
+    <p class="kecil">Himpunan bilangan berbentuk</p>
+    \[ \hat{x} = \pm\, 0{,}d_{1}d_{2}\ldots d_{t} \times \beta^{e},
+       \qquad d_{1} \neq 0, \qquad L \leq e \leq U, \]
+    <p class="kecil">dengan \(\beta\) basis, \(t\) banyaknya digit mantisa, serta
+    \(L,U\) batas eksponen. Syarat \(d_{1}\neq 0\) disebut
+    <span class="tekan">normalisasi</span> dan menjamin ketunggalan penulisan.</p>
+  </div>
+  <table class="fragment">
+    <thead><tr><th>Ketelitian</th><th>\(\beta\)</th><th>\(t\)</th>
+      <th>rentang \(e\)</th><th>\(\varepsilon_{\text{mes}}\)</th><th>digit desimal</th></tr></thead>
+    <tbody>
+      <tr><td>Tunggal (32 bit)</td><td>2</td><td>24</td><td>\(-126 \ldots 127\)</td>
+          <td>\(5{,}96\times10^{-8}\)</td><td>\(\approx 7\)</td></tr>
+      <tr><td>Ganda (64 bit)</td><td>2</td><td>53</td><td>\(-1022 \ldots 1023\)</td>
+          <td>\(1{,}11\times10^{-16}\)</td><td>\(\approx 16\)</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<!-- ================================================== 10. tidak merata -->
+<section>
+  <h2>Bilangan mesin tidak tersebar merata</h2>
+  <p class="anak-judul">Sistem mainan \(\beta = 2\), \(t = 3\): mantisa
+     \(0{,}100\) sampai \(0{,}111\)</p>
+  <div class="tengah"><svg viewBox="0 0 620 150" class="grafik" role="img" aria-label="Bilangan mesin merapat pada bilangan kecil dan merenggang pada bilangan besar; jaraknya melipat dua setiap melewati pangkat dua, tetapi selalu ada empat bilangan pada setiap oktaf"><line class="sb" x1="24.0" y1="86" x2="598.0" y2="86"/><polygon class="sbi" points="598.0,86 590.0,82 590.0,90"/><line class="bm" x1="44.2" y1="78" x2="44.2" y2="94"/><circle class="bmt" cx="44.2" cy="86" r="2.6"/><line class="bm" x1="53.0" y1="78" x2="53.0" y2="94"/><circle class="bmt" cx="53.0" cy="86" r="2.6"/><line class="bm" x1="61.9" y1="78" x2="61.9" y2="94"/><circle class="bmt" cx="61.9" cy="86" r="2.6"/><line class="bm" x1="70.8" y1="78" x2="70.8" y2="94"/><circle class="bmt" cx="70.8" cy="86" r="2.6"/><line class="bm" x1="79.6" y1="78" x2="79.6" y2="94"/><circle class="bmt" cx="79.6" cy="86" r="2.6"/><line class="bm" x1="97.3" y1="78" x2="97.3" y2="94"/><circle class="bmt" cx="97.3" cy="86" r="2.6"/><line class="bm" x1="115.1" y1="78" x2="115.1" y2="94"/><circle class="bmt" cx="115.1" cy="86" r="2.6"/><line class="bm" x1="132.8" y1="78" x2="132.8" y2="94"/><circle class="bmt" cx="132.8" cy="86" r="2.6"/><line class="bm" x1="150.5" y1="78" x2="150.5" y2="94"/><circle class="bmt" cx="150.5" cy="86" r="2.6"/><line class="bm" x1="185.9" y1="78" x2="185.9" y2="94"/><circle class="bmt" cx="185.9" cy="86" r="2.6"/><line class="bm" x1="221.4" y1="78" x2="221.4" y2="94"/><circle class="bmt" cx="221.4" cy="86" r="2.6"/><line class="bm" x1="256.8" y1="78" x2="256.8" y2="94"/><circle class="bmt" cx="256.8" cy="86" r="2.6"/><line class="bm" x1="292.3" y1="78" x2="292.3" y2="94"/><circle class="bmt" cx="292.3" cy="86" r="2.6"/><line class="bm" x1="363.2" y1="78" x2="363.2" y2="94"/><circle class="bmt" cx="363.2" cy="86" r="2.6"/><line class="bm" x1="434.1" y1="78" x2="434.1" y2="94"/><circle class="bmt" cx="434.1" cy="86" r="2.6"/><line class="bm" x1="504.9" y1="78" x2="504.9" y2="94"/><circle class="bmt" cx="504.9" cy="86" r="2.6"/><line class="ok" x1="44.2" y1="96" x2="44.2" y2="112"/><text class="okt" x="44.2" y="126" text-anchor="middle">1</text><line class="ok" x1="79.6" y1="96" x2="79.6" y2="112"/><text class="okt" x="79.6" y="126" text-anchor="middle">2</text><line class="ok" x1="150.5" y1="96" x2="150.5" y2="112"/><text class="okt" x="150.5" y="126" text-anchor="middle">4</text><line class="ok" x1="292.3" y1="96" x2="292.3" y2="112"/><text class="okt" x="292.3" y="126" text-anchor="middle">8</text><line class="ok" x1="575.8" y1="96" x2="575.8" y2="112"/><text class="okt" x="575.8" y="126" text-anchor="middle">16</text><path class="kur" d="M 44.2 66 L 44.2 60 L 53.0 60 L 53.0 66"/><text class="kurt" x="48.6" y="55" text-anchor="middle">0,25</text><path class="kur" d="M 79.6 66 L 79.6 60 L 97.3 60 L 97.3 66"/><text class="kurt" x="88.5" y="55" text-anchor="middle">0,5</text><path class="kur" d="M 150.5 66 L 150.5 60 L 185.9 60 L 185.9 66"/><text class="kurt" x="168.2" y="55" text-anchor="middle">1</text><path class="kur" d="M 292.3 66 L 292.3 60 L 363.2 60 L 363.2 66"/><text class="kurt" x="327.7" y="55" text-anchor="middle">2</text></svg></div>
+  <div class="dua-lajur rapat">
+    <div class="sorot fragment">
+      Jaraknya <span class="tekan">melipat dua</span> setiap melewati pangkat dua:
+      \(0{,}25 \to 0{,}5 \to 1 \to 2\).
+    </div>
+    <div class="sorot fragment">
+      Yang tetap bukan jarak mutlaknya, melainkan
+      <span class="tekan">jarak relatifnya</span> — selalu empat bilangan pada
+      setiap oktaf.
+    </div>
+  </div>
+</section>
+
+<!-- ================================================== 11. ketelitian mesin -->
+<section>
+  <h2>Ketelitian mesin</h2>
+  <div class="kotak teorema">
+    <p class="kotak-judul">Teorema — Galat pembulatan relatif</p>
+    <p class="kecil">Untuk setiap \(x \neq 0\) di dalam jangkauan sistem,</p>
+    \[ \frac{\lvert \mathrm{fl}(x) - x\rvert}{\lvert x\rvert}
+       \leq \tfrac{1}{2}\beta^{1-t} = \varepsilon_{\text{mes}},
+       \qquad\text{setara dengan}\qquad
+       \mathrm{fl}(x) = x\,(1 + \delta), \quad \lvert\delta\rvert \leq \varepsilon_{\text{mes}} . \]
+  </div>
+  <div class="dua-lajur rapat">
+    <div class="fragment">
+      <ul>
+        <li>\(\varepsilon_{\text{mes}}\) <span class="awas">bukan</span> bilangan
+            terkecil yang dapat disimpan.</li>
+        <li>Ia adalah <span class="tekan">jarak relatif</span> antara dua bilangan
+            mesin yang berdampingan.</li>
+        <li>Pada ketelitian ganda,
+            \(\varepsilon_{\text{mes}} = 2^{-53} \approx 1{,}11\times 10^{-16}\).</li>
+      </ul>
+    </div>
+    <div class="fragment">
+      <div class="kotak jebakan">
+        <p class="kotak-judul">Jebakan umum</p>
+        <p class="kecil">Bilangan terkecil pada ketelitian ganda berorde
+        \(10^{-308}\), jauh lebih kecil daripada \(\varepsilon_{\text{mes}}\).
+        Keduanya sering tertukar.</p>
+        <p class="kecil">Ujinya: \(1 + \varepsilon_{\text{mes}} \neq 1\), tetapi
+        \(1 + \tfrac{1}{2}\varepsilon_{\text{mes}} = 1\) tepat.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================================================== antarbagian 5 -->
+<section class="antar" data-background-color="#0E4749">
+  <p class="nomor">5</p>
+  <h2>Pembatalan katastrofik</h2>
+</section>
+
+<!-- ================================================== 12. model baku -->
+<section>
+  <h2>Setiap operasi menambah galat relatif sebesar \(\varepsilon_{\text{mes}}\)</h2>
+  <p class="kecil">Model baku aritmetika titik-kambang: untuk
+     \(\odot \in \{+,-,\times,\div\}\),</p>
+  \[ \mathrm{fl}(x \odot y) = (x \odot y)(1 + \delta),
+     \qquad \lvert\delta\rvert \leq \varepsilon_{\text{mes}} . \]
+  <div class="sorot fragment">
+    Setiap operasi <span class="tekan">benar sampai satu ulp</span>. Jadi apabila
+    hasil akhirnya hancur, penyebabnya <span class="awas">bukan</span> satu operasi
+    yang keliru.
+  </div>
+  <p class="fragment">Yang berbahaya adalah pengurangan dua bilangan yang
+  <span class="tekan">hampir sama</span>: angka-angka di depan saling meniadakan,
+  dan galat yang tadinya kecil terhadap <em>masukan</em> menjadi besar terhadap
+  <em>hasil</em>.</p>
+</section>
+
+<!-- ================================================== 13. per digit -->
+<section>
+  <h2>Pembatalan katastrofik dilihat per digit</h2>
+  <p class="kecil">Misalkan dua bilangan diketahui tepat sampai enam digit:</p>
+  <div class="digit">
+    <div class="baris"><span class="angka">0.123456<span class="ragu">78</span></span>
+      <span class="cap">enam digit pertama <span class="tekan">sama</span></span></div>
+    <div class="baris"><span class="angka">0.123455<span class="ragu">91</span></span></div>
+    <div class="pisah"></div>
+    <div class="baris"><span class="angka">0.000000<span class="ragu">87</span></span>
+      <span class="cap merah">yang tersisa hanya digit yang tadinya
+        <span class="awas">paling tidak pasti</span></span></div>
+  </div>
+  <ul class="fragment">
+    <li>Sebelum: galat relatif \(\approx 10^{-8}\).</li>
+    <li>Sesudah: galat relatif \(\approx 10^{-2}\) —
+        <span class="awas">membesar sejuta kali</span>.</li>
+    <li>Pengurangannya sendiri terhitung <span class="tekan">persis</span>. Yang
+        hancur adalah kedudukan galat yang sudah ada sebelumnya.</li>
+  </ul>
+</section>
+
+<!-- ================================================== 14. akar kuadrat -->
+<section>
+  <h2>Contoh: akar persamaan kuadrat</h2>
+  <p class="anak-judul">\(x^{2} + 62{,}10\,x + 1 = 0\), mantisa empat digit</p>
+  <div class="dua-lajur">
+    <div class="kotak contoh">
+      <p class="kotak-judul">Rumus baku</p>
+      \[ x_{1} = \frac{-b + \sqrt{b^{2}-4ac}}{2a} \]
+      \[ \begin{aligned}
+         b^{2} &= 3856{,}41 \to 3856 \\
+         b^{2}-4ac &= 3852 \\
+         \sqrt{3852} &= 62{,}06448\ldots \to 62{,}06 \\
+         -b + 62{,}06 &= -0{,}04 \\
+         x_{1} &= -0{,}02
+         \end{aligned} \]
+      <p class="kecil">Nilai sejati \(-0{,}01610723\):
+      <span class="awas">galat 24%</span>.</p>
+    </div>
+    <div class="kotak contoh fragment">
+      <p class="kotak-judul">Rumus setara yang stabil</p>
+      \[ x_{1} = \frac{-2c}{b + \sqrt{b^{2}-4ac}} \]
+      \[ = \frac{-2}{62{,}10 + 62{,}06} = \frac{-2}{124{,}2} = -0{,}01610 \]
+      <p class="kecil">Galat \(2{,}6\times10^{-4}\):
+      <span class="tekan">seribu kali lebih baik</span>, tanpa satu digit
+      tambahan pun.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ================================================== 15. sejauh mana -->
+<section>
+  <h2>Sejauh mana bedanya</h2>
+  <div class="dua-lajur rapat">
+    <div>
+      <svg viewBox="0 0 520 320" class="grafik" role="img" aria-label="Galat relatif rumus baku membesar sepuluh kali setiap b dilipatsepuluhkan, sedangkan rumus stabil bertahan di ketelitian mesin">
+<g class="kisi"><line x1="66.0" y1="248.8" x2="504.0" y2="248.8"/><line x1="66.0" y1="194.5" x2="504.0" y2="194.5"/><line x1="66.0" y1="140.2" x2="504.0" y2="140.2"/><line x1="66.0" y1="85.9" x2="504.0" y2="85.9"/><line x1="66.0" y1="31.6" x2="504.0" y2="31.6"/></g>
+<g class="sumbu"><line x1="66" y1="276" x2="504" y2="276"/><line x1="66" y1="276" x2="66" y2="18"/><line x1="61.0" y1="248.8" x2="66.0" y2="248.8"/><line x1="61.0" y1="194.5" x2="66.0" y2="194.5"/><line x1="61.0" y1="140.2" x2="66.0" y2="140.2"/><line x1="61.0" y1="85.9" x2="66.0" y2="85.9"/><line x1="61.0" y1="31.6" x2="66.0" y2="31.6"/><line x1="107.1" y1="276.0" x2="107.1" y2="281.0"/><text x="107.1" y="294.0" class="tk" text-anchor="middle">2</text><line x1="161.8" y1="276.0" x2="161.8" y2="281.0"/><text x="161.8" y="294.0" class="tk" text-anchor="middle">4</text><line x1="216.6" y1="276.0" x2="216.6" y2="281.0"/><text x="216.6" y="294.0" class="tk" text-anchor="middle">6</text><line x1="271.3" y1="276.0" x2="271.3" y2="281.0"/><text x="271.3" y="294.0" class="tk" text-anchor="middle">8</text><line x1="326.1" y1="276.0" x2="326.1" y2="281.0"/><text x="326.1" y="294.0" class="tk" text-anchor="middle">10</text><line x1="380.8" y1="276.0" x2="380.8" y2="281.0"/><text x="380.8" y="294.0" class="tk" text-anchor="middle">12</text><line x1="435.6" y1="276.0" x2="435.6" y2="281.0"/><text x="435.6" y="294.0" class="tk" text-anchor="middle">14</text><line x1="490.3" y1="276.0" x2="490.3" y2="281.0"/><text x="490.3" y="294.0" class="tk" text-anchor="middle">16</text></g>
+<text x="58.0" y="252.8" class="tk" text-anchor="end">10<tspan dy="-5" font-size="9">-16</tspan></text><text x="58.0" y="198.5" class="tk" text-anchor="end">10<tspan dy="-5" font-size="9">-12</tspan></text><text x="58.0" y="144.2" class="tk" text-anchor="end">10<tspan dy="-5" font-size="9">-8</tspan></text><text x="58.0" y="89.9" class="tk" text-anchor="end">10<tspan dy="-5" font-size="9">-4</tspan></text><text x="58.0" y="35.6" class="tk" text-anchor="end">10<tspan dy="-5" font-size="9">0</tspan></text>
+<polyline class="deret2" points="79.7,226.7 107.1,206.9 134.4,176.7 161.8,153.1 189.2,119.4 216.6,101.1 243.9,65.0 271.3,39.6 298.7,31.6 326.1,31.6 353.4,31.6 380.8,31.6 408.2,31.6 435.6,31.6 462.9,31.6 490.3,31.6"/><g class="titik2"><circle cx="79.7" cy="226.7" r="2.8"/><circle cx="107.1" cy="206.9" r="2.8"/><circle cx="134.4" cy="176.7" r="2.8"/><circle cx="161.8" cy="153.1" r="2.8"/><circle cx="189.2" cy="119.4" r="2.8"/><circle cx="216.6" cy="101.1" r="2.8"/><circle cx="243.9" cy="65.0" r="2.8"/><circle cx="271.3" cy="39.6" r="2.8"/><circle cx="298.7" cy="31.6" r="2.8"/><circle cx="326.1" cy="31.6" r="2.8"/><circle cx="353.4" cy="31.6" r="2.8"/><circle cx="380.8" cy="31.6" r="2.8"/><circle cx="408.2" cy="31.6" r="2.8"/><circle cx="435.6" cy="31.6" r="2.8"/><circle cx="462.9" cy="31.6" r="2.8"/><circle cx="490.3" cy="31.6" r="2.8"/></g>
+<polyline class="deret1" points="79.7,255.1 107.1,257.8 134.4,251.9 161.8,252.2 189.2,248.1 216.6,249.5 243.9,260.8 271.3,250.2 298.7,251.7 326.1,254.8 353.4,251.8 380.8,258.3 408.2,255.9 435.6,262.4 462.9,250.3 490.3,258.1"/><g class="titik1"><rect x="77.2" y="252.6" width="5" height="5"/><rect x="104.6" y="255.3" width="5" height="5"/><rect x="131.9" y="249.4" width="5" height="5"/><rect x="159.3" y="249.7" width="5" height="5"/><rect x="186.7" y="245.6" width="5" height="5"/><rect x="214.1" y="247.0" width="5" height="5"/><rect x="241.4" y="258.3" width="5" height="5"/><rect x="268.8" y="247.7" width="5" height="5"/><rect x="296.2" y="249.2" width="5" height="5"/><rect x="323.6" y="252.3" width="5" height="5"/><rect x="350.9" y="249.3" width="5" height="5"/><rect x="378.3" y="255.8" width="5" height="5"/><rect x="405.7" y="253.4" width="5" height="5"/><rect x="433.1" y="259.9" width="5" height="5"/><rect x="460.4" y="247.8" width="5" height="5"/><rect x="487.8" y="255.6" width="5" height="5"/></g>
+<text x="285" y="312" class="jd" text-anchor="middle">k pada x² + 10ᵏx + 1 = 0</text>
+<text x="14" y="147" class="jd" text-anchor="middle" transform="rotate(-90 14 147)">galat relatif x₁</text>
+</svg>
+      <p class="legenda"><span class="kk merah"></span> rumus baku
+         &nbsp;&nbsp; <span class="kk hijau"></span> rumus stabil</p>
+    </div>
+    <div class="fragment">
+      <ul>
+        <li>Rumus baku kehilangan <span class="tekan">satu digit</span> setiap kali
+            \(b\) dilipatsepuluhkan.</li>
+        <li>Pada \(b = 10^{9}\) jawabannya
+            <span class="awas">sudah tidak punya satu digit benar pun</span>.</li>
+        <li>Rumus stabil bertahan di ketelitian mesin
+            <span class="tekan">sepanjang jangkauan</span>.</li>
+      </ul>
+      <div class="sorot">
+        Keduanya setara <em>secara aljabar</em>, tetapi tidak setara
+        <em>secara numerik</em>.
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================================================== 16. aturan praktis -->
+<section>
+  <h2>Aturan praktis menghindari pembatalan</h2>
+  <div class="dua-lajur">
+    <div class="kotak catatan">
+      <p class="kotak-judul">Merumuskan ulang</p>
+      \[ \sqrt{x+1}-\sqrt{x} = \frac{1}{\sqrt{x+1}+\sqrt{x}} \]
+      \[ 1 - \cos x = 2\sin^{2}\!\left(\tfrac{x}{2}\right) \]
+      \[ \ln(1+x) \;\to\; \texttt{log1p}(x) \]
+      \[ e^{x}-1 \;\to\; \texttt{expm1}(x) \]
+    </div>
+    <div class="fragment">
+      <ul>
+        <li>Untuk akar kuadrat: hitung dahulu akar yang <span class="tekan">tidak</span>
+            menuntut pengurangan, lalu peroleh akar satunya dari
+            \(x_{1}x_{2} = c/a\).</li>
+        <li>Menambah ketelitian <span class="awas">bukan</span> penangkal — hanya
+            menunda kemunculannya.</li>
+        <li>Pustaka baku menyediakan <code>log1p</code> dan <code>expm1</code>
+            justru karena persoalan ini.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ================================================== 17. penutup -->
+<section class="penutup" data-background-color="#0E4749">
+  <div class="garis-emas"></div>
+  <p class="label">Pertemuan berikutnya</p>
+  <p class="isi">Bilangan kondisi, kestabilan algoritma, dan orde konvergensi.</p>
+  <div class="garis-emas"></div>
+  <p class="lab">Pekan ini di laboratorium — <strong>Praktikum 1:</strong>
+     galat dan aritmetika titik-kambang, 1 sks, 90 menit.</p>
+</section>
+
+</div>
+</div>
+
+<button id="layar-penuh" title="Layar penuh (F)" aria-label="Layar penuh">
+  <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true">
+    <path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5" fill="none"
+          stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+  </svg>
+</button>
+
+<script src="../aset/reveal/reveal.js"></script>
+<script src="../aset/katex/katex.min.js"></script>
+<script src="../aset/katex/auto-render.min.js"></script>
+<script src="../aset/slide.js"></script>
+</body>
+</html>

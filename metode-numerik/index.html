@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Metode Numerik — Program Studi Matematika UIN Malang</title>
+<meta name="description" content="Slide kuliah Metode Numerik, Program Studi Matematika, UIN Maulana Malik Ibrahim Malang. Tiga sks: dua sks kelas, satu sks laboratorium.">
+<link rel="icon" href="ikon.svg" type="image/svg+xml">
+<meta name="theme-color" content="#0E4749">
+<style>
+  :root{
+    --tosca:#0E4749; --tosca-muda:#2C7873; --ambar:#B07C29;
+    --batu:#3E4C59; --abu:#78828B; --krem:#FBF8F1; --krem-tua:#F1EADC;
+  }
+  *{ box-sizing:border-box; }
+  body{
+    margin:0; background:var(--krem); color:var(--batu);
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,
+                "Helvetica Neue",Arial,sans-serif;
+    line-height:1.6; -webkit-font-smoothing:antialiased;
+  }
+  .bungkus{ max-width:760px; margin:0 auto; padding:0 24px; }
+
+  header{ background:var(--tosca); color:var(--krem); padding:54px 0 44px; }
+  header .mk{ color:var(--ambar); font-size:.72rem; letter-spacing:.2em;
+    text-transform:uppercase; margin:0 0 .5em; }
+  header h1{ font-size:2rem; margin:0 0 .35em; line-height:1.15; }
+  header p{ margin:.2em 0; color:#A9BFBD; font-size:.94rem; }
+  .garis{ width:88px; height:2px; background:var(--ambar); margin:1.3em 0; }
+
+  .sks{ display:grid; grid-template-columns:1fr 1fr; gap:14px; margin:26px 0 0; }
+  .sks div{ background:rgba(255,255,255,.07); border-left:3px solid var(--ambar);
+    padding:12px 15px; border-radius:5px; }
+  .sks strong{ color:var(--krem); display:block; font-size:1.02rem; }
+  .sks span{ color:#A9BFBD; font-size:.8rem; }
+  @media (max-width:620px){ .sks{ grid-template-columns:1fr; } }
+
+  main{ padding:44px 0 64px; }
+  h2{ color:var(--tosca); font-size:1.12rem; margin:0 0 .2em; }
+  .ket{ color:var(--abu); font-size:.86rem; margin:0 0 1.5em; }
+
+  ol.pertemuan{ list-style:none; margin:0; padding:0; }
+  ol.pertemuan li{ margin:0 0 10px; }
+  ol.pertemuan a, ol.pertemuan .belum{
+    display:flex; align-items:baseline; gap:14px;
+    padding:14px 17px; border:1px solid var(--krem-tua);
+    border-radius:7px; background:#fff; text-decoration:none; color:inherit;
+    transition:border-color .15s, transform .15s;
+  }
+  ol.pertemuan a:hover{ border-color:var(--ambar); transform:translateX(2px); }
+  ol.pertemuan .no{ color:var(--ambar); font-weight:700; font-size:.86rem;
+    min-width:2.6em; }
+  ol.pertemuan .jd{ flex:1; }
+  ol.pertemuan .jd b{ display:block; color:var(--tosca); font-weight:600; }
+  ol.pertemuan .jd span{ font-size:.8rem; color:var(--abu); }
+  ol.pertemuan .belum{ background:transparent; border-style:dashed; opacity:.62; }
+
+  .buku{ margin-top:38px; padding:18px 20px; background:#fff;
+    border:1px solid var(--krem-tua); border-left:3px solid var(--tosca);
+    border-radius:7px; font-size:.88rem; }
+  .buku b{ color:var(--tosca); }
+  .buku a{ color:var(--tosca-muda); }
+
+  footer{ border-top:1px solid var(--krem-tua); padding:22px 0 40px;
+    color:var(--abu); font-size:.8rem; }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="bungkus">
+    <p class="mk">Program Studi Matematika &middot; UIN Maulana Malik Ibrahim Malang</p>
+    <h1>Metode Numerik</h1>
+    <p>Dr. Mohammad Jamhuri</p>
+    <div class="garis"></div>
+    <div class="sks">
+      <div><strong>2 sks &middot; kelas</strong>
+        <span>100 menit sepekan, teori dan contoh terhitung</span></div>
+      <div><strong>1 sks &middot; laboratorium</strong>
+        <span>90 menit sepekan, praktikum dengan Python</span></div>
+    </div>
+  </div>
+</header>
+
+<main class="bungkus">
+  <h2>Slide kuliah</h2>
+  <p class="ket">Buka di peramban mana pun. Tekan <b>F</b> atau tombol di pojok
+  kanan atas untuk layar penuh, panah kiri–kanan untuk berpindah slide, dan
+  <b>Esc</b> untuk melihat peta seluruh slide.</p>
+
+  <ol class="pertemuan">
+    <li><a href="pertemuan-01/">
+      <span class="no">01</span>
+      <span class="jd"><b>Galat dan Aritmetika Titik-Kambang</b>
+      <span>Sumber galat, galat mutlak dan relatif, bilangan titik-kambang,
+      ketelitian mesin, pembatalan katastrofik &middot; Bab 1 bagian 1</span></span>
+    </a></li>
+    <li><span class="belum">
+      <span class="no">02</span>
+      <span class="jd"><b>Bilangan Kondisi dan Kestabilan</b>
+      <span>Belum terbit &middot; Bab 1 bagian 2</span></span>
+    </span></li>
+  </ol>
+
+  <div class="buku">
+    <p><b>Buku pegangan.</b> <em>Metode Numerik: Teori, Algoritma, dan Analisis
+    Galat</em> — Mohammad Jamhuri &amp; Juhari, tersedia di
+    <a href="https://play.google.com/store/books/details?id=ehEFEgAAQBAJ">Google Play Books</a>.</p>
+    <p><b>Praktikum.</b> Berkas kerangka untuk laboratorium ada di
+    <a href="https://github.com/jamhuri-tech/praktikum-metode-numerik">github.com/jamhuri-tech/praktikum-metode-numerik</a>.</p>
+  </div>
+</main>
+
+<footer class="bungkus">
+  <p>Slide ini berjalan tanpa sambungan internet setelah termuat sekali;
+  seluruh pustakanya disertakan di dalam situs.</p>
+</footer>
+
+</body>
+</html>

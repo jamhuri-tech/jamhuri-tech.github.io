@@ -1,0 +1,14 @@
+{
+  "name": "Metode Numerik — Pertemuan 1: Galat dan Aritmetika Titik-Kambang",
+  "short_name": "Pertemuan 1",
+  "description": "Galat, aritmetika titik-kambang, dan pembatalan katastrofik. Metode Numerik, Program Studi Matematika UIN Maulana Malik Ibrahim Malang.",
+  "lang": "id",
+  "start_url": "./",
+  "scope": "./",
+  "display": "fullscreen",
+  "display_override": ["fullscreen", "standalone"],
+  "orientation": "landscape",
+  "background_color": "#0E4749",
+  "theme_color": "#0E4749",
+  "icons": [{ "src": "../ikon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any maskable" }]
+}
