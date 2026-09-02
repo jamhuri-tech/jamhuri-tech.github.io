@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Pemrograman Komputer — Praktikum 1: Lingkungan Kerja dan Tipe Data</title>
+<meta name="description" content="Lingkungan virtual, aritmetika titik-mengambang, dan pembagian bilangan bulat. Praktikum Pemrograman Komputer Kelas B, Program Studi Matematika UIN Maulana Malik Ibrahim Malang.">
+
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#1B3B6F">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Praktikum 1">
+
+<link rel="stylesheet" href="../aset/reveal/reveal.css">
+<link rel="stylesheet" href="../aset/katex/katex.min.css">
+<link rel="stylesheet" href="../aset/slide.css">
+</head>
+<body>
+
+<div class="reveal">
+<div class="slides">
+
+<section class="judul" data-background-color="#1B3B6F">
+  <p class="mata-kuliah">Praktikum Pemrograman Komputer &middot; Kelas B</p>
+  <h1>Lingkungan Kerja<br>dan Tipe Data</h1>
+  <div class="garis-emas"></div>
+  <p class="penulis">Dr. Mohammad Jamhuri</p>
+  <p class="lembaga">Program Studi Matematika &middot; Fakultas Sains dan Teknologi<br>UIN Maulana Malik Ibrahim Malang</p>
+  <p class="kaki-judul">Praktikum 1 &middot; Buku Bab 1 dan 2 &middot; 90 menit</p>
+</section>
+
+<section>
+  <h2>Sembilan puluh menit hari ini</h2>
+  <div class="dua-lajur">
+    <div>
+      <ol class="besar">
+        <li class="fragment">Pemanasan <span class="nota">10 menit</span></li>
+        <li class="fragment"><span class="tekan">Duga</span> keluaran kodenya <span class="nota">15 menit</span></li>
+        <li class="fragment">Jalankan, lalu bandingkan <span class="nota">5 menit</span></li>
+        <li class="fragment">Selidiki bedanya <span class="nota">25 menit</span></li>
+        <li class="fragment">Ubah, berpasangan <span class="nota">20 menit</span></li>
+        <li class="fragment">Buat sendiri <span class="nota">10 menit</span></li>
+        <li class="fragment">Tiket keluar <span class="nota">5 menit</span></li>
+      </ol>
+    </div>
+    <div>
+      <div class="kotak fragment">
+        <p><span class="tekan">Urutan ini bukan karangan.</span></p>
+        <p class="kecil">Dikenal sebagai <strong>PRIMM</strong>, dikembangkan Sue
+        Sentance dan tim King&rsquo;s College London. Terbukti lebih berhasil
+        daripada langsung menyuruh menulis kode tanpa tahap penyelidikan
+        lebih dahulu.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <h2>Sesudah dua belas pertemuan, Anda dapat&hellip;</h2>
+  <ul>
+    <li class="fragment">menulis program Python dari nol, bukan menyalin dari internet</li>
+    <li class="fragment">membaca pesan galat dan tahu harus memperbaiki apa</li>
+    <li class="fragment">mengolah data nyata dengan NumPy dan pandas</li>
+    <li class="fragment">melatih model dan <span class="tekan">menilainya dengan jujur</span></li>
+  </ul>
+  <div class="kotak jebakan fragment">
+    <p><span class="awas">Perhatikan kata terakhir.</span> Yang sulit bukan melatih
+    model. Yang sulit menilai apakah hasilnya bermakna atau menyesatkan.</p>
+  </div>
+</section>
+
+<section>
+  <h2>Satu gagasan yang menyatukan mata kuliah ini</h2>
+  <p class="tengah fragment" style="font-size:1.15em; color:var(--tosca)">Kesalahan yang
+  paling mahal<br>hampir tidak pernah memunculkan pesan galat.</p>
+  <div class="tiga-lajur" style="margin-top:.9em">
+    <div class="kotak fragment">
+      <p><span class="tekan">Kebocoran data</span></p>
+      <p class="kecil">Akurasi 95 persen pada data yang tidak punya sinyal apa pun.</p>
+    </div>
+    <div class="kotak fragment">
+      <p><span class="tekan">Matriks buruk</span></p>
+      <p class="kecil">Jawaban tampak wajar, padahal seluruh angkanya sudah tidak berarti.</p>
+    </div>
+    <div class="kotak fragment">
+      <p><span class="tekan">Pencilan dibuang</span></p>
+      <p class="kecil">Grafiknya jadi bersih, sepertiga pendapatan usaha ikut hilang.</p>
+    </div>
+  </div>
+  <p class="nota fragment tengah">Ketiganya berjalan tanpa satu pun galat.
+  Itulah bahayanya.</p>
+</section>
+
+<section>
+  <h2>Aturan main</h2>
+  <div class="dua-lajur">
+    <div class="kotak">
+      <p><span class="tekan">Yang dinilai</span></p>
+      <ul class="kecil">
+        <li>Tahap Ubah dan Buat &mdash; 30%</li>
+        <li>Tugas rumah &mdash; 25%</li>
+        <li>Proyek akhir &mdash; 30%</li>
+        <li>Lembar dugaan &mdash; 10%</li>
+        <li>Tiket keluar &mdash; 5%</li>
+      </ul>
+    </div>
+    <div class="kotak jebakan fragment">
+      <p><span class="awas">Lembar dugaan dinilai dari terisi, bukan dari benar.</span></p>
+      <p class="kecil">Ini disengaja. Dugaan yang meleset justru bahan paling
+      berharga sepanjang pertemuan.</p>
+    </div>
+  </div>
+  <p class="nota fragment tengah">Kode yang tidak jalan <strong>tetap dikumpulkan</strong>.
+  Yang dinilai kemampuan menjelaskan apa yang Anda coba.</p>
+</section>
+
+<section class="antar" data-background-color="#1B3B6F">
+  <p class="label">Tahap satu</p>
+  <h1>Pemanasan</h1>
+  <p class="kaki-judul">jawab sendiri, diskusi, jawab ulang &middot; 10 menit</p>
+</section>
+
+<section>
+  <h2>Soal P1.1</h2>
+  <div class="kotak">
+    <p>Sebuah paket dipasang dengan <code>pip install pandas</code>, tetapi
+    <code>import pandas</code> tetap gagal. Penyebab yang paling mungkin:</p>
+    <ol class="kecil" type="a">
+      <li><code>pip</code> milik Python yang berbeda dari yang menjalankan kode</li>
+      <li>komputernya perlu dinyalakan ulang</li>
+      <li>nama paketnya salah</li>
+      <li>paketnya rusak</li>
+    </ol>
+  </div>
+  <p class="fragment tengah kecil">Jawab sendiri dulu. Jangan bicara.</p>
+  <p class="fragment tengah" style="color:var(--ambar)">Sekarang diskusikan dengan
+  teman sebelah yang jawabannya berbeda.</p>
+</section>
+
+<section class="antar" data-background-color="#1B3B6F">
+  <p class="label">Bekal</p>
+  <h1>Lingkungan Virtual</h1>
+</section>
+
+<section>
+  <h2>Mengapa lingkungan virtual</h2>
+  <div class="dua-lajur">
+    <div>
+      <div class="kotak jebakan">
+        <p><span class="awas">Satu Python untuk semua proyek</span></p>
+        <p class="kecil">Proyek A butuh pandas 3.0, proyek B masih pakai pandas 2.2,
+        proyek C tidak butuh pandas sama sekali. Ketiganya berebut satu
+        pemasangan yang sama.</p>
+      </div>
+      <div class="kotak fragment">
+        <p><span class="tekan">Satu lingkungan untuk tiap proyek</span></p>
+        <p class="kecil">Tiap proyek punya folder <code>.venv</code> sendiri.
+        Apa yang dipasang di satu proyek tidak menyentuh proyek lain.</p>
+      </div>
+    </div>
+    <div>
+      <div class="sorot fragment">
+        <p>Memasang pandas 3 untuk proyek A akan <span class="awas">merusak</span>
+        proyek B &mdash; dan Anda baru tahu berminggu kemudian, saat sedang
+        mengejar tenggat.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <h2>Membuatnya cukup empat perintah</h2>
+<pre class="kode">mkdir praktikum-python
+cd praktikum-python
+python3 -m venv .venv
+source .venv/bin/activate      <span class="komen"># Windows: .venv\Scripts\activate</span></pre>
+  <p class="fragment">Tandanya berhasil: muncul <code>(.venv)</code> di depan baris perintah.</p>
+  <div class="kotak fragment">
+    <p><span class="tekan">Selalu periksa Python mana yang aktif</span></p>
+<pre class="kode">python -c <span class="teks">"import sys; print(sys.executable)"</span></pre>
+    <p class="kecil">Alamat yang tercetak harus berada di dalam folder <code>.venv</code>.</p>
+  </div>
+</section>
+
+<section>
+  <h2>Memasang paket</h2>
+<pre class="kode">python -m pip install --upgrade pip
+python -m pip install numpy pandas matplotlib \
+                      scikit-learn scipy sympy</pre>
+  <div class="kotak jebakan fragment">
+    <p><span class="awas">Mengapa <code>python -m pip</code>, bukan <code>pip</code> saja</span></p>
+    <p class="kecil">Bentuk <code>python -m pip</code> memastikan pip yang dipanggil
+    milik Python yang sedang aktif. Perintah <code>pip</code> saja bisa menunjuk
+    pemasangan lain, dan paketnya mendarat di tempat yang salah.</p>
+  </div>
+  <p class="nota fragment tengah">Inilah jawaban soal pemanasan tadi.</p>
+</section>
+
+<section class="antar" data-background-color="#1B3B6F">
+  <p class="label">Tahap dua</p>
+  <h1>Duga</h1>
+  <p class="kaki-judul">jangan dijalankan dulu &middot; 15 menit</p>
+</section>
+
+<section>
+  <h2>Duga keluarannya</h2>
+  <div class="dua-lajur">
+    <div>
+<pre class="kode">a = <span class="angk">0.1</span> + <span class="angk">0.2</span>
+<span class="kunci">print</span>(a)
+<span class="kunci">print</span>(a == <span class="angk">0.3</span>)
+<span class="kunci">print</span>(<span class="teks">f"{a:.20f}"</span>)
+
+<span class="kunci">print</span>(<span class="angk">7</span> // <span class="angk">2</span>, <span class="angk">7</span> % <span class="angk">2</span>)
+<span class="kunci">print</span>(-<span class="angk">7</span> // <span class="angk">2</span>, -<span class="angk">7</span> % <span class="angk">2</span>)</pre>
+    </div>
+    <div>
+      <div class="kotak">
+        <p><span class="tekan">Isi lembar dugaan</span></p>
+        <table class="kecil">
+          <tr><th>Bagian</th><th>Dugaan</th></tr>
+          <tr><td><code>a</code></td><td>_______</td></tr>
+          <tr><td><code>a == 0.3</code></td><td>_______</td></tr>
+          <tr><td><code>-7 // 2</code></td><td>_______</td></tr>
+          <tr><td><code>-7 % 2</code></td><td>_______</td></tr>
+        </table>
+      </div>
+    </div>
+  </div>
+  <p class="fragment tengah" style="color:var(--ambar); font-weight:600">Tuliskan
+  dugaan Anda lebih dahulu. Tidak perlu yakin, cukup jujur.</p>
+</section>
+
+<section class="antar" data-background-color="#1B3B6F">
+  <p class="label">Tahap tiga</p>
+  <h1>Jalankan</h1>
+</section>
+
+<section>
+  <h2>Jalankan, lalu bandingkan</h2>
+  <div class="dua-lajur">
+    <div>
+<pre class="kode">a = <span class="angk">0.1</span> + <span class="angk">0.2</span>
+<span class="kunci">print</span>(a)
+<span class="kunci">print</span>(a == <span class="angk">0.3</span>)</pre>
+      <pre class="kode keluaran fragment">0.30000000000000004
+False</pre>
+    </div>
+    <div>
+      <div class="fragment">
+<pre class="kode"><span class="kunci">print</span>(<span class="teks">f"{a:.20f}"</span>)</pre>
+        <pre class="kode keluaran">0.30000000000000004441</pre>
+      </div>
+    </div>
+  </div>
+  <div class="kotak jebakan fragment">
+    <p><span class="awas">Ini bukan bug Python.</span> Setiap bahasa yang memakai
+    bilangan titik-mengambang berperilaku sama. Yang berbeda hanya berapa banyak
+    angka yang ditampilkan.</p>
+  </div>
+</section>
+
+<section>
+  <h2>Mengapa begitu</h2>
+  <img class="gbr" src="../gambar/garis-bilangan.png" alt="Garis bilangan: hasil 0,1+0,2 mendarat di sebelah 0,3, tidak tepat padanya">
+  <p class="fragment kecil">Pecahan \(0{,}1\) dalam basis dua adalah pecahan
+  berulang, persis seperti \(\tfrac{1}{3}\) dalam basis sepuluh. Komputer
+  memotongnya pada 53 bit.</p>
+  <div class="kotak fragment">
+    <p class="kecil"><span class="tekan">Akibatnya.</span> Yang tersimpan bukan
+    \(0{,}1\), melainkan bilangan terdekat yang dapat diwakili. Menjumlahkan dua
+    hampiran menghasilkan hampiran ketiga, dan hampiran itu tidak persis \(0{,}3\).</p>
+  </div>
+</section>
+
+<section>
+  <h2>Galatnya menumpuk, bukan tetap</h2>
+  <div class="dua-lajur">
+    <div>
+      <img class="gbr" src="../gambar/galat-menumpuk.png" alt="Galat tumbuh seiring 0,1 dijumlahkan berulang kali">
+    </div>
+    <div>
+      <p class="fragment kecil">Setelah 60 kali menjumlahkan \(0{,}1\), selisihnya
+      \(5{,}3\times10^{-15}\).</p>
+      <div class="kotak jebakan fragment">
+        <p class="kecil"><span class="awas">Pelajaran praktisnya.</span> Jangan pernah
+        membandingkan dua bilangan riil dengan <code>==</code>. Bandingkan
+        selisihnya terhadap sebuah toleransi.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="antar" data-background-color="#1B3B6F">
+  <p class="label">Tahap empat</p>
+  <h1>Selidiki</h1>
+  <p class="kaki-judul">25 menit</p>
+</section>
+
+<section>
+  <h2>Tiga pertanyaan penyelidikan</h2>
+  <ol class="besar">
+    <li class="fragment">Cetak <code>f"{0.1:.20f}"</code> dan <code>f"{0.2:.20f}"</code>.
+    Dari mana angka sisa di belakang itu berasal?</li>
+    <li class="fragment">Pembagian <code>-7 // 2</code> menghasilkan \(-4\), bukan
+    \(-3\). Rumuskan aturannya dengan satu kalimat, lalu uji pada
+    <code>-9 // 4</code> dan <code>-1 // 5</code>.</li>
+    <li class="fragment">Jalankan <code>sys.executable</code> di dalam dan di luar
+    lingkungan virtual. Hubungkan dengan jawaban soal pemanasan tadi.</li>
+  </ol>
+</section>
+
+<section>
+  <h2>Susun ulang potongan kode</h2>
+  <div class="kotak">
+    <p><span class="tekan">Urutannya diacak. Susun kembali.</span></p>
+<pre class="kode">(A) python -m pip install numpy
+(B) cd praktikum-python
+(C) source .venv/bin/activate
+(D) mkdir praktikum-python
+(E) python3 -m venv .venv</pre>
+  </div>
+  <p class="nota fragment tengah">Kesalahan yang paling sering: memasang paket
+  sebelum lingkungannya diaktifkan.</p>
+</section>
+
+<section class="antar" data-background-color="#1B3B6F">
+  <p class="label">Tahap lima dan enam</p>
+  <h1>Ubah dan Buat</h1>
+</section>
+
+<section>
+  <h2>Tahap Ubah <span class="nota">berpasangan, 20 menit</span></h2>
+  <div class="kotak">
+    <p><span class="tekan">Aturan berpasangan.</span> Pengemudi memegang papan ketik.
+    Navigator membaca dan memeriksa, dan <strong>tidak boleh menyentuh papan
+    ketik</strong>. Bertukar tiap sepuluh menit.</p>
+  </div>
+<pre class="kode fragment"><span class="kunci">def</span> hampir_sama(a, b, toleransi=<span class="angk">1e-9</span>):
+    <span class="komen"># lengkapi satu baris di sini</span>
+    ...
+
+<span class="kunci">print</span>(hampir_sama(<span class="angk">0.1</span> + <span class="angk">0.2</span>, <span class="angk">0.3</span>))
+<span class="kunci">print</span>(hampir_sama(<span class="angk">1.0</span>, <span class="angk">1.5</span>))</pre>
+  <p class="nota fragment">Lalu: buat toleransinya menyesuaikan besar bilangannya,
+  dan bandingkan dengan <code>math.isclose</code> pada <code>(1e10, 1e10 + 1)</code>.</p>
+</section>
+
+<section>
+  <h2>Tahap Buat <span class="nota">sendiri, 10 menit</span></h2>
+  <ol class="besar">
+    <li class="fragment">Tulis program yang menerima sebuah bilangan bulat lalu
+    mencetak jumlah seluruh digitnya, <strong>tanpa</strong> mengubahnya menjadi teks.</li>
+    <li class="fragment">Buka satu notebook dari GitHub di Colab dan di Kaggle.
+    Cetak versi Python, NumPy, dan pandas di kedua layanan, lalu bandingkan dengan
+    komputer Anda sendiri.</li>
+  </ol>
+</section>
+
+<section>
+  <h2>Tiga cara bekerja, dan bedanya</h2>
+  <img class="gbr" src="../gambar/tiga-cara.png" alt="Perbandingan bekerja di komputer sendiri, Colab, dan Kaggle">
+  <div class="kotak jebakan fragment">
+    <p class="kecil"><span class="awas">Yang diimpor hanya notebooknya, bukan
+    lingkungannya.</span> Berkas <code>requirements.txt</code> tidak dibaca sama
+    sekali oleh Colab maupun Kaggle. Versi pustakanya ditentukan layanan, dan bisa
+    berubah tanpa pemberitahuan. Karena itu jalankan pemeriksa lingkungan pada sel
+    pertama, selalu.</p>
+  </div>
+</section>
+
+<section>
+  <h2>Sebelum pulang</h2>
+  <div class="dua-lajur">
+    <div class="kotak">
+      <p><span class="tekan">Tiket keluar</span></p>
+      <p class="kecil">Tulis tangan satu kalimat:</p>
+      <p class="kecil miring">Dugaan mana yang paling jauh meleset hari ini,
+      dan mengapa menurut Anda?</p>
+    </div>
+    <div class="kotak fragment">
+      <p><span class="tekan">Tugas rumah</span></p>
+      <ul class="kecil">
+        <li>Latihan 1.1&ndash;1.4 pada buku</li>
+        <li>Latihan 2.1, 2.3, 2.7</li>
+        <li>Cetak sepuluh suku barisan yang dimulai \(0{,}1\) lalu ditambah
+        \(0{,}1\). Pada suku ke berapa mulai meleset?</li>
+      </ul>
+    </div>
+  </div>
+  <p class="fragment tengah" style="color:var(--tosca); font-size:1.05em; margin-top:.7em">Pertemuan
+  berikutnya: Percabangan dan Perulangan</p>
+  <p class="nota fragment tengah">Bekal awal: baca Bab 3 seluruhnya</p>
+</section>
+
+<section class="penutup" data-background-color="#1B3B6F">
+  <p class="label">Praktikum 1 selesai</p>
+  <h1>Sampai jumpa pekan depan</h1>
+  <p class="lembaga">Buku: <em>Python untuk Machine Learning dan Data Science</em><br>
+  Kode: github.com/jamhuri-tech/buku-python-ml-kode</p>
+</section>
+
+</div>
+</div>
+
+<button id="layar-penuh" title="Layar penuh (F)" aria-label="Layar penuh">
+  <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true">
+    <path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5" fill="none"
+          stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+  </svg>
+</button>
+
+<script src="../aset/reveal/reveal.js"></script>
+<script src="../aset/katex/katex.min.js"></script>
+<script src="../aset/katex/auto-render.min.js"></script>
+<script src="../aset/slide.js"></script>
+</body>
+</html>

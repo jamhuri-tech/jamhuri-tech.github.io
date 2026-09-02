@@ -1,0 +1,14 @@
+{
+  "name": "Pemrograman Komputer — Praktikum 1: Lingkungan Kerja dan Tipe Data",
+  "short_name": "Praktikum 1",
+  "description": "Lingkungan virtual, aritmetika titik-mengambang, dan pembagian bilangan bulat. Praktikum Pemrograman Komputer Kelas B, Program Studi Matematika UIN Maulana Malik Ibrahim Malang.",
+  "lang": "id",
+  "start_url": "./",
+  "scope": "./",
+  "display": "fullscreen",
+  "display_override": ["fullscreen", "standalone"],
+  "orientation": "landscape",
+  "background_color": "#1B3B6F",
+  "theme_color": "#1B3B6F",
+  "icons": [{ "src": "../ikon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any maskable" }]
+}
