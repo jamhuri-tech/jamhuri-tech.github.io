@@ -21,11 +21,11 @@
     --warnaaksen:#D9713E; --warnalatar:#F2F7FA; --warnahijau:#3E7C59;
     --warnamerah:#9E3B3B; --abuGelap:#3F4A55;
   }
-  .reveal{ font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif; color:var(--abuGelap); font-size:26px; }
-  .reveal section{ text-align:left; }
+  .reveal{ font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif; color:var(--abuGelap); font-size:30px; }
+  .reveal .slides{ text-align:left; }
   .reveal .tengah{ text-align:center; }
   .reveal h1,.reveal h2,.reveal h3{ color:var(--warnautama); text-transform:none; font-weight:700; letter-spacing:normal; }
-  .reveal .slides section{ padding:14px 26px 34px; box-sizing:border-box; height:600px; }
+  .reveal .slides section{ padding:22px 38px; box-sizing:border-box; }
 
   .judul-frame{
     font-size:1.2em; margin:0 0 .3em; padding-bottom:.14em;
@@ -40,9 +40,6 @@
 
   .label{ color:var(--warnaaksen); font-size:.5em; letter-spacing:.14em; text-transform:uppercase; margin-bottom:.4em; }
   .catatanKecil{ font-size:.55em; color:#6b7680; }
-  .tombolPenuh{ display:inline-block; margin-top:.9em; padding:.55em 1.3em; background:var(--warnautama); color:#fff; border:none; border-radius:6px; font-size:.5em; font-family:inherit; cursor:pointer; letter-spacing:.02em; }
-  .tombolPenuh:hover{ background:var(--warnatiga); }
-  :fullscreen .tombolPenuh{ display:none; }
 
   .kotak{ border-radius:5px; padding:.22em .55em; margin:.18em 0; border:1.2px solid; background:var(--warnalatar); }
   .kotak .judul{ font-weight:700; margin-bottom:.08em; display:block; }
@@ -68,7 +65,7 @@
   .kartu .nama{ font-weight:700; color:var(--warnautama); margin-bottom:.15em; }
   .kartu .ket{ font-size:.75em; color:var(--abuGelap); margin-top:.2em; }
 
-  .isi img.gbr{ display:block; margin:.15em auto; max-height:130px; width:auto; max-width:100%; }
+  .isi img.gbr{ display:block; margin:.15em auto; max-height:156px; width:auto; max-width:100%; }
 
   table.tabel{ width:100%; border-collapse:collapse; font-size:.9em; margin:.2em 0; }
   table.tabel th{ color:var(--warnautama); border-bottom:2px solid var(--warnautama); text-align:left; padding:.15em .4em; }
@@ -77,37 +74,14 @@
   .isi .katex-display{ margin:.28em 0; }
   .isi .katex{ font-size:1em; }
 
-  .reveal .fragment{ will-change:opacity; }
-
   .reveal .progress{ height:4px; color:var(--warnaaksen); }
-  .reveal .slide-number{ background:rgba(22,66,91,.72); }
-
-  /* Tapak ditaruh di dalam tiap section (lihat skrip di bawah), jadi ia
-     ikut skala dan ikut dipusatkan oleh Reveal sendiri, bukan elemen
-     terpisah yang bisa menimpa kontrol atau konten. */
-  .tapak{
-    position:absolute; left:26px; right:26px; bottom:8px; height:20px;
-    display:flex; justify-content:space-between; align-items:center;
-    font-size:13px; color:#7a8a93; border-top:1px solid #dde6ea;
-    padding-top:5px; pointer-events:none; white-space:nowrap; overflow:hidden;
-  }
-  .tapak b{ color:var(--warnautama); }
-
-  /* tombol kembali ke slide 1, tetap di pojok, tidak ikut skala */
-  .tombol-awal{
-    position:fixed; left:14px; bottom:14px; z-index:40;
-    width:34px; height:34px; border-radius:50%; border:none;
-    background:rgba(22,66,91,.82); color:#fff; font-size:16px;
-    display:flex; align-items:center; justify-content:center; cursor:pointer;
-  }
-  .tombol-awal:hover{ background:var(--warnatiga); }
-  :fullscreen .tombol-awal{ opacity:.5; }
-  :fullscreen .tombol-awal:hover{ opacity:1; }
+  .reveal .controls{ color:var(--warnautama); }
+  .reveal .slide-number{ background:none; color:#78828B; font-size:16px; }
 
   /* slide sampul */
   .sampul{ position:relative; overflow:hidden; }
   .sampul-pita{
-    position:absolute; top:-14px; left:-26px; right:-26px; height:158px;
+    position:absolute; top:-22px; left:-38px; right:-38px; height:190px;
     background:linear-gradient(135deg, var(--warnautama), var(--warnatiga));
   }
   .sampul-isi{ position:relative; padding-top:34px; }
@@ -118,9 +92,46 @@
   .sampul-kartu{ display:flex; gap:.7em; justify-content:center; margin:1.1em auto 0; max-width:640px; }
   .sampul-kartu .kartu{ flex:1; padding:.3em .3em; font-size:.8em; }
   .sampul-kartu .kartu .nama{ font-size:.85em; }
-  @media (max-width:600px){
-    .tapak{ font-size:10px; }
+
+  /* ---------------------------------------------------- tombol layar penuh
+     Pojok kanan ATAS: Reveal menaruh panah navigasinya sendiri di kanan
+     bawah, jadi keduanya tidak bertumpuk. */
+  #layar-penuh{
+    position:fixed; right:14px; top:14px; z-index:40;
+    width:40px; height:40px; border-radius:50%;
+    border:1px solid rgba(63,74,85,.22); background:rgba(255,255,255,.9);
+    color:var(--warnautama); cursor:pointer; display:flex;
+    align-items:center; justify-content:center;
+    opacity:.34; transition:opacity .18s, transform .18s;
+    -webkit-backdrop-filter:blur(4px); backdrop-filter:blur(4px);
   }
+  #layar-penuh:hover, #layar-penuh:focus-visible{ opacity:1; transform:scale(1.06); }
+  #layar-penuh:focus-visible{ outline:2px solid var(--warnaaksen); outline-offset:2px; }
+
+  /* tombol kembali ke slide 1: gaya sama seperti tombol layar penuh, supaya
+     terbaca sebagai satu keluarga kontrol, ditaruh di sudut yang berbeda. */
+  #ke-awal{
+    position:fixed; left:14px; bottom:14px; z-index:40;
+    width:40px; height:40px; border-radius:50%;
+    border:1px solid rgba(63,74,85,.22); background:rgba(255,255,255,.9);
+    color:var(--warnautama); font-size:18px; cursor:pointer; display:flex;
+    align-items:center; justify-content:center;
+    opacity:.34; transition:opacity .18s, transform .18s;
+    -webkit-backdrop-filter:blur(4px); backdrop-filter:blur(4px);
+  }
+  #ke-awal:hover, #ke-awal:focus-visible{ opacity:1; transform:scale(1.06); }
+  #ke-awal:focus-visible{ outline:2px solid var(--warnaaksen); outline-offset:2px; }
+
+  /* ------------------------------------------------ penanda tiap halaman
+     Sengaja samar: penanda kepemilikan, bukan isi. Ditaruh di sebelah
+     tombol kembali, sebab pojok kanan bawah sudah dipakai Reveal untuk
+     panah dan nomor slide. */
+  #tanda{
+    position:fixed; left:64px; bottom:28px; z-index:35; margin:0;
+    font-size:13px; letter-spacing:.02em; color:#78828B;
+    opacity:.55; pointer-events:none; user-select:none;
+  }
+  @media print{ #layar-penuh, #ke-awal, #tanda{ display:none; } }
 </style>
 </head>
 <body>
@@ -141,7 +152,6 @@
     <div class="kartu"><div class="nama">Laplace</div>$u_{xx}+u_{yy}=0$</div>
   </div>
   <p class="catatanKecil" style="margin-top:.8em;">Mohammad Jamhuri &middot; Universitas Islam Negeri Maulana Malik Ibrahim Malang</p>
-  <button class="tombolPenuh" id="mulai">Mulai layar penuh</button>
 </section>
 
 <section>
@@ -309,7 +319,7 @@
 <section>
   <h2 class="judul-frame">Anatomi Masalah Nilai Awal-Batas</h2>
   <div class="isi tengah">
-    <img class="gbr" style="max-height:170px;" src="gambar/domain-lengkap.svg" alt="Anatomi masalah nilai awal-batas">
+    <img class="gbr" style="max-height:200px;" src="gambar/domain-lengkap.svg" alt="Anatomi masalah nilai awal-batas">
     <p class="fragment">alas oranye: SA, $u(x,0) = f(x)$</p>
     <p class="fragment">kedua sisi biru: SB</p>
     <p class="fragment">di dalam domain: $u_t = k\,u_{xx}$</p>
@@ -369,36 +379,29 @@
 </div>
 </div>
 
-<button class="tombol-awal" id="keAwal" title="Kembali ke slide 1" aria-label="Kembali ke slide 1">&#8962;</button>
+<p id="tanda">Dr. Mohammad Jamhuri &middot; UIN Maulana Malik Ibrahim Malang</p>
+
+<button id="ke-awal" title="Kembali ke slide 1" aria-label="Kembali ke slide 1">
+  <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true">
+    <path d="M4 11.5 12 4l8 7.5M6 10v9h5v-5h2v5h5v-9" fill="none"
+          stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+  </svg>
+</button>
+
+<button id="layar-penuh" title="Layar penuh (F)" aria-label="Layar penuh">
+  <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true">
+    <path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5" fill="none"
+          stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+  </svg>
+</button>
 
 <script src="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/reveal.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/contrib/auto-render.min.js"></script>
 <script>
-  document.querySelectorAll('.slides > section').forEach(function(sec){
-    var tapak = document.createElement('div');
-    tapak.className = 'tapak';
-    tapak.innerHTML = '<span><b>Matematika Advance</b> &middot; Persamaan Diferensial Parsial</span>' +
-      '<span>&copy; Mohammad Jamhuri &middot; Universitas Islam Negeri Maulana Malik Ibrahim Malang</span>';
-    sec.appendChild(tapak);
-  });
-
-  Reveal.initialize({
-    hash: true,
-    slideNumber: 'c/t',
-    controls: true,
-    progress: true,
-    touch: true,
-    center: false,
-    transition: 'slide',
-    width: 960,
-    height: 600,
-    margin: 0.05,
-    minScale: 0.2,
-    maxScale: 2.0,
-    scrollActivationWidth: 0
-  });
-
+  /* Rumus digambar SEBELUM Reveal dijalankan. Reveal mengukur tinggi tiap
+     slide untuk memusatkannya (center:true); kalau rumus baru muncul
+     sesudah pengukuran, slide padat-rumus bisa terpotong di atas. */
   renderMathInElement(document.querySelector('.slides'), {
     delimiters: [
       {left: '$$', right: '$$', display: true},
@@ -407,34 +410,82 @@
     throwOnError: false
   });
 
-  function mintaLayarPenuhDanRotasi(){
-    var el = document.documentElement;
-    var minta = el.requestFullscreen || el.webkitRequestFullscreen || el.mozRequestFullScreen || el.msRequestFullscreen;
-    if (minta) { try { minta.call(el); } catch (e) {} }
-    if (screen.orientation && screen.orientation.lock) {
-      screen.orientation.lock('landscape').catch(function(){});
+  Reveal.initialize({
+    hash: true,
+    slideNumber: 'c/t',
+    controls: true,
+    progress: true,
+    touch: true,
+    // Kanvas 16:10 (1152x720) meski layarnya 16:9: tinggi jadi pembatas
+    // skala, sisa ruang kosong seimbang di kiri-kanan, bukan di atas-bawah.
+    center: true,
+    transition: 'slide',
+    transitionSpeed: 'fast',
+    width: 1152,
+    height: 720,
+    margin: 0.02,
+    minScale: 0.2,
+    maxScale: 1.8,
+    overview: true
+  });
+
+  function sedangPenuh(){
+    return !!(document.fullscreenElement || document.webkitFullscreenElement);
+  }
+  function alihLayarPenuh(){
+    var akar = document.documentElement;
+    if (!sedangPenuh()) {
+      var minta = akar.requestFullscreen || akar.webkitRequestFullscreen;
+      if (minta) minta.call(akar);
+      if (screen.orientation && screen.orientation.lock) {
+        screen.orientation.lock('landscape').catch(function(){});
+      }
+    } else {
+      var keluar = document.exitFullscreen || document.webkitExitFullscreen;
+      if (keluar) keluar.call(document);
     }
   }
-
-  var tombol = document.getElementById('mulai');
-  if (tombol) {
-    tombol.addEventListener('click', mintaLayarPenuhDanRotasi);
+  var tombolPenuh = document.getElementById('layar-penuh');
+  if (tombolPenuh) {
+    tombolPenuh.addEventListener('click', function(e){
+      e.stopPropagation();
+      alihLayarPenuh();
+      tombolPenuh.blur();
+    });
+    function perbaruiTombolPenuh(){
+      var penuh = sedangPenuh();
+      tombolPenuh.setAttribute('aria-pressed', penuh ? 'true' : 'false');
+      tombolPenuh.title = penuh ? 'Keluar dari layar penuh (F)' : 'Layar penuh (F)';
+    }
+    document.addEventListener('fullscreenchange', perbaruiTombolPenuh);
+    document.addEventListener('webkitfullscreenchange', perbaruiTombolPenuh);
+    perbaruiTombolPenuh();
   }
-  var keAwal = document.getElementById('keAwal');
+  document.addEventListener('keydown', function(e){
+    if (e.key === 'Escape' && sedangPenuh()) {
+      e.stopPropagation();
+      alihLayarPenuh();
+    }
+  }, true);
+
+  var keAwal = document.getElementById('ke-awal');
   if (keAwal) {
     keAwal.addEventListener('click', function(e){
       e.stopPropagation();
       Reveal.slide(0, 0, 0);
+      keAwal.blur();
     });
   }
-  document.addEventListener('click', function sekaliSaja(){
-    mintaLayarPenuhDanRotasi();
-    document.removeEventListener('click', sekaliSaja);
-  }, { once: true });
-  document.addEventListener('touchend', function sekaliSaja(){
-    mintaLayarPenuhDanRotasi();
-    document.removeEventListener('touchend', sekaliSaja);
-  }, { once: true });
+
+  /* Klik di mana pun pada slide memajukan presentasi, seperti tombol Next. */
+  document.addEventListener('click', function(e){
+    if (e.button !== 0) return;
+    if (Reveal.isOverview()) return;
+    if (e.target.closest('a, button, input, textarea, select, .controls, .progress, .slide-number')) return;
+    var sorot = window.getSelection && window.getSelection().toString();
+    if (sorot && sorot.length > 0) return;
+    Reveal.next();
+  }, true);
 </script>
 </body>
 </html>
