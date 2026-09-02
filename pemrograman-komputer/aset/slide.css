@@ -8,6 +8,9 @@
   --tosca:#1B3B6F;
   --tosca-muda:#2F5C9E;
   --ambar:#B85C00;
+  /* Aksen di atas latar biru tua. #B85C00 hanya beriak 2,40:1 di sana,
+     jauh di bawah ambang WCAG AA. Yang ini 4,96:1. */
+  --ambar-terang:#E5A03F;
   --merah:#9B1B30;
   --batu:#3E4C59;
   --abu:#78828B;
@@ -326,3 +329,36 @@ body.latar-gelap #tanda{ color:#AFC0D8; opacity:.42; }
 .reveal .dua-lajur{ gap:.85em; }
 .reveal .kotak{ padding:.55em .75em; margin:.4em 0; }
 .reveal ul li, .reveal ol li{ margin:.28em 0; }
+
+
+/* ==================================================================
+   Slide berlatar biru tua: antarbagian, judul, dan penutup.
+
+   Gaya warisan hanya mewarnai .antar h2 dan .penutup .isi, sehingga
+   slide yang memakai h1 mewarisi warna judul biasa -- yaitu biru tua
+   yang sama persis dengan latarnya, rasio kontras 1,00. Judulnya
+   lenyap sepenuhnya. Angka di bawah hasil hitungan, bukan kira-kira.
+   ================================================================== */
+.reveal .antar h1,
+.reveal .penutup h1{ color:var(--krem); }            /* 10,41:1 */
+
+.reveal .antar h2,
+.reveal .penutup h2{ color:var(--krem); }
+
+.reveal .antar .label,
+.reveal .penutup .label,
+.reveal .antar .kaki-judul,
+.reveal .penutup .kaki-judul,
+.reveal .judul .mata-kuliah,
+.reveal .judul .kaki-judul{ color:var(--ambar-terang); }   /* 4,96:1 */
+
+.reveal .antar .lembaga,
+.reveal .penutup .lembaga,
+.reveal .antar p,
+.reveal .penutup p{ color:#C3D0E2; }                 /* 7,07:1 */
+
+/* Kelas yang lebih khusus tetap menang atas aturan p di atas. */
+.reveal .antar .label,
+.reveal .penutup .label,
+.reveal .antar .kaki-judul,
+.reveal .penutup .kaki-judul{ color:var(--ambar-terang); }
