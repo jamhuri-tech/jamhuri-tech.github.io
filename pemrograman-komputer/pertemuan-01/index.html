@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Pemrograman Komputer — Pertemuan 1: Lingkungan Kerja dan Tipe Data</title>
+<meta name="description" content="Lingkungan kerja, peubah sebagai label, bilangan bulat dan riil, presisi titik-mengambang, pembulatan bankir. Pemrograman Komputer Kelas B, Program Studi Matematika UIN Maulana Malik Ibrahim Malang.">
+
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#1B3B6F">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Pertemuan 1">
+
+<link rel="stylesheet" href="../aset/reveal/reveal.css">
+<link rel="stylesheet" href="../aset/katex/katex.min.css">
+<link rel="stylesheet" href="../aset/slide.css">
+</head>
+<body>
+
+<div class="reveal">
+<div class="slides">
+
+<section class="judul" data-background-color="#1B3B6F">
+  <p class="mata-kuliah">Pemrograman Komputer &middot; Kelas B</p>
+  <h1>Lingkungan Kerja<br>dan Tipe Data</h1>
+  <div class="garis-emas"></div>
+  <p class="penulis">Dr. Mohammad Jamhuri</p>
+  <p class="lembaga">Program Studi Matematika &middot; Fakultas Sains dan Teknologi<br>UIN Maulana Malik Ibrahim Malang</p>
+  <p class="kaki-judul">Pertemuan 1 &middot; Buku Bab 1 dan 2 &middot; 120 menit</p>
+</section>
+
+<section>
+  <h2>Peta pertemuan ini</h2>
+  <div class="dua-lajur">
+    <div>
+      <ol class="besar">
+        <li>Tiga cara menjalankan kode</li>
+        <li>Python mana yang sebenarnya aktif</li>
+        <li>Peubah itu label, bukan kotak</li>
+        <li>Bilangan bulat tak terbatas, bilangan riil terbatas</li>
+        <li>Kapan angka berbohong</li>
+      </ol>
+    </div>
+    <div>
+      <div class="sorot fragment">
+        <p>Pertanyaan yang dijawab hari ini:</p>
+        <p class="miring">Kenapa kode yang sama bisa jalan di satu komputer
+        dan gagal di komputer lain — dan kenapa \(0{,}1 + 0{,}2\) bukan
+        \(0{,}3\)?</p>
+      </div>
+      <p class="nota fragment">Pekan ini di laboratorium:
+      <strong>Praktikum 1</strong>, menjalankan sendiri apa yang dibahas hari ini.</p>
+    </div>
+  </div>
+</section>
+
+<section class="antar" data-background-color="#1B3B6F">
+  <p class="label">Bagian satu</p>
+  <h1>Lingkungan Kerja</h1>
+  <p class="kaki-judul">Buku Bab 1</p>
+</section>
+
+<section>
+  <h2>Tiga cara menjalankan kode</h2>
+  <div class="tiga-lajur">
+    <div class="kotak">
+      <p><span class="tekan">Sesi interaktif</span></p>
+      <p class="kecil">Ketik <code>python</code> tanpa argumen. Cocok untuk
+      mencoba satu dua baris lalu langsung dilupakan.</p>
+    </div>
+    <div class="kotak fragment">
+      <p><span class="tekan">Berkas skrip</span></p>
+      <p class="kecil">Berkas <code>.py</code>, dijalankan dengan
+      <code>python nama.py</code>. Bentuk baku untuk kode yang dipakai lagi.</p>
+    </div>
+    <div class="kotak fragment">
+      <p><span class="tekan">Notebook Jupyter</span></p>
+      <p class="kecil">Kode dan tulisan dalam sel yang bisa dijalankan
+      terpisah. Grafiknya langsung muncul di bawah selnya.</p>
+    </div>
+  </div>
+  <p class="nota fragment tengah">Buku ini memakai bentuk kedua untuk sebagian
+  besar isinya, dan bentuk ketiga saat menjelajah data.</p>
+</section>
+
+<section>
+  <h2>Jebakan notebook yang mahal</h2>
+  <div class="kotak jebakan">
+    <p><span class="awas">Sel bisa dijalankan dalam urutan apa pun.</span></p>
+    <p class="kecil">Akibatnya, keadaan yang terlihat di layar belum tentu bisa
+    dicapai dengan menjalankan notebook itu dari atas ke bawah. Notebook yang
+    kelihatannya jalan sempurna bisa gagal total begitu dijalankan ulang
+    dari awal.</p>
+  </div>
+  <div class="sorot fragment">
+    <p>Biasakan memilih <span class="tekan">Restart Kernel and Run All Cells</span>
+    sebelum menyimpan atau membagikannya.</p>
+  </div>
+  <p class="nota fragment tengah">Ini bukan soal kerapian. Skripsi yang tidak bisa
+  dijalankan ulang tidak bisa dipertahankan.</p>
+</section>
+
+<section>
+  <h2>Python mana yang sebenarnya aktif</h2>
+  <p>Satu komputer bisa memuat beberapa pemasangan Python sekaligus:
+  bawaan sistem, unduhan dari python.org, Anaconda, dan lingkungan virtual.</p>
+<pre class="kode">python -c <span class="teks">"import sys; print(sys.executable)"</span></pre>
+  <div class="kotak jebakan fragment">
+    <p><span class="awas">Gejala yang paling sering ditemui.</span></p>
+    <p class="kecil"><code>pip install pandas</code> berhasil, tetapi
+    <code>import pandas</code> tetap gagal. Sebabnya <code>pip</code> yang
+    dipanggil milik Python yang <em>berbeda</em> dari yang menjalankan kode.</p>
+  </div>
+  <p class="fragment tengah">Karena itu selalu tulis
+  <code>python -m pip</code>, bukan <code>pip</code> saja.</p>
+</section>
+
+<section>
+  <h2>Lingkungan virtual: kenapa harus repot</h2>
+  <div class="dua-lajur">
+    <div class="kotak jebakan">
+      <p><span class="awas">Satu Python untuk semua proyek</span></p>
+      <p class="kecil">Skripsi Anda butuh pandas 3.0. Proyek dosen pembimbing
+      masih pakai pandas 2.2. Memasang yang satu merusak yang lain, dan Anda
+      baru tahu berminggu kemudian.</p>
+    </div>
+    <div class="kotak fragment">
+      <p><span class="tekan">Satu lingkungan tiap proyek</span></p>
+      <p class="kecil">Tiap proyek punya folder <code>.venv</code> sendiri.
+      Apa yang dipasang di satu proyek tidak menyentuh proyek lain sama sekali.</p>
+    </div>
+  </div>
+  <p class="nota fragment tengah">Perintahnya dilatih di praktikum pekan ini.
+  Yang perlu dipahami hari ini alasannya, bukan hafalan perintahnya.</p>
+</section>
+
+<section class="antar" data-background-color="#1B3B6F">
+  <p class="label">Bagian dua</p>
+  <h1>Peubah adalah Label</h1>
+  <p class="kaki-judul">Buku Bab 2</p>
+</section>
+
+<section>
+  <h2>Bukan kotak, melainkan label</h2>
+  <p>Di banyak bahasa, peubah dibayangkan sebagai kotak yang menyimpan nilai.
+  Di Python bayangan itu <span class="awas">menyesatkan</span>.</p>
+  <div class="sorot fragment">
+    <p>Peubah itu <span class="tekan">label yang ditempelkan pada objek</span>.
+    Penugasan memindahkan labelnya, bukan menyalin isinya.</p>
+  </div>
+  <p class="nota fragment tengah">Beda ini tampak akademis sekarang. Di Bab 5
+  ia jadi sumber galat yang paling sering menjebak.</p>
+</section>
+
+<section>
+  <h2>Dua label, satu objek</h2>
+  <div class="dua-lajur">
+    <div>
+<pre class="kode">a = [<span class="angk">1</span>, <span class="angk">2</span>, <span class="angk">3</span>]
+b = a
+<span class="kunci">print</span>(<span class="kunci">id</span>(a) == <span class="kunci">id</span>(b))
+
+b = [<span class="angk">1</span>, <span class="angk">2</span>, <span class="angk">3</span>]
+<span class="kunci">print</span>(<span class="kunci">id</span>(a) == <span class="kunci">id</span>(b), a == b)</pre>
+      <pre class="kode keluaran fragment">True
+False True</pre>
+    </div>
+    <div>
+      <div class="kotak fragment">
+        <p class="kecil">Setelah <code>b</code> ditugasi objek baru, isinya
+        memang sama. Tetapi <span class="tekan">objeknya bukan objek yang
+        sama</span>.</p>
+      </div>
+      <div class="kotak fragment">
+        <p class="kecil"><code>is</code> membandingkan
+        <span class="tekan">identitas</span>.<br>
+        <code>==</code> membandingkan <span class="tekan">nilai</span>.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="antar" data-background-color="#1B3B6F">
+  <p class="label">Bagian tiga</p>
+  <h1>Bilangan</h1>
+</section>
+
+<section>
+  <h2>Bilangan bulat tidak punya batas atas</h2>
+<pre class="kode"><span class="kunci">print</span>(<span class="angk">2</span> ** <span class="angk">200</span>)</pre>
+  <pre class="kode keluaran fragment">1606938044258990275541962092341162602522202993782792835301376</pre>
+  <p class="fragment kecil">Enam puluh satu digit, tepat, tanpa pembulatan.
+  Bilangan itu tumbuh terus selama memorinya masih ada.</p>
+  <div class="sorot fragment">
+    <p>Kebanyakan bahasa lain menyerah di sekitar \(9{,}2 \times 10^{18}\),
+    batas bilangan bulat 64 bit. Python tidak.</p>
+  </div>
+</section>
+
+<section>
+  <h2>Bilangan riil justru sebaliknya</h2>
+<pre class="kode keluaran">sys.float_info.max  ->  1.7976931348623157e+308
+sys.float_info.dig  ->  15</pre>
+  <p class="fragment kecil">Tipe <code>float</code> memakai format biner 64 bit:
+  sekitar 15 sampai 17 angka desimal bermakna, batas atas
+  \(1{,}8 \times 10^{308}\).</p>
+<pre class="kode keluaran fragment"><span class="kunci">float</span>(2**2000)
+OverflowError: int too large to convert to float</pre>
+  <p class="nota fragment tengah">Bulat boleh raksasa. Riil punya langit-langit,
+  dan langit-langit itu kadang tertabrak diam-diam.</p>
+</section>
+
+<section>
+  <h2>Kejutan yang paling terkenal</h2>
+  <div class="dua-lajur">
+    <div>
+<pre class="kode">a = <span class="angk">0.1</span> + <span class="angk">0.2</span>
+<span class="kunci">print</span>(a == <span class="angk">0.3</span>)
+<span class="kunci">print</span>(<span class="teks">f"{a:.20f}"</span>)</pre>
+      <pre class="kode keluaran fragment">False
+0.30000000000000004441</pre>
+    </div>
+    <div>
+      <div class="kotak jebakan fragment">
+        <p class="kecil"><span class="awas">Ini bukan bug Python.</span>
+        Setiap bahasa yang memakai bilangan titik-mengambang berperilaku sama.
+        Yang berbeda hanya berapa angka yang ditampilkan.</p>
+      </div>
+    </div>
+  </div>
+  <img class="gbr fragment" src="../gambar/garis-bilangan.png" alt="Garis bilangan: hasil 0,1+0,2 mendarat di sebelah 0,3, bukan tepat padanya">
+</section>
+
+<section>
+  <h2>Mengapa begitu</h2>
+  <p>Pecahan \(0{,}1\) dalam basis dua adalah pecahan berulang, persis seperti
+  \(\tfrac{1}{3}\) dalam basis sepuluh. Komputer memotongnya pada 53 bit.</p>
+  <div class="kotak fragment">
+    <p class="kecil">Yang tersimpan bukan \(0{,}1\), melainkan bilangan terdekat
+    yang dapat diwakili. Menjumlahkan dua hampiran menghasilkan hampiran ketiga,
+    dan hampiran itu tidak persis \(0{,}3\).</p>
+  </div>
+  <div class="sorot fragment">
+    <p><span class="tekan">Pelajaran praktisnya.</span> Jangan pernah
+    membandingkan dua bilangan riil dengan <code>==</code>. Bandingkan
+    selisihnya terhadap sebuah toleransi.</p>
+  </div>
+</section>
+
+<section>
+  <h2>Pembagian yang membingungkan</h2>
+  <div class="dua-lajur">
+    <div>
+<pre class="kode"><span class="kunci">print</span>(<span class="angk">7</span> // <span class="angk">2</span>, <span class="angk">7</span> % <span class="angk">2</span>)
+<span class="kunci">print</span>(-<span class="angk">7</span> // <span class="angk">2</span>, -<span class="angk">7</span> % <span class="angk">2</span>)</pre>
+      <pre class="kode keluaran fragment">3 1
+-4 1</pre>
+    </div>
+    <div>
+      <div class="kotak fragment">
+        <p class="kecil">Mengapa \(-4\), bukan \(-3\)? Operator <code>//</code>
+        membulatkan ke <span class="tekan">bawah</span>, bukan memotong menuju nol.</p>
+      </div>
+      <div class="kotak fragment">
+        <p class="kecil">Akibatnya sisa bagi <span class="tekan">selalu tidak
+        negatif</span> untuk pembagi positif — sifat yang justru berguna dalam
+        aritmetika modular.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <h2>Membulatkan: dua cara, dua hasil</h2>
+<pre class="kode keluaran">int(2.7)   ->   2        int(-2.7)  ->  -2</pre>
+  <p class="fragment kecil">Fungsi <code>int</code> <span class="tekan">memotong
+  menuju nol</span>. Fungsi <code>round</code> membulatkan ke yang terdekat —
+  tetapi menyimpan kejutan untuk nilai yang tepat di tengah.</p>
+  <div class="dua-lajur fragment">
+    <div>
+<pre class="kode"><span class="kunci">for</span> v <span class="kunci">in</span> [<span class="angk">0.5</span>, <span class="angk">1.5</span>, <span class="angk">2.5</span>, <span class="angk">3.5</span>]:
+    <span class="kunci">print</span>(v, <span class="kunci">round</span>(v))</pre>
+    </div>
+    <div>
+      <pre class="kode keluaran">0.5 0
+1.5 2
+2.5 2
+3.5 4</pre>
+    </div>
+  </div>
+</section>
+
+<section>
+  <h2>Namanya pembulatan bankir</h2>
+  <p class="tengah fragment" style="font-size:1.1em; color:var(--tosca)">Nilai
+  setengah dibulatkan ke bilangan <span class="tekan">genap</span> terdekat,<br>
+  bukan selalu ke atas.</p>
+  <div class="kotak fragment">
+    <p class="kecil"><span class="tekan">Tujuannya menghindari bias sistematis.</span>
+    Kalau setengah selalu dibulatkan ke atas, jumlah dari banyak pembulatan akan
+    cenderung berlebih. Pada satu tagihan tidak terasa; pada satu juta tagihan
+    terasa sekali.</p>
+  </div>
+  <p class="nota fragment tengah">Inilah contoh pertama tema yang akan berulang
+  sepanjang semester: keputusan perancangan yang tampak aneh, ternyata punya
+  alasan statistik.</p>
+</section>
+
+<section class="antar" data-background-color="#1B3B6F">
+  <p class="label">Bagian empat</p>
+  <h1>Kapan Angka Berbohong</h1>
+</section>
+
+<section>
+  <h2>Nilai yang dianggap salah</h2>
+<pre class="kode keluaran">0, 0.0, "", [], {}, set(), None, False   ->  False
+"0", [0], " ", 0.1                       ->  True</pre>
+  <p class="fragment kecil">Yang dianggap salah ada dua golongan:
+  <span class="tekan">nol</span> untuk tipe bilangan, dan
+  <span class="tekan">kosong</span> untuk tipe wadah.</p>
+  <div class="sorot fragment">
+    <p>Perhatikan teks <code>"0"</code> dan list <code>[0]</code> justru bernilai
+    <span class="tekan">benar</span>, sebab keduanya tidak kosong.</p>
+  </div>
+</section>
+
+<section>
+  <h2>Jebakan yang menelan korban tiap tahun</h2>
+  <div class="kotak jebakan">
+    <p class="kecil">Menulis <code>if nilai:</code> untuk memeriksa apakah sebuah
+    argumen diberikan akan keliru kalau nilai yang sah kebetulan nol atau kosong.</p>
+  </div>
+  <div class="sorot fragment">
+    <p>Diskon sebesar <span class="tekan">0 persen</span> dan diskon yang
+    <span class="tekan">memang tidak diberikan</span> akan diperlakukan sama.</p>
+  </div>
+  <p class="fragment tengah">Kalau yang Anda maksud ketiadaan, tulis
+  <code>if nilai is None:</code> terang-terangan.</p>
+</section>
+
+<section>
+  <h2>Benang merah hari ini</h2>
+  <ul>
+    <li class="fragment">Kode yang sama bisa gagal di komputer lain karena
+    <span class="tekan">lingkungannya</span> berbeda, bukan kodenya.</li>
+    <li class="fragment">Peubah menunjuk objek. <code>is</code> dan <code>==</code>
+    menanyakan hal yang berbeda.</li>
+    <li class="fragment">Bilangan riil adalah <span class="tekan">hampiran</span>.
+    Membandingkannya dengan <code>==</code> hampir selalu salah.</li>
+    <li class="fragment">Yang paling berbahaya bukan yang melempar galat,
+    melainkan yang <span class="awas">diam-diam menjawab keliru</span>.</li>
+  </ul>
+</section>
+
+<section>
+  <h2>Sebelum pulang</h2>
+  <div class="dua-lajur">
+    <div class="kotak">
+      <p><span class="tekan">Praktikum pekan ini</span></p>
+      <p class="kecil">Praktikum 1: membuat lingkungan virtual sendiri, lalu
+      menyelidiki titik-mengambang dengan tangan Anda sendiri.</p>
+    </div>
+    <div class="kotak fragment">
+      <p><span class="tekan">Tugas rumah</span></p>
+      <ul class="kecil">
+        <li>Latihan 1.1&ndash;1.4 dan 2.1, 2.3, 2.7 pada buku</li>
+        <li>Cetak sepuluh suku barisan yang dimulai \(0{,}1\) lalu ditambah
+        \(0{,}1\). Pada suku ke berapa mulai meleset?</li>
+      </ul>
+    </div>
+  </div>
+  <p class="fragment tengah" style="color:var(--tosca); font-size:1.05em; margin-top:.6em">Pertemuan
+  berikutnya: Percabangan dan Perulangan</p>
+  <p class="nota fragment tengah">Bekal awal: baca Bab 3 seluruhnya</p>
+</section>
+
+<section class="penutup" data-background-color="#1B3B6F">
+  <p class="label">Pertemuan 1 selesai</p>
+  <h1>Sampai jumpa pekan depan</h1>
+  <p class="lembaga">Buku: <em>Python untuk Machine Learning dan Data Science</em>, Bab 1 dan 2<br>
+  Kode: github.com/jamhuri-tech/buku-python-ml-kode</p>
+</section>
+
+</div>
+</div>
+
+<button id="layar-penuh" title="Layar penuh (F)" aria-label="Layar penuh">
+  <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true">
+    <path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5" fill="none"
+          stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+  </svg>
+</button>
+
+<script src="../aset/reveal/reveal.js"></script>
+<script src="../aset/katex/katex.min.js"></script>
+<script src="../aset/katex/auto-render.min.js"></script>
+<script src="../aset/slide.js"></script>
+</body>
+</html>

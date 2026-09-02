@@ -1,0 +1,14 @@
+{
+  "name": "Pemrograman Komputer — Pertemuan 1: Lingkungan Kerja dan Tipe Data",
+  "short_name": "Pertemuan 1",
+  "description": "Lingkungan kerja, peubah sebagai label, bilangan bulat dan riil, presisi titik-mengambang, pembulatan bankir. Pemrograman Komputer Kelas B, Program Studi Matematika UIN Maulana Malik Ibrahim Malang.",
+  "lang": "id",
+  "start_url": "./",
+  "scope": "./",
+  "display": "fullscreen",
+  "display_override": ["fullscreen", "standalone"],
+  "orientation": "landscape",
+  "background_color": "#1B3B6F",
+  "theme_color": "#1B3B6F",
+  "icons": [{ "src": "../ikon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any maskable" }]
+}
