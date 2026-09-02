@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 420 320">
+  <defs>
+    <marker id="pa" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+      <path d="M0,0 L6,3 L0,6 Z" fill="#D9713E"/>
+    </marker>
+    <marker id="pb" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+      <path d="M0,0 L6,3 L0,6 Z" fill="#2F6690"/>
+    </marker>
+  </defs>
+  <polygon points="40,100 70,60 350,60 380,100" fill="#D9713E" fill-opacity=".28"/>
+  <text x="210" y="82" text-anchor="middle" font-family="Georgia, 'Palatino Linotype', serif" font-size="15" fill="#9a5326">timbunan 4 m</text>
+  <rect x="40" y="100" width="340" height="26" fill="#dcdcdc"/>
+  <text x="210" y="118" text-anchor="middle" font-family="Georgia, 'Palatino Linotype', serif" font-size="13" fill="#5a5a5a">pasir</text>
+  <rect x="40" y="126" width="340" height="120" fill="#3A7CA5" fill-opacity=".22"/>
+  <text x="210" y="190" text-anchor="middle" font-family="Georgia, 'Palatino Linotype', serif" font-size="15" fill="#16425B">lempung lunak, 6 m</text>
+  <rect x="40" y="246" width="340" height="26" fill="#dcdcdc"/>
+  <text x="210" y="264" text-anchor="middle" font-family="Georgia, 'Palatino Linotype', serif" font-size="13" fill="#5a5a5a">pasir</text>
+  <rect x="40" y="60" width="340" height="212" fill="none" stroke="#16425B" stroke-width="2.4"/>
+  <g stroke="#D9713E" stroke-width="2.6" marker-end="url(#pa)">
+    <line x1="100" y1="38" x2="100" y2="62"/>
+    <line x1="150" y1="38" x2="150" y2="62"/>
+    <line x1="210" y1="38" x2="210" y2="62"/>
+    <line x1="270" y1="38" x2="270" y2="62"/>
+    <line x1="320" y1="38" x2="320" y2="62"/>
+  </g>
+  <text x="210" y="24" text-anchor="middle" font-family="Georgia, 'Palatino Linotype', serif" font-size="14" fill="#D9713E">beban timbunan</text>
+  <g stroke="#2F6690" stroke-width="2.6" marker-end="url(#pb)">
+    <line x1="130" y1="150" x2="130" y2="102"/>
+    <line x1="290" y1="170" x2="290" y2="248"/>
+  </g>
+  <text x="210" y="300" text-anchor="middle" font-family="Georgia, 'Palatino Linotype', serif" font-size="14" fill="#2F6690">air pori terperas keluar, tanah turun</text>
+</svg>

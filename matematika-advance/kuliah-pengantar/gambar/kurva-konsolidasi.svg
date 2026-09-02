@@ -1,0 +1,38 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 620 300">
+  <g stroke="#e3e9ec" stroke-width="1">
+    <line x1="60" y1="20" x2="560" y2="20"/>
+    <line x1="60" y1="77.5" x2="560" y2="77.5"/>
+    <line x1="60" y1="135" x2="560" y2="135"/>
+    <line x1="60" y1="192.5" x2="560" y2="192.5"/>
+    <line x1="60" y1="250" x2="560" y2="250"/>
+  </g>
+  <g stroke="#78828B" stroke-width="1.4">
+    <line x1="60" y1="250" x2="560" y2="250"/>
+    <line x1="60" y1="250" x2="60" y2="20"/>
+  </g>
+  <g font-family="Georgia, 'Palatino Linotype', serif" font-size="12" fill="#78828B">
+    <text x="52" y="254" text-anchor="end">0</text>
+    <text x="52" y="196.5" text-anchor="end">50</text>
+    <text x="52" y="139" text-anchor="end">100%</text>
+    <text x="20" y="140" transform="rotate(-90 20 140)" text-anchor="middle">U selesai</text>
+    <text x="60" y="272" text-anchor="middle">0</text>
+    <text x="143.3" y="272" text-anchor="middle">1</text>
+    <text x="226.7" y="272" text-anchor="middle">2</text>
+    <text x="310" y="272" text-anchor="middle">3</text>
+    <text x="393.3" y="272" text-anchor="middle">4</text>
+    <text x="476.7" y="272" text-anchor="middle">5</text>
+    <text x="560" y="272" text-anchor="middle">6</text>
+    <text x="310" y="294" text-anchor="middle">waktu (tahun)</text>
+  </g>
+  <polyline fill="none" stroke="#16425B" stroke-width="3" points="60.1,245.7 66.2,212.5 72.5,197.0 78.8,185.1 85.0,175.1 91.2,166.2 97.5,158.2 103.8,150.9 110.0,144.0 116.2,137.6 122.5,131.5 128.8,125.8 135.0,120.2 141.2,114.9 147.5,110.8 153.8,106.2 160.0,101.9 166.2,97.8 172.5,93.9 178.8,90.2 185.0,86.7 191.2,83.3 197.5,80.2 203.8,77.2 210.0,74.3 216.2,71.6 222.5,69.0 228.8,66.5 235.0,64.2 241.2,62.0 247.5,59.9 253.8,57.9 260.0,56.0 266.2,54.2 272.5,52.5 278.8,50.8 285.0,49.3 291.2,47.8 297.5,46.4 303.8,45.1 310.0,43.8 316.2,42.7 322.5,41.5 328.8,40.4 335.0,39.4 341.2,38.4 347.5,37.5 353.8,36.6 360.0,35.8 366.2,35.0 372.5,34.3 378.8,33.5 385.0,32.9 391.2,32.2 397.5,31.6 403.8,31.0 410.0,30.5 416.2,30.0 422.5,29.5 428.8,29.0 435.0,28.5 441.2,28.1 447.5,27.7 453.8,27.3 460.0,26.9 466.2,26.6 472.5,26.3 478.8,26.0 485.0,25.7 491.2,25.4 497.5,25.1 503.8,24.8 510.0,24.6 516.2,24.4 522.5,24.2 528.8,23.9 535.0,23.7 541.2,23.6 547.5,23.4 553.8,23.2 560.0,23.0"/>
+  <g stroke="#D9713E" stroke-width="2" stroke-dasharray="6 4">
+    <line x1="60" y1="135" x2="119.2" y2="135"/>
+    <line x1="119.2" y1="135" x2="119.2" y2="250"/>
+  </g>
+  <text x="126" y="130" font-family="Georgia, 'Palatino Linotype', serif" font-size="13" fill="#D9713E">t&#8325;&#8320; = 0,71 th</text>
+  <g stroke="#9E3B3B" stroke-width="2" stroke-dasharray="6 4">
+    <line x1="60" y1="43" x2="314.2" y2="43"/>
+    <line x1="314.2" y1="43" x2="314.2" y2="250"/>
+  </g>
+  <text x="321" y="38" font-family="Georgia, 'Palatino Linotype', serif" font-size="13" fill="#9E3B3B">t&#8329;&#8320; = 3,05 th</text>
+</svg>
