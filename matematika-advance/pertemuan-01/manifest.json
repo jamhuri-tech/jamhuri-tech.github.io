@@ -1,0 +1,16 @@
+{
+  "name": "Pengantar Persamaan Diferensial Parsial, Pertemuan 1: Pendahuluan",
+  "short_name": "Pertemuan 1",
+  "start_url": "./index.html",
+  "display": "fullscreen",
+  "orientation": "landscape",
+  "background_color": "#F2F7FA",
+  "theme_color": "#16425B",
+  "icons": [
+    {
+      "src": "../ikon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml"
+    }
+  ]
+}

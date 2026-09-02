@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Pertemuan 1: Pendahuluan Persamaan Diferensial Parsial</title>
+<meta name="theme-color" content="#16425B">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Pertemuan 1">
+<link rel="manifest" href="manifest.json">
+<link rel="apple-touch-icon" href="../ikon.svg">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/reveal.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/theme/white.css">
+<style>
+  :root{
+    --biruTua:#16425B; --biruMuda:#3A7CA5; --jingga:#D9713E;
+    --abuGelap:#3F4A55; --abuTerang:#F2F7FA; --merahBata:#9E3B3B;
+  }
+  .reveal{ font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif; color:var(--abuGelap); }
+  .reveal h1,.reveal h2,.reveal h3{ color:var(--biruTua); text-transform:none; font-weight:700; letter-spacing:normal; }
+  .reveal section{ text-align:left; }
+  .reveal .tengah{ text-align:center; }
+  .reveal .tutur{ font-size:1.05em; line-height:1.45; }
+  .reveal .tutur p{ margin:0 0 0.75em 0; }
+  .reveal .kutip{ font-style:italic; color:var(--biruTua); }
+  .reveal .kunci{ color:var(--biruTua); font-weight:700; }
+  .reveal .sorot{ color:var(--jingga); font-weight:700; }
+  .reveal em.v{ font-style:italic; }
+  .reveal .label{ color:var(--jingga); font-size:0.5em; letter-spacing:0.12em; text-transform:uppercase; margin-bottom:0.4em; }
+  .reveal img.gbr{ background:none; border:none; box-shadow:none; display:block; margin:0 auto .7em auto; height:300px; width:auto; max-width:94%; }
+  .reveal img.gbr.penuh{ height:430px; }
+  .reveal .papan{ background:var(--abuTerang); border-left:5px solid var(--biruTua); border-radius:5px; padding:.7em 1em; margin:.3em auto 1em auto; max-width:88%; color:var(--biruTua); font-size:1.05em; }
+  .reveal .papan.rumus{ text-align:center; }
+  .reveal .rumus{ text-align:center; font-size:1.15em; margin:.7em 0; }
+  .reveal .catatanKecil{ font-size:.62em; color:#6b7680; }
+  .tombolPenuh{ display:inline-block; margin-top:1.2em; padding:.7em 1.6em; background:var(--biruTua); color:#fff; border:none; border-radius:6px; font-size:.62em; font-family:inherit; cursor:pointer; letter-spacing:.02em; }
+  .tombolPenuh:hover{ background:var(--biruMuda); }
+  :fullscreen .tombolPenuh{ display:none; }
+  .reveal .progress{ height:4px; color:var(--jingga); }
+  .reveal .slide-number{ background:rgba(22,66,91,.75); }
+  .reveal table{ font-size:.85em; }
+  .reveal table th{ color:var(--biruTua); border-bottom:2px solid var(--biruTua); }
+  .reveal table td{ border-bottom:1px solid #dbe4ea; }
+  .kotak-kartu{ display:inline-block; vertical-align:top; width:29%; margin:0 1.5%; background:var(--abuTerang); border:1.5px solid var(--biruTua); border-radius:8px; padding:.9em .7em; text-align:center; }
+  .kotak-kartu .judul{ font-weight:700; color:var(--biruTua); margin-bottom:.4em; }
+  .kotak-kartu .ket{ font-size:.72em; color:var(--abuGelap); margin-top:.4em; }
+  @media (max-width:600px){
+    .reveal .tutur{ font-size:1.0em; }
+    .reveal .controls{ right:8px; bottom:8px; --controls-arrow-size: 12px; --controls-spacing: 6px; }
+    .reveal .controls .controls-arrow{ opacity:.9; }
+    .reveal .slide-number{ font-size:14px; padding:4px 8px; }
+  }
+</style>
+</head>
+<body>
+<div class="reveal">
+<div class="slides">
+
+<section class="tengah">
+  <p class="label">Matematika Advance &bull; Teknik Sipil</p>
+  <h1>Pendahuluan Persamaan Diferensial Parsial</h1>
+  <p>Pertemuan 1: definisi, orde &amp; linearitas, tiga persamaan fundamental, klasifikasi, syarat awal &amp; batas</p>
+  <p class="catatanKecil">Mohammad Jamhuri</p>
+  <button class="tombolPenuh" id="mulai">Mulai layar penuh</button>
+</section>
+
+<section><div class="tutur"><p>Di mata kuliah matematika sebelumnya, Anda sudah bertemu <span class="kunci">persamaan diferensial biasa</span>, disingkat PDB.</p></div></section>
+<section class="tengah"><div class="papan rumus"><em class="v">y</em>&prime;&prime; + 3<em class="v">y</em>&prime; + 2<em class="v">y</em> = 0</div></section>
+<section><div class="tutur"><p>Fungsi yang dicari, <em class="v">y</em>, hanya bergantung pada <span class="kunci">satu</span> variabel bebas, misalnya waktu atau posisi.</p></div></section>
+<section><div class="tutur"><p>Hari ini kita naik satu tingkat. Fungsi yang dicari akan bergantung pada <span class="sorot">dua variabel bebas atau lebih</span>.</p></div></section>
+
+<section class="tengah">
+  <p class="label">Masalah nyata</p>
+  <h2>Batang logam yang dipanaskan</h2>
+</section>
+<section class="tengah"><img class="gbr penuh" src="gambar/batang-panas.svg" alt="Batang logam dipanaskan di satu ujung"></section>
+<section><div class="tutur"><p>Sebatang logam dipanaskan di salah satu ujungnya, sementara ujung yang lain tetap dingin.</p></div></section>
+<section><div class="tutur"><p>Setelah beberapa saat, suhu di setiap titik batang berubah, dan perubahannya berbeda di setiap posisi.</p></div></section>
+<section class="tengah"><div class="papan rumus"><em class="v">u</em> = <em class="v">u</em>(<em class="v">x</em>, <em class="v">t</em>)</div></section>
+<section><div class="tutur"><p>Suhu bergantung pada posisi <em class="v">x</em> dan waktu <em class="v">t</em> sekaligus.</p></div></section>
+<section><div class="tutur"><p>Karena <em class="v">u</em> bergantung pada dua variabel, turunannya pun disebut <span class="kunci">turunan parsial</span>.</p></div></section>
+<section class="tengah"><div class="papan rumus"><em class="v">u</em><sub>t</sub>, &nbsp; <em class="v">u</em><sub>x</sub>, &nbsp; <em class="v">u</em><sub>xx</sub></div></section>
+<section><div class="tutur"><p><em class="v">u</em><sub>t</sub> berarti laju perubahan suhu terhadap waktu, pada posisi <em class="v">x</em> yang tetap.</p></div></section>
+<section><div class="tutur"><p><em class="v">u</em><sub>xx</sub> berarti kelengkungan profil suhu terhadap posisi, pada waktu yang tetap.</p></div></section>
+<section><div class="tutur"><p>Persamaan yang memuat fungsi banyak variabel beserta turunan parsialnya, itulah yang kita sebut <span class="sorot">Persamaan Diferensial Parsial</span>, disingkat PDP.</p></div></section>
+<section class="tengah"><div class="papan">PDP = fungsi banyak variabel + turunan parsial</div></section>
+
+<section class="tengah">
+  <p class="label">Bagian satu</p>
+  <h2>Mengenali PDP</h2>
+</section>
+<section><div class="tutur"><p>Mari uji pemahaman ini dengan empat persamaan berikut.</p></div></section>
+<section class="tengah"><div class="papan rumus">(a) &nbsp; <em class="v">u</em><sub>t</sub> = <em class="v">k</em> <em class="v">u</em><sub>xx</sub></div></section>
+<section class="tengah"><div class="papan rumus">(b) &nbsp; <em class="v">y</em>&prime;&prime; + 3<em class="v">y</em>&prime; + 2<em class="v">y</em> = 0</div></section>
+<section class="tengah"><div class="papan rumus">(c) &nbsp; <em class="v">u</em><sub>xx</sub> + <em class="v">u</em><sub>yy</sub> = 0</div></section>
+<section class="tengah"><div class="papan rumus">(d) &nbsp; <em class="v">u</em><sub>t</sub> + <em class="v">u</em> <em class="v">u</em><sub>x</sub> = 0</div></section>
+<section><div class="tutur"><p>Diskusikan dengan teman sebangku selama enam puluh detik. Mana yang PDP, dan mana yang bukan?</p></div></section>
+<section><div class="tutur"><p>(a), (c), dan (d) adalah <span class="sorot">PDP</span>, karena memuat turunan parsial terhadap dua variabel bebas atau lebih.</p></div></section>
+<section><div class="tutur"><p>(b) hanya memuat turunan biasa terhadap satu variabel. Itu <span class="kunci">PDB</span>, bukan PDP.</p></div></section>
+<section class="tengah"><div class="papan">Ingat: PDP butuh turunan parsial, PDB cukup turunan biasa.</div></section>
+
+<section class="tengah">
+  <p class="label">Bagian dua</p>
+  <h2>Orde dan Linearitas</h2>
+</section>
+<section><div class="tutur"><p><span class="kunci">Orde</span> sebuah PDP adalah orde turunan parsial tertinggi yang muncul di dalamnya.</p></div></section>
+<section><div class="tutur"><p>Pada <em class="v">u</em><sub>t</sub> = <em class="v">k</em> <em class="v">u</em><sub>xx</sub>, turunan tertinggi adalah <em class="v">u</em><sub>xx</sub>, turunan kedua. Jadi ordenya <span class="sorot">dua</span>.</p></div></section>
+<section><div class="tutur"><p>Sifat kedua yang penting adalah <span class="kunci">linearitas</span>.</p></div></section>
+<section class="tengah"><div class="papan rumus">A<em class="v">u</em><sub>xx</sub> + B<em class="v">u</em><sub>xy</sub> + C<em class="v">u</em><sub>yy</sub> + D<em class="v">u</em><sub>x</sub> + E<em class="v">u</em><sub>y</sub> + F<em class="v">u</em> = G</div></section>
+<section><div class="tutur"><p>PDP disebut <span class="kunci">linear</span> jika <em class="v">u</em> dan seluruh turunannya berpangkat satu, tidak saling dikalikan, dan koefisiennya hanya bergantung pada variabel bebas.</p></div></section>
+<section><div class="tutur"><p>Jika G sama dengan nol, persamaan disebut <span class="kunci">homogen</span>. Jika tidak, disebut tak homogen.</p></div></section>
+<section><div class="tutur"><p>Perhatikan <em class="v">u</em><sub>t</sub> = <em class="v">u</em><sub>xx</sub> + <em class="v">u</em><sup>2</sup>. Apakah ini linear? Berapa ordenya?</p></div></section>
+<section><div class="tutur"><p>Ordenya <span class="sorot">dua</span>. Tetapi persamaan ini <span class="sorot">tak linear</span>, karena ada suku <em class="v">u</em><sup>2</sup>.</p></div></section>
+<section><div class="tutur"><p>Mengapa linearitas begitu penting? Karena PDP linear homogen memiliki sifat istimewa, yaitu <span class="kunci">superposisi</span>.</p></div></section>
+<section class="tengah"><div class="papan rumus">jika <em class="v">u</em><sub>1</sub>, <em class="v">u</em><sub>2</sub> solusi, maka <em class="v">c</em><sub>1</sub><em class="v">u</em><sub>1</sub> + <em class="v">c</em><sub>2</sub><em class="v">u</em><sub>2</sub> juga solusi</div></section>
+<section><div class="tutur"><p>Bahkan jumlah tak hingga suku, &sum;<em class="v">c</em><sub>n</sub><em class="v">u</em><sub>n</sub>, tetap merupakan solusi.</p></div></section>
+<section class="tengah"><div class="papan">Superposisi adalah izin untuk merakit solusi rumit dari kepingan-kepingan sederhana. Seluruh metode deret Fourier di kuliah ini berdiri di atas satu prinsip ini.</div></section>
+<section><div class="tutur"><p><span class="sorot">Awas</span>: superposisi gagal untuk persamaan tak homogen, dan pada umumnya gagal total untuk persamaan tak linear.</p></div></section>
+<section class="tengah"><div class="papan">Linear homogen berarti solusi boleh dijumlahkan. Itulah superposisi.</div></section>
+
+<section class="tengah">
+  <p class="label">Bagian tiga</p>
+  <h2>Tiga Persamaan Fundamental</h2>
+</section>
+<section><div class="tutur"><p>Dari sekian banyak PDP, tiga di antaranya muncul begitu sering sehingga layak dihafal.</p></div></section>
+<section class="tengah">
+  <div class="kotak-kartu"><div class="judul">Panas</div><em class="v">u</em><sub>t</sub> = <em class="v">k</em> <em class="v">u</em><sub>xx</sub><div class="ket">difusi, peluruhan, menuju keseimbangan</div></div>
+  <div class="kotak-kartu"><div class="judul">Gelombang</div><em class="v">u</em><sub>tt</sub> = <em class="v">c</em><sup>2</sup> <em class="v">u</em><sub>xx</sub><div class="ket">rambatan, getaran, bentuk dipertahankan</div></div>
+  <div class="kotak-kartu"><div class="judul">Laplace</div><em class="v">u</em><sub>xx</sub> + <em class="v">u</em><sub>yy</sub> = 0<div class="ket">keadaan tunak, tanpa waktu</div></div>
+</section>
+<section><div class="tutur"><p><em class="v">k</em> disebut difusivitas termal, <em class="v">c</em> disebut laju rambat gelombang.</p></div></section>
+<section><div class="tutur"><p>Ketiganya adalah PDP <span class="kunci">linear homogen orde dua</span>, dan masing-masing mewakili satu kelas PDP yang berbeda wataknya.</p></div></section>
+<section class="tengah"><div class="papan">Panas meluruh, gelombang merambat, Laplace diam di keadaan tunak.</div></section>
+
+<section class="tengah">
+  <p class="label">Bagian empat</p>
+  <h2>Klasifikasi PDP Orde Dua</h2>
+</section>
+<section><div class="tutur"><p>Untuk PDP orde dua bentuk umum A<em class="v">u</em><sub>xx</sub> + B<em class="v">u</em><sub>xy</sub> + C<em class="v">u</em><sub>yy</sub> + &hellip; = G, kita hitung sebuah angka penentu, yaitu <span class="kunci">diskriminan</span>.</p></div></section>
+<section class="tengah"><div class="papan rumus">B<sup>2</sup> &minus; 4AC</div></section>
+<section><div class="tutur"><p>Jika diskriminan <span class="sorot">lebih besar dari nol</span>, persamaan disebut <span class="kunci">hiperbolik</span>.</p></div></section>
+<section><div class="tutur"><p>Jika <span class="sorot">sama dengan nol</span>, disebut <span class="kunci">parabolik</span>.</p></div></section>
+<section><div class="tutur"><p>Jika <span class="sorot">kurang dari nol</span>, disebut <span class="kunci">eliptik</span>.</p></div></section>
+<section><div class="tutur"><p>Pada gelombang, <em class="v">u</em><sub>tt</sub> &minus; <em class="v">c</em><sup>2</sup><em class="v">u</em><sub>xx</sub> = 0, diskriminannya 4<em class="v">c</em><sup>2</sup>, selalu positif. <span class="sorot">Hiperbolik</span>.</p></div></section>
+<section><div class="tutur"><p>Pada panas, <em class="v">u</em><sub>t</sub> &minus; <em class="v">k</em><em class="v">u</em><sub>xx</sub> = 0, koefisien C sama dengan nol, sehingga diskriminannya nol. <span class="sorot">Parabolik</span>.</p></div></section>
+<section><div class="tutur"><p>Pada Laplace, <em class="v">u</em><sub>xx</sub> + <em class="v">u</em><sub>yy</sub> = 0, diskriminannya &minus;4, negatif. <span class="sorot">Eliptik</span>.</p></div></section>
+<section><div class="tutur"><p>Tipe ini menentukan watak solusi: merambat, meluruh, atau tunak, sekaligus metode penyelesaian yang cocok.</p></div></section>
+<section><div class="tutur"><p>Klasifikasikan (a): <em class="v">u</em><sub>xx</sub> + 4<em class="v">u</em><sub>xy</sub> + <em class="v">u</em><sub>yy</sub> = 0.</p></div></section>
+<section><div class="tutur"><p>Diskriminannya 16 &minus; 4, yaitu 12, lebih besar dari nol. <span class="sorot">Hiperbolik di mana-mana</span>.</p></div></section>
+<section><div class="tutur"><p>Sekarang (b): <em class="v">y</em> <em class="v">u</em><sub>xx</sub> + <em class="v">u</em><sub>yy</sub> = 0. Perhatikan baik-baik, koefisiennya bergantung pada <em class="v">y</em>.</p></div></section>
+<section><div class="tutur"><p>Diskriminannya adalah &minus;4<em class="v">y</em>.</p></div></section>
+<section><div class="tutur"><p>Untuk <em class="v">y</em> positif, diskriminan negatif: <span class="kunci">eliptik</span>.</p></div></section>
+<section><div class="tutur"><p>Untuk <em class="v">y</em> negatif, diskriminan positif: <span class="kunci">hiperbolik</span>.</p></div></section>
+<section><div class="tutur"><p>Pada <em class="v">y</em> = 0, persamaan ini disebut <span class="sorot">persamaan Tricomi</span>. Tipe sebuah PDP ternyata bisa berubah dari satu titik ke titik lain.</p></div></section>
+<section class="tengah"><div class="papan">Diskriminan B&sup2; &minus; 4AC menentukan hiperbolik, parabolik, atau eliptik.</div></section>
+
+<section class="tengah">
+  <p class="label">Bagian lima</p>
+  <h2>Syarat Awal dan Syarat Batas</h2>
+</section>
+<section><div class="tutur"><p>Persamaan Laplace <em class="v">u</em><sub>xx</sub> + <em class="v">u</em><sub>yy</sub> = 0 ternyata dipenuhi oleh banyak sekali fungsi.</p></div></section>
+<section class="tengah"><div class="papan rumus"><em class="v">u</em>=<em class="v">x</em>, &nbsp; <em class="v">u</em>=<em class="v">xy</em>, &nbsp; <em class="v">u</em>=<em class="v">x</em><sup>2</sup>&minus;<em class="v">y</em><sup>2</sup>, &nbsp; <em class="v">u</em>=<em class="v">e</em><sup>x</sup>cos<em class="v">y</em>, &hellip;</div></section>
+<section><div class="tutur"><p>PDB orde <em class="v">n</em> cukup butuh <em class="v">n</em> konstanta untuk memilih satu solusi. PDP butuh lebih banyak lagi, yaitu fungsi-fungsi sembarang.</p></div></section>
+<section><div class="tutur"><p>Untuk memilih satu solusi yang fisis, kita perlu data tambahan: <span class="kunci">syarat awal</span> dan <span class="kunci">syarat batas</span>.</p></div></section>
+<section><div class="tutur"><p>Syarat awal adalah keadaan sistem saat <em class="v">t</em> = 0, sebanyak orde turunan waktu.</p></div></section>
+<section><div class="tutur"><p>Syarat batas adalah perilaku di tepi domain, untuk setiap waktu <em class="v">t</em>.</p></div></section>
+<section class="tengah"><img class="gbr" src="gambar/domain-kosong.svg" alt="Domain x dan t kosong"></section>
+<section><div class="tutur"><p>Bayangkan domain <em class="v">x</em> dan <em class="v">t</em> seperti ini. Batangnya terletak di sepanjang sumbu <em class="v">x</em>, dan waktu berjalan ke atas.</p></div></section>
+<section><div class="tutur"><p>Ada tiga jenis syarat batas yang paling sering muncul.</p></div></section>
+<section class="tengah"><div class="papan rumus"><em class="v">u</em>(0,<em class="v">t</em>) = &alpha;(<em class="v">t</em>)</div></section>
+<section><div class="tutur"><p><span class="kunci">Dirichlet</span>: suhu di ujung ditetapkan nilainya.</p></div></section>
+<section class="tengah"><div class="papan rumus"><em class="v">u</em><sub>x</sub>(0,<em class="v">t</em>) = &beta;(<em class="v">t</em>)</div></section>
+<section><div class="tutur"><p><span class="kunci">Neumann</span>: fluks di ujung ditetapkan. Jika &beta; = 0, ujung terisolasi sempurna.</p></div></section>
+<section class="tengah"><div class="papan rumus"><em class="v">u</em><sub>x</sub>(0,<em class="v">t</em>) + <em class="v">h</em><em class="v">u</em>(0,<em class="v">t</em>) = &gamma;(<em class="v">t</em>)</div></section>
+<section><div class="tutur"><p><span class="kunci">Robin</span>: pertukaran panas dengan lingkungan sekitar.</p></div></section>
+<section><div class="tutur"><p>Ujung batang dicelupkan ke es batu. Syarat jenis apa? Bagaimana jika ujung dibungkus rapat dengan styrofoam tebal?</p></div></section>
+<section><div class="tutur"><p>Es batu menahan suhu ujung tepat nol derajat. Itu syarat <span class="sorot">Dirichlet</span>, <em class="v">u</em> = 0.</p></div></section>
+<section><div class="tutur"><p>Styrofoam mencegah aliran panas keluar. Itu syarat <span class="sorot">Neumann</span>, <em class="v">u</em><sub>x</sub> = 0.</p></div></section>
+<section class="tengah"><img class="gbr penuh" src="gambar/domain-lengkap.svg" alt="Anatomi masalah nilai awal-batas"></section>
+<section><div class="tutur"><p>Inilah anatomi lengkap sebuah masalah nilai awal-batas. Alas berwarna oranye adalah syarat awal, kedua sisi tegak berwarna biru adalah syarat batas.</p></div></section>
+<section class="tengah"><div class="papan rumus"><em class="v">u</em><sub>t</sub>=<em class="v">k</em><em class="v">u</em><sub>xx</sub> (0&lt;<em class="v">x</em>&lt;<em class="v">L</em>), &nbsp; <em class="v">u</em>(0,<em class="v">t</em>)=<em class="v">u</em>(<em class="v">L</em>,<em class="v">t</em>)=0, &nbsp; <em class="v">u</em>(<em class="v">x</em>,0)=sin(&pi;<em class="v">x</em>/<em class="v">L</em>)</div></section>
+<section><div class="tutur"><p>Itulah contoh rumusan lengkap sebuah masalah nilai awal-batas untuk persamaan panas.</p></div></section>
+<section><div class="tutur"><p>Berapa banyak syarat awal yang dibutuhkan? Jawabannya bergantung pada orde turunan waktu.</p></div></section>
+<section><div class="tutur"><p>Persamaan panas berorde satu dalam <em class="v">t</em>, sehingga cukup <span class="sorot">satu</span> syarat awal, yaitu suhu mula-mula <em class="v">f</em>(<em class="v">x</em>).</p></div></section>
+<section><div class="tutur"><p>Persamaan gelombang berorde dua dalam <em class="v">t</em>, sehingga butuh <span class="sorot">dua</span> syarat awal: bentuk mula-mula <em class="v">f</em>(<em class="v">x</em>), dan kecepatan mula-mula <em class="v">g</em>(<em class="v">x</em>). Persis seperti hukum kedua Newton.</p></div></section>
+<section><div class="tutur"><p>Persamaan Laplace sama sekali tidak memuat <em class="v">t</em>, sehingga tidak perlu syarat awal. Cukup syarat batas di seluruh keliling domain.</p></div></section>
+<section class="tengah"><div class="papan">Solusi tunggal dipilih oleh syarat awal dan syarat batas: Dirichlet, Neumann, atau Robin.</div></section>
+
+<section class="tengah">
+  <p class="label">Bagian enam</p>
+  <h2>Masalah yang Terformulasi Baik</h2>
+</section>
+<section><div class="tutur"><p>Jacques Hadamard mengusulkan tiga syarat agar sebuah masalah PDP disebut <span class="kunci">terformulasi baik</span>.</p></div></section>
+<section><div class="tutur"><p>Syarat pertama, solusinya <span class="sorot">ada</span>.</p></div></section>
+<section><div class="tutur"><p>Syarat kedua, solusinya <span class="sorot">tunggal</span>.</p></div></section>
+<section><div class="tutur"><p>Syarat ketiga, solusinya <span class="sorot">stabil</span>: perubahan kecil pada data awal hanya menghasilkan perubahan kecil pada solusi.</p></div></section>
+<section><div class="tutur"><p>Syarat ketiga inilah yang paling praktis, karena data hasil pengukuran selalu mengandung galat kecil. Kita ingin galat itu tidak meledak menjadi besar.</p></div></section>
+<section><div class="tutur"><p>Sepanjang satu semester ini, kita akan membuktikan ketiga syarat itu untuk setiap masalah yang kita jumpai, bukan sekadar mempercayainya.</p></div></section>
+<section class="tengah"><div class="papan">Terformulasi baik: ada, tunggal, stabil.</div></section>
+
+<section class="tengah">
+  <p class="label">Penutup</p>
+  <h2>Rangkuman Pertemuan 1</h2>
+</section>
+<section><div class="tutur"><p>PDP adalah persamaan yang memuat fungsi banyak variabel beserta turunan parsialnya. Ordenya adalah turunan tertinggi yang muncul.</p></div></section>
+<section><div class="tutur"><p>PDP linear homogen memiliki sifat superposisi, fondasi seluruh metode yang akan kita pelajari.</p></div></section>
+<section><div class="tutur"><p>Tiga persamaan fundamental: panas, gelombang, dan Laplace.</p></div></section>
+<section><div class="tutur"><p>Diskriminan B&sup2; &minus; 4AC menentukan hiperbolik, parabolik, atau eliptik.</p></div></section>
+<section><div class="tutur"><p>Solusi tunggal dipilih oleh syarat awal dan syarat batas.</p></div></section>
+<section><div class="tutur"><p>Masalah yang baik adalah masalah yang solusinya ada, tunggal, dan stabil.</p></div></section>
+<section class="tengah"><div class="papan">Pekerjaan rumah: Latihan 1.1 sampai 1.6.</div></section>
+<section><div class="tutur"><p>Minggu depan kita naik ke PDP orde satu dan metode karakteristik, Bab 2. Bawa intuisi tentang informasi yang mengalir.</p></div></section>
+<section class="tengah">
+  <h2>Sampai jumpa di pertemuan berikutnya</h2>
+  <p class="catatanKecil">Matematika Advance &bull; Program Studi Teknik Sipil</p>
+</section>
+
+</div>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/reveal.js"></script>
+<script>
+  Reveal.initialize({
+    hash: true,
+    slideNumber: 'c/t',
+    controls: true,
+    progress: true,
+    touch: true,
+    center: true,
+    transition: 'fade',
+    width: 1050,
+    height: 700,
+    margin: 0.06,
+    minScale: 0.2,
+    maxScale: 2.0,
+    scrollActivationWidth: 0
+  });
+
+  function mintaLayarPenuhDanRotasi(){
+    var el = document.documentElement;
+    var minta = el.requestFullscreen || el.webkitRequestFullscreen || el.mozRequestFullScreen || el.msRequestFullscreen;
+    if (minta) { try { minta.call(el); } catch (e) {} }
+    if (screen.orientation && screen.orientation.lock) {
+      screen.orientation.lock('landscape').catch(function(){});
+    }
+  }
+
+  var tombol = document.getElementById('mulai');
+  if (tombol) {
+    tombol.addEventListener('click', mintaLayarPenuhDanRotasi);
+  }
+  document.addEventListener('click', function sekaliSaja(){
+    mintaLayarPenuhDanRotasi();
+    document.removeEventListener('click', sekaliSaja);
+  }, { once: true });
+  document.addEventListener('touchend', function sekaliSaja(){
+    mintaLayarPenuhDanRotasi();
+    document.removeEventListener('touchend', sekaliSaja);
+  }, { once: true });
+</script>
+</body>
+</html>
