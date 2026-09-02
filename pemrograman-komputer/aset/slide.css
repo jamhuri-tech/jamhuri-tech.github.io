@@ -299,9 +299,9 @@ body.latar-gelap #tanda{ color:#AFC0D8; opacity:.42; }
 .reveal pre.kode{
   display:block; width:100%; box-sizing:border-box;
   background:#F5F6F8; border:1px solid #E2E5EA; border-left:4px solid var(--tosca);
-  border-radius:6px; padding:.65em .85em; margin:.55em 0;
+  border-radius:6px; padding:.5em .7em; margin:.4em 0;
   font-family:"SF Mono",Menlo,Consolas,"IBM Plex Mono",monospace;
-  font-size:.52em; line-height:1.5; text-align:left;
+  font-size:.46em; line-height:1.5; text-align:left;
   white-space:pre; overflow-x:auto; box-shadow:none;
 }
 .reveal pre.kode.keluaran{
@@ -314,5 +314,15 @@ body.latar-gelap #tanda{ color:#AFC0D8; opacity:.42; }
 .reveal .angk{ color:#B85C00; }                      /* bilangan         */
 
 /* Gambar hasil hitungan, disisipkan sebagai SVG */
-.reveal .gbr{ display:block; margin:.4em auto; max-width:100%; height:auto; }
-.reveal .gbr-ket{ font-size:.62em; color:var(--abu); text-align:center; margin:.2em 0 0; }
+.reveal .gbr{ display:block; margin:.25em auto; max-width:100%;
+  max-height:250px; width:auto; height:auto; }
+.reveal .gbr-ket{ font-size:.62em; color:var(--abu); text-align:center; margin:.1em 0 0; }
+
+/* Ruang tegak. Kanvas 720 px dengan center:true menyisakan sekitar 655 px
+   terpakai, dan slide yang melebihi itu terpotong di ATAS tanpa kelihatan.
+   Nilai di bawah hasil pengukuran tiap slide di peramban, bukan kira-kira. */
+.reveal table{ font-size:.62em; }
+.reveal table td, .reveal table th{ padding:.15em .5em; }
+.reveal .dua-lajur{ gap:.85em; }
+.reveal .kotak{ padding:.55em .75em; margin:.4em 0; }
+.reveal ul li, .reveal ol li{ margin:.28em 0; }
