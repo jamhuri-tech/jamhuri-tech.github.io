@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img"
+     aria-label="Pemrograman Komputer">
+  <rect width="512" height="512" rx="96" fill="#1B3B6F"/>
+  <path d="M188 176 L108 256 L188 336" fill="none" stroke="#FBF8F1"
+        stroke-width="26" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M324 176 L404 256 L324 336" fill="none" stroke="#FBF8F1"
+        stroke-width="26" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M282 156 L230 356" fill="none" stroke="#B85C00"
+        stroke-width="26" stroke-linecap="round"/>
+</svg>

@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pemrograman Komputer — Program Studi Matematika UIN Malang</title>
+<meta name="description" content="Pemrograman Komputer Kelas B, Program Studi Matematika, UIN Maulana Malik Ibrahim Malang. Kelas utama dua jam sepekan dan praktikum dua belas pertemuan, berbasis buku Python untuk Machine Learning dan Data Science.">
+<link rel="icon" href="ikon.svg" type="image/svg+xml">
+<meta name="theme-color" content="#1B3B6F">
+<style>
+  :root{
+    --biru:#1B3B6F; --biru-muda:#2F5C9E; --jingga:#B85C00;
+    --hijau:#1E6F5C;
+    --batu:#3E4C59; --abu:#78828B; --krem:#FBF8F1; --krem-tua:#EDE6D8;
+  }
+  *{ box-sizing:border-box; }
+  body{
+    margin:0; background:var(--krem); color:var(--batu);
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,
+                "Helvetica Neue",Arial,sans-serif;
+    line-height:1.6; -webkit-font-smoothing:antialiased;
+  }
+  .bungkus{ max-width:760px; margin:0 auto; padding:0 24px; }
+
+  header{ background:var(--biru); color:var(--krem); padding:54px 0 44px; }
+  header .mk{ color:var(--jingga); font-size:.72rem; letter-spacing:.2em;
+    text-transform:uppercase; margin:0 0 .5em; }
+  header h1{ font-size:2rem; margin:0 0 .35em; line-height:1.15; }
+  header p{ margin:.2em 0; color:#AFC0D8; font-size:.94rem; }
+  .garis{ width:88px; height:2px; background:var(--jingga); margin:1.3em 0; }
+
+  .sks{ display:grid; grid-template-columns:1fr 1fr; gap:14px; margin:26px 0 0; }
+  .sks div{ background:rgba(255,255,255,.07); border-left:3px solid var(--jingga);
+    padding:12px 15px; border-radius:5px; }
+  .sks strong{ color:var(--krem); display:block; font-size:1.02rem; }
+  .sks span{ color:#AFC0D8; font-size:.8rem; }
+  @media (max-width:620px){ .sks{ grid-template-columns:1fr; } }
+
+  main{ padding:44px 0 64px; }
+  h2{ color:var(--biru); font-size:1.12rem; margin:2.4em 0 .2em; }
+  h2:first-of-type{ margin-top:0; }
+  .ket{ color:var(--abu); font-size:.86rem; margin:0 0 1.5em; }
+
+  ol.pertemuan{ list-style:none; margin:0; padding:0; }
+  ol.pertemuan li{ margin:0 0 10px; }
+  ol.pertemuan a, ol.pertemuan .belum{
+    display:flex; align-items:baseline; gap:14px;
+    padding:14px 17px; border:1px solid var(--krem-tua);
+    border-radius:7px; background:#fff; text-decoration:none; color:inherit;
+    transition:border-color .15s, transform .15s;
+  }
+  ol.pertemuan a:hover{ border-color:var(--jingga); transform:translateX(2px); }
+  ol.pertemuan .no{ color:var(--jingga); font-weight:700; font-size:.86rem;
+    min-width:2.6em; }
+  ol.pertemuan .jd{ flex:1; }
+  ol.pertemuan .jd b{ display:block; color:var(--biru); font-weight:600; }
+  ol.pertemuan .jd span{ font-size:.8rem; color:var(--abu); }
+  ol.pertemuan .belum{ background:transparent; border-style:dashed; opacity:.62; }
+
+  .tahap{ display:grid; grid-template-columns:repeat(4,1fr); gap:12px; margin:0 0 8px; }
+  .tahap div{ background:#fff; border:1px solid var(--krem-tua);
+    border-top:3px solid var(--biru); border-radius:7px; padding:13px 14px; }
+  .tahap div:nth-child(2){ border-top-color:var(--hijau); }
+  .tahap div:nth-child(3){ border-top-color:var(--jingga); }
+  .tahap div:nth-child(4){ border-top-color:#9B1B30; }
+  .tahap b{ display:block; color:var(--biru); font-size:.88rem; }
+  .tahap i{ display:block; font-style:normal; color:var(--jingga);
+    font-size:.74rem; margin:.15em 0 .5em; }
+  .tahap span{ font-size:.76rem; color:var(--abu); line-height:1.45; }
+  @media (max-width:700px){ .tahap{ grid-template-columns:1fr 1fr; } }
+  @media (max-width:420px){ .tahap{ grid-template-columns:1fr; } }
+
+  .buku{ margin-top:14px; padding:18px 20px; background:#fff;
+    border:1px solid var(--krem-tua); border-left:3px solid var(--biru);
+    border-radius:7px; font-size:.88rem; }
+  .buku p{ margin:.55em 0; }
+  .buku b{ color:var(--biru); }
+  .buku a{ color:var(--biru-muda); }
+
+  .tombol{ display:inline-block; margin-top:6px; padding:9px 16px;
+    background:var(--hijau); color:#fff; text-decoration:none;
+    border-radius:6px; font-size:.83rem; font-weight:600; }
+  .tombol:hover{ background:#175A4A; }
+
+  footer{ border-top:1px solid var(--krem-tua); padding:22px 0 40px;
+    color:var(--abu); font-size:.8rem; }
+  footer a{ color:var(--abu); }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="bungkus">
+    <p class="mk">Program Studi Matematika &middot; UIN Maulana Malik Ibrahim Malang</p>
+    <h1>Pemrograman Komputer</h1>
+    <p>Dr. Mohammad Jamhuri &middot; Kelas B</p>
+    <div class="garis"></div>
+    <div class="sks">
+      <div><strong>Kelas utama</strong>
+        <span>120 menit sepekan, mengikuti tujuh belas bab buku</span></div>
+      <div><strong>Praktikum</strong>
+        <span>90 menit, dua belas pertemuan, di luar kelas utama</span></div>
+    </div>
+  </div>
+</header>
+
+<main class="bungkus">
+
+  <h2>Peta perkuliahan</h2>
+  <p class="ket">Tujuh belas bab, empat tahap. Tiap tahap memakai tahap
+  sebelumnya, jadi tidak ada satu pun yang bisa dilompati.</p>
+  <div class="tahap">
+    <div><b>Dasar bahasa</b><i>Bab 1&ndash;5</i>
+      <span>Lingkungan kerja, tipe data, percabangan dan perulangan,
+      fungsi, struktur data bawaan</span></div>
+    <div><b>Program tangguh</b><i>Bab 6&ndash;7</i>
+      <span>Berkas dan pengodean, penanganan galat, objek dan kelas
+      secukupnya</span></div>
+    <div><b>Perkakas ilmiah</b><i>Bab 8&ndash;12</i>
+      <span>NumPy, Matplotlib, pandas, analisis data eksploratif,
+      SymPy</span></div>
+    <div><b>Ke model</b><i>Bab 13&ndash;17</i>
+      <span>Aljabar linear, gradient descent, scikit-learn, studi kasus,
+      praktik baik</span></div>
+  </div>
+
+  <h2>Slide kuliah</h2>
+  <p class="ket">Berkas PDF, terbuka di peramban mana pun termasuk telepon.</p>
+  <ol class="pertemuan">
+    <li><a href="https://github.com/jamhuri-tech/buku-python-ml-kode/releases/latest/download/kuliah-00-pembuka.pdf">
+      <span class="no">00</span>
+      <span class="jd"><b>Kenapa Python, dan Ke Mana Kita Akan Pergi</b>
+      <span>Menaksir &pi; dengan lemparan acak, diagram bifurkasi, dari data
+      ke ramalan, peta tujuh belas bab &middot; pertemuan pembuka</span></span>
+    </a></li>
+    <li><span class="belum">
+      <span class="no">01</span>
+      <span class="jd"><b>Menyiapkan Lingkungan Kerja dan Tipe Data</b>
+      <span>Belum terbit &middot; Bab 1 dan 2</span></span>
+    </span></li>
+  </ol>
+
+  <h2>Praktikum</h2>
+  <p class="ket">Dua belas pertemuan, masing-masing 90 menit, berjalan
+  menyusul babnya di kelas utama. Tiap pertemuan memakai alur menduga dulu,
+  menjalankan, menyelidiki, mengubah, lalu membuat sendiri.</p>
+  <ol class="pertemuan">
+    <li><a href="https://github.com/jamhuri-tech/buku-python-ml-kode/releases/latest/download/praktikum-01-lingkungan-tipe-data.pdf">
+      <span class="no">01</span>
+      <span class="jd"><b>Lingkungan Kerja dan Tipe Data</b>
+      <span>Lingkungan virtual, titik-kambang, objek yang bisa dan tidak bisa
+      berubah &middot; Bab 1 dan 2</span></span>
+    </a></li>
+    <li><span class="belum"><span class="no">02</span>
+      <span class="jd"><b>Percabangan dan Perulangan</b>
+      <span>Belum terbit &middot; Bab 3</span></span></span></li>
+    <li><span class="belum"><span class="no">03</span>
+      <span class="jd"><b>Fungsi, Lingkup, dan Modul</b>
+      <span>Belum terbit &middot; Bab 4</span></span></span></li>
+    <li><span class="belum"><span class="no">04</span>
+      <span class="jd"><b>List, Tuple, Dict, Set, dan Generator</b>
+      <span>Belum terbit &middot; Bab 5</span></span></span></li>
+    <li><span class="belum"><span class="no">05</span>
+      <span class="jd"><b>Berkas, Pengodean, dan Exception</b>
+      <span>Belum terbit &middot; Bab 6</span></span></span></li>
+    <li><span class="belum"><span class="no">06</span>
+      <span class="jd"><b>Pemrograman Berorientasi Objek</b>
+      <span>Belum terbit &middot; Bab 7</span></span></span></li>
+    <li><span class="belum"><span class="no">07</span>
+      <span class="jd"><b>NumPy dan Vektorisasi</b>
+      <span>Belum terbit &middot; Bab 8</span></span></span></li>
+    <li><span class="belum"><span class="no">08</span>
+      <span class="jd"><b>Visualisasi dengan Matplotlib</b>
+      <span>Belum terbit &middot; Bab 9</span></span></span></li>
+    <li><span class="belum"><span class="no">09</span>
+      <span class="jd"><b>pandas dan Analisis Data Eksploratif</b>
+      <span>Belum terbit &middot; Bab 10 dan 11</span></span></span></li>
+    <li><span class="belum"><span class="no">10</span>
+      <span class="jd"><b>Komputasi Simbolik dengan SymPy</b>
+      <span>Belum terbit &middot; Bab 12</span></span></span></li>
+    <li><span class="belum"><span class="no">11</span>
+      <span class="jd"><b>Aljabar Linear Numerik dan Gradient Descent</b>
+      <span>Belum terbit &middot; Bab 13 dan 14</span></span></span></li>
+    <li><span class="belum"><span class="no">12</span>
+      <span class="jd"><b>scikit-learn, Studi Kasus, dan Praktik Baik</b>
+      <span>Belum terbit &middot; Bab 15, 16, dan 17</span></span></span></li>
+  </ol>
+
+  <h2>Bahan</h2>
+  <div class="buku">
+    <p><b>Buku pegangan.</b> <em>Python untuk Machine Learning dan Data
+    Science</em> &mdash; Mohammad Jamhuri, Hisyam Fahmi &amp; Muhammad
+    Khudzaifah, tersedia di
+    <a href="https://play.google.com/store/books/details?id=RXwFEgAAQBAJ">Google Play Books</a>.</p>
+
+    <p><b>Modul praktikum.</b> Dua belas pertemuan lengkap dengan soal dan
+    rubrik, dirancang untuk dibaca di telepon. Tautan di bawah selalu
+    menyajikan versi terbaru, jadi tidak perlu dicari ulang setiap ada
+    perbaikan.<br>
+    <a class="tombol" href="https://github.com/jamhuri-tech/buku-python-ml-kode/releases/latest/download/modul-praktikum.pdf">Unduh modul praktikum</a></p>
+
+    <p><b>Kode pendamping.</b> Notebook tiap bab, siap diimpor ke Google Colab
+    maupun Kaggle, ada di
+    <a href="https://github.com/jamhuri-tech/buku-python-ml-kode">github.com/jamhuri-tech/buku-python-ml-kode</a>.</p>
+
+    <p><b>Tidak punya laptop yang kuat?</b> Tidak masalah. Colab dan Kaggle
+    berjalan di peramban tanpa memasang apa pun, dan keduanya gratis.</p>
+  </div>
+
+</main>
+
+<footer class="bungkus">
+  <p>Seluruh berkas di halaman ini berupa PDF dan notebook terbuka.
+  Kunci jawaban praktikum tidak diterbitkan di sini.</p>
+</footer>
+
+</body>
+</html>
