@@ -21,30 +21,31 @@
     --warnaaksen:#D9713E; --warnalatar:#F2F7FA; --warnahijau:#3E7C59;
     --warnamerah:#9E3B3B; --abuGelap:#3F4A55;
   }
-  .reveal{ font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif; color:var(--abuGelap); }
+  .reveal{ font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif; color:var(--abuGelap); font-size:26px; }
   .reveal section{ text-align:left; }
   .reveal .tengah{ text-align:center; }
   .reveal h1,.reveal h2,.reveal h3{ color:var(--warnautama); text-transform:none; font-weight:700; letter-spacing:normal; }
+  .reveal .slides section{ padding:14px 26px; }
 
   .judul-frame{
-    font-size:1.05em; margin:0 0 .55em; padding-bottom:.28em;
+    font-size:1.2em; margin:0 0 .3em; padding-bottom:.14em;
     border-bottom:3px solid var(--warnaaksen);
   }
-  .isi{ font-size:.82em; line-height:1.42; }
-  .isi p{ margin:.35em 0; }
-  .isi ul, .isi ol{ margin:.3em 0 .3em 1.1em; padding:0; }
-  .isi li{ margin:.32em 0; }
+  .isi{ font-size:.86em; line-height:1.24; }
+  .isi p{ margin:.2em 0; }
+  .isi ul, .isi ol{ margin:.2em 0 .2em 1.1em; padding:0; }
+  .isi li{ margin:.16em 0; }
   .kunci{ color:var(--warnautama); font-weight:700; }
   .sorot{ color:var(--warnaaksen); font-weight:700; }
 
-  .label{ color:var(--warnaaksen); font-size:.5em; letter-spacing:.14em; text-transform:uppercase; margin-bottom:.5em; }
+  .label{ color:var(--warnaaksen); font-size:.5em; letter-spacing:.14em; text-transform:uppercase; margin-bottom:.4em; }
   .catatanKecil{ font-size:.55em; color:#6b7680; }
-  .tombolPenuh{ display:inline-block; margin-top:1.1em; padding:.65em 1.5em; background:var(--warnautama); color:#fff; border:none; border-radius:6px; font-size:.5em; font-family:inherit; cursor:pointer; letter-spacing:.02em; }
+  .tombolPenuh{ display:inline-block; margin-top:.9em; padding:.55em 1.3em; background:var(--warnautama); color:#fff; border:none; border-radius:6px; font-size:.5em; font-family:inherit; cursor:pointer; letter-spacing:.02em; }
   .tombolPenuh:hover{ background:var(--warnatiga); }
   :fullscreen .tombolPenuh{ display:none; }
 
-  .kotak{ border-radius:6px; padding:.5em .8em; margin:.4em 0; border:1.4px solid; background:var(--warnalatar); }
-  .kotak .judul{ font-weight:700; margin-bottom:.25em; display:block; }
+  .kotak{ border-radius:5px; padding:.22em .55em; margin:.18em 0; border:1.2px solid; background:var(--warnalatar); }
+  .kotak .judul{ font-weight:700; margin-bottom:.08em; display:block; }
   .block{ border-color:var(--warnautama); }
   .block .judul{ color:var(--warnautama); }
   .exampleblock{ border-color:var(--warnatiga); }
@@ -58,20 +59,23 @@
   .jawaban{ border-color:var(--warnahijau); border-style:dashed; }
   .jawaban .judul{ color:var(--warnahijau); }
 
-  .kolom2{ display:flex; gap:1.6em; align-items:flex-start; }
+  .kolom2{ display:flex; gap:1.3em; align-items:flex-start; }
   .kolom2 > div{ flex:1; }
-  .kolom3{ display:flex; gap:1em; align-items:stretch; }
+  .kolom3{ display:flex; gap:.7em; align-items:stretch; }
   .kolom3 > div{ flex:1; }
 
-  .kartu{ background:var(--warnalatar); border:1.6px solid var(--warnautama); border-radius:8px; padding:.7em .6em; text-align:center; }
-  .kartu .nama{ font-weight:700; color:var(--warnautama); margin-bottom:.3em; }
-  .kartu .ket{ font-size:.78em; color:var(--abuGelap); margin-top:.35em; }
+  .kartu{ background:var(--warnalatar); border:1.4px solid var(--warnautama); border-radius:7px; padding:.35em .4em; text-align:center; }
+  .kartu .nama{ font-weight:700; color:var(--warnautama); margin-bottom:.15em; }
+  .kartu .ket{ font-size:.75em; color:var(--abuGelap); margin-top:.2em; }
 
-  .isi img.gbr{ display:block; margin:.3em auto; max-height:190px; width:auto; max-width:100%; }
+  .isi img.gbr{ display:block; margin:.15em auto; max-height:130px; width:auto; max-width:100%; }
 
-  table.tabel{ width:100%; border-collapse:collapse; font-size:.92em; margin:.4em 0; }
-  table.tabel th{ color:var(--warnautama); border-bottom:2px solid var(--warnautama); text-align:left; padding:.3em .5em; }
-  table.tabel td{ border-bottom:1px solid #d7e2e8; padding:.3em .5em; vertical-align:top; }
+  table.tabel{ width:100%; border-collapse:collapse; font-size:.9em; margin:.2em 0; }
+  table.tabel th{ color:var(--warnautama); border-bottom:2px solid var(--warnautama); text-align:left; padding:.15em .4em; }
+  table.tabel td{ border-bottom:1px solid #d7e2e8; padding:.15em .4em; vertical-align:top; }
+
+  .isi .katex-display{ margin:.28em 0; }
+  .isi .katex{ font-size:1em; }
 
   .reveal .fragment{ will-change:opacity; }
 
