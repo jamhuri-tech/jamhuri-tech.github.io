@@ -1,0 +1,623 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Pemrograman Komputer — Pertemuan Pembuka: Kenapa Python, dan Ke Mana Kita Akan Pergi</title>
+<meta name="description" content="Motivasi belajar Python dan peta tujuh belas bab. Pemrograman Komputer Kelas B, Program Studi Matematika UIN Maulana Malik Ibrahim Malang.">
+
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#1B3B6F">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Pembuka">
+
+<!-- Pustaka disertakan di dalam repo, bukan diambil dari CDN: presentasi ini
+     dipakai mengajar, dan jaringan ruang kuliah tidak selalu ada. Sesudah
+     halaman ini termuat sekali, ia berjalan sepenuhnya luring. -->
+<link rel="stylesheet" href="../aset/reveal/reveal.css">
+<link rel="stylesheet" href="../aset/katex/katex.min.css">
+<link rel="stylesheet" href="../aset/slide.css">
+</head>
+<body>
+
+<div class="reveal">
+<div class="slides">
+
+<!-- ================================================== 1. judul -->
+<section class="judul" data-background-color="#1B3B6F">
+  <p class="mata-kuliah">Pemrograman Komputer &middot; Kelas B</p>
+  <h1>Kenapa Python, dan<br>Ke Mana Kita Akan Pergi</h1>
+  <div class="garis-emas"></div>
+  <p class="penulis">Dr. Mohammad Jamhuri</p>
+  <p class="lembaga">Program Studi Matematika &middot; Fakultas Sains dan Teknologi<br>UIN Maulana Malik Ibrahim Malang</p>
+  <p class="kaki-judul">Pertemuan pembuka &middot; 120 menit</p>
+</section>
+
+<!-- ================================================== 2. peta -->
+<section>
+  <h2>Dua jam hari ini</h2>
+  <div class="dua-lajur">
+    <div>
+      <ol class="besar">
+        <li>Pembukaan dan kontrak belajar <span class="nota">10 menit</span></li>
+        <li>Kenapa Python pantas dipelajari <span class="nota">35 menit</span></li>
+        <li>Peta tujuh belas bab <span class="nota">25 menit</span></li>
+        <li>Kuliah dan praktikum berpasangan <span class="nota">15 menit</span></li>
+        <li><span class="tekan">Coba sendiri sekarang</span> <span class="nota">25 menit</span></li>
+        <li>Tiket keluar <span class="nota">10 menit</span></li>
+      </ol>
+    </div>
+    <div>
+      <div class="sorot fragment">
+        <p>Janji hari ini:</p>
+        <p class="miring">Kamu pulang sudah pernah menjalankan Python sendiri,
+        dan tahu persis ke mana satu semester ini membawamu.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================================================== 3. dua kelas -->
+<section>
+  <h2>Bagaimana mata kuliah ini bekerja</h2>
+  <div class="dua-lajur">
+    <div class="kotak">
+      <p><span class="tekan">Kelas utama</span> &middot; 120 menit</p>
+      <p class="kecil">Gagasan, alasan, dan duduk perkaranya. Di sinilah kita
+      membahas <span class="tekan">kenapa</span> sesuatu bekerja begitu.</p>
+    </div>
+    <div class="kotak fragment">
+      <p><span class="tekan">Praktikum</span> &middot; 90 menit</p>
+      <p class="kecil">Dua belas pertemuan terpisah. Di sinilah tanganmu bekerja,
+      dan kamu membuktikan sendiri <span class="tekan">bahwa</span> itu bekerja.</p>
+    </div>
+  </div>
+  <p class="fragment tengah" style="margin-top:.9em">Keduanya memakai
+  <span class="tekan">buku yang sama</span>. Tiap pertemuan praktikum menunjuk
+  bab yang sudah kita bahas di sini.</p>
+  <p class="fragment tengah kecil awas">Yang melewatkan salah satunya akan merasa
+  mata kuliah ini jauh lebih sulit daripada seharusnya.</p>
+</section>
+
+<!-- ================================================== 4. pertanyaan pembuka -->
+<section>
+  <h2>Satu pertanyaan dulu</h2>
+  <p class="tengah" style="font-size:1.15em">Berapa lama kamu sanggup melempar
+  koin tiga ribu kali, lalu mencatat hasilnya?</p>
+  <div class="fragment" style="margin-top:1.2em">
+    <p class="tengah kecil">Komputer menyelesaikannya dalam waktu</p>
+    <p class="tengah" style="font-size:2.1em; color:var(--ambar); font-weight:700; margin:.1em 0">0,002 detik.</p>
+  </div>
+  <p class="fragment tengah" style="margin-top:1em">Bukan karena komputer lebih pintar.<br>
+  <span class="tekan">Karena ia tidak pernah bosan.</span></p>
+</section>
+
+<!-- ================================================== 5. antar -->
+<section class="antar" data-background-color="#1B3B6F">
+  <p class="label">Bagian satu</p>
+  <h1>Kenapa Python</h1>
+</section>
+
+<!-- ================================================== 6. tiga masalah -->
+<section>
+  <h2>Matematika yang tangan tidak sanggup kejar</h2>
+  <ol class="besar">
+    <li class="fragment">Menaksir \(\pi\) tanpa rumus \(\pi\) sama sekali.</li>
+    <li class="fragment">Melihat <span class="tekan">seluruh</span> perilaku sebuah
+    persamaan sekaligus, bukan satu nilai demi satu nilai.</li>
+    <li class="fragment">Menarik garis terbaik lewat sepuluh titik data, lalu
+    memakainya untuk meramal titik yang belum ada.</li>
+  </ol>
+  <div class="kotak fragment">
+    <p class="kecil">Ketiganya bisa ditulis dalam kurang dari sepuluh baris, dan
+    ketiganya akan kamu kerjakan sendiri sebelum semester ini habis.</p>
+  </div>
+</section>
+
+<!-- ================================================== 7. demo pi -->
+<section>
+  <h2>Satu: menaksir \(\pi\) dengan lemparan acak</h2>
+  <div class="dua-lajur">
+    <div>
+<pre class="kode"><span class="kunci">import</span> numpy <span class="kunci">as</span> np
+
+acak = np.random.default_rng(<span class="angk">20260827</span>)
+x, y = acak.random(<span class="angk">3000</span>), acak.random(<span class="angk">3000</span>)
+di_dalam = x**<span class="angk">2</span> + y**<span class="angk">2</span> &lt;= <span class="angk">1</span>
+<span class="kunci">print</span>(<span class="angk">4</span> * di_dalam.sum() / <span class="angk">3000</span>)</pre>
+      <pre class="kode keluaran fragment">3.168</pre>
+      <p class="kecil fragment">Sebar titik acak di bujur sangkar. Hitung berapa
+      yang jatuh di dalam seperempat lingkaran. Perbandingannya adalah \(\pi/4\).</p>
+    </div>
+    <div>
+      <img class="gbr" src="../gambar/taksir-pi.png" alt="Tiga ribu titik acak; yang di dalam seperempat lingkaran berwarna hijau" style="max-height:420px">
+      <p class="gbr-ket">3000 lemparan &rarr; \(\pi \approx 3{,}168\)</p>
+    </div>
+  </div>
+</section>
+
+<!-- ================================================== 8. kenapa mengesankan -->
+<section>
+  <h2>Kenapa itu mengesankan</h2>
+  <ul>
+    <li class="fragment">Tidak ada rumus \(\pi\) di dalam kodenya.</li>
+    <li class="fragment">Yang ada hanya <span class="tekan">keacakan</span> dan
+    <span class="tekan">pengulangan</span>.</li>
+    <li class="fragment">Galatnya \(0{,}026\) dengan tiga ribu lemparan. Perbanyak
+    lemparannya, galatnya mengecil.</li>
+  </ul>
+  <div class="kotak fragment">
+    <p><span class="tekan">Namanya metode Monte Carlo.</span></p>
+    <p class="kecil">Dipakai sungguhan untuk menghitung integral yang tidak punya
+    penyelesaian tertutup, dari fisika partikel sampai penetapan harga opsi keuangan.</p>
+  </div>
+</section>
+
+<!-- ================================================== 9. bifurkasi -->
+<section>
+  <h2>Dua: melihat seluruh perilaku sekaligus</h2>
+  <div class="dua-lajur">
+    <div>
+      <p>\[ x_{n+1} = r\,x_n(1-x_n) \]</p>
+<pre class="kode">r = np.linspace(<span class="angk">2.5</span>, <span class="angk">4</span>, <span class="angk">1400</span>)
+x = <span class="angk">1e-5</span> * np.ones_like(r)
+<span class="kunci">for</span> i <span class="kunci">in</span> <span class="kunci">range</span>(<span class="angk">1100</span>):
+    x = r * x * (<span class="angk">1</span> - x)
+    <span class="kunci">if</span> i &gt; <span class="angk">900</span>:
+        plt.plot(r, x, <span class="teks">","</span>)</pre>
+      <p class="kecil fragment">Persamaan sesederhana ini. Perilakunya
+      <span class="awas">tidak</span> sederhana sama sekali.</p>
+    </div>
+    <div>
+      <img class="gbr" src="../gambar/bifurkasi.png" alt="Diagram bifurkasi peta logistik, dari satu nilai setimbang menuju chaos">
+    </div>
+  </div>
+</section>
+
+<!-- ================================================== 10. baca bifurkasi -->
+<section>
+  <h2>Yang baru saja kamu lihat</h2>
+  <ul>
+    <li class="fragment">Sampai \(r \approx 3\) hasilnya menetap di
+    <span class="tekan">satu</span> nilai.</li>
+    <li class="fragment">Lewat itu ia pecah jadi dua, lalu empat, lalu delapan.</li>
+    <li class="fragment">Sesudah \(r \approx 3{,}57\) ia
+    <span class="tekan">tidak pernah berulang</span> lagi. Inilah pintu masuk
+    teori chaos.</li>
+  </ul>
+  <div class="sorot fragment">
+    <p><span class="tekan">Enam baris.</span> Menggambar ini dengan tangan mustahil.
+    Dengan Python, enam baris dan dua detik. Perkakas menentukan pertanyaan apa
+    yang berani kamu tanyakan.</p>
+  </div>
+</section>
+
+<!-- ================================================== 11. ramalan -->
+<section>
+  <h2>Tiga: dari data ke ramalan</h2>
+  <div class="dua-lajur">
+    <div>
+<pre class="kode">a, b = np.polyfit(jam, nilai, <span class="angk">1</span>)
+<span class="kunci">print</span>(a * <span class="angk">18</span> + b)</pre>
+      <pre class="kode keluaran fragment">101.86</pre>
+      <p class="kecil fragment">Dua baris. Komputer mencari garis yang jumlah
+      kuadrat simpangannya terkecil, lalu memakainya untuk menebak nilai yang
+      belum pernah diamati.</p>
+    </div>
+    <div>
+      <img class="gbr" src="../gambar/ramalan-garis.png" alt="Sepuluh titik data, garis kuadrat terkecil, dan ramalan di luar jangkauan data">
+    </div>
+  </div>
+</section>
+
+<!-- ================================================== 12. 101,86 -->
+<section>
+  <h2>Tunggu dulu. Lihat angkanya.</h2>
+  <p class="tengah" style="font-size:2.4em; color:var(--merah); font-weight:700; margin:.1em 0">101,86</p>
+  <p class="tengah kecil">Nilai di atas seratus.</p>
+  <ul style="margin-top:.8em">
+    <li class="fragment">Data yang dipelajari model cuma sampai
+    <span class="tekan">15 jam</span>.</li>
+    <li class="fragment">Kita memaksanya menebak di <span class="tekan">18 jam</span>,
+    di luar jangkauan yang pernah ia lihat.</li>
+    <li class="fragment">Model tidak tahu bahwa nilai punya batas atas. Ia hanya
+    menarik garis, dan garis tidak pernah berhenti.</li>
+  </ul>
+  <div class="kotak jebakan fragment">
+    <p><span class="awas">Pelajaran pertama tentang model.</span> Angka yang keluar
+    dari komputer <span class="tekan">selalu</span> terlihat meyakinkan. Tugas
+    kamulah yang menilai apakah ia masuk akal.</p>
+  </div>
+</section>
+
+<!-- ================================================== 13. itu ML -->
+<section>
+  <h2>Itu tadi machine learning</h2>
+  <p class="tengah" style="font-size:1.1em">Belajar dari data yang ada,<br>
+  untuk menebak data yang belum ada.</p>
+  <ul style="margin-top:1em">
+    <li class="fragment">Modelnya cuma garis lurus. Yang dipakai di industri lebih rumit.</li>
+    <li class="fragment">Tetapi <span class="tekan">gagasannya persis sama</span>.</li>
+    <li class="fragment">Dan garis itu <span class="tekan">kuadrat terkecil</span> —
+    kamu sudah mengenalnya dari kuliah statistika.</li>
+  </ul>
+</section>
+
+<!-- ================================================== 14. pengeras suara -->
+<section>
+  <h2>Yang perlu diluruskan sejak hari ini</h2>
+  <p class="tengah" style="font-size:1.25em; color:var(--merah)">Python bukan pengganti matematika.</p>
+  <p class="tengah fragment" style="font-size:1.25em; color:var(--tosca); margin-top:.5em">Python adalah pengeras suaranya.</p>
+  <ul style="margin-top:1.1em">
+    <li class="fragment">Yang tidak paham integral tidak akan tertolong oleh SymPy.</li>
+    <li class="fragment">Yang paham integral bisa menyelesaikan seratus soal dalam semenit.</li>
+    <li class="fragment">Jarak antara dua orang itu <span class="tekan">melebar</span>,
+    bukan menyempit.</li>
+  </ul>
+</section>
+
+<!-- ================================================== 15. kenapa Python -->
+<section>
+  <h2>Kenapa Python, bukan bahasa lain</h2>
+  <div class="dua-lajur">
+    <div class="kotak">
+      <p><span class="tekan">Untuk kamu, sekarang</span></p>
+      <ul class="kecil">
+        <li>Sintaksnya paling dekat dengan cara menulis matematika.</li>
+        <li>Bisa dijalankan tanpa memasang apa pun, lewat peramban.</li>
+        <li>Pesan galatnya menjelaskan, bukan menghakimi.</li>
+      </ul>
+    </div>
+    <div class="kotak fragment">
+      <p><span class="tekan">Untuk kamu, nanti</span></p>
+      <ul class="kecil">
+        <li>Bahasa kerja utama di bidang data dan machine learning.</li>
+        <li>Dipakai untuk riset, skripsi, dan pekerjaan sesudahnya.</li>
+        <li>Pustakanya lengkap: NumPy, pandas, scikit-learn.</li>
+      </ul>
+    </div>
+  </div>
+  <p class="nota fragment tengah">Sekali kamu bisa satu bahasa dengan baik, bahasa
+  kedua jauh lebih mudah. Yang kita latih sebenarnya cara berpikirnya.</p>
+</section>
+
+<!-- ================================================== 16. antar -->
+<section class="antar" data-background-color="#1B3B6F">
+  <p class="label">Bagian dua</p>
+  <h1>Peta Perkuliahan</h1>
+</section>
+
+<!-- ================================================== 17. empat tahap -->
+<section>
+  <h2>Tujuh belas bab, empat tahap</h2>
+  <div class="tiga-lajur" style="grid-template-columns:repeat(4,1fr)">
+    <div class="kotak">
+      <p><span class="tekan">Dasar bahasa</span><br><span class="nota">Bab 1–5</span></p>
+      <p class="kecil">Lingkungan kerja, tipe data, percabangan dan perulangan,
+      fungsi, struktur data bawaan</p>
+    </div>
+    <div class="kotak fragment">
+      <p><span class="tekan">Program tangguh</span><br><span class="nota">Bab 6–7</span></p>
+      <p class="kecil">Berkas dan pengodean, penanganan galat, objek dan kelas
+      secukupnya</p>
+    </div>
+    <div class="kotak fragment">
+      <p><span class="tekan">Perkakas ilmiah</span><br><span class="nota">Bab 8–12</span></p>
+      <p class="kecil">NumPy, Matplotlib, pandas, analisis data eksploratif, SymPy</p>
+    </div>
+    <div class="kotak fragment">
+      <p><span class="tekan">Ke model</span><br><span class="nota">Bab 13–17</span></p>
+      <p class="kecil">Aljabar linear, gradient descent, scikit-learn, studi kasus,
+      praktik baik</p>
+    </div>
+  </div>
+  <p class="nota fragment tengah">Tiap tahap memakai tahap sebelumnya. Tidak ada
+  satu pun yang bisa dilompati.</p>
+</section>
+
+<!-- ================================================== 18-21. tiap tahap -->
+<section>
+  <h2>Tahap satu: dasar bahasanya <span class="nota">bab 1–5</span></h2>
+  <ol class="besar">
+    <li class="fragment">Menyiapkan Lingkungan Kerja</li>
+    <li class="fragment">Tipe Data, Peubah, dan Operator</li>
+    <li class="fragment">Percabangan dan Perulangan</li>
+    <li class="fragment">Fungsi, Lingkup, dan Modul</li>
+    <li class="fragment">Struktur Data Bawaan</li>
+  </ol>
+  <div class="kotak fragment">
+    <p class="kecil"><span class="tekan">Sesudah tahap ini</span> kamu bisa
+    menerjemahkan sebuah prosedur matematika menjadi program yang berjalan. Ini
+    bagian yang paling banyak menuntut kesabaran.</p>
+  </div>
+</section>
+
+<section>
+  <h2>Tahap dua: program yang tidak mudah runtuh <span class="nota">bab 6–7</span></h2>
+  <ol class="besar" start="6">
+    <li class="fragment">Berkas, Pengodean, dan Penanganan Galat</li>
+    <li class="fragment">Objek dan Kelas Secukupnya</li>
+  </ol>
+  <div class="kotak fragment">
+    <p class="kecil"><span class="tekan">Sesudah tahap ini</span> programmu tidak
+    lagi runtuh saat datanya cacat, dan bisa dibaca orang lain tanpa kamu perlu
+    menungguinya.</p>
+  </div>
+  <p class="nota fragment tengah">Perhatikan judul bab 7: <em>secukupnya</em>.
+  Kita tidak akan berlama-lama di sana.</p>
+</section>
+
+<section>
+  <h2>Tahap tiga: perkakas ilmiahnya <span class="nota">bab 8–12</span></h2>
+  <ol class="besar" start="8">
+    <li class="fragment">NumPy: Array, Broadcasting, dan Vektorisasi</li>
+    <li class="fragment">Matplotlib: Memvisualisasikan Data dan Fungsi</li>
+    <li class="fragment">pandas: Data Berlabel dan Bertipe Campuran</li>
+    <li class="fragment">Analisis Data Eksploratif</li>
+    <li class="fragment">SymPy: Matematika Simbolik</li>
+  </ol>
+  <div class="kotak fragment">
+    <p class="kecil"><span class="tekan">Sesudah tahap ini</span> kamu bisa mengolah
+    data sungguhan, menggambarkannya, dan menyuruh komputer mengerjakan aljabar
+    simbolik yang selama ini kamu kerjakan dengan pensil.</p>
+  </div>
+</section>
+
+<section>
+  <h2>Tahap empat: dari matematika ke model <span class="nota">bab 13–17</span></h2>
+  <ol class="besar" start="13">
+    <li class="fragment">Aljabar Linear dan Turunan Numerik</li>
+    <li class="fragment">Regresi Linear dan <em>Gradient Descent</em></li>
+    <li class="fragment">scikit-learn: Melatih dan Menilai dengan Jujur</li>
+    <li class="fragment">Studi Kasus: Dari Data Mentah ke Model</li>
+    <li class="fragment">Praktik Baik dan Reproduktibilitas</li>
+  </ol>
+  <div class="kotak fragment">
+    <p class="kecil"><span class="tekan">Sesudah tahap ini</span> kamu melatih model,
+    menakar mutunya dengan jujur, dan tahu persis di mana angka bagus bisa menipu.</p>
+  </div>
+</section>
+
+<!-- ================================================== 22. capaian -->
+<section>
+  <h2>Di akhir semester, kamu bisa</h2>
+  <ul>
+    <li class="fragment">Menyusun <span class="tekan">pipeline</span> yang menutup
+    jalan kebocoran data.</li>
+    <li class="fragment">Menetapkan <span class="tekan">model patokan</span> sebelum
+    melatih model apa pun.</li>
+    <li class="fragment">Menunjukkan sendiri bahwa seleksi fitur di luar validasi
+    menghasilkan <span class="awas">angka palsu</span>.</li>
+    <li class="fragment">Menyusun proyek yang <span class="tekan">dapat dijalankan
+    ulang</span> orang lain.</li>
+  </ul>
+  <p class="nota fragment tengah">Perhatikan bunyinya. Tidak satu pun berbunyi
+  “hafal sintaks”.</p>
+</section>
+
+<!-- ================================================== 23. antar -->
+<section class="antar" data-background-color="#1B3B6F">
+  <p class="label">Bagian tiga</p>
+  <h1>Kuliah dan Praktikum</h1>
+</section>
+
+<!-- ================================================== 24. tabel pasangan -->
+<section>
+  <h2>Dua belas praktikum, dipasangkan dengan babnya</h2>
+  <div class="dua-lajur">
+    <div>
+      <table class="kecil">
+        <tr><th>Prak</th><th>Topik</th><th>Bab</th></tr>
+        <tr><td>1</td><td>Lingkungan, tipe data</td><td>1–2</td></tr>
+        <tr><td>2</td><td>Percabangan, perulangan</td><td>3</td></tr>
+        <tr><td>3</td><td>Fungsi, lingkup, modul</td><td>4</td></tr>
+        <tr><td>4</td><td>List, dict, generator</td><td>5</td></tr>
+        <tr><td>5</td><td>Berkas, exception</td><td>6</td></tr>
+        <tr><td>6</td><td>Berorientasi objek</td><td>7</td></tr>
+      </table>
+    </div>
+    <div>
+      <table class="kecil">
+        <tr><th>Prak</th><th>Topik</th><th>Bab</th></tr>
+        <tr><td>7</td><td>NumPy</td><td>8</td></tr>
+        <tr><td>8</td><td>Matplotlib</td><td>9</td></tr>
+        <tr><td>9</td><td>pandas dan EDA</td><td>10–11</td></tr>
+        <tr><td>10</td><td>SymPy</td><td>12</td></tr>
+        <tr><td>11</td><td>Aljabar, gradient</td><td>13–14</td></tr>
+        <tr><td>12</td><td>scikit-learn, kasus</td><td>15–17</td></tr>
+      </table>
+    </div>
+  </div>
+  <p class="nota fragment tengah">Praktikum <span class="tekan">selalu</span>
+  menyusul babnya, tidak pernah mendahului. Datang ke praktikum tanpa membaca
+  babnya sama dengan membuang sembilan puluh menit.</p>
+</section>
+
+<!-- ================================================== 25. PRIMM -->
+<section>
+  <h2>Cara kerja praktikum: menduga dulu</h2>
+  <div class="dua-lajur">
+    <div>
+      <ol class="besar">
+        <li class="fragment"><span class="tekan">Duga</span> keluaran kodenya dulu</li>
+        <li class="fragment"><span class="tekan">Jalankan</span>, lalu bandingkan</li>
+        <li class="fragment"><span class="tekan">Selidiki</span> kenapa berbeda</li>
+        <li class="fragment"><span class="tekan">Ubah</span> kodenya, berpasangan</li>
+        <li class="fragment"><span class="tekan">Buat</span> sendiri dari nol</li>
+      </ol>
+    </div>
+    <div>
+      <div class="kotak">
+        <p><span class="tekan">Kenapa menduga dulu</span></p>
+        <p class="kecil">Menduga memaksa otakmu berkomitmen. Saat dugaanmu meleset,
+        kamu akan <span class="tekan">ingat</span> kenapa. Yang langsung menjalankan
+        kode hampir tidak belajar apa-apa.</p>
+      </div>
+    </div>
+  </div>
+  <p class="nota fragment tengah">Dugaan yang salah <span class="tekan">tidak</span>
+  mengurangi nilai. Yang mengurangi nilai adalah tidak menduga.</p>
+</section>
+
+<!-- ================================================== 26. bahan -->
+<section>
+  <h2>Bahan yang kamu pegang</h2>
+  <ul>
+    <li class="fragment"><span class="tekan">Buku</span>
+    <em>Python untuk Machine Learning dan Data Science</em> — tujuh belas bab,
+    rujukan utama kelas ini.</li>
+    <li class="fragment"><span class="tekan">Modul praktikum</span> — dua belas
+    pertemuan, lengkap dengan soal dan rubrik.</li>
+    <li class="fragment"><span class="tekan">Repositori kode</span> — notebook tiap
+    bab, siap diimpor ke Colab atau Kaggle.</li>
+  </ul>
+  <div class="sorot fragment">
+    <p class="tengah">Semuanya terkumpul di<br>
+    <span class="tekan">jamhuri-tech.github.io/pemrograman-komputer</span></p>
+  </div>
+  <p class="nota fragment tengah">Tidak punya laptop yang kuat? Tidak masalah.
+  Colab dan Kaggle berjalan di peramban, gratis.</p>
+</section>
+
+<!-- ================================================== 27. antar -->
+<section class="antar" data-background-color="#1B3B6F">
+  <p class="label">Bagian empat</p>
+  <h1>Coba Sendiri</h1>
+</section>
+
+<!-- ================================================== 28. 25 menit -->
+<section>
+  <h2>Dua puluh lima menit sisanya milikmu</h2>
+  <p class="tengah" style="font-size:1.15em">Tidak ada pertemuan pertama yang
+  selesai tanpa kamu menjalankan Python sendiri.</p>
+  <ol class="besar" style="margin-top:1em">
+    <li class="fragment">Buka Colab, jalankan sel pertamamu <span class="nota">10 menit</span></li>
+    <li class="fragment">Tulis program pertamamu <span class="nota">12 menit</span></li>
+    <li class="fragment">Tiket keluar <span class="nota">3 menit</span></li>
+  </ol>
+  <p class="nota fragment tengah">Ponsel pun cukup untuk hari ini. Pemasangan di
+  mesin sendiri kita urus di praktikum pertama.</p>
+</section>
+
+<!-- ================================================== 29. colab -->
+<section>
+  <h2>Langkah satu: Colab dalam satu menit</h2>
+  <div class="dua-lajur">
+    <div>
+      <ol class="besar">
+        <li class="fragment">Buka <code>colab.research.google.com</code></li>
+        <li class="fragment">Masuk dengan akun Google</li>
+        <li class="fragment">Pilih <em>New notebook</em></li>
+        <li class="fragment">Ketik di sel pertama, lalu tekan
+        <span class="tekan">Shift</span> + <span class="tekan">Enter</span></li>
+      </ol>
+    </div>
+    <div>
+<pre class="kode"><span class="kunci">print</span>(<span class="angk">2</span> ** <span class="angk">100</span>)</pre>
+      <pre class="kode keluaran fragment">1267650600228229401496703205376</pre>
+      <p class="kecil fragment">Tiga puluh satu angka, tepat, tanpa pembulatan.
+      Bahasa lain umumnya menyerah di angka kesembilan belas.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ================================================== 30. program pertama -->
+<section>
+  <h2>Langkah dua: program pertamamu</h2>
+  <div class="dua-lajur">
+    <div>
+      <p class="kecil">Ketik ini. <span class="awas">Jangan disalin tempel.</span></p>
+<pre class="kode">nama = <span class="kunci">input</span>(<span class="teks">"Siapa namamu? "</span>)
+n = <span class="kunci">int</span>(<span class="kunci">input</span>(<span class="teks">"Berapa angkamu? "</span>))
+
+jumlah = <span class="angk">0</span>
+<span class="kunci">for</span> i <span class="kunci">in</span> <span class="kunci">range</span>(<span class="angk">1</span>, n + <span class="angk">1</span>):
+    jumlah += i
+
+<span class="kunci">print</span>(nama, <span class="teks">"-&gt;"</span>, jumlah)</pre>
+    </div>
+    <div>
+      <div class="sorot fragment">
+        <p><span class="tekan">Sebelum menjalankan.</span> Duga dulu: kalau kamu
+        memasukkan \(n = 100\), keluarannya berapa?</p>
+      </div>
+      <div class="kotak fragment">
+        <p class="kecil"><span class="tekan">Sesudah berhasil.</span> Ubah agar ia
+        menjumlahkan <span class="tekan">bilangan genap saja</span>. Petunjuk:
+        <code>range</code> sanggup melangkah dua-dua.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================================================== 31. mengetik sendiri -->
+<section>
+  <h2>Kenapa mengetik sendiri, bukan menyalin</h2>
+  <ul>
+    <li class="fragment">Mengetik memaksamu membaca <span class="tekan">tiap tanda baca</span>.</li>
+    <li class="fragment">Salah ketik yang kamu perbaiki sendiri adalah cara tercepat
+    berkenalan dengan pesan galat.</li>
+    <li class="fragment">Menyalin tempel terasa cepat, tetapi tidak meninggalkan
+    bekas apa pun di ingatan.</li>
+  </ul>
+  <div class="kotak jebakan fragment">
+    <p><span class="awas">Aturan mata kuliah ini.</span> Nol persen salin tempel
+    untuk kode yang kamu serahkan. Membaca kode orang lain boleh; menyerahkannya
+    sebagai milikmu tidak.</p>
+  </div>
+</section>
+
+<!-- ================================================== 32. tiket keluar -->
+<section>
+  <h2>Tiket keluar</h2>
+  <p class="tengah">Tulis di selembar kertas, lalu kumpulkan.</p>
+  <ol class="besar" style="margin-top:1em">
+    <li class="fragment">Colab-mu <span class="tekan">sudah jalan</span> atau belum?</li>
+    <li class="fragment">Satu hal yang <span class="tekan">masih membingungkan</span> hari ini.</li>
+    <li class="fragment">Satu hal yang ingin kamu <span class="tekan">bisa lakukan</span>
+    di akhir semester.</li>
+  </ol>
+  <p class="nota fragment tengah">Yang nomor dua paling berguna buat saya.
+  Tulis jujur, tidak dinilai.</p>
+</section>
+
+<!-- ================================================== 33. pekan depan -->
+<section>
+  <h2>Untuk pertemuan berikutnya</h2>
+  <ul>
+    <li class="fragment">Baca <span class="tekan">Bab 1</span> buku, sekadar berkenalan.</li>
+    <li class="fragment">Pastikan akun Google-mu bisa membuka Colab.</li>
+    <li class="fragment">Bawa pertanyaan. Pertanyaan bodoh tidak ada; yang ada
+    pertanyaan yang <span class="tekan">tidak jadi ditanyakan</span>.</li>
+  </ul>
+  <div class="kotak fragment">
+    <p><span class="tekan">Kelas berikutnya: Bab 1 dan 2.</span></p>
+    <p class="kecil">Menyiapkan lingkungan kerja, lalu tipe data. Kita mulai dari
+    kenapa \(0{,}1 + 0{,}2\) tidak sama dengan \(0{,}3\) di komputer mana pun di dunia.</p>
+  </div>
+</section>
+
+<!-- ================================================== 34. penutup -->
+<section class="penutup" data-background-color="#1B3B6F">
+  <p class="label">Sampai pertemuan berikutnya</p>
+  <h1>Yang Colab-nya belum jalan,<br>jangan pulang dulu.</h1>
+</section>
+
+</div>
+</div>
+
+<button id="layar-penuh" title="Layar penuh (F)" aria-label="Layar penuh">
+  <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true">
+    <path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5" fill="none"
+          stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+  </svg>
+</button>
+
+<script src="../aset/reveal/reveal.js"></script>
+<script src="../aset/katex/katex.min.js"></script>
+<script src="../aset/katex/auto-render.min.js"></script>
+<script src="../aset/slide.js"></script>
+</body>
+</html>
