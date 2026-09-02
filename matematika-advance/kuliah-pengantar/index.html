@@ -575,7 +575,7 @@
      pada <body>. */
   function ikutiLatar(){
     var s = document.querySelector('.reveal .slides > section.present');
-    var gelap = !!(s && s.classList.contains('has-dark-background'));
+    var gelap = !!(s && (s.classList.contains('has-dark-background') || s.classList.contains('antar')));
     document.body.classList.toggle('latar-gelap', gelap);
   }
   Reveal.on('ready', ikutiLatar);
