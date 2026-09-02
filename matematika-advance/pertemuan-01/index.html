@@ -25,7 +25,7 @@
   .reveal section{ text-align:left; }
   .reveal .tengah{ text-align:center; }
   .reveal h1,.reveal h2,.reveal h3{ color:var(--warnautama); text-transform:none; font-weight:700; letter-spacing:normal; }
-  .reveal .slides section{ padding:14px 26px; }
+  .reveal .slides section{ padding:14px 26px 34px; box-sizing:border-box; }
 
   .judul-frame{
     font-size:1.2em; margin:0 0 .3em; padding-bottom:.14em;
@@ -82,22 +82,44 @@
   .reveal .progress{ height:4px; color:var(--warnaaksen); }
   .reveal .slide-number{ background:rgba(22,66,91,.72); }
 
-  /* Reveal dibatasi ke area di atas tapak (lihat embedded:true di script),
-     jadi tapak tidak pernah menimpa kontrol atau isi slide. */
-  html, body{ height:100%; margin:0; overflow:hidden; }
-  .reveal{ position:absolute; top:0; left:0; width:100%; height:calc(100% - 26px); }
+  /* Tapak ditaruh di dalam tiap section (lihat skrip di bawah), jadi ia
+     ikut skala dan ikut dipusatkan oleh Reveal sendiri, bukan elemen
+     terpisah yang bisa menimpa kontrol atau konten. */
   .tapak{
-    position:absolute; left:0; right:0; bottom:0; height:26px; z-index:30;
+    position:absolute; left:26px; right:26px; bottom:8px; height:20px;
     display:flex; justify-content:space-between; align-items:center;
-    padding:0 16px; font-size:11px; color:#5a6d78; box-sizing:border-box;
-    background:#F2F7FA; border-top:1px solid #d7e2e8;
-    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
-    pointer-events:none; white-space:nowrap; overflow:hidden;
+    font-size:13px; color:#7a8a93; border-top:1px solid #dde6ea;
+    padding-top:5px; pointer-events:none; white-space:nowrap; overflow:hidden;
   }
   .tapak b{ color:var(--warnautama); }
+
+  /* tombol kembali ke slide 1, tetap di pojok, tidak ikut skala */
+  .tombol-awal{
+    position:fixed; left:14px; bottom:14px; z-index:40;
+    width:34px; height:34px; border-radius:50%; border:none;
+    background:rgba(22,66,91,.82); color:#fff; font-size:16px;
+    display:flex; align-items:center; justify-content:center; cursor:pointer;
+  }
+  .tombol-awal:hover{ background:var(--warnatiga); }
+  :fullscreen .tombol-awal{ opacity:.5; }
+  :fullscreen .tombol-awal:hover{ opacity:1; }
+
+  /* slide sampul */
+  .sampul{ position:relative; overflow:hidden; }
+  .sampul-pita{
+    position:absolute; top:-14px; left:-26px; right:-26px; height:158px;
+    background:linear-gradient(135deg, var(--warnautama), var(--warnatiga));
+  }
+  .sampul-isi{ position:relative; padding-top:34px; }
+  .sampul-isi .label{ color:#F6C9A8; }
+  .sampul-isi h1{ color:#fff; font-size:1.5em; margin:0 0 .3em; }
+  .sampul-garis{ width:90px; height:3px; background:var(--warnaaksen); margin:.6em auto; }
+  .sampul-sub{ font-size:.85em; margin:.9em 0 0; }
+  .sampul-kartu{ display:flex; gap:.7em; justify-content:center; margin:1.1em auto 0; max-width:640px; }
+  .sampul-kartu .kartu{ flex:1; padding:.3em .3em; font-size:.8em; }
+  .sampul-kartu .kartu .nama{ font-size:.85em; }
   @media (max-width:600px){
-    .tapak{ font-size:8px; height:20px; padding:0 8px; }
-    .reveal{ height:calc(100% - 20px); }
+    .tapak{ font-size:10px; }
   }
 </style>
 </head>
@@ -105,11 +127,20 @@
 <div class="reveal">
 <div class="slides">
 
-<section class="tengah">
-  <p class="label">Matematika Advance &bull; Teknik Sipil</p>
-  <h1 style="font-size:1.5em;">Pendahuluan Persamaan Diferensial Parsial</h1>
-  <p style="font-size:.85em;">Definisi &bull; Orde &amp; Linearitas &bull; Tiga Persamaan Fundamental &bull; Klasifikasi &bull; Syarat Awal &amp; Batas</p>
-  <p class="catatanKecil">Mohammad Jamhuri &middot; Universitas Islam Negeri Maulana Malik Ibrahim Malang</p>
+<section class="tengah sampul">
+  <div class="sampul-pita"></div>
+  <div class="sampul-isi">
+    <p class="label">Matematika Advance &bull; Teknik Sipil</p>
+    <h1>Pendahuluan Persamaan Diferensial Parsial</h1>
+  </div>
+  <div class="sampul-garis"></div>
+  <p class="sampul-sub">Definisi &bull; Orde &amp; Linearitas &bull; Tiga Persamaan Fundamental &bull; Klasifikasi &bull; Syarat Awal &amp; Batas</p>
+  <div class="sampul-kartu">
+    <div class="kartu"><div class="nama">Panas</div>$u_t=k\,u_{xx}$</div>
+    <div class="kartu"><div class="nama">Gelombang</div>$u_{tt}=c^2u_{xx}$</div>
+    <div class="kartu"><div class="nama">Laplace</div>$u_{xx}+u_{yy}=0$</div>
+  </div>
+  <p class="catatanKecil" style="margin-top:.8em;">Mohammad Jamhuri &middot; Universitas Islam Negeri Maulana Malik Ibrahim Malang</p>
   <button class="tombolPenuh" id="mulai">Mulai layar penuh</button>
 </section>
 
@@ -338,17 +369,21 @@
 </div>
 </div>
 
-<div class="tapak">
-  <span><b>Matematika Advance</b> &middot; Persamaan Diferensial Parsial</span>
-  <span>&copy; Mohammad Jamhuri &middot; Universitas Islam Negeri Maulana Malik Ibrahim Malang</span>
-</div>
+<button class="tombol-awal" id="keAwal" title="Kembali ke slide 1" aria-label="Kembali ke slide 1">&#8962;</button>
 
 <script src="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/reveal.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/contrib/auto-render.min.js"></script>
 <script>
+  document.querySelectorAll('.slides > section').forEach(function(sec){
+    var tapak = document.createElement('div');
+    tapak.className = 'tapak';
+    tapak.innerHTML = '<span><b>Matematika Advance</b> &middot; Persamaan Diferensial Parsial</span>' +
+      '<span>&copy; Mohammad Jamhuri &middot; Universitas Islam Negeri Maulana Malik Ibrahim Malang</span>';
+    sec.appendChild(tapak);
+  });
+
   Reveal.initialize({
-    embedded: true,
     hash: true,
     slideNumber: 'c/t',
     controls: true,
@@ -384,6 +419,13 @@
   var tombol = document.getElementById('mulai');
   if (tombol) {
     tombol.addEventListener('click', mintaLayarPenuhDanRotasi);
+  }
+  var keAwal = document.getElementById('keAwal');
+  if (keAwal) {
+    keAwal.addEventListener('click', function(e){
+      e.stopPropagation();
+      Reveal.slide(0, 0, 0);
+    });
   }
   document.addEventListener('click', function sekaliSaja(){
     mintaLayarPenuhDanRotasi();
