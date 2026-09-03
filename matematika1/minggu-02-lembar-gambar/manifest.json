@@ -1,0 +1,21 @@
+{
+  "name": "Matematika I — Minggu 2: Fungsi dan Grafik (Lembar Gambar)",
+  "short_name": "Minggu 2 · Lembar Gambar",
+  "description": "Fungsi dan grafik dalam konteks teknik, versi lembar gambar: KaTeX, kotak soal/jawaban bertahap, dan peta gagasan. Matematika I, Teknik Sipil.",
+  "lang": "id",
+  "start_url": "./",
+  "scope": "./",
+  "display": "fullscreen",
+  "display_override": ["fullscreen", "standalone"],
+  "orientation": "landscape",
+  "background_color": "#F5F2EA",
+  "theme_color": "#154060",
+  "icons": [
+    {
+      "src": "../ikon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}
