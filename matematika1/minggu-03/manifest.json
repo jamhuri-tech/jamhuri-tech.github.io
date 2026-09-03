@@ -1,0 +1,21 @@
+{
+  "name": "Matematika I — Pertemuan 3: Operasi Fungsi dan Fungsi Invers",
+  "short_name": "Pertemuan 3",
+  "description": "Aljabar dan komposisi fungsi, penguraian fungsi, fungsi satu-satu, dan fungsi invers. Matematika I, Teknik Sipil.",
+  "lang": "id",
+  "start_url": "./",
+  "scope": "./",
+  "display": "fullscreen",
+  "display_override": ["fullscreen", "standalone"],
+  "orientation": "landscape",
+  "background_color": "#ffffff",
+  "theme_color": "#16456B",
+  "icons": [
+    {
+      "src": "../ikon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}

@@ -1,0 +1,491 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Pertemuan 3: Operasi Fungsi dan Fungsi Invers</title>
+<meta name="theme-color" content="#16456B">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Pertemuan 3">
+<link rel="manifest" href="manifest.json">
+<link rel="icon" href="../ikon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="../ikon.svg">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/reveal.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/theme/white.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.css">
+<style>
+  :root{
+    --warnautama:#16456B; --warnadua:#2E7BB5; --warnatiga:#2E7BB5;
+    --warnaaksen:#E8703A; --warnalatar:#F2F5F8; --warnahijau:#1F9C8F;
+    --warnamerah:#C0392B; --abuGelap:#4A5561;
+  }
+  .reveal{ font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif; color:var(--abuGelap); font-size:30px; }
+  .reveal .slides{ text-align:left; }
+  .reveal .tengah{ text-align:center; }
+  .reveal h1,.reveal h2,.reveal h3{ color:var(--warnautama); text-transform:none; font-weight:700; letter-spacing:normal; }
+  .reveal .slides section{ padding:22px 38px; box-sizing:border-box; }
+
+  .judul-frame{
+    font-size:1.2em; margin:0 0 .3em; padding-bottom:.14em;
+    border-bottom:3px solid var(--warnaaksen);
+  }
+  .isi{ font-size:.86em; line-height:1.24; }
+  .isi p{ margin:.2em 0; }
+  .isi ul, .isi ol{ margin:.2em 0 .2em 1.1em; padding:0; }
+  .isi li{ margin:.16em 0; }
+  .kunci{ color:var(--warnautama); font-weight:700; }
+  .sorot{ color:var(--warnaaksen); font-weight:700; }
+
+  .label{ color:var(--warnaaksen); font-size:.5em; letter-spacing:.14em; text-transform:uppercase; margin-bottom:.4em; }
+  .catatanKecil{ font-size:.55em; color:#6b7680; }
+
+  .kotak{ border-radius:5px; padding:.22em .55em; margin:.18em 0; border:1.2px solid; background:var(--warnalatar); }
+  .kotak .judul{ font-weight:700; margin-bottom:.08em; display:block; }
+  .block{ border-color:var(--warnautama); }
+  .block .judul{ color:var(--warnautama); }
+  .exampleblock{ border-color:var(--warnatiga); }
+  .exampleblock .judul{ color:var(--warnatiga); }
+  .alertblock{ border-color:var(--warnamerah); background:#FBF1EF; }
+  .alertblock .judul{ color:var(--warnamerah); }
+  .kuis{ border-color:var(--warnaaksen); background:#FDF3EC; }
+  .kuis .judul{ color:var(--warnaaksen); }
+  .intuisi{ border-color:var(--warnahijau); background:#EFF7F6; }
+  .intuisi .judul{ color:var(--warnahijau); }
+  .jawaban{ border-color:var(--warnahijau); border-style:dashed; }
+  .jawaban .judul{ color:var(--warnahijau); }
+
+  .kolom2{ display:flex; gap:1.3em; align-items:flex-start; }
+  .kolom2 > div{ flex:1; }
+  .kolom3{ display:flex; gap:.7em; align-items:stretch; }
+  .kolom3 > div{ flex:1; }
+
+  .kartu{ background:var(--warnalatar); border:1.4px solid var(--warnautama); border-radius:7px; padding:.35em .4em; text-align:center; }
+  .kartu .nama{ font-weight:700; color:var(--warnautama); margin-bottom:.15em; }
+  .kartu .ket{ font-size:.75em; color:var(--abuGelap); margin-top:.2em; }
+
+  .isi img.gbr{ display:block; margin:.15em auto; max-height:180px; width:auto; max-width:100%; }
+
+  table.tabel{ width:100%; border-collapse:collapse; font-size:.9em; margin:.2em 0; }
+  table.tabel th{ color:var(--warnautama); border-bottom:2px solid var(--warnautama); text-align:left; padding:.15em .4em; }
+  table.tabel td{ border-bottom:1px solid #d7e2e8; padding:.15em .4em; vertical-align:top; }
+
+  .isi .katex-display{ margin:.28em 0; }
+  .isi .katex{ font-size:1em; }
+
+  .reveal .progress{ height:4px; color:var(--warnaaksen); }
+  .reveal .controls{ color:var(--warnautama); }
+  .reveal .slide-number{ background:none; color:#78828B; font-size:16px; }
+
+  /* slide sampul */
+  .sampul{ position:relative; overflow:hidden; }
+  .sampul-pita{
+    position:absolute; top:-22px; left:-38px; right:-38px; height:190px;
+    background:linear-gradient(135deg, var(--warnautama), var(--warnatiga));
+  }
+  .sampul-isi{ position:relative; padding-top:34px; }
+  .sampul-isi .label{ color:#F6C9A8; }
+  .sampul-isi h1{ color:#fff; font-size:1.5em; margin:0 0 .3em; }
+  .sampul-garis{ width:90px; height:3px; background:var(--warnaaksen); margin:.6em auto; }
+  .sampul-sub{ font-size:.85em; margin:.9em 0 0; }
+  .sampul-kartu{ display:flex; gap:.7em; justify-content:center; margin:1.1em auto 0; max-width:640px; }
+  .sampul-kartu .kartu{ flex:1; padding:.3em .3em; font-size:.8em; }
+  .sampul-kartu .kartu .nama{ font-size:.85em; }
+
+  #layar-penuh{
+    position:fixed; right:14px; top:14px; z-index:40;
+    width:40px; height:40px; border-radius:50%;
+    border:1px solid rgba(63,74,85,.22); background:rgba(255,255,255,.9);
+    color:var(--warnautama); cursor:pointer; display:flex;
+    align-items:center; justify-content:center;
+    opacity:.34; transition:opacity .18s, transform .18s;
+    -webkit-backdrop-filter:blur(4px); backdrop-filter:blur(4px);
+  }
+  #layar-penuh:hover, #layar-penuh:focus-visible{ opacity:1; transform:scale(1.06); }
+  #layar-penuh:focus-visible{ outline:2px solid var(--warnaaksen); outline-offset:2px; }
+
+  #ke-awal{
+    position:fixed; left:14px; bottom:14px; z-index:40;
+    width:40px; height:40px; border-radius:50%;
+    border:1px solid rgba(63,74,85,.22); background:rgba(255,255,255,.9);
+    color:var(--warnautama); font-size:18px; cursor:pointer; display:flex;
+    align-items:center; justify-content:center;
+    opacity:.34; transition:opacity .18s, transform .18s;
+    -webkit-backdrop-filter:blur(4px); backdrop-filter:blur(4px);
+  }
+  #ke-awal:hover, #ke-awal:focus-visible{ opacity:1; transform:scale(1.06); }
+  #ke-awal:focus-visible{ outline:2px solid var(--warnaaksen); outline-offset:2px; }
+
+  #tanda{
+    position:fixed; left:64px; bottom:28px; z-index:35; margin:0;
+    font-size:13px; letter-spacing:.02em; color:#78828B;
+    opacity:.55; pointer-events:none; user-select:none;
+  }
+  @media print{ #layar-penuh, #ke-awal, #tanda{ display:none; } }
+</style>
+</head>
+<body>
+<div class="reveal">
+<div class="slides">
+
+<section class="tengah sampul">
+  <div class="sampul-pita"></div>
+  <div class="sampul-isi">
+    <p class="label">Matematika I &bull; Teknik Sipil</p>
+    <h1>Operasi Fungsi dan Fungsi Invers</h1>
+  </div>
+  <div class="sampul-garis"></div>
+  <p class="sampul-sub">Aljabar Fungsi &bull; Komposisi &bull; Penguraian &bull; Fungsi Satu-Satu &bull; Invers</p>
+  <div class="sampul-kartu">
+    <div class="kartu"><div class="nama">Komposisi</div>$(f\circ g)(x)=f(g(x))$</div>
+    <div class="kartu"><div class="nama">Invers</div>$f^{-1}(f(x))=x$</div>
+    <div class="kartu"><div class="nama">Cermin</div>grafik $f^{-1}$ vs $y=x$</div>
+  </div>
+  <p class="catatanKecil" style="margin-top:.8em;">Mohammad Jamhuri &middot; Universitas Islam Negeri Maulana Malik Ibrahim Malang</p>
+</section>
+
+<section>
+  <h2 class="judul-frame">Tujuan Pembelajaran Hari Ini</h2>
+  <div class="isi">
+    <p>Setelah pertemuan ini, Anda mampu:</p>
+    <ol>
+      <li class="fragment">melakukan operasi jumlah, selisih, hasil kali, dan hasil bagi fungsi beserta domainnya;</li>
+      <li class="fragment">menentukan komposisi $f\circ g$ dan membedakannya dari $g\circ f$;</li>
+      <li class="fragment">menentukan domain komposisi secara tepat;</li>
+      <li class="fragment">menguraikan fungsi majemuk menjadi komposisi fungsi sederhana; dan</li>
+      <li class="fragment">menguji sifat satu-satu dan menentukan fungsi invers.</li>
+    </ol>
+    <p class="fragment catatanKecil" style="font-style:italic;">Rujukan: Buku, Bab 6.</p>
+  </div>
+</section>
+
+<section>
+  <h2 class="judul-frame">Kuis Pemanasan: Pertemuan 2</h2>
+  <div class="isi">
+    <p>Sebelum lanjut, cek dulu bekal dari minggu lalu:</p>
+    <ol type="a">
+      <li>Tentukan domain alami $f(x)=\sqrt{x-4}$.</li>
+      <li>Untuk $g(x)=x^2+1$, hitung $g(3)$ dan $g(t+1)$.</li>
+    </ol>
+    <div class="kotak kuis"><span class="judul">Kuis</span>Diskusikan 60 detik dengan teman sebangku.</div>
+    <div class="kotak jawaban fragment">
+      <span class="judul">Jawaban</span>
+      (a) $[4,\infty)$. &nbsp; (b) $g(3)=10$, $g(t+1)=t^2+2t+2$ &mdash; perhatikan, seluruh ekspresi $t+1$ disubstitusikan, bukan hanya peubahnya. Keterampilan ini akan dipakai berulang kali hari ini.
+    </div>
+  </div>
+</section>
+
+<section>
+  <h2 class="judul-frame">Dari Satu Fungsi ke Dua Fungsi</h2>
+  <div class="isi">
+    <p>Minggu lalu kita mengenali fungsi sebagai objek tunggal: rumus, domain, grafiknya.</p>
+    <div class="kotak block fragment">
+      <span class="judul">Hari ini</span>
+      Bagaimana <b>dua</b> fungsi digabungkan menjadi fungsi baru: lewat operasi aljabar biasa, dan lewat <span class="sorot">komposisi</span> &mdash; memasukkan keluaran satu fungsi sebagai masukan fungsi lain.
+    </div>
+    <div class="kotak intuisi fragment">
+      <span class="judul">Kenapa penting</span>
+      Kemampuan menguraikan fungsi majemuk jadi komposisi akan langsung dipakai pada <b>aturan rantai</b> (Pertemuan 16). Tanpa keterampilan ini, aturan rantai terasa seperti resep tanpa alasan.
+    </div>
+  </div>
+</section>
+
+<section>
+  <h2 class="judul-frame">Aljabar Fungsi</h2>
+  <div class="isi">
+    <div class="kotak block">
+      <span class="judul">Definisi</span>
+      $$(f\!+\!g)(x)=f(x)\!+\!g(x),\quad (f\!-\!g)(x)=f(x)\!-\!g(x),\quad (fg)(x)=f(x)g(x),\quad \left(\dfrac{f}{g}\right)\!(x)=\dfrac{f(x)}{g(x)}$$
+    </div>
+    <div class="kotak exampleblock fragment">
+      <span class="judul">Domain hasil operasi</span>
+      $$\mathrm{Dom}(f\pm g)=\mathrm{Dom}(fg)=\mathrm{Dom}(f)\cap\mathrm{Dom}(g)$$
+      $$\mathrm{Dom}\!\left(\dfrac{f}{g}\right)=\mathrm{Dom}(f)\cap\mathrm{Dom}(g)\cap\{x:g(x)\neq0\}$$
+    </div>
+    <div class="kotak alertblock fragment"><span class="judul">Awas</span>Domain tidak boleh "ditemukan kembali" dari rumus hasil akhir yang sudah disederhanakan; domain fungsi asal tetap mengikat.</div>
+  </div>
+</section>
+
+<section>
+  <h2 class="judul-frame">Kuis: Domain Hasil Operasi</h2>
+  <div class="isi">
+    <p>$f(x)=\sqrt{x}$ dengan $\mathrm{Dom}(f)=[0,\infty)$, dan $g(x)=x-4$ dengan $\mathrm{Dom}(g)=\mathbb{R}$.</p>
+    <div class="kotak kuis"><span class="judul">Kuis</span>Tentukan $(g/f)(x)$ beserta domainnya.</div>
+    <div class="kotak jawaban fragment">
+      <span class="judul">Jawaban</span>
+      $\left(\dfrac{g}{f}\right)(x)=\dfrac{x-4}{\sqrt{x}}$. Mulai dari irisan domain, $[0,\infty)$, lalu tambah syarat $f(x)\neq0$ yaitu $x\neq0$. Domain: $\sorot{(0,\infty)}$ &mdash; titik $x=0$ ikut hilang, padahal $0\in\mathrm{Dom}(f)$, sebab di sini $f$ berperan sebagai penyebut.
+    </div>
+  </div>
+</section>
+
+<section>
+  <h2 class="judul-frame">Komposisi Fungsi</h2>
+  <div class="isi kolom2">
+    <div>
+      <div class="kotak block">
+        <span class="judul">Definisi</span>
+        $$(f\circ g)(x)=f\bigl(g(x)\bigr)$$
+        dengan domain $\{x\in\mathrm{Dom}(g): g(x)\in\mathrm{Dom}(f)\}$.
+      </div>
+      <p class="fragment">Dibaca "$f$ bundaran $g$": yang dikerjakan <b>lebih dulu</b> adalah $g$, meski $f$ ditulis lebih dulu.</p>
+    </div>
+    <div class="fragment">
+      <img class="gbr" src="gambar/mesin-komposisi.svg" alt="Diagram mesin bersusun: x masuk ke g, keluarannya g(x) masuk ke f, hasil akhir f(g(x))">
+      <p class="catatanKecil" style="text-align:center;">dua mesin bersusun: $x\to g\to f$</p>
+    </div>
+  </div>
+</section>
+
+<section>
+  <h2 class="judul-frame">Urutan Itu Penting</h2>
+  <div class="isi">
+    <p>Untuk $f(x)=x^2$ dan $g(x)=x+3$:</p>
+    $$(f\circ g)(x)=(x+3)^2 \qquad\text{sedangkan}\qquad (g\circ f)(x)=x^2+3$$
+    <p class="fragment">Keduanya bahkan tidak sama sebagai polinomial &mdash; komposisi umumnya <span class="sorot">tidak komutatif</span>.</p>
+    <div class="kotak kuis fragment"><span class="judul">Kuis</span>Dengan $f,g$ yang sama, berapa $(f\circ g)(2)$?</div>
+    <div class="kotak jawaban fragment">
+      <span class="judul">Jawaban</span>
+      $(f\circ g)(2)=f(g(2))=f(5)=25$. Jawaban $7$ sebenarnya adalah $(g\circ f)(2)=g(4)=7$ &mdash; urutan yang tertukar menjawab pertanyaan yang berbeda. Cara aman: kerjakan dari <b>dalam ke luar</b>.
+    </div>
+  </div>
+</section>
+
+<section>
+  <h2 class="judul-frame">Kesalahan yang Sering Terjadi</h2>
+  <div class="isi">
+    <p>$f(x)=x^2+1$, $g(x)=\sqrt{x-2}$. Maka</p>
+    $$(f\circ g)(x)=\bigl(\sqrt{x-2}\bigr)^2+1=x-1$$
+    <div class="kotak alertblock fragment">
+      <span class="judul">Jebakan</span>
+      Rumus $x-1$ terlihat berlaku untuk semua $x$. Padahal $(f\circ g)(0)$ <b>tidak terdefinisi</b>, sebab $g(0)=\sqrt{-2}$ tidak ada.
+    </div>
+    <div class="kotak block fragment">
+      <span class="judul">Aturan aman</span>
+      Domain komposisi ditentukan <span class="sorot">sebelum</span> rumusnya disederhanakan, langsung dari definisi. Di sini domainnya tetap $[2,\infty)$.
+    </div>
+  </div>
+</section>
+
+<section>
+  <h2 class="judul-frame">Penguraian Fungsi</h2>
+  <div class="isi">
+    <p>Kebalikan dari komposisi: pecah $h=f\circ g$. Pilih $g$ sebagai bagian <b>dalam</b> (dihitung lebih dulu), $f$ sebagai operasi <b>terakhir</b>.</p>
+    <table class="tabel">
+      <tr><th>$h(x)$</th><th>$g(x)$ (dalam)</th><th>$f(u)$ (luar)</th></tr>
+      <tr class="fragment"><td>$\sqrt{3x+1}$</td><td>$3x+1$</td><td>$\sqrt{u}$</td></tr>
+      <tr class="fragment"><td>$(2x+5)^{10}$</td><td>$2x+5$</td><td>$u^{10}$</td></tr>
+      <tr class="fragment"><td>$\sin(x^3)$</td><td>$x^3$</td><td>$\sin u$</td></tr>
+    </table>
+    <div class="kotak kuis fragment"><span class="judul">Kuis</span>Uraikan $h(x)=\sqrt[3]{5x-2}$. Periksa dengan substitusi balik.</div>
+    <div class="kotak jawaban fragment"><span class="judul">Jawaban</span>$g(x)=5x-2$, $f(u)=\sqrt[3]{u}$. Cek: $f(g(x))=\sqrt[3]{5x-2}=h(x)$. Cocok.</div>
+  </div>
+</section>
+
+<section>
+  <h2 class="judul-frame">Fungsi Satu-Satu</h2>
+  <div class="isi tengah">
+    <div class="kotak block" style="text-align:left;">
+      <span class="judul">Definisi</span>
+      $f$ <b>satu-satu</b> (injektif) jika $f(a)=f(b)\Rightarrow a=b$: masukan berbeda selalu memberi keluaran berbeda.
+    </div>
+    <img class="gbr" src="gambar/uji-garis-horizontal.svg" alt="Uji garis horizontal: y=x kuadrat gagal karena terpotong dua kali, y=x pangkat tiga lolos karena terpotong satu kali">
+    <p class="fragment"><b>Uji garis horizontal</b>: $f$ satu-satu jika dan hanya jika setiap garis mendatar memotong grafiknya paling banyak satu kali.</p>
+  </div>
+</section>
+
+<section>
+  <h2 class="judul-frame">Fungsi Invers</h2>
+  <div class="isi">
+    <div class="kotak block">
+      <span class="judul">Definisi</span>
+      Jika $f$ satu-satu, inversnya $f^{-1}$ didefinisikan oleh $f^{-1}(y)=x \iff f(x)=y$.
+    </div>
+    <div class="kotak alertblock fragment">
+      <span class="judul">Awas notasi</span>
+      $f^{-1}(x)$ <b>bukan</b> $\dfrac{1}{f(x)}$. Pangkat $-1$ di sini berarti "fungsi kebalikan", bukan pangkat aljabar.
+    </div>
+    <p class="fragment">Sifat: $f^{-1}(f(x))=x$, $\ f(f^{-1}(y))=y$, $\ \mathrm{Dom}(f^{-1})=\mathrm{Ran}(f)$.</p>
+  </div>
+</section>
+
+<section>
+  <h2 class="judul-frame">Mencari Rumus Invers</h2>
+  <div class="isi kolom2">
+    <div>
+      <div class="kotak block">
+        <span class="judul">Empat langkah</span>
+        <ol>
+          <li>tulis $y=f(x)$;</li>
+          <li>selesaikan $x$ dalam $y$;</li>
+          <li>tukar nama peubah $x\leftrightarrow y$;</li>
+          <li>domain $f^{-1}=\mathrm{Ran}(f)$.</li>
+        </ol>
+      </div>
+      <div class="kotak exampleblock fragment">
+        <span class="judul">Contoh</span>
+        $f(x)=2x-3 \;\Rightarrow\; f^{-1}(x)=\dfrac{x+3}{2}$
+      </div>
+    </div>
+    <div class="fragment">
+      <img class="gbr" src="gambar/grafik-invers.svg" alt="Grafik f dan f invers saling mencerminkan terhadap garis y=x">
+      <p class="catatanKecil" style="text-align:center;">grafik $f^{-1}$: cermin grafik $f$ terhadap $y=x$</p>
+    </div>
+  </div>
+</section>
+
+<section>
+  <h2 class="judul-frame">Contoh Rekayasa: Kurva Pengaliran</h2>
+  <div class="isi">
+    <p>Di hidrologi, debit sungai $Q$ pada suatu penampang dinyatakan sebagai fungsi tinggi muka air $h$: $Q=f(h)$, disebut <b>kurva pengaliran</b> (<em>rating curve</em>), diperoleh lewat kalibrasi lapangan.</p>
+    <div class="kotak intuisi fragment">
+      <span class="judul">Kenapa perlu invers</span>
+      Tinggi muka air jauh lebih murah diukur terus-menerus dibanding debit langsung. Insinyur di lapangan justru sering perlu $h=f^{-1}(Q)$: mengubah data tinggi muka air otomatis menjadi taksiran debit.
+    </div>
+    <p class="fragment catatanKecil">Hubungan ini terjamin dapat dibalik karena kurva pengaliran pada rentang normal bersifat naik tegas, sehingga otomatis satu-satu.</p>
+  </div>
+</section>
+
+<section>
+  <h2 class="judul-frame">Kuis Penutup</h2>
+  <div class="isi">
+    <p>Fungsi manakah yang <b>tidak</b> mempunyai invers pada seluruh $\mathbb{R}$?</p>
+    <ol type="a">
+      <li>$f(x)=3x+2$</li>
+      <li>$f(x)=x^3$</li>
+      <li>$f(x)=x^2-4x$</li>
+      <li>$f(x)=\dfrac{1}{x}$ pada $\mathbb{R}\setminus\{0\}$</li>
+    </ol>
+    <div class="kotak kuis"><span class="judul">Kuis</span>Kerjakan sendiri dulu, 60 detik.</div>
+    <div class="kotak jawaban fragment">
+      <span class="judul">Jawaban</span>
+      (c). $f(0)=0$ dan $f(4)=16-16=0$: dua masukan berbeda, keluaran sama &mdash; gagal uji garis horizontal. Baru punya invers bila domainnya dibatasi, misalnya ke $[2,\infty)$.
+    </div>
+  </div>
+</section>
+
+<section>
+  <h2 class="judul-frame">Rangkuman Pertemuan 3</h2>
+  <div class="isi">
+    <ul>
+      <li>Domain $f\pm g$, $fg$ $=$ irisan domain; domain $f/g$ ditambah syarat penyebut taknol.</li>
+      <li class="fragment">$(f\circ g)(x)=f(g(x))$: $g$ dulu, umumnya $\neq g\circ f$.</li>
+      <li class="fragment">Domain komposisi ditentukan <span class="sorot">sebelum</span> disederhanakan.</li>
+      <li class="fragment">Penguraian: pilih bagian dalam sebagai $g$, operasi terakhir sebagai $f$.</li>
+      <li class="fragment">Invers hanya ada untuk fungsi satu-satu; grafiknya cermin terhadap $y=x$.</li>
+    </ul>
+    <div class="kotak block fragment">
+      <span class="judul">Pekerjaan Rumah</span>
+      Soal Latihan Bab 6 (buku). Minggu depan: <b>Fungsi Trigonometri</b> &mdash; radian, lingkaran satuan, grafik sin/cos/tan.
+    </div>
+  </div>
+</section>
+
+</div>
+</div>
+
+<p id="tanda">Dr. Mohammad Jamhuri &middot; UIN Maulana Malik Ibrahim Malang</p>
+
+<button id="ke-awal" title="Kembali ke slide 1" aria-label="Kembali ke slide 1">
+  <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true">
+    <path d="M4 11.5 12 4l8 7.5M6 10v9h5v-5h2v5h5v-9" fill="none"
+          stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+  </svg>
+</button>
+
+<button id="layar-penuh" title="Layar penuh (F)" aria-label="Layar penuh">
+  <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true">
+    <path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5" fill="none"
+          stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+  </svg>
+</button>
+
+<script src="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/reveal.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/contrib/auto-render.min.js"></script>
+<script>
+  renderMathInElement(document.querySelector('.slides'), {
+    delimiters: [
+      {left: '$$', right: '$$', display: true},
+      {left: '$', right: '$', display: false}
+    ],
+    throwOnError: false
+  });
+
+  Reveal.initialize({
+    hash: true,
+    slideNumber: 'c/t',
+    controls: true,
+    progress: true,
+    touch: true,
+    center: true,
+    transition: 'slide',
+    transitionSpeed: 'fast',
+    width: 1152,
+    height: 720,
+    margin: 0.02,
+    minScale: 0.2,
+    maxScale: 1.8,
+    overview: true,
+    scrollActivationWidth: 0
+  });
+
+  function sedangPenuh(){
+    return !!(document.fullscreenElement || document.webkitFullscreenElement);
+  }
+  function alihLayarPenuh(){
+    var akar = document.documentElement;
+    if (!sedangPenuh()) {
+      var minta = akar.requestFullscreen || akar.webkitRequestFullscreen;
+      if (minta) minta.call(akar);
+      if (screen.orientation && screen.orientation.lock) {
+        screen.orientation.lock('landscape').catch(function(){});
+      }
+    } else {
+      var keluar = document.exitFullscreen || document.webkitExitFullscreen;
+      if (keluar) keluar.call(document);
+    }
+  }
+  var tombolPenuh = document.getElementById('layar-penuh');
+  if (tombolPenuh) {
+    tombolPenuh.addEventListener('click', function(e){
+      e.stopPropagation();
+      alihLayarPenuh();
+      tombolPenuh.blur();
+    });
+    function perbaruiTombolPenuh(){
+      var penuh = sedangPenuh();
+      tombolPenuh.setAttribute('aria-pressed', penuh ? 'true' : 'false');
+      tombolPenuh.title = penuh ? 'Keluar dari layar penuh (F)' : 'Layar penuh (F)';
+    }
+    document.addEventListener('fullscreenchange', perbaruiTombolPenuh);
+    document.addEventListener('webkitfullscreenchange', perbaruiTombolPenuh);
+    perbaruiTombolPenuh();
+  }
+  document.addEventListener('keydown', function(e){
+    if (e.key === 'Escape' && sedangPenuh()) {
+      e.stopPropagation();
+      alihLayarPenuh();
+    }
+  }, true);
+
+  var keAwal = document.getElementById('ke-awal');
+  if (keAwal) {
+    keAwal.addEventListener('click', function(e){
+      e.stopPropagation();
+      Reveal.slide(0, 0, 0);
+      keAwal.blur();
+    });
+  }
+
+  document.addEventListener('click', function(e){
+    if (e.button !== 0) return;
+    if (Reveal.isOverview()) return;
+    if (e.target.closest('a, button, input, textarea, select, .controls, .progress, .slide-number')) return;
+    var sorot = window.getSelection && window.getSelection().toString();
+    if (sorot && sorot.length > 0) return;
+    Reveal.next();
+  }, true);
+</script>
+</body>
+</html>

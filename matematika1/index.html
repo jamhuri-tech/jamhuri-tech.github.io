@@ -2,843 +2,159 @@
 <html lang="id">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>Matematika I — Kuliah Pengantar</title>
-<meta name="description" content="Kuliah pengantar Matematika I, Program Studi Teknik Sipil.">
-
-<!-- Bila halaman ini ditambahkan ke layar utama telepon, ia terbuka
-     tanpa bilah alamat, sehingga langsung memenuhi layar. -->
-<link rel="manifest" href="manifest.json">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Matematika I, Program Studi Teknik Sipil UIN Malang</title>
+<meta name="description" content="Slide kuliah Matematika I (Kalkulus Diferensial dan Aljabar Linier), Program Studi Teknik Sipil, UIN Maulana Malik Ibrahim Malang. Tiga sks, enam belas pertemuan.">
+<link rel="icon" href="ikon.svg" type="image/svg+xml">
 <meta name="theme-color" content="#16456B">
-<meta name="mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<meta name="apple-mobile-web-app-title" content="Matematika I">
-
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/reveal.css">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/theme/white.css">
-
 <style>
   :root{
     --biruTua:#16456B; --biruMuda:#2E7BB5; --jingga:#E8703A;
-    --abuGelap:#3F4A55; --abuTerang:#F2F5F8; --kuning:#E4B429;
-    --merahBata:#C0392B;
+    --batu:#4A5561; --abu:#78828B; --krem:#F2F5F8; --krem-tua:#E1EAEF;
   }
-  .reveal{ font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
-           color:var(--abuGelap); }
-  .reveal h1,.reveal h2,.reveal h3{ color:var(--biruTua); text-transform:none;
-           font-weight:700; letter-spacing:normal; }
-  .reveal section{ text-align:left; }
-  .reveal .tengah{ text-align:center; }
-
-  /* satu gagasan per layar, dituturkan */
-  .reveal .tutur{ font-size:1.05em; line-height:1.45; }
-  .reveal .tutur p{ margin:0 0 0.75em 0; }
-  .reveal .kutip{ font-style:italic; color:var(--biruTua); }
-
-  .reveal .kunci{ color:var(--biruTua); font-weight:700; }
-  .reveal .sorot{ color:var(--jingga); font-weight:700; }
-  .reveal em.v{ font-style:italic; }
-
-  /* penanda pergantian bagian */
-  .reveal .label{ color:var(--jingga); font-size:0.5em; letter-spacing:0.12em;
-           text-transform:uppercase; margin-bottom:0.4em; }
-
-  /* Ukuran gambar dinyatakan dalam koordinat slide (1050 x 700), bukan
-     dalam satuan layar. Reveal.js memperbesar atau memperkecil seluruh
-     slide sekaligus, sehingga satuan vh justru membuat gambar mengecil
-     dua kali. Berkas SVG-nya sengaja dilepas dari ukuran bawaan dan
-     hanya menyisakan viewBox, agar perbandingan sisinya tetap terjaga
-     sementara ukurannya mengikuti aturan di bawah ini. */
-  .reveal img.gbr{ background:none; border:none; box-shadow:none;
-           display:block; margin:0 auto .7em auto;
-           height:300px; width:auto; max-width:94%; }
-  /* untuk slide yang hanya berisi gambar, tanpa teks di bawahnya */
-  .reveal img.gbr.penuh{ height:430px; }
-
-  /* tabel */
-  .reveal table{ font-size:0.62em; margin:0 auto; border-collapse:collapse; }
-  .reveal table th{ color:var(--biruTua); border-bottom:2px solid var(--biruTua);
-           padding:.35em .6em; text-align:left; }
-  .reveal table td{ border:none; padding:.28em .6em; }
-  .reveal tr.sorotBaris td{ background:rgba(228,180,41,.28); }
-  .reveal tr.ujian td{ background:rgba(232,112,58,.22); font-weight:700; }
-
-  .reveal .duaKolom{ display:flex; gap:1.6em; flex-wrap:wrap; justify-content:center; }
-  .reveal .duaKolom > div{ flex:1 1 320px; }
-
-  .reveal .catatanKecil{ font-size:.62em; color:#6b7680; }
-
-  .reveal .tutur a{ color:var(--biruMuda); text-decoration:underline;
-           text-underline-offset:.15em; }
-  .reveal .tutur a:hover{ color:var(--biruTua); }
-
-  /* tombol layar penuh pada sampul */
-  .tombolPenuh{
-    display:inline-block; margin-top:1.2em; padding:.7em 1.6em;
-    background:var(--biruTua); color:#fff; border:none; border-radius:6px;
-    font-size:.62em; font-family:inherit; cursor:pointer; letter-spacing:.02em;
+  *{ box-sizing:border-box; }
+  body{
+    margin:0; background:var(--krem); color:var(--batu);
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,
+                "Helvetica Neue",Arial,sans-serif;
+    line-height:1.6; -webkit-font-smoothing:antialiased;
   }
-  .tombolPenuh:hover{ background:var(--biruMuda); }
-  /* sembunyikan tombol saat sudah berada di layar penuh */
-  :fullscreen .tombolPenuh{ display:none; }
+  .bungkus{ max-width:760px; margin:0 auto; padding:0 24px; }
 
-  /* di layar sempit, perbesar keterbacaan */
-  @media (max-width:600px){
-    .reveal .tutur{ font-size:1.0em; }
-    .reveal table{ font-size:.78em; }
+  header{ background:var(--biruTua); color:#fff; padding:54px 0 44px; }
+  header .mk{ color:var(--jingga); font-size:.72rem; letter-spacing:.2em;
+    text-transform:uppercase; margin:0 0 .5em; }
+  header h1{ font-size:2rem; margin:0 0 .35em; line-height:1.15; }
+  header p{ margin:.2em 0; color:#BBD4E4; font-size:.94rem; }
+  .garis{ width:88px; height:2px; background:var(--jingga); margin:1.3em 0; }
 
-    /* tombol navigasi diperbesar dan dipertegas agar mudah disentuh */
-    .reveal .controls{
-      right:8px; bottom:8px;
-      --controls-arrow-size: 12px;
-      --controls-spacing: 6px;
-    }
-    .reveal .controls .controls-arrow{ opacity:.9; }
-    .reveal .slide-number{ font-size:14px; padding:4px 8px; }
+  .sks{ display:grid; grid-template-columns:1fr 1fr; gap:14px; margin:26px 0 0; }
+  .sks div{ background:rgba(255,255,255,.08); border-left:3px solid var(--jingga);
+    padding:12px 15px; border-radius:5px; }
+  .sks strong{ color:#fff; display:block; font-size:1.02rem; }
+  .sks span{ color:#BBD4E4; font-size:.8rem; }
+  .sks a{ color:#fff; text-decoration:underline; text-decoration-color:var(--jingga); text-underline-offset:2px; }
+  .sks a:hover{ color:var(--jingga); }
+  @media (max-width:620px){ .sks{ grid-template-columns:1fr; } }
+
+  main{ padding:44px 0 64px; }
+  h2{ color:var(--biruTua); font-size:1.12rem; margin:0 0 .2em; }
+  h2.lanjut{ margin-top:2.4em; }
+  .ket{ color:var(--abu); font-size:.86rem; margin:0 0 1.5em; }
+
+  ol.pertemuan{ list-style:none; margin:0; padding:0; }
+  ol.pertemuan li{ margin:0 0 10px; }
+  ol.pertemuan a, ol.pertemuan .belum{
+    display:flex; align-items:baseline; gap:14px;
+    padding:14px 17px; border:1px solid var(--krem-tua);
+    border-radius:7px; background:#fff; text-decoration:none; color:inherit;
+    transition:border-color .15s, transform .15s;
   }
+  ol.pertemuan a:hover{ border-color:var(--jingga); transform:translateX(2px); }
+  ol.pertemuan .no{ color:var(--jingga); font-weight:700; font-size:.86rem;
+    min-width:2.6em; }
+  ol.pertemuan .jd{ flex:1; }
+  ol.pertemuan .jd b{ display:block; color:var(--biruTua); font-weight:600; }
+  ol.pertemuan .jd span{ font-size:.8rem; color:var(--abu); }
+  ol.pertemuan .belum{ background:transparent; border-style:dashed; opacity:.62; }
 
-  /* nomor slide dan bilah kemajuan dibuat cukup jelas di semua ukuran */
-  .reveal .progress{ height:4px; color:var(--jingga); }
-  .reveal .slide-number{ background:rgba(22,69,107,.75); }
+  table.rencana{ width:100%; border-collapse:collapse; font-size:.86rem; }
+  table.rencana td{ padding:7px 10px; border-bottom:1px solid var(--krem-tua);
+    vertical-align:top; }
+  table.rencana td.n{ color:var(--jingga); font-weight:700; width:2.8em;
+    font-size:.8rem; }
+  table.rencana tr.ujian td{ color:var(--abu); font-style:italic; }
+
+  .buku{ margin-top:38px; padding:18px 20px; background:#fff;
+    border:1px solid var(--krem-tua); border-left:3px solid var(--biruTua);
+    border-radius:7px; font-size:.88rem; }
+  .buku p{ margin:.5em 0; }
+  .buku b{ color:var(--biruTua); }
+  .buku a{ color:var(--biruMuda); }
+
+  footer{ border-top:1px solid var(--krem-tua); padding:22px 0 40px;
+    color:var(--abu); font-size:.8rem; }
 </style>
 </head>
 <body>
-<div class="reveal">
-<div class="slides">
 
-<!-- ============================ SAMPUL ============================ -->
-<section class="tengah">
-  <p class="label">Matematika I &nbsp;·&nbsp; 2 SKS &nbsp;·&nbsp; Teknik Sipil</p>
-  <h1 style="font-size:2.1em;margin:.2em 0">Kuliah Pengantar</h1>
-  <p style="font-size:.8em">Pertemuan pertama, dan belum ada yang perlu dihitung</p>
-  <p class="catatanKecil" style="margin-top:1.6em">
-    Mohammad Jamhuri<br>
-    <span style="font-size:.9em">Geser ke samping atau tekan panah untuk berpindah slide</span>
-  </p>
-  <button class="tombolPenuh" id="mulai">Mulai layar penuh</button>
-</section>
-
-<section>
-  <div class="tutur">
-    <p>Selamat datang di <span class="kunci">Matematika I</span>.</p>
-    <p>Sebelum kita mulai, saya ingin menebak apa yang ada di pikiran
-       sebagian dari Anda hari ini.</p>
+<header>
+  <div class="bungkus">
+    <p class="mk">Program Studi Teknik Sipil &middot; UIN Maulana Malik Ibrahim Malang</p>
+    <h1>Matematika I</h1>
+    <p>Kalkulus Diferensial dan Aljabar Linier &middot; Dr. Mohammad Jamhuri</p>
+    <div class="garis"></div>
+    <div class="sks">
+      <div><strong>3 sks &middot; kelas</strong>
+        <span>Enam belas pertemuan, ditambah UTS dan UAS</span></div>
+      <div><strong>Prasyarat</strong>
+        <span>Tidak ada, mata kuliah dasar semester 1</span></div>
+    </div>
   </div>
-</section>
+</header>
 
-<section>
-  <div class="tutur kutip">
-    <p>“Saya masuk Teknik Sipil karena ingin membangun jembatan dan gedung.</p>
-    <p>Lalu kenapa saya harus belajar matematika lagi?”</p>
-  </div>
-</section>
+<main class="bungkus">
+  <h2>Slide kuliah</h2>
+  <p class="ket">Buka di peramban mana pun, termasuk telepon. Tekan tombol
+  <b>Mulai layar penuh</b> pada sampul, panah kiri dan kanan untuk berpindah
+  slide, dan <b>Esc</b> untuk melihat peta seluruh slide.</p>
 
-<section>
-  <div class="tutur">
-    <p>Sebelum menjawabnya, coba bandingkan dua bangunan ini.</p>
-  </div>
-</section>
+  <ol class="pertemuan">
+    <li><a href="pengantar/">
+      <span class="no">01</span>
+      <span class="jd"><b>Kuliah Pengantar: Mengapa Kalkulus dan Aljabar Linier?</b>
+      <span>Peta satu semester, alasan Matematika I penting bagi Teknik Sipil</span></span>
+    </a></li>
+    <li><a href="minggu-02/">
+      <span class="no">02</span>
+      <span class="jd"><b>Fungsi dan Grafik</b>
+      <span>Konsep fungsi, domain dan range, jenis-jenis fungsi, grafik &middot; Bab 5</span></span>
+    </a></li>
+    <li><a href="minggu-03/">
+      <span class="no">03</span>
+      <span class="jd"><b>Operasi Fungsi dan Fungsi Invers</b>
+      <span>Aljabar fungsi, komposisi, penguraian, fungsi satu-satu, invers &middot; Bab 6</span></span>
+    </a></li>
+    <li><span class="belum">
+      <span class="no">04</span>
+      <span class="jd"><b>Fungsi Trigonometri</b>
+      <span>Belum terbit &middot; Bab 7</span></span>
+    </span></li>
+  </ol>
 
-<section class="tengah">
-  <img class="gbr penuh" src="gambar/jembatan.svg" alt="Perbandingan jembatan papan dan jembatan bentang panjang">
-</section>
+  <h2 class="lanjut">Rencana satu semester</h2>
+  <p class="ket">Urutan pertemuan berikutnya, supaya Anda tahu ke mana
+  arah kuliah ini.</p>
 
-<section>
-  <div class="tutur">
-    <p>Yang kiri bisa dibuat oleh tukang berpengalaman, tanpa menghitung
-       apa pun.</p>
-    <p>Ia tahu dari kebiasaan: papan setebal ini, untuk bentang sependek
-       itu, sudah cukup kuat. Dan biasanya ia benar.</p>
-  </div>
-</section>
-
-<section>
-  <div class="tutur">
-    <p>Yang kanan tidak bisa ditebak dari kebiasaan.</p>
-    <p>Tidak ada tukang, sehebat apa pun jam terbangnya, yang pernah
-       <span class="sorot">merasakan</span> bentang dua ratus meter cukup
-       sering untuk tahu berapa tebal kabelnya.</p>
-  </div>
-</section>
-
-<section>
-  <div class="tutur">
-    <p>Dan kalau tebakannya meleset, yang terjadi bukan sekadar jembatan
-       bergoyang.</p>
-    <p>Yang terjadi adalah jembatan runtuh, dengan orang di atasnya.</p>
-  </div>
-</section>
-
-<section>
-  <div class="tutur">
-    <p>Jadi ini bukan soal siapa yang lebih pintar. Tukang menguasai
-       banyak hal yang tidak dikuasai insinyur.</p>
-    <p>Ini soal <span class="kunci">batas dari apa yang bisa ditebak lewat
-       pengalaman</span>.</p>
-  </div>
-</section>
-
-<section>
-  <div class="tutur">
-    <p>Begitu bangunan menjadi lebih besar, lebih tinggi, atau lebih
-       panjang daripada yang pernah dilihat siapa pun, pengalaman
-       kehabisan bekal.</p>
-    <p>Yang tersisa hanyalah <span class="kunci">hitungan</span>.</p>
-  </div>
-</section>
-
-<section>
-  <div class="tutur">
-    <p>Dan di situlah letak pekerjaan Anda nanti.</p>
-    <p>Insinyur adalah orang yang bisa menjawab dengan angka, untuk
-       bangunan yang belum pernah ia lihat sekalipun.</p>
-  </div>
-</section>
-
-<!-- ======================= BAGIAN 1 ======================= -->
-<section class="tengah">
-  <p class="label">Bagian satu</p>
-  <h2>Kenapa matematika?</h2>
-</section>
-
-<section>
-  <div class="tutur">
-    <p>Bayangkan Anda sudah lulus, dan pekerjaan pertama Anda adalah
-       merancang sebuah <span class="kunci">balok beton</span> untuk lantai
-       gedung.</p>
-  </div>
-</section>
-
-<section class="tengah">
-  <img class="gbr" src="gambar/balok-lurus.svg" alt="Balok lurus di atas dua tumpuan">
-  <div class="tutur"><p>Ini baloknya. Masih lurus, karena belum dibebani apa-apa.</p></div>
-</section>
-
-<section class="tengah">
-  <img class="gbr" src="gambar/balok-melengkung.svg" alt="Balok melengkung karena beban">
-  <div class="tutur"><p>Begitu dibebani, balok itu <span class="sorot">melengkung</span>.
-     Sedikit, tetapi pasti melengkung.</p></div>
-</section>
-
-<section>
-  <div class="tutur">
-    <p>Sekarang muncul pertanyaan yang harus Anda jawab sebagai perancang:</p>
-    <p><span class="kunci">seberapa besar lengkungan itu, dan di titik mana
-       paling besar?</span></p>
-  </div>
-</section>
-
-<section>
-  <div class="tutur">
-    <p>Kenapa itu penting? Karena kalau lengkungannya melebihi batas,
-       lantai terasa bergoyang saat dilewati, plafon retak, dan penghuni
-       merasa gedungnya tidak aman.</p>
-    <p>Padahal secara kekuatan, balok itu belum tentu akan patah.</p>
-  </div>
-</section>
-
-<section>
-  <div class="tutur">
-    <p>Jadi Anda perlu <span class="kunci">angka</span>, bukan perkiraan.</p>
-    <p>Dan untuk mendapat angka, lengkungan tadi harus ditulis sebagai
-       sesuatu yang bisa dihitung.</p>
-  </div>
-</section>
-
-<section class="tengah">
-  <img class="gbr" src="gambar/balok-sumbu.svg" alt="Balok dengan sumbu x dan lendutan y">
-  <div class="tutur"><p>Kita beri nama: <span class="kunci"><em class="v">x</em></span>
-     adalah posisi di sepanjang balok, dan
-     <span class="kunci"><em class="v">y</em></span> adalah seberapa turun
-     balok di posisi itu.</p></div>
-</section>
-
-<section>
-  <div class="tutur">
-    <p>Hubungan antara <em class="v">x</em> dan <em class="v">y</em> inilah
-       yang dalam matematika disebut <span class="kunci">fungsi</span>,
-       ditulis <em class="v">y</em>(<em class="v">x</em>).</p>
-    <p>Kita akan membahasnya di minggu kedua.</p>
-  </div>
-</section>
-
-<section>
-  <div class="tutur">
-    <p>Sekarang perhatikan titik paling bawah dari lengkungan tadi.</p>
-    <p>Apa yang istimewa dari titik itu?</p>
-  </div>
-</section>
-
-<section class="tengah">
-  <img class="gbr" src="gambar/balok-mendatar.svg" alt="Garis singgung mendatar di titik terendah">
-  <div class="tutur"><p>Di titik terendah itu, kurvanya sedang
-     <span class="sorot">mendatar</span>. Garis hijau itu rata, tidak naik
-     dan tidak turun.</p></div>
-</section>
-
-<section>
-  <div class="tutur">
-    <p>Nah, “seberapa miring kurva di suatu titik” itu ada namanya dalam
-       matematika.</p>
-    <p>Namanya <span class="kunci">turunan</span>.</p>
-  </div>
-</section>
-
-<section>
-  <div class="tutur">
-    <p>Dan karena di titik terendah kurvanya mendatar, artinya turunannya
-       <span class="kunci">nol</span> di sana.</p>
-    <p>Jadi untuk mencari lendutan terbesar, Anda cukup mencari di mana
-       <em class="v">y</em>′(<em class="v">x</em>) = 0.</p>
-  </div>
-</section>
-
-<section>
-  <div class="tutur">
-    <p>Perhatikan apa yang baru saja terjadi.</p>
-    <p>Sebuah pertanyaan teknik, yaitu “di mana lantai paling melendut”,
-       berubah menjadi sebuah pertanyaan matematika yang punya jawaban
-       pasti.</p>
-    <p><span class="kunci">Itulah gunanya matematika bagi insinyur.</span></p>
-  </div>
-</section>
-
-<section>
-  <div class="tutur">
-    <p>Turunan akan kita pelajari mulai <span class="kunci">minggu
-       kelima</span>.</p>
-    <p>Tetapi tadi baru satu pertanyaan. Masih ada dua lagi.</p>
-  </div>
-</section>
-
-<section>
-  <div class="tutur">
-    <p>Pertanyaan kedua: <span class="kunci">berapa ukuran yang paling
-       hemat?</span></p>
-  </div>
-</section>
-
-<section>
-  <div class="tutur">
-    <p>Balok yang sangat besar pasti kuat, tetapi mahal dan berat. Balok
-       yang terlalu kecil murah, tetapi berbahaya.</p>
-    <p>Di antara keduanya ada satu ukuran yang paling masuk akal: cukup
-       kuat, dengan bahan sesedikit mungkin.</p>
-  </div>
-</section>
-
-<section>
-  <div class="tutur">
-    <p>Mencari “yang paling” seperti itu namanya
-       <span class="kunci">optimasi</span>, dan alatnya juga turunan.</p>
-    <p>Kita bahas di minggu kesembilan.</p>
-  </div>
-</section>
-
-<section>
-  <div class="tutur">
-    <p>Pertanyaan ketiga muncul kalau strukturnya tidak lagi satu balok,
-       melainkan <span class="kunci">banyak batang sekaligus</span>.</p>
-  </div>
-</section>
-
-<section class="tengah">
-  <img class="gbr" src="gambar/rangka.svg" alt="Rangka batang dengan beban di puncak">
-  <div class="tutur"><p>Pada rangka seperti ini, gaya di satu batang
-     memengaruhi batang lainnya. Semuanya saling terkait.</p></div>
-</section>
-
-<section>
-  <div class="tutur">
-    <p>Setiap titik sambungan memberi satu persamaan keseimbangan. Sepuluh
-       sambungan berarti sekitar dua puluh persamaan, dan semuanya harus
-       dipenuhi <span class="sorot">pada saat yang sama</span>.</p>
-    <p>Tidak bisa diselesaikan satu per satu.</p>
-  </div>
-</section>
-
-<section>
-  <div class="tutur">
-    <p>Kumpulan persamaan yang harus dipenuhi serentak itu disebut
-       <span class="kunci">sistem persamaan linear</span>.</p>
-    <p>Cara menyelesaikannya kita pelajari di minggu kesepuluh sampai
-       keempat belas.</p>
-  </div>
-</section>
-
-<section>
-  <div class="tutur">
-    <p>Dan ini bukan sekadar latihan di kertas.</p>
-    <p>Perangkat lunak seperti SAP2000 atau ETABS, yang kelak Anda pakai di
-       kantor, pada dasarnya adalah mesin yang menyelesaikan sistem seperti
-       itu, hanya saja ukurannya ribuan persamaan.</p>
-    <p>Kita belajar versi kecilnya dengan tangan, supaya Anda paham apa yang
-       sebenarnya dikerjakan komputer.</p>
-  </div>
-</section>
-
-<section class="tengah">
-  <h3 style="margin-bottom:.8em">Tiga pertanyaan, tiga alat</h3>
-  <table>
-    <tr><th>Pertanyaan insinyur</th><th>Alat matematika</th></tr>
-    <tr><td>Seberapa cepat berubah?</td><td>Turunan</td></tr>
-    <tr><td>Ukuran mana yang paling hemat?</td><td>Optimasi</td></tr>
-    <tr><td>Banyak gaya sekaligus?</td><td>Matriks dan SPL</td></tr>
+  <table class="rencana">
+    <tr><td class="n">05</td><td>Limit fungsi secara intuitif dan aljabar</td></tr>
+    <tr><td class="n">06</td><td>Limit trigonometri, limit tak hingga, asimtot</td></tr>
+    <tr><td class="n">07</td><td>Kekontinuan fungsi, teorema nilai antara</td></tr>
+    <tr class="ujian"><td class="n">08</td><td>Ujian Tengah Semester</td></tr>
+    <tr><td class="n">09</td><td>Turunan: definisi, notasi, aturan dasar</td></tr>
+    <tr><td class="n">10</td><td>Aturan rantai, turunan implisit, turunan tingkat tinggi</td></tr>
+    <tr><td class="n">11</td><td>Penggunaan turunan: laju terkait, nilai ekstrem</td></tr>
+    <tr><td class="n">12</td><td>Penggunaan turunan: kemonotonan, kecekungan, optimasi</td></tr>
+    <tr><td class="n">13</td><td>Sistem persamaan linear dan matriks</td></tr>
+    <tr><td class="n">14</td><td>Operasi matriks, determinan, invers matriks</td></tr>
+    <tr><td class="n">15</td><td>Vektor dan ruang vektor</td></tr>
+    <tr class="ujian"><td class="n">16</td><td>Ujian Akhir Semester</td></tr>
   </table>
-</section>
 
-<!-- ======================= BAGIAN 2 ======================= -->
-<section class="tengah">
-  <p class="label">Bagian dua</p>
-  <h2>Apa saja yang akan kita pelajari</h2>
-</section>
-
-<section>
-  <div class="tutur">
-    <p>Satu semester ini ada <span class="kunci">enam belas minggu</span>.</p>
-    <p>Dua di antaranya untuk ujian, jadi kita punya empat belas kali
-       pertemuan.</p>
+  <div class="buku">
+    <p><b>Buku rujukan utama.</b> <em>Kalkulus Diferensial dan Aljabar
+    Linier untuk Teknik Sipil</em>, Mohammad Jamhuri, tersedia di
+    <a href="https://play.google.com/store/books/details?id=idYGEgAAQBAJ">Google Play Books</a>.
+    Nomor bab pada daftar di atas mengacu ke buku ini.</p>
+    <p><b>Kontak.</b> <a href="mailto:m.jamhuri@live.com">m.jamhuri@live.com</a></p>
   </div>
-</section>
+</main>
 
-<section class="tengah">
-  <h3 style="margin-bottom:.6em">Rencana satu semester</h3>
-  <div class="duaKolom">
-    <div>
-      <table>
-        <tr><th>Mg</th><th>Materi</th></tr>
-        <tr class="sorotBaris"><td>1</td><td>Pengantar dan review aljabar</td></tr>
-        <tr><td>2</td><td>Fungsi dan grafik</td></tr>
-        <tr><td>3</td><td>Trigonometri dan gaya</td></tr>
-        <tr><td>4</td><td>Limit dan kekontinuan</td></tr>
-        <tr><td>5</td><td>Turunan</td></tr>
-        <tr><td>6</td><td>Aturan turunan</td></tr>
-        <tr><td>7</td><td>Aplikasi turunan</td></tr>
-        <tr class="ujian"><td>8</td><td>Ujian Tengah Semester</td></tr>
-      </table>
-    </div>
-    <div>
-      <table>
-        <tr><th>Mg</th><th>Materi</th></tr>
-        <tr><td>9</td><td>Optimasi</td></tr>
-        <tr><td>10</td><td>Vektor dan SPL</td></tr>
-        <tr><td>11</td><td>Matriks</td></tr>
-        <tr><td>12</td><td>Determinan dan invers</td></tr>
-        <tr><td>13</td><td>Metode Gauss</td></tr>
-        <tr><td>14</td><td>Penerapan pada teknik sipil</td></tr>
-        <tr><td>15</td><td>Review menyeluruh</td></tr>
-        <tr class="ujian"><td>16</td><td>Ujian Akhir Semester</td></tr>
-      </table>
-    </div>
-  </div>
-</section>
+<footer class="bungkus">
+  <p>Slide memuat pustaka reveal.js dari jaringan pengantar isi, jadi
+  sediakan sambungan internet saat pertama membukanya. Di telepon, pilih
+  Bagikan lalu Tambah ke Layar Utama supaya slide terbuka penuh dan mendatar.</p>
+</footer>
 
-<section>
-  <div class="tutur">
-    <p>Kalau diperhatikan, semester ini sebenarnya terbagi menjadi
-       <span class="kunci">dua babak</span>.</p>
-  </div>
-</section>
-
-<section>
-  <div class="tutur">
-    <p>Babak pertama, minggu kedua sampai kesembilan, kita mempelajari
-       <span class="kunci">satu besaran yang berubah</span>.</p>
-    <p>Misalnya lendutan yang berubah di sepanjang balok. Pertanyaannya:
-       seberapa cepat berubah, dan di mana nilainya paling besar.</p>
-  </div>
-</section>
-
-<section>
-  <div class="tutur">
-    <p>Babak kedua, minggu kesepuluh sampai keempat belas, kita mempelajari
-       <span class="kunci">banyak besaran sekaligus</span>.</p>
-    <p>Misalnya gaya pada dua puluh batang yang saling terkait.
-       Pertanyaannya: berapa nilai semuanya, supaya seluruh syarat
-       terpenuhi.</p>
-  </div>
-</section>
-
-<section>
-  <div class="tutur">
-    <p>Keduanya bukan mata kuliah terpisah yang kebetulan digabung.</p>
-    <p>Menganalisis satu struktur sungguhan memerlukan
-       <span class="kunci">keduanya sekaligus</span>.</p>
-  </div>
-</section>
-
-<section>
-  <div class="tutur">
-    <p>Dan Matematika I ini baru permulaan. Setelah ini ada Matematika II,
-       lalu Matematika Progresif, lalu Matematika Advanced.</p>
-    <p>Apa yang tidak dikuasai sekarang akan menagih lagi nanti. Turunan
-       yang kita pelajari minggu kelima masih akan dipakai sampai semester
-       atas.</p>
-  </div>
-</section>
-
-<!-- ======================= BAGIAN 3 ======================= -->
-<section class="tengah">
-  <p class="label">Bagian tiga</p>
-  <h2>Aturan main kita</h2>
-</section>
-
-<section>
-  <div class="tutur">
-    <p>Kehadiran minimal <span class="kunci">75%</span> supaya boleh ikut
-       ujian akhir. Terlambat lebih dari lima belas menit dihitung tidak
-       hadir.</p>
-    <p>Kalau berhalangan karena sakit atau tugas kampus, bawa surat
-       keterangan.</p>
-  </div>
-</section>
-
-<section>
-  <div class="tutur">
-    <p>Di kelas, silakan bertanya kapan saja. Tidak perlu menunggu
-       dipersilakan, dan tidak ada pertanyaan yang terlalu sederhana.</p>
-    <p>Justru pertanyaan yang terdengar sederhana biasanya yang paling
-       banyak menolong teman sekelas.</p>
-  </div>
-</section>
-
-<section>
-  <div class="tutur">
-    <p>Tugas diberikan hampir setiap pertemuan dan dikumpulkan pada
-       pertemuan berikutnya.</p>
-    <p>Berdiskusi dengan teman dipersilakan. Yang tidak boleh adalah
-       menyalin, sebab yang diuji nanti adalah kemampuan Anda sendiri.</p>
-  </div>
-</section>
-
-<section class="tengah">
-  <h3 style="margin-bottom:.8em">Penilaian</h3>
-  <table>
-    <tr><td>Kehadiran dan keaktifan</td><td style="text-align:right">10%</td></tr>
-    <tr><td>Tugas</td><td style="text-align:right">20%</td></tr>
-    <tr><td>Kuis</td><td style="text-align:right">15%</td></tr>
-    <tr><td>Ujian Tengah Semester</td><td style="text-align:right">25%</td></tr>
-    <tr><td>Ujian Akhir Semester</td><td style="text-align:right">30%</td></tr>
-    <tr style="border-top:2px solid var(--biruTua)">
-      <td><strong>Jumlah</strong></td><td style="text-align:right"><strong>100%</strong></td></tr>
-  </table>
-</section>
-
-<section>
-  <div class="tutur">
-    <p>Coba perhatikan angkanya. Kegiatan harian, yaitu kehadiran, tugas,
-       dan kuis, berjumlah <span class="kunci">45%</span>.</p>
-    <p>Artinya hampir separuh nilai Anda ditentukan oleh kebiasaan
-       sehari-hari, bukan oleh dua hari ujian.</p>
-  </div>
-</section>
-
-<section>
-  <div class="tutur">
-    <p>Kabar baiknya: mahasiswa yang rajin mengerjakan tugas jarang sekali
-       gagal, <span class="kunci">bahkan ketika hasil ujiannya biasa
-       saja</span>.</p>
-  </div>
-</section>
-
-<!-- ======================= BAGIAN 4 ======================= -->
-<section class="tengah">
-  <p class="label">Bagian empat</p>
-  <h2>Bahan bacaan</h2>
-</section>
-
-<section>
-  <div class="tutur">
-    <p>Buku pegangan kita berjudul <span class="kunci">Matematika I:
-       Kalkulus dan Aljabar Linier Elementer untuk Teknik Sipil</span>,
-       disusun khusus untuk mata kuliah ini.</p>
-    <p>Setiap bab memuat tujuan, uraian, contoh yang dikerjakan langkah
-       demi langkah, soal latihan, dan kunci pembahasannya.</p>
-  </div>
-</section>
-
-<section>
-  <div class="tutur">
-    <p>Bukunya tersedia daring lewat Google Books.</p>
-    <p class="catatanKecil">
-      <a href="https://play.google.com/store/books/details?id=idYGEgAAQBAJ" target="_blank" rel="noopener">
-        play.google.com/store/books/details?id=idYGEgAAQBAJ</a></p>
-  </div>
-</section>
-
-<section>
-  <div class="tutur">
-    <p>Satu saran soal cara memakainya.</p>
-    <p>Bacalah bagian yang akan dibahas <span class="kunci">sebelum</span>
-       kuliah, walaupun belum paham. Tidak apa-apa bingung. Yang penting,
-       saat saya menjelaskan, istilahnya sudah pernah Anda lihat.</p>
-    <p>Percayalah, kuliahnya akan terasa jauh lebih ringan.</p>
-  </div>
-</section>
-
-<!-- ======================= BAGIAN 5 ======================= -->
-<section class="tengah">
-  <p class="label">Bagian lima</p>
-  <h2>Mari cek bekal Anda</h2>
-</section>
-
-<section>
-  <div class="tutur">
-    <p>Semua yang akan kita pelajari dibangun di atas aljabar dan
-       trigonometri SMA.</p>
-    <p>Jadi sekarang saya ingin tahu, dan Anda juga perlu tahu, bagian mana
-       yang masih perlu diperkuat.</p>
-  </div>
-</section>
-
-<section>
-  <div class="tutur">
-    <p>Ini <span class="kunci">tidak dinilai</span>. Tidak ada hubungannya
-       dengan nilai akhir Anda.</p>
-    <p>Kerjakan sendiri di kertas, kira-kira dua belas menit.</p>
-  </div>
-</section>
-
-<section class="tengah">
-  <h3 style="margin-bottom:.6em">Delapan soal</h3>
-  <div class="duaKolom" style="font-size:.85em">
-    <div>
-      <ol>
-        <li>Faktorkan <em class="v">x</em>² − 5<em class="v">x</em> + 6</li>
-        <li>Sederhanakan (<em class="v">x</em>² − 9) / (<em class="v">x</em> − 3)</li>
-        <li>Selesaikan 2<em class="v">x</em> − 3 &lt; 7</li>
-        <li>Hitung |−5| dan |3 − 7|</li>
-      </ol>
-    </div>
-    <div>
-      <ol start="5">
-        <li>Sederhanakan <em class="v">a</em>³<em class="v">b</em>² / <em class="v">ab</em>⁴</li>
-        <li>sin 30°, cos 60°, tan 45°</li>
-        <li>Garis lewat (1, 2), gradien 3</li>
-        <li><em class="v">x</em> + <em class="v">y</em> = 5 dan
-            <em class="v">x</em> − <em class="v">y</em> = 1</li>
-      </ol>
-    </div>
-  </div>
-</section>
-
-<section class="tengah">
-  <h3 style="margin-bottom:.6em">Jawabannya</h3>
-  <div class="duaKolom" style="font-size:.85em">
-    <div>
-      <ol>
-        <li>(<em class="v">x</em> − 2)(<em class="v">x</em> − 3)</li>
-        <li><em class="v">x</em> + 3</li>
-        <li><em class="v">x</em> &lt; 5</li>
-        <li>5 dan 4</li>
-      </ol>
-    </div>
-    <div>
-      <ol start="5">
-        <li><em class="v">a</em>² / <em class="v">b</em>²</li>
-        <li>½, ½, 1</li>
-        <li><em class="v">y</em> = 3<em class="v">x</em> − 1</li>
-        <li><em class="v">x</em> = 3, <em class="v">y</em> = 2</li>
-      </ol>
-    </div>
-  </div>
-</section>
-
-<section>
-  <div class="tutur">
-    <p>Sekarang bagian yang menarik.</p>
-    <p>Kedelapan soal itu <span class="kunci">tidak dipilih
-       sembarangan</span>.</p>
-  </div>
-</section>
-
-<section class="tengah">
-  <h3 style="margin-bottom:.6em">Tiap soal ada tujuannya</h3>
-  <table>
-    <tr><th>Soal</th><th>Bekal</th><th>Nanti dipakai untuk</th><th>Mg</th></tr>
-    <tr><td>1, 2</td><td>pemfaktoran</td><td>menghitung limit</td><td>4</td></tr>
-    <tr><td>3</td><td>pertidaksamaan</td><td>selang naik dan turun</td><td>7</td></tr>
-    <tr><td>4</td><td>nilai mutlak</td><td>kekontinuan dan galat</td><td>4</td></tr>
-    <tr><td>5</td><td>sifat eksponen</td><td>aturan pangkat pada turunan</td><td>5, 6</td></tr>
-    <tr><td>6</td><td>trigonometri</td><td>menguraikan gaya</td><td>3</td></tr>
-    <tr><td>7</td><td>persamaan garis</td><td>garis singgung</td><td>7</td></tr>
-    <tr><td>8</td><td>sistem dua persamaan</td><td>SPL dan matriks</td><td>10–14</td></tr>
-  </table>
-</section>
-
-<section>
-  <div class="tutur">
-    <p>Jadi kalau tadi ada nomor yang terasa berat, itu bukan masalah kecil
-       yang bisa dibiarkan.</p>
-    <p>Perbaiki <span class="kunci">minggu ini juga</span>, selagi
-       materinya belum menumpuk.</p>
-  </div>
-</section>
-
-<!-- ======================= BAGIAN 6 ======================= -->
-<section class="tengah">
-  <p class="label">Bagian enam</p>
-  <h2>Sebelum kita tutup</h2>
-</section>
-
-<section>
-  <div class="tutur">
-    <p>Ada satu hal yang membedakan matematika dari banyak mata kuliah
-       lain: sifatnya <span class="kunci">menumpuk</span>.</p>
-    <p>Materi minggu keenam memerlukan minggu kelima. Sekali tertinggal dan
-       dibiarkan, jaraknya melebar dengan cepat.</p>
-  </div>
-</section>
-
-<section>
-  <div class="tutur">
-    <p>Karena itu cara belajarnya juga berbeda.</p>
-    <p>Matematika tidak bisa dipelajari dengan membaca saja. Harus
-       dikerjakan, dengan tangan, dengan kertas.</p>
-    <p>Membaca penyelesaian orang lain terasa seperti paham. Tetapi baru
-       ketahuan benar-benar paham atau tidak saat Anda mengerjakan
-       sendiri.</p>
-  </div>
-</section>
-
-<section>
-  <div class="tutur">
-    <p>Dan satu hal terakhir, ini penting.</p>
-  </div>
-</section>
-
-<section>
-  <div class="tutur">
-    <p>Tidak ada mahasiswa yang <em>tidak berbakat matematika</em>.</p>
-    <p>Yang ada hanyalah yang belum cukup berlatih.</p>
-    <p><span class="kunci">Kemampuan matematika itu dibangun, bukan
-       diwarisi.</span></p>
-  </div>
-</section>
-
-<section>
-  <div class="tutur">
-    <p>Untuk minggu depan, tiga hal saja:</p>
-    <p>perbaiki nomor yang tadi terasa sulit, siapkan buku catatan khusus
-       mata kuliah ini, dan baca bab tentang fungsi dan grafik.</p>
-  </div>
-</section>
-
-<section>
-  <div class="tutur">
-    <p>Minggu depan kita mulai dari <span class="kunci">fungsi</span>,
-       yaitu cara matematika menuliskan hubungan antara dua besaran.</p>
-    <p>Seperti hubungan antara beban dan lendutan yang tadi kita lihat.</p>
-  </div>
-</section>
-
-<section class="tengah">
-  <h2 style="font-size:2em">Ada pertanyaan?</h2>
-</section>
-
-</div>
-</div>
-
-<script src="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/reveal.js"></script>
-<script>
-  Reveal.initialize({
-    hash: true,          // nomor slide tersimpan di alamat, bisa dibagikan
-    slideNumber: 'c/t',
-    controls: true,
-    progress: true,
-    touch: true,         // bisa digeser di layar sentuh
-    center: true,
-    transition: 'fade',
-    width: 1050,
-    height: 700,
-    margin: 0.06,
-    minScale: 0.2,
-    maxScale: 2.0,
-
-    // Reveal.js 5 secara bawaan beralih ke tampilan gulir bila lebar
-    // layar di bawah 435 piksel, dan pada mode itu tombol navigasi
-    // sengaja disembunyikan. Telepon dalam posisi tegak masuk ke
-    // kategori tersebut. Nilai 0 mematikan peralihan itu, sehingga
-    // tampilannya tetap berupa slide beserta tombol navigasinya.
-    scrollActivationWidth: 0
-  });
-
-  // ---------------------------------------------------------------
-  //  Layar penuh
-  //
-  //  Peramban tidak mengizinkan halaman masuk layar penuh dengan
-  //  sendirinya. Perintah itu hanya diterima bila datang dari tindakan
-  //  pengguna, misalnya sentuhan atau klik. Karena itu disediakan dua
-  //  jalan: tombol pada sampul, dan sentuhan pertama pada slide.
-  // ---------------------------------------------------------------
-  // Memutar tampilan ke posisi mendatar. Hanya dilayani oleh peramban
-  // Android saat halaman sedang dalam layar penuh; di tempat lain
-  // permintaan ini diabaikan tanpa menimbulkan galat.
-  function kunciMendatar() {
-    try {
-      if (screen.orientation && screen.orientation.lock) {
-        var j = screen.orientation.lock('landscape');
-        if (j && j.catch) j.catch(function () {});
-      }
-    } catch (e) { /* diabaikan */ }
-  }
-
-  function layarPenuh() {
-    var el = document.documentElement;
-    var minta = el.requestFullscreen || el.webkitRequestFullscreen
-             || el.mozRequestFullScreen || el.msRequestFullscreen;
-    if (!minta) return false;                     // peramban tidak mendukung
-    if (document.fullscreenElement) { kunciMendatar(); return true; }
-    try {
-      var janji = minta.call(el);
-      // Orientasi baru dapat dikunci setelah layar penuh benar-benar aktif.
-      if (janji && janji.then) janji.then(kunciMendatar).catch(function () {});
-      else setTimeout(kunciMendatar, 120);
-      return true;
-    } catch (e) { return false; }
-  }
-
-  // Bila pengguna keluar dari layar penuh, kunci orientasi dilepas
-  // supaya telepon kembali mengikuti putaran layarnya sendiri.
-  document.addEventListener('fullscreenchange', function () {
-    if (!document.fullscreenElement) {
-      try { if (screen.orientation && screen.orientation.unlock) screen.orientation.unlock(); }
-      catch (e) { /* diabaikan */ }
-    }
-  });
-
-  var tombol = document.getElementById('mulai');
-  if (tombol) {
-    // Peramban di iPhone tidak mendukung layar penuh sama sekali.
-    // Di sana tombol diganti petunjuk menambahkan ke layar utama.
-    var bisaPenuh = !!(document.documentElement.requestFullscreen
-                    || document.documentElement.webkitRequestFullscreen);
-    if (!bisaPenuh) {
-      tombol.textContent = 'Bagikan, lalu Tambah ke Layar Utama';
-      tombol.disabled = true;
-      tombol.style.opacity = '.75';
-      tombol.style.cursor = 'default';
-    } else {
-      tombol.addEventListener('click', function (ev) {
-        ev.stopPropagation();
-        layarPenuh();
-        Reveal.next();
-      });
-    }
-  }
-
-  // Sentuhan atau klik pertama pada slide mana pun ikut membuka layar
-  // penuh, sehingga penonton yang langsung menggeser tanpa menekan
-  // tombol tetap memperoleh tampilan penuh.
-  var sudahDicoba = false;
-  function cobaSekali() {
-    if (sudahDicoba) return;
-    sudahDicoba = true;
-    layarPenuh();
-  }
-  document.addEventListener('click', cobaSekali, { once: true });
-  document.addEventListener('touchend', cobaSekali, { once: true });
-</script>
 </body>
 </html>
