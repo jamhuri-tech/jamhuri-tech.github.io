@@ -180,6 +180,34 @@
   .wcard-meta{ display:flex; justify-content:space-between; align-items:center; font-family:'IBM Plex Mono', monospace; font-size:11px; color:var(--ink-soft); }
   .wcard-arrow{ color:var(--brass-deep); }
 
+  /* book cover grid */
+  .book-grid{
+    display:grid; grid-template-columns:repeat(auto-fill, minmax(132px, 1fr));
+    gap:26px 20px; margin:22px 0 6px;
+  }
+  .book-card{ display:flex; flex-direction:column; gap:9px; text-decoration:none; color:var(--ink); }
+  .book-cover{
+    position:relative; aspect-ratio:2/3; overflow:hidden;
+    background:var(--paper-soft); border:1px solid var(--line);
+    box-shadow:3px 3px 0 var(--line-soft);
+    transition:transform .15s ease, box-shadow .15s ease;
+  }
+  .book-card:hover .book-cover{ transform:translate(-2px,-3px); box-shadow:5px 6px 0 var(--brass); }
+  .book-cover img{ width:100%; height:100%; object-fit:cover; display:block; }
+  .book-badge{
+    position:absolute; top:7px; left:7px; font-family:'IBM Plex Mono', monospace;
+    font-size:9.5px; letter-spacing:.04em; text-transform:uppercase; color:var(--paper);
+    background:var(--brass-deep); padding:3px 6px; border-radius:2px;
+  }
+  .book-title{ font-size:.85rem; font-weight:600; line-height:1.32; }
+  .book-card:hover .book-title{ color:var(--brass-deep); }
+  .book-meta{ font-family:'IBM Plex Mono', monospace; font-size:10px; color:var(--ink-soft); }
+  .buku-subhead{
+    font-family:'IBM Plex Mono', monospace; font-size:12px; letter-spacing:.06em;
+    text-transform:uppercase; color:var(--ink-soft); margin:34px 0 0; padding-top:22px;
+    border-top:1px solid var(--line-soft);
+  }
+
   footer{ padding:40px 0 70px; position:relative; z-index:1; }
   .foot-links{ display:flex; flex-wrap:wrap; gap:16px; margin-bottom:18px; font-size:.9rem; }
   .foot-links a{ text-decoration:none; color:var(--ink-soft); border-bottom:1px solid transparent; }
@@ -397,42 +425,62 @@
       <h2 class="sec-title">Buku</h2>
       <span class="sec-note">ber-ISBN</span>
     </div>
+
+    <div class="book-grid">
+      <a class="book-card" href="https://play.google.com/store/books/details?id=ehEFEgAAQBAJ">
+        <div class="book-cover"><img src="cover-metode-numerik.jpg" alt="Sampul buku Metode Numerik: Teori, Algoritma, dan Analisis Galat" loading="lazy"></div>
+        <div class="book-title">Metode Numerik: Teori, Algoritma, dan Analisis Galat</div>
+        <div class="book-meta">Play Books · 2026</div>
+      </a>
+      <a class="book-card" href="https://play.google.com/store/books/details?id=idYGEgAAQBAJ">
+        <div class="book-cover"><img src="cover-kalkulus-diferensial.jpg" alt="Sampul buku Kalkulus Diferensial dan Aljabar Linier untuk Teknik Sipil" loading="lazy"><span class="book-badge">Seri · Jilid 1</span></div>
+        <div class="book-title">Kalkulus Diferensial dan Aljabar Linier untuk Teknik Sipil</div>
+        <div class="book-meta">Play Books · 2026</div>
+      </a>
+      <a class="book-card" href="https://play.google.com/store/books/details?id=1nkGEgAAQBAJ">
+        <div class="book-cover"><img src="cover-kalkulus-integral.jpg" alt="Sampul buku Kalkulus Integral dan Multivariabel untuk Teknik Sipil" loading="lazy"><span class="book-badge">Seri · Jilid 2</span></div>
+        <div class="book-title">Kalkulus Integral dan Multivariabel untuk Teknik Sipil</div>
+        <div class="book-meta">Play Books · 2026</div>
+      </a>
+      <a class="book-card" href="https://play.google.com/store/books/details?id=GHoGEgAAQBAJ">
+        <div class="book-cover"><img src="cover-pd-biasa-teknik-sipil.jpg" alt="Sampul buku Persamaan Diferensial Biasa untuk Teknik Sipil" loading="lazy"><span class="book-badge">Seri · Jilid 3</span></div>
+        <div class="book-title">Persamaan Diferensial Biasa untuk Teknik Sipil</div>
+        <div class="book-meta">Play Books · 2026</div>
+      </a>
+      <a class="book-card" href="https://play.google.com/store/books/details?id=qtMFEgAAQBAJ">
+        <div class="book-cover"><img src="cover-pd-parsial.jpg" alt="Sampul buku Pengantar Persamaan Diferensial Parsial" loading="lazy"><span class="book-badge">Seri · Jilid 4</span></div>
+        <div class="book-title">Pengantar Persamaan Diferensial Parsial</div>
+        <div class="book-meta">Play Books · 2026</div>
+      </a>
+      <a class="book-card" href="https://play.google.com/store/books/details?id=4scFEgAAQBAJ">
+        <div class="book-cover"><img src="cover-sistem-dinamik.jpg" alt="Sampul buku Sistem Dinamik: Perilaku Jangka Panjang, Kestabilan, dan Fraktal" loading="lazy"></div>
+        <div class="book-title">Sistem Dinamik: Perilaku Jangka Panjang, Kestabilan, dan Fraktal</div>
+        <div class="book-meta">Play Books · 2026</div>
+      </a>
+      <a class="book-card" href="https://play.google.com/store/books/details/Mohammad_Jamhuri_Python_untuk_Machine_Learning_dan?id=RXwFEgAAQBAJ">
+        <div class="book-cover"><img src="cover-python-ml.jpg" alt="Sampul buku Python untuk Machine Learning dan Data Science" loading="lazy"></div>
+        <div class="book-title">Python untuk Machine Learning dan Data Science</div>
+        <div class="book-meta">Play Books · bersama Hisyam Fahmi, M. Khudzaifah</div>
+      </a>
+      <a class="book-card" href="https://play.google.com/store/books/details/Mohammad_Jamhuri_Metode_Metode_Optimisasi_pada_Neu?id=pMzwEQAAQBAJ&hl=en">
+        <div class="book-cover"><img src="cover-optimisasi-nn.jpg" alt="Sampul buku Metode-Metode Optimisasi pada Neural Network" loading="lazy"></div>
+        <div class="book-title">Metode-Metode Optimisasi pada Neural Network</div>
+        <div class="book-meta">Play Books · 2026</div>
+      </a>
+      <a class="book-card" href="https://play.google.com/store/books/details/Dr_Mohammad_Jamhuri_Support_Vector_Machine?id=x-bzEQAAQBAJ&hl=en">
+        <div class="book-cover"><img src="cover-svm.jpg" alt="Sampul buku Support Vector Machine: Dari Intuisi Geometris Menuju Implementasi" loading="lazy"></div>
+        <div class="book-title">Support Vector Machine: Dari Intuisi Geometris Menuju Implementasi</div>
+        <div class="book-meta">Play Books</div>
+      </a>
+      <a class="book-card" href="https://play.google.com/store/books/details/Mohammad_Jamhuri_Second_Order_Optimization_Methods?id=DQ3zEQAAQBAJ&hl=en">
+        <div class="book-cover"><img src="cover-second-order-opt.jpg" alt="Sampul buku Second-Order Optimization Methods" loading="lazy"></div>
+        <div class="book-title">Second-Order Optimization Methods</div>
+        <div class="book-meta">Play Books</div>
+      </a>
+    </div>
+
+    <p class="buku-subhead">Buku cetak &amp; format lain</p>
     <ul class="pub-list">
-      <li class="pub">
-        <div class="pub-top">
-          <a class="pub-title" href="https://play.google.com/store/books/details?id=ehEFEgAAQBAJ">Metode Numerik: Teori, Algoritma, dan Analisis Galat</a>
-          <span class="pub-year">Play Books</span>
-        </div>
-        <div class="pub-venue"><span class="pub-type">Buku</span>Google Play Books</div>
-      </li>
-      <li class="pub">
-        <div class="pub-top">
-          <a class="pub-title" href="https://play.google.com/store/books/details/Mohammad_Jamhuri_Python_untuk_Machine_Learning_dan?id=RXwFEgAAQBAJ">Python untuk Machine Learning dan Data Science</a>
-          <span class="pub-year">Play Books</span>
-        </div>
-        <div class="pub-venue"><span class="pub-type">Buku</span>Google Play Books · bersama Hisyam Fahmi, Muhammad Khudzaifah</div>
-      </li>
-      <li class="pub">
-        <div class="pub-top">
-          <a class="pub-title" href="https://play.google.com/store/books/details/Mohammad_Jamhuri_Metode_Metode_Optimisasi_pada_Neu?id=pMzwEQAAQBAJ&hl=en">Metode-Metode Optimisasi pada Neural Network: Teori Matematika, Analisis Numerik, dan Praktikum Python</a>
-          <span class="pub-year">Play Books</span>
-        </div>
-        <div class="pub-venue"><span class="pub-type">Buku</span>Google Play Books</div>
-      </li>
-      <li class="pub">
-        <div class="pub-top">
-          <a class="pub-title" href="https://play.google.com/store/books/details/Mohammad_Jamhuri_Second_Order_Optimization_Methods?id=DQ3zEQAAQBAJ&hl=en">Second-Order Optimization Methods: and Their Implementation in Feedforward Neural Networks</a>
-          <span class="pub-year">Play Books</span>
-        </div>
-        <div class="pub-venue"><span class="pub-type">Buku</span>Google Play Books</div>
-      </li>
-      <li class="pub">
-        <div class="pub-top">
-          <a class="pub-title" href="https://play.google.com/store/books/details/Dr_Mohammad_Jamhuri_Support_Vector_Machine?id=x-bzEQAAQBAJ&hl=en">Support Vector Machine: Dari Intuisi Geometris Menuju Implementasi</a>
-          <span class="pub-year">Play Books</span>
-        </div>
-        <div class="pub-venue"><span class="pub-type">Buku</span>Google Play Books</div>
-      </li>
       <li class="pub">
         <div class="pub-top">
           <a class="pub-title" href="https://www.researchgate.net/publication/410767452_Jaringan_Syaraf_Tiruan_Feedforward_Satu_Hidden_Layer">Jaringan Syaraf Tiruan Feedforward Satu Hidden Layer — Satu Model, Tiga Wajah: Matematika, NumPy, dan TensorFlow</a>
