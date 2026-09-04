@@ -58,6 +58,29 @@
   ol.pertemuan .jd span{ font-size:.8rem; color:var(--abu); }
   ol.pertemuan .belum{ background:transparent; border-style:dashed; opacity:.62; }
 
+  .duaTaut{
+    display:flex; align-items:baseline; gap:14px;
+    padding:14px 17px; border:1px solid var(--krem-tua);
+    border-radius:7px; background:#fff;
+  }
+  .duaTaut .jd{ flex:1; }
+  .duaTaut .jd b{ display:block; color:var(--biruTua); font-weight:600; }
+  .duaTaut .jd span{ font-size:.8rem; color:var(--abu); }
+  .duaTaut .opsi{ display:flex; flex-direction:column; gap:6px; flex:none; }
+  .duaTaut .opsi a{
+    font-size:.78rem; font-weight:600; text-decoration:none;
+    padding:5px 10px; border-radius:5px; text-align:center; white-space:nowrap;
+    border:1px solid var(--krem-tua); color:var(--biruTua);
+  }
+  .duaTaut .opsi a:hover{ border-color:var(--jingga); }
+  .duaTaut .opsi a.utama{ background:var(--biruTua); color:#fff; border-color:var(--biruTua); }
+  .duaTaut .opsi a.utama:hover{ background:var(--jingga); border-color:var(--jingga); }
+  @media (max-width:560px){
+    .duaTaut{ flex-direction:column; align-items:stretch; }
+    .duaTaut .opsi{ flex-direction:row; }
+    .duaTaut .opsi a{ flex:1; }
+  }
+
   table.rencana{ width:100%; border-collapse:collapse; font-size:.86rem; }
   table.rencana td{ padding:7px 10px; border-bottom:1px solid var(--krem-tua);
     vertical-align:top; }
@@ -105,11 +128,17 @@
       <span class="jd"><b>Kuliah Pengantar: Mengapa Kalkulus dan Aljabar Linier?</b>
       <span>Peta satu semester, alasan Matematika I penting bagi Teknik Sipil</span></span>
     </a></li>
-    <li><a href="minggu-02/">
-      <span class="no">02</span>
-      <span class="jd"><b>Fungsi dan Grafik</b>
-      <span>Konsep fungsi, domain dan range, jenis-jenis fungsi, grafik &middot; Bab 5</span></span>
-    </a></li>
+    <li>
+      <div class="duaTaut">
+        <span class="no">02</span>
+        <span class="jd"><b>Fungsi dan Grafik</b>
+        <span>Konsep fungsi, domain dan range, jenis-jenis fungsi, grafik &middot; Bab 5</span></span>
+        <span class="opsi">
+          <a class="utama" href="minggu-02/">Materi</a>
+          <a href="minggu-02/pembahasan/">Pembahasan Soal</a>
+        </span>
+      </div>
+    </li>
     <li><a href="minggu-03/">
       <span class="no">03</span>
       <span class="jd"><b>Operasi Fungsi dan Fungsi Invers</b>
