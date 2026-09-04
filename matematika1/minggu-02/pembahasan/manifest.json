@@ -1,0 +1,21 @@
+{
+  "name": "Matematika I — Minggu 2: Pembahasan Latihan Soal",
+  "short_name": "Pembahasan Minggu 2",
+  "description": "Pembahasan langkah demi langkah 15 soal pilihan ganda dan 5 soal isian singkat, Bab 5: Fungsi, Grafik, dan Transformasinya. Matematika I, Teknik Sipil.",
+  "lang": "id",
+  "start_url": "./",
+  "scope": "./",
+  "display": "fullscreen",
+  "display_override": ["fullscreen", "standalone"],
+  "orientation": "landscape",
+  "background_color": "#F5F2EA",
+  "theme_color": "#154060",
+  "icons": [
+    {
+      "src": "../../ikon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}
