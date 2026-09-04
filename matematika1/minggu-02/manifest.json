@@ -1,15 +1,15 @@
 {
   "name": "Matematika I — Minggu 2: Fungsi dan Grafik",
   "short_name": "Minggu 2",
-  "description": "Fungsi dan grafik dalam konteks teknik. Matematika I, Teknik Sipil.",
+  "description": "Fungsi dan grafik dalam konteks teknik: KaTeX, kotak soal/jawaban bertahap, dan peta gagasan. Matematika I, Teknik Sipil.",
   "lang": "id",
   "start_url": "./",
   "scope": "./",
   "display": "fullscreen",
   "display_override": ["fullscreen", "standalone"],
   "orientation": "landscape",
-  "background_color": "#ffffff",
-  "theme_color": "#16456B",
+  "background_color": "#F5F2EA",
+  "theme_color": "#154060",
   "icons": [
     {
       "src": "../ikon.svg",
