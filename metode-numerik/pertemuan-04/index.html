@@ -155,9 +155,9 @@
       <ul class="kecil">
         <li><b>Turunan mendekati nol.</b> Garis singgung yang hampir mendatar
             melemparkan hampiran ke tempat yang jauh.</li>
-        <li><b>Hampiran awal buruk.</b> Barisannya menyimpang meskipun \(f\)
+        <li><b>Hampiran awal buruk.</b> Barisannya divergen meskipun \(f\)
             mulus tak hingga.</li>
-        <li><b>Terperangkap pada daur.</b> Berayun di antara dua nilai tanpa
+        <li><b>Terperangkap pada siklus.</b> Berayun di antara dua nilai tanpa
             pernah mendekat.</li>
         <li><b>Akar kelipatan.</b> Konvergensinya merosot menjadi linear.</li>
       </ul>
@@ -249,9 +249,9 @@
     <div class="fragment">
       <div class="kotak jebakan">
         <p class="kotak-judul">Jebakan umum</p>
-        <p class="kecil">Rumusnya mirip metode posisi palsu, tetapi
+        <p class="kecil">Rumusnya mirip metode regula falsi, tetapi
         <span class="awas">bedanya mendasar</span>.</p>
-        <p class="kecil">Posisi palsu memilih dua titik yang
+        <p class="kecil">Regula falsi memilih dua titik yang
         <span class="tekan">mengurung</span> akar. Secant selalu memakai dua
         hampiran <span class="tekan">terakhir</span>, tanpa memedulikan tanda.</p>
         <p class="kecil">Akibatnya jauh lebih cepat, tetapi
@@ -310,7 +310,7 @@
         <thead><tr><th>metode</th><th>orde</th><th>evaluasi</th></tr></thead>
         <tbody>
           <tr><td>bagi dua</td><td>1</td><td>1</td></tr>
-          <tr><td>posisi palsu</td><td>1</td><td>1</td></tr>
+          <tr><td>regula falsi</td><td>1</td><td>1</td></tr>
           <tr><td>secant</td><td>1,618</td><td>1</td></tr>
           <tr><td>Newton</td><td>2</td><td>2</td></tr>
         </tbody>
@@ -474,9 +474,9 @@
   <h2>Batas iterasi bukan hiasan</h2>
   <div class="dua-lajur">
     <div>
-      <p>Setiap gelung iterasi harus punya <span class="tekan">batas keras</span>:</p>
+      <p>Setiap loop iterasi harus punya <span class="tekan">batas keras</span>:</p>
       <ul>
-        <li>Newton dapat menyimpang selamanya.</li>
+        <li>Newton dapat divergen selamanya.</li>
         <li>Secant dapat berayun tanpa konvergen.</li>
         <li>Pembagian dengan turunan yang hampir nol dapat melempar hampiran ke
             tak hingga.</li>

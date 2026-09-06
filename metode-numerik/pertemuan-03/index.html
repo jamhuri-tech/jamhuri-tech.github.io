@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>Metode Numerik — Pertemuan 3: Akar Persamaan Nonlinear, Metode Berjaminan</title>
-<meta name="description" content="Keberadaan akar, metode bagi dua, posisi palsu, dan iterasi titik tetap. Metode Numerik, Program Studi Matematika UIN Maulana Malik Ibrahim Malang.">
+<meta name="description" content="Keberadaan akar, metode bagi dua, regula falsi, dan iterasi titik tetap. Metode Numerik, Program Studi Matematika UIN Maulana Malik Ibrahim Malang.">
 
 <link rel="manifest" href="manifest.json">
 <meta name="theme-color" content="#0E4749">
@@ -38,7 +38,7 @@
       <ol class="besar">
         <li>Akar, kelipatan, dan cara memastikan keberadaannya</li>
         <li>Metode bagi dua: lambat tetapi tidak pernah gagal</li>
-        <li>Metode posisi palsu dan kemacetannya</li>
+        <li>Metode regula falsi dan kemacetannya</li>
         <li>Iterasi titik tetap sebagai kerangka umum</li>
         <li>Teorema pemetaan kontraksi</li>
       </ol>
@@ -80,7 +80,8 @@
         <li>\(f(x) = x^{2}\): akar \(r=0\) berkelipatan dua.</li>
         <li>Di sekitar akar itu, \(f\)
             <span class="awas">tidak pernah berganti tanda</span>.</li>
-        <li>Metode berbasis pengurungan buta terhadapnya.</li>
+        <li>Metode yang bersandar pada pergantian tanda
+            <span class="awas">tidak dapat menemukannya</span>.</li>
       </ul>
     </div>
   </div>
@@ -325,15 +326,16 @@
 </section>
 
 <section class="antar" data-background-color="#0E4749">
-  <p class="nomor">3</p><h2>Metode posisi palsu</h2>
+  <p class="nomor">3</p><h2>Metode regula falsi</h2>
 </section>
 
 <section>
   <h2>Memanfaatkan nilai \(f\), bukan sekadar tandanya</h2>
   <div class="dua-lajur rapat">
     <div>
-      <p class="kecil">Bagi dua membuang seluruh keterangan selain tanda. Posisi
-      palsu memakai nilainya: ambil titik potong
+      <p class="kecil">Bagi dua membuang seluruh keterangan selain tanda. Regula
+      falsi &mdash; dalam sebagian buku disebut <em>posisi palsu</em> &mdash;
+      memakai nilainya: ambil titik potong
       <span class="tekan">tali busur</span> dengan sumbu \(x\).</p>
       \[ c = \frac{a f(b) - b f(a)}{f(b) - f(a)} \]
       <p class="kecil">Pengurungannya tetap dijaga, persis seperti bagi dua.</p>
@@ -370,7 +372,7 @@
         <li>Konvergensinya tetap terjadi, tetapi hanya
             <span class="tekan">linear</span>.</li>
         <li>Kriteria berhenti berbasis panjang selang menjadi tidak berguna.</li>
-        <li>Penangkalnya: varian Illinois, yang menyetengahkan nilai fungsi pada
+        <li>Penangkalnya: varian Illinois, yang membagi dua nilai fungsi pada
             ujung yang macet.</li>
       </ul>
       <div class="sorot">
@@ -455,7 +457,7 @@
     </div>
     <div class="sorot fragment">
       Setara secara aljabar. <span class="awas">Sama sekali tidak setara</span>
-      secara numerik: satu di antaranya menyimpang, satu lagi konvergen
+      secara numerik: satu di antaranya divergen, satu lagi konvergen
       kuadratik.
     </div>
   </div>
@@ -505,7 +507,7 @@
           <th>perilaku</th></tr></thead>
         <tbody>
           <tr><td>\(g_{1}\)</td><td>15,5</td>
-              <td><span class="awas">menyimpang</span></td></tr>
+              <td><span class="awas">divergen</span></td></tr>
           <tr><td>\(g_{2}\)</td><td>0,56</td><td>linear</td></tr>
           <tr><td>\(g_{3}\)</td><td>0,13</td><td>linear cepat</td></tr>
           <tr><td>\(g_{4}\)</td><td>0</td>
@@ -513,7 +515,7 @@
         </tbody>
       </table>
       <div class="sorot">
-        Nilai \(\lvert g'(r)\rvert\) meramalkan seluruhnya: menyimpang, lambat,
+        Nilai \(\lvert g'(r)\rvert\) meramalkan seluruhnya: divergen, lambat,
         cepat, atau kuadratik.
       </div>
     </div>
@@ -541,7 +543,7 @@
 </section>
 
 <section>
-  <h2>Peraga: sarang laba-laba iterasi titik tetap</h2>
+  <h2>Peraga: diagram cobweb iterasi titik tetap</h2>
   <p class="anak-judul">\(g_{3}(x) = \sqrt{10/(4+x)}\), mulai dari
   \(x_{0} = 1{,}5\) &middot; klik untuk melangkah</p>
   <div class="dua-lajur rapat">
