@@ -1,0 +1,9 @@
+{
+  "name": "PDP Orde Satu dan Metode Karakteristik",
+  "short_name": "PDP Orde Satu",
+  "start_url": "./",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#16425B",
+  "icons": [{"src":"ikon.svg","sizes":"any","type":"image/svg+xml","purpose":"any maskable"}]
+}
