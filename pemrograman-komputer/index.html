@@ -11,7 +11,9 @@
   :root{
     --biru:#1B3B6F; --biru-muda:#2F5C9E; --jingga:#B85C00;
     --hijau:#1E6F5C;
-    --batu:#3E4C59; --abu:#78828B; --krem:#FBF8F1; --krem-tua:#EDE6D8;
+    /* Aksen di atas biru tua. #B85C00 hanya beriak 2,40 di sana. */
+    --jingga-terang:#E5A03F;
+    --batu:#3E4C59; --abu:#646D78; --krem:#FBF8F1; --krem-tua:#EDE6D8;
   }
   *{ box-sizing:border-box; }
   body{
@@ -23,7 +25,7 @@
   .bungkus{ max-width:760px; margin:0 auto; padding:0 24px; }
 
   header{ background:var(--biru); color:var(--krem); padding:54px 0 44px; }
-  header .mk{ color:var(--jingga); font-size:.72rem; letter-spacing:.2em;
+  header .mk{ color:var(--jingga-terang); font-size:.72rem; letter-spacing:.2em;
     text-transform:uppercase; margin:0 0 .5em; }
   header h1{ font-size:2rem; margin:0 0 .35em; line-height:1.15; }
   header p{ margin:.2em 0; color:#AFC0D8; font-size:.94rem; }
@@ -77,10 +79,14 @@
   .buku b{ color:var(--biru); }
   .buku a{ color:var(--biru-muda); }
 
-  .tombol{ display:inline-block; margin-top:6px; padding:9px 16px;
-    background:var(--hijau); color:#fff; text-decoration:none;
+  /* Kekhususan sengaja dinaikkan lewat a.tombol. Aturan .buku a di atas
+     bernilai (0,1,1) dan mengalahkan .tombol yang cuma (0,1,0), sehingga
+     teks tombol sempat mewarisi biru di atas latar hijau: rasio kontras
+     1,11, praktis tidak terbaca. Putih di atas hijau ini 6,03. */
+  a.tombol{ display:inline-block; margin-top:6px; padding:9px 16px;
+    background:var(--hijau); color:#fff !important; text-decoration:none;
     border-radius:6px; font-size:.83rem; font-weight:600; }
-  .tombol:hover{ background:#175A4A; }
+  a.tombol:hover{ background:#175A4A; color:#fff !important; }
 
   footer{ border-top:1px solid var(--krem-tua); padding:22px 0 40px;
     color:var(--abu); font-size:.8rem; }
@@ -200,11 +206,11 @@
     Khudzaifah, tersedia di
     <a href="https://play.google.com/store/books/details?id=RXwFEgAAQBAJ">Google Play Books</a>.</p>
 
-    <p><b>Modul praktikum.</b> Dua belas pertemuan lengkap dengan soal dan
-    rubrik, dirancang untuk dibaca di telepon. Tautan di bawah selalu
-    menyajikan versi terbaru, jadi tidak perlu dicari ulang setiap ada
-    perbaikan.<br>
-    <a class="tombol" href="https://github.com/jamhuri-tech/buku-python-ml-kode/releases/latest/download/modul-praktikum.pdf">Unduh modul praktikum</a></p>
+    <p><b>Buku kerja praktikum.</b> Dua belas pertemuan lengkap dengan soal
+    dan rubrik, kini terbit sebagai buku tersendiri di Google Play Books.
+    <b>Gratis sampai 8 November 2026.</b> Sesudah diambil, buku itu tetap
+    ada di rak Anda meski harganya berubah.<br>
+    <a class="tombol" href="https://play.google.com/store/books/details?id=aQ4KEgAAQBAJ">Ambil di Google Play Books</a></p>
 
     <p><b>Kode pendamping.</b> Notebook tiap bab, siap diimpor ke Google Colab
     maupun Kaggle, ada di
