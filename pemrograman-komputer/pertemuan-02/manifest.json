@@ -1,0 +1,14 @@
+{
+  "name": "Pemrograman Komputer — Pertemuan 2: Percabangan dan Perulangan",
+  "short_name": "Pertemuan 2",
+  "description": "Empat jebakan yang berjalan tanpa satu pun pesan galat: menghapus sambil menyusur, zip yang memotong diam-diam, perulangan titik-mengambang yang tidak pernah berhenti, dan hubung-singkat and/or. Pemrograman Komputer Kelas B, Program Studi Matematika UIN Maulana Malik Ibrahim Malang.",
+  "lang": "id",
+  "start_url": "./",
+  "scope": "./",
+  "display": "fullscreen",
+  "display_override": ["fullscreen", "standalone"],
+  "orientation": "landscape",
+  "background_color": "#1B3B6F",
+  "theme_color": "#1B3B6F",
+  "icons": [{ "src": "../ikon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any maskable" }]
+}

@@ -1,0 +1,520 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Pemrograman Komputer — Pertemuan 2: Percabangan dan Perulangan</title>
+<meta name="description" content="Empat jebakan yang berjalan tanpa satu pun pesan galat: menghapus sambil menyusur, zip yang memotong diam-diam, perulangan titik-mengambang yang tidak pernah berhenti, dan hubung-singkat and/or. Pemrograman Komputer Kelas B, Program Studi Matematika UIN Maulana Malik Ibrahim Malang.">
+
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#1B3B6F">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Pertemuan 2">
+
+<link rel="stylesheet" href="../aset/reveal/reveal.css">
+<link rel="stylesheet" href="../aset/katex/katex.min.css">
+<link rel="stylesheet" href="../aset/slide.css">
+</head>
+<body>
+
+<div class="reveal">
+<div class="slides">
+
+<section class="judul" data-background-color="#1B3B6F">
+  <p class="mata-kuliah">Pemrograman Komputer &middot; Kelas B</p>
+  <h1>Percabangan<br>dan Perulangan</h1>
+  <div class="garis-emas"></div>
+  <p class="penulis">Dr. Mohammad Jamhuri</p>
+  <p class="lembaga">Program Studi Matematika &middot; Fakultas Sains dan Teknologi<br>UIN Maulana Malik Ibrahim Malang</p>
+  <p class="kaki-judul">Pertemuan 2 &middot; Buku Bab 3 &middot; 120 menit</p>
+</section>
+
+<section>
+  <h2>Aturan main hari ini</h2>
+  <div class="dua-lajur">
+    <div class="kotak">
+      <p class="kotak-judul">Saya akan sering berhenti bicara</p>
+      <ol class="besar">
+        <li>Saya tunjukkan kode</li>
+        <li>Kalian <span class="tekan">menduga</span> keluarannya</li>
+        <li>Angkat tangan, pilih A/B/C/D</li>
+        <li>Diskusi 60 detik dengan sebelah</li>
+        <li>Angkat tangan lagi</li>
+        <li>Baru saya jalankan</li>
+      </ol>
+    </div>
+    <div class="kotak jebakan fragment">
+      <p><span class="awas">Dugaan salah tidak memalukan.</span></p>
+      <p class="kecil">Yang memalukan justru diam saja. Kelas yang seluruh
+      dugaannya benar berarti materinya terlalu mudah, dan waktu kita
+      terbuang.</p>
+    </div>
+  </div>
+  <p class="nota tengah fragment">Tutup laptop dulu. Jangan dijalankan sebelum diminta.</p>
+</section>
+
+<section>
+  <h2>Pemanasan: mana yang menghasilkan pesan galat?</h2>
+  <div class="dua-lajur rapat">
+    <div>
+<pre class="kode"><span class="teks">A</span>
+data = [<span class="angk">1</span>, <span class="angk">2</span>, <span class="angk">2</span>, <span class="angk">3</span>]
+<span class="kunci">for</span> v <span class="kunci">in</span> data:
+    <span class="kunci">if</span> v == <span class="angk">2</span>:
+        data.remove(v)</pre>
+<pre class="kode"><span class="teks">B</span>
+nama = [<span class="teks">"Ani"</span>, <span class="teks">"Budi"</span>, <span class="teks">"Cita"</span>]
+nilai = [<span class="angk">80</span>, <span class="angk">90</span>]
+<span class="kunci">for</span> n, x <span class="kunci">in</span> <span class="kunci">zip</span>(nama, nilai):
+    <span class="kunci">print</span>(n, x)</pre>
+    </div>
+    <div>
+<pre class="kode"><span class="teks">C</span>
+x = <span class="angk">0.0</span>
+<span class="kunci">while</span> x != <span class="angk">1.0</span>:
+    x += <span class="angk">0.1</span></pre>
+<pre class="kode"><span class="teks">D</span>
+<span class="kunci">for</span> i <span class="kunci">in</span> <span class="kunci">range</span>(<span class="angk">3</span>):
+    <span class="kunci">for</span> j <span class="kunci">in</span> <span class="kunci">range</span>(<span class="angk">3</span>):
+        <span class="kunci">if</span> i * j > <span class="angk">2</span>:
+            <span class="kunci">break</span></pre>
+    </div>
+  </div>
+  <p class="tengah fragment" style="color:var(--merah); font-weight:700; font-size:1.05em; margin-top:.7em">Jawabannya: tidak satu pun.</p>
+  <p class="nota tengah fragment">Tiga di antaranya salah. Yang satu menggantung selamanya.</p>
+</section>
+
+<section class="antar" data-background-color="#1B3B6F">
+  <p class="label">Inilah tema hari ini</p>
+  <h1>Galat yang berteriak itu murah.<br>Galat yang diam itu mahal.</h1>
+  <p class="kaki-judul">Empat jebakan berikut semuanya diam</p>
+</section>
+
+<section class="antar" data-background-color="#1B3B6F">
+  <p class="label">Jebakan pertama</p>
+  <h1>Menghapus sambil menyusur</h1>
+  <p class="kaki-judul">Wadahnya berubah di bawah kaki sendiri</p>
+</section>
+
+<section>
+  <h2>Duga dulu. Jangan dijalankan.</h2>
+  <div class="dua-lajur">
+    <div>
+<pre class="kode">data = [<span class="angk">1</span>, <span class="angk">2</span>, <span class="angk">2</span>, <span class="angk">3</span>, <span class="angk">2</span>, <span class="angk">4</span>]
+
+<span class="kunci">for</span> v <span class="kunci">in</span> data:
+    <span class="kunci">if</span> v == <span class="angk">2</span>:
+        data.remove(v)
+
+<span class="kunci">print</span>(data)</pre>
+      <p class="kecil">Maksudnya jelas: buang semua angka 2.</p>
+    </div>
+    <div>
+      <div class="kotak">
+        <p class="kotak-judul">Angkat tangan</p>
+        <ul>
+          <li><span class="tekan">A</span> &nbsp;<code>[1, 3, 4]</code></li>
+          <li><span class="tekan">B</span> &nbsp;<code>[1, 3, 2, 4]</code></li>
+          <li><span class="tekan">C</span> &nbsp;<code>[1, 2, 3, 4]</code></li>
+          <li><span class="tekan">D</span> &nbsp;Pesan galat</li>
+        </ul>
+      </div>
+      <div class="sorot fragment tengah">
+        <p>Sekarang <span class="tekan">60 detik</span>: yakinkan teman
+        sebelah yang jawabannya berbeda.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <h2>Jalankan</h2>
+  <div class="dua-lajur">
+    <div>
+<pre class="kode">data = [<span class="angk">1</span>, <span class="angk">2</span>, <span class="angk">2</span>, <span class="angk">3</span>, <span class="angk">2</span>, <span class="angk">4</span>]
+<span class="kunci">for</span> v <span class="kunci">in</span> data:
+    <span class="kunci">if</span> v == <span class="angk">2</span>:
+        data.remove(v)
+<span class="kunci">print</span>(data)</pre>
+      <pre class="kode keluaran fragment">[1, 3, 2, 4]</pre>
+    </div>
+    <div>
+      <div class="kotak jebakan fragment">
+        <p class="kotak-judul">Satu angka 2 selamat</p>
+        <p class="kecil">Tidak ada pesan galat. Tidak ada peringatan.
+        Programnya selesai dengan tenang, dan hasilnya salah.</p>
+      </div>
+      <p class="sorot fragment tengah" style="font-weight:700">Kenapa justru yang di tengah?</p>
+    </div>
+  </div>
+</section>
+
+<section>
+  <h2>Lihat penunjuknya berjalan</h2>
+  <img class="grafik lebar" src="../gambar/hapus-menyusur.png" alt="Indeks penunjuk maju ke kanan sementara list menyusut ke kiri; satu angka 2 di tengah terlewat karena elemen di belakangnya bergeser maju sebelum sempat diperiksa">
+  <p class="tengah fragment" style="color:var(--merah); font-weight:700">Indeks maju ke kanan, wadahnya menyusut ke kiri.</p>
+  <p class="nota tengah fragment">Setiap penghapusan menggeser sisanya satu langkah, dan satu unsur melompati penunjuk.</p>
+</section>
+
+<section>
+  <h2>Tiga cara memperbaikinya</h2>
+  <div class="tiga-lajur">
+    <div class="kotak">
+      <p class="kotak-judul">Susur salinannya</p>
+<pre class="kode"><span class="kunci">for</span> v <span class="kunci">in</span> data[:]:
+    <span class="kunci">if</span> v == <span class="angk">2</span>:
+        data.remove(v)</pre>
+      <p class="kecil">Jalan, tetapi menyalin seluruh wadah hanya untuk itu.</p>
+    </div>
+    <div class="kotak fragment">
+      <p class="kotak-judul">Bangun wadah baru</p>
+<pre class="kode">data = [v <span class="kunci">for</span> v <span class="kunci">in</span> data
+        <span class="kunci">if</span> v != <span class="angk">2</span>]</pre>
+      <p class="kecil">Satu baris, terbaca, dan tidak pernah mengubah yang sedang disusur.</p>
+    </div>
+    <div class="kotak fragment">
+      <p class="kotak-judul">Saring dengan syarat</p>
+<pre class="kode">data = <span class="kunci">list</span>(<span class="kunci">filter</span>(
+    <span class="kunci">lambda</span> v: v != <span class="angk">2</span>, data))</pre>
+      <p class="kecil">Setara, tetapi lebih panjang dan jarang dipakai.</p>
+    </div>
+  </div>
+  <div class="sorot fragment tengah" style="margin-top:.8em">
+    <p><span class="tekan">Jangan mengubah wadah yang sedang Anda susur.</span>
+    Kalau perlu berubah, bangun wadah barunya.</p>
+  </div>
+</section>
+
+<section class="antar" data-background-color="#1B3B6F">
+  <p class="label">Jebakan kedua</p>
+  <h1><code>zip</code> memotong diam-diam</h1>
+  <p class="kaki-judul">Data hilang, dan tidak ada yang memberi tahu</p>
+</section>
+
+<section>
+  <h2>Duga dulu</h2>
+  <div class="dua-lajur">
+    <div>
+<pre class="kode">nama  = [<span class="teks">"Ani"</span>, <span class="teks">"Budi"</span>, <span class="teks">"Cita"</span>, <span class="teks">"Dedi"</span>]
+nilai = [<span class="angk">80</span>, <span class="angk">90</span>, <span class="angk">75</span>]
+
+<span class="kunci">for</span> n, x <span class="kunci">in</span> <span class="kunci">zip</span>(nama, nilai):
+    <span class="kunci">print</span>(n, x)</pre>
+      <p class="kecil">Empat nama, tiga nilai.</p>
+    </div>
+    <div>
+      <div class="kotak">
+        <p class="kotak-judul">Angkat tangan</p>
+        <ul>
+          <li><span class="tekan">A</span> &nbsp;Galat: panjangnya beda</li>
+          <li><span class="tekan">B</span> &nbsp;Dedi muncul dengan <code>None</code></li>
+          <li><span class="tekan">C</span> &nbsp;Tiga baris saja, Dedi hilang</li>
+          <li><span class="tekan">D</span> &nbsp;Nilainya diulang dari awal</li>
+        </ul>
+      </div>
+      <pre class="kode keluaran fragment">Ani 80
+Budi 90
+Cita 75</pre>
+    </div>
+  </div>
+</section>
+
+<section>
+  <h2>Dedi menguap begitu saja</h2>
+  <img class="grafik lebar" src="../gambar/zip-potong.png" alt="zip menghentikan pemasangan begitu deret terpendek habis, sehingga Dedi pada deret nama tidak pernah dipasangkan dengan nilai apa pun">
+  <div class="kotak jebakan fragment tengah" style="max-width:32em; margin-left:auto; margin-right:auto">
+    <p class="kotak-judul">Kenapa ini berbahaya di dunia nyata</p>
+    <p class="kecil">Bayangkan 10.000 baris data penjualan dan 9.998 baris
+    tanggal. Laporannya tetap jadi, angkanya tetap masuk akal, dan dua
+    transaksi lenyap tanpa bekas.</p>
+  </div>
+</section>
+
+<section>
+  <h2>Penjaganya satu kata</h2>
+  <div class="dua-lajur">
+    <div>
+<pre class="kode"><span class="kunci">for</span> n, x <span class="kunci">in</span> <span class="kunci">zip</span>(nama, nilai,
+                strict=<span class="kunci">True</span>):
+    <span class="kunci">print</span>(n, x)</pre>
+      <pre class="kode keluaran fragment">Ani 80
+Budi 90
+Cita 75
+ValueError: zip() argument 2
+is shorter than argument 1</pre>
+    </div>
+    <div>
+      <div class="sorot fragment">
+        <p><span class="tekan">Sejak Python 3.10.</span> Sekarang programnya
+        berhenti dan berteriak. Itu jauh lebih murah daripada laporan yang
+        salah dan baru ketahuan sebulan kemudian.</p>
+      </div>
+      <p class="fragment tengah" style="font-weight:700">Biasakan menulis <code>strict=True</code></p>
+      <p class="nota fragment tengah">kecuali memang sengaja ingin dipotong.</p>
+    </div>
+  </div>
+</section>
+
+<section class="antar" data-background-color="#1B3B6F">
+  <p class="label">Jebakan ketiga</p>
+  <h1>Perulangan yang tidak pernah berhenti</h1>
+  <p class="kaki-judul">Dan ini bukan salah Python</p>
+</section>
+
+<section>
+  <h2>Duga dulu</h2>
+  <div class="dua-lajur">
+    <div>
+<pre class="kode">x = <span class="angk">0.0</span>
+langkah = <span class="angk">0</span>
+
+<span class="kunci">while</span> x != <span class="angk">1.0</span>:
+    x += <span class="angk">0.1</span>
+    langkah += <span class="angk">1</span>
+
+<span class="kunci">print</span>(langkah)</pre>
+    </div>
+    <div>
+      <div class="kotak">
+        <p class="kotak-judul">Angkat tangan</p>
+        <ul>
+          <li><span class="tekan">A</span> &nbsp;Mencetak <code>10</code></li>
+          <li><span class="tekan">B</span> &nbsp;Mencetak <code>11</code></li>
+          <li><span class="tekan">C</span> &nbsp;Menggantung selamanya</li>
+          <li><span class="tekan">D</span> &nbsp;Galat pembagian</li>
+        </ul>
+      </div>
+      <div class="sorot fragment tengah">
+        <p>Yang menjawab <span class="tekan">A</span>, coba jelaskan ke
+        sebelah kenapa Anda seyakin itu.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <h2>Ia melewati 1,0 tanpa pernah menyentuhnya</h2>
+  <img class="grafik lebar" src="../gambar/float-while.png" alt="Nilai x mendekati 1,0 dari kiri lalu melompatinya tanpa pernah persis 1,0, sehingga syarat while x != 1.0 tetap benar selamanya">
+  <p class="tengah fragment" style="color:var(--merah); font-weight:700">Setelah sepuluh langkah, x bernilai 0.9999999999999999</p>
+  <p class="nota tengah fragment">Syarat <code>x != 1.0</code> tetap benar, jadi perulangannya jalan terus.</p>
+</section>
+
+<section>
+  <h2>Dua cara aman</h2>
+  <div class="dua-lajur">
+    <div class="kotak">
+      <p class="kotak-judul">Cacah dengan bilangan bulat</p>
+<pre class="kode"><span class="kunci">for</span> i <span class="kunci">in</span> <span class="kunci">range</span>(<span class="angk">10</span>):
+    x = i * <span class="angk">0.1</span></pre>
+      <p class="kecil">Pencacahnya bulat, jadi jumlah putarannya pasti.
+      Nilai x dihitung, bukan ditumpuk.</p>
+    </div>
+    <div class="kotak fragment">
+      <p class="kotak-judul">Bandingkan dengan toleransi</p>
+<pre class="kode"><span class="kunci">import</span> math
+<span class="kunci">while</span> <span class="kunci">not</span> math.isclose(x, <span class="angk">1.0</span>):
+    x += <span class="angk">0.1</span></pre>
+      <p class="kecil">Dipakai kalau nilainya memang harus ditumpuk dan
+      tidak bisa dihitung langsung.</p>
+    </div>
+  </div>
+  <div class="sorot fragment tengah" style="margin-top:.8em">
+    <p><span class="tekan">Jangan pernah memakai <code>==</code> atau
+    <code>!=</code> pada bilangan riil.</span> Perulangan yang dikendalikan
+    bilangan riil adalah perulangan yang menunggu waktu untuk gagal.</p>
+  </div>
+</section>
+
+<section>
+  <h2>Selingan: hubung-singkat sebagai penjaga</h2>
+  <div class="dua-lajur">
+    <div>
+      <p class="kecil"><span class="awas">Ini meledak</span></p>
+<pre class="kode">n = <span class="angk">0</span>
+<span class="kunci">if</span> <span class="angk">10</span> / n > <span class="angk">1</span> <span class="kunci">and</span> n != <span class="angk">0</span>:
+    <span class="kunci">print</span>(<span class="teks">"aman"</span>)</pre>
+      <p class="kecil awas">ZeroDivisionError</p>
+      <p class="kecil" style="margin-top:.8em"><span class="tekan">Ini tidak</span></p>
+<pre class="kode">n = <span class="angk">0</span>
+<span class="kunci">if</span> n != <span class="angk">0</span> <span class="kunci">and</span> <span class="angk">10</span> / n > <span class="angk">1</span>:
+    <span class="kunci">print</span>(<span class="teks">"aman"</span>)</pre>
+    </div>
+    <div>
+      <div class="sorot fragment">
+        <p><span class="tekan">Urutannya menentukan.</span> Python berhenti
+        menilai begitu jawabannya sudah pasti. Pada <code>and</code>, ruas
+        kiri yang salah membuat ruas kanan tidak pernah dijalankan.</p>
+      </div>
+      <p class="fragment tengah" style="font-weight:700">Taruh penjaganya di kiri.</p>
+      <p class="nota fragment tengah">Periksa dulu apakah boleh, baru periksa nilainya.</p>
+    </div>
+  </div>
+</section>
+
+<section>
+  <h2>Fitur yang jarang diajarkan: <code>for-else</code></h2>
+  <div class="dua-lajur">
+    <div>
+      <p class="kecil"><span class="awas">Cara biasa, dengan penanda</span></p>
+<pre class="kode">ketemu = <span class="kunci">False</span>
+<span class="kunci">for</span> v <span class="kunci">in</span> data:
+    <span class="kunci">if</span> v == target:
+        ketemu = <span class="kunci">True</span>
+        <span class="kunci">break</span>
+<span class="kunci">if</span> <span class="kunci">not</span> ketemu:
+    <span class="kunci">print</span>(<span class="teks">"tidak ada"</span>)</pre>
+    </div>
+    <div>
+      <p class="kecil"><span class="tekan">Dengan <code>else</code></span></p>
+<pre class="kode"><span class="kunci">for</span> v <span class="kunci">in</span> data:
+    <span class="kunci">if</span> v == target:
+        <span class="kunci">break</span>
+<span class="kunci">else</span>:
+    <span class="kunci">print</span>(<span class="teks">"tidak ada"</span>)</pre>
+      <div class="sorot fragment">
+        <p class="kecil"><code>else</code> pada perulangan berarti
+        <span class="tekan">&ldquo;kalau selesai tanpa break&rdquo;</span>,
+        bukan &ldquo;kalau syaratnya salah&rdquo;.</p>
+      </div>
+    </div>
+  </div>
+  <div class="kotak jebakan fragment tengah" style="margin-top:.6em">
+    <p class="kotak-judul">Kenapa namanya membingungkan</p>
+    <p class="kecil">Banyak yang mengusulkan namanya <code>nobreak</code>.
+    Guido van Rossum sendiri mengakui pemilihan kata ini keliru. Tetapi
+    kodenya sudah telanjur tersebar, jadi namanya tetap.</p>
+  </div>
+</section>
+
+<section>
+  <h2>Keluar dari perulangan bersarang</h2>
+  <div class="dua-lajur">
+    <div>
+      <p class="kecil"><span class="awas">Dengan penanda</span></p>
+<pre class="kode">ketemu = <span class="kunci">False</span>
+<span class="kunci">for</span> i <span class="kunci">in</span> <span class="kunci">range</span>(n):
+    <span class="kunci">for</span> j <span class="kunci">in</span> <span class="kunci">range</span>(m):
+        <span class="kunci">if</span> a[i][j] == t:
+            ketemu = <span class="kunci">True</span>
+            <span class="kunci">break</span>
+    <span class="kunci">if</span> ketemu:
+        <span class="kunci">break</span></pre>
+    </div>
+    <div>
+      <p class="kecil"><span class="tekan">Dengan fungsi</span></p>
+<pre class="kode"><span class="kunci">def</span> cari(a, t):
+    <span class="kunci">for</span> i <span class="kunci">in</span> <span class="kunci">range</span>(n):
+        <span class="kunci">for</span> j <span class="kunci">in</span> <span class="kunci">range</span>(m):
+            <span class="kunci">if</span> a[i][j] == t:
+                <span class="kunci">return</span> i, j
+    <span class="kunci">return</span> <span class="kunci">None</span></pre>
+      <div class="sorot fragment">
+        <p class="kecil"><code>return</code> keluar dari
+        <span class="tekan">semua</span> lapis sekaligus.</p>
+      </div>
+    </div>
+  </div>
+  <div class="sorot fragment tengah" style="margin-top:.6em">
+    <p>Begitu Anda menulis peubah penanda seperti <code>ketemu</code>,
+    hampir selalu itu tanda bahwa bagian ini pantas jadi fungsi tersendiri.</p>
+  </div>
+</section>
+
+<section>
+  <h2><code>match-case</code>: mencocokkan bentuk, bukan cuma nilai</h2>
+  <div class="dua-lajur">
+    <div>
+<pre class="kode">titik = (<span class="angk">0</span>, <span class="angk">5</span>)
+
+<span class="kunci">match</span> titik:
+    <span class="kunci">case</span> (<span class="angk">0</span>, <span class="angk">0</span>):
+        <span class="kunci">print</span>(<span class="teks">"titik asal"</span>)
+    <span class="kunci">case</span> (<span class="angk">0</span>, y):
+        <span class="kunci">print</span>(<span class="teks">f"di sumbu y, y={y}"</span>)
+    <span class="kunci">case</span> (x, <span class="angk">0</span>):
+        <span class="kunci">print</span>(<span class="teks">f"di sumbu x, x={x}"</span>)
+    <span class="kunci">case</span> (x, y):
+        <span class="kunci">print</span>(<span class="teks">f"di ({x}, {y})"</span>)</pre>
+      <pre class="kode keluaran fragment">di sumbu y, y=5</pre>
+    </div>
+    <div>
+      <div class="sorot fragment">
+        <p class="kecil">Polanya sekaligus <span class="tekan">membongkar</span>
+        nilainya. Peubah <code>y</code> langsung terisi 5 tanpa perlu
+        <code>titik[1]</code>.</p>
+      </div>
+      <div class="kotak jebakan fragment">
+        <p class="kecil">Urutannya penting. Pola yang lebih khusus harus
+        ditulis lebih dulu.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <h2>Ringkasan: empat jebakan yang semuanya diam</h2>
+  <table>
+    <thead><tr><th>Jebakan</th><th>Kenapa berbahaya</th></tr></thead>
+    <tbody>
+      <tr><td>Menghapus sambil menyusur</td><td>Indeks bergeser, satu elemen <span class="tekan">terlewat</span></td></tr>
+      <tr><td><code>zip</code> panjang beda</td><td>Data <span class="tekan">terpotong diam-diam</span>, tanpa galat</td></tr>
+      <tr><td>Perulangan <code>float</code></td><td>Syarat berhenti <span class="tekan">tidak pernah terpenuhi</span></td></tr>
+      <tr><td><code>and</code>/<code>or</code> hubung-singkat</td><td>Sisi kanan <span class="tekan">tidak pernah dievaluasi</span></td></tr>
+    </tbody>
+  </table>
+  <div class="sorot fragment tengah" style="margin-top:.8em">
+    <p><span class="tekan">Python tidak berbohong.</span> Python hanya diam
+    ketika kita tidak bertanya. Aturan mainnya sudah benar, hanya
+    pertanyaan kita yang harus lebih tajam: elemen mana yang sebenarnya
+    diproses?</p>
+  </div>
+</section>
+
+<section>
+  <h2>Tantangan sebelum pertemuan berikutnya</h2>
+  <div class="kotak">
+    <p class="kotak-judul">Kode berikut lolos tanpa galat. Apa keluarannya, dan kenapa?</p>
+<pre class="kode">saldo = [<span class="angk">100</span>, -<span class="angk">50</span>, <span class="angk">200</span>, -<span class="angk">30</span>, <span class="angk">80</span>]
+i = <span class="angk">0</span>
+<span class="kunci">while</span> i < <span class="kunci">len</span>(saldo):
+    <span class="kunci">if</span> saldo[i] < <span class="angk">0</span>:
+        saldo.remove(saldo[i])
+    i += <span class="angk">1</span>
+<span class="kunci">print</span>(saldo)</pre>
+  </div>
+  <div class="sorot fragment">
+    <p class="kecil"><span class="tekan">Cara mengumpulkan jawaban.</span>
+    Tulis dugaan Anda di kertas kecil sebelum pertemuan berikutnya dimulai.
+    Kita bandingkan dulu, baru kita jalankan bersama.</p>
+  </div>
+  <p class="nota fragment tengah">Petunjuk: pola jebakannya sudah Anda lihat hari ini, hanya beda wajah.</p>
+</section>
+
+<section class="penutup" data-background-color="#1B3B6F">
+  <p class="label">Pertemuan 2 selesai</p>
+  <h1>Pertanyaan atau perdebatan?</h1>
+  <p class="isi">Ajukan dugaan Anda, salah pun boleh.</p>
+  <p class="lab">Buku: <em>Python untuk Machine Learning dan Data Science</em>, Bab 3<br>
+  Kode: github.com/jamhuri-tech/buku-python-ml-kode</p>
+</section>
+
+</div>
+</div>
+
+<p id="tanda">Dr. Mohammad Jamhuri &mdash; UIN Maulana Malik Ibrahim &middot; m.jamhuri@mat.uin-malang.ac.id</p>
+
+<button id="layar-penuh" title="Layar penuh (F)" aria-label="Layar penuh">
+  <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true">
+    <path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5" fill="none"
+          stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+  </svg>
+</button>
+
+<script src="../aset/reveal/reveal.js"></script>
+<script src="../aset/katex/katex.min.js"></script>
+<script src="../aset/katex/auto-render.min.js"></script>
+<script src="../aset/slide.js"></script>
+</body>
+</html>
