@@ -1,0 +1,574 @@
+<!DOCTYPE html>
+<html lang="id" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bab 12: Pemodelan Gelombang Nonlinier: Gelombang Soliter - Pemodelan Matematika</title>
+  <meta name="description" content="Bab 12 Buku Ajar Pemodelan Matematika: Persamaan Korteweg-de Vries (KdV), Solusi Soliton Tunggal Sech^2, Tumbukan Elastis, dan Hukum Kekekalan oleh Dr. Mohammad Jamhuri, M.Si.">
+  
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  
+  <!-- MathJax CDN untuk render rumus matematika LaTeX -->
+  <script>
+    window.MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']],
+        displayMath: [['$$', '$$'], ['\\[', '\\]']]
+      }
+    };
+  </script>
+  <script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+  <!-- Google Fonts & Font Awesome -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+            mono: ['"JetBrains Mono"', 'monospace'],
+          }
+        }
+      }
+    }
+  </script>
+</head>
+<body class="bg-slate-50 text-slate-800 antialiased selection:bg-indigo-500 selection:text-white">
+
+  <!-- Header Nav -->
+  <header class="sticky top-0 z-50 bg-white/95 backdrop-blur-md border-b border-slate-200">
+    <div class="max-w-5xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
+      <div class="flex items-center gap-4">
+        <a href="index.html" class="flex items-center gap-2 text-slate-700 hover:text-indigo-600 transition font-semibold text-sm">
+          <i class="fa-solid fa-arrow-left text-xs"></i>
+          <span>Beranda</span>
+        </a>
+        <span class="text-slate-300">|</span>
+        <a href="bab11.html" class="text-xs font-semibold text-slate-500 hover:text-indigo-600 transition">
+          &larr; Bab 11: Gelombang Linier
+        </a>
+      </div>
+      <div class="text-xs font-mono text-slate-500 hidden sm:block">
+        Mata Kuliah MAT61730 &bull; Bab 12
+      </div>
+      <div class="flex items-center gap-3">
+        <a href="main.pdf" class="inline-flex items-center gap-2 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 text-xs font-bold px-3 py-1.5 rounded-lg border border-indigo-200 transition">
+          <i class="fa-solid fa-file-pdf"></i>
+          <span>Unduh PDF</span>
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Content Container -->
+  <main class="max-w-4xl mx-auto px-4 sm:px-6 py-12">
+    
+    <!-- Chapter Header -->
+    <div class="border-b border-slate-200 pb-8 mb-10">
+      <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-indigo-100 text-indigo-800 text-xs font-mono font-bold mb-4">
+        BAB 12 &bull; Bab Terakhir
+      </div>
+      <h1 class="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-slate-900 tracking-tight leading-tight">
+        Pemodelan Gelombang Nonlinier: Gelombang Soliter
+      </h1>
+      <p class="text-base sm:text-lg text-slate-600 mt-4 leading-relaxed">
+        Menyelidiki fenomena gelombang soliter (soliton), penurunan persamaan Korteweg–de Vries (KdV), keseimbangan antara efek nonlinieritas dan dispersi, solusi eksak $\operatorname{sech}^2$, interaksi tumbukan elastis multi-soliton, serta hukum kekekalan invarian.
+      </p>
+      <div class="flex items-center gap-4 mt-6 text-xs text-slate-500 pt-4 border-t border-slate-100">
+        <div><i class="fa-solid fa-user-pen mr-1 text-indigo-600"></i> Dr. Mohammad Jamhuri, M.Si.</div>
+        <div><i class="fa-solid fa-book-bookmark mr-1 text-indigo-600"></i> Program Studi Matematika UIN Malang</div>
+      </div>
+    </div>
+
+    <!-- Article Body -->
+    <article class="prose prose-slate max-w-none space-y-10 text-slate-700 leading-relaxed text-base sm:text-lg">
+
+      <!-- 12.1 Pendahuluan -->
+      <section id="pendahuluan">
+        <h2 class="text-2xl sm:text-3xl font-bold text-slate-900 flex items-center gap-3 mb-4">
+          <span class="text-indigo-600 font-mono text-xl">12.1</span> Pendahuluan: Penemuan Gelombang Translasi Besar
+        </h2>
+        <p>
+          Pada Bab 11, kita telah mempelajari gelombang linier di mana prinsip superposisi berlaku mutlak dan paket gelombang dalam medium dispersif umumnya meluruh, menyebar (<em>dispersed</em>), atau meredup seiring waktu. Namun, di dunia fisika nonlinier, terdapat fenomena menakjubkan di mana sebuah gelombang tunggal dapat merambat ribuan kilometer tanpa mengalami perubahan bentuk maupun kehilangan energi sedikit pun.
+        </p>
+        <p>
+          Fenomena ini pertama kali diamati secara empiris pada bulan Agustus 1834 oleh insinyur muda Skotlandia, <strong>John Scott Russell</strong>, di Union Canal dekat Edinburgh. Ketika sebuah kapal tongkang ditarik kuda mendadak berhenti di kanal sempit, Scott Russell melihat gundukan air tunggal yang halus dan beramplitudo tinggi memisahkan diri dari haluan kapal, lalu meluncur deras di sepanjang kanal:
+        </p>
+
+        <!-- Historical Callout -->
+        <div class="p-6 rounded-2xl bg-indigo-50/70 border border-indigo-200 not-prose my-6 shadow-sm">
+          <div class="flex items-start gap-4">
+            <div class="w-10 h-10 rounded-xl bg-indigo-600 flex items-center justify-center shrink-0 text-white text-lg">
+              <i class="fa-solid fa-water"></i>
+            </div>
+            <div>
+              <h4 class="text-base font-bold text-indigo-950 mb-1">Catatan Historis John Scott Russell (1834)</h4>
+              <p class="text-xs sm:text-sm text-slate-700 leading-relaxed italic">
+                “Saya mengikuti gelombang itu dengan menunggang kuda; ia terus melaju dengan kecepatan sekitar delapan atau sembilan mil per jam, mempertahankan bentuk puncaknya yang teratur sepanjang tiga puluh kaki dan setinggi satu hingga satu setengah kaki. Setelah mengejarnya selama satu atau dua mil, saya kehilangannya di kelokan kanal...”
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <p>
+          Scott Russell menamai fenomena ini sebagai <em>The Great Wave of Translation</em> (Gelombang Translasi Besar). Penemuan ini sempat diragukan oleh fisikawan terkemuka era Victoria seperti George Biddell Airy dan George Gabriel Stokes, hingga akhirnya misteri matematisnya terpecahkan secara tuntas pada tahun 1895 oleh Diederik Korteweg dan Gustav de Vries.
+        </p>
+      </section>
+
+      <!-- 12.2 Penurunan Persamaan KdV -->
+      <section id="penurunan-kdv" class="pt-6 border-t border-slate-200">
+        <h2 class="text-2xl sm:text-3xl font-bold text-slate-900 flex items-center gap-3 mb-4">
+          <span class="text-indigo-600 font-mono text-xl">12.2</span> Penurunan Persamaan Korteweg–de Vries (KdV)
+        </h2>
+        <p class="text-sm sm:text-base">
+          KdV adalah model asimtotik untuk gelombang gravitasi permukaan pada kanal lurus. Penurunan berikut menunjukkan asal setiap suku; ia berlaku untuk gelombang panjang, beramplitudo kecil tetapi tidak infinitesimal, yang terutama merambat ke satu arah.
+        </p>
+
+        <h3 class="text-xl font-bold text-slate-900 mt-8 mb-2">Langkah 1 — Model fluida ideal dan kondisi batas</h3>
+        <p class="text-sm sm:text-base">
+          Ambil sumbu $x$ sepanjang kanal dan $z$ ke atas. Dasar kanal berada pada $z=-h_0$, sedangkan muka bebas berada pada $z=\eta(x,t)$. Aliran dianggap tak-mampat, tak-berputar, dan tanpa viskositas. Maka terdapat potensial kecepatan $\phi(x,z,t)$ dengan $\boldsymbol{v}=\nabla\phi$ dan:
+        </p>
+        <div class="my-4 p-4 bg-slate-100 rounded-xl font-mono text-center text-xs sm:text-sm text-slate-800">
+          $$\phi_{xx}+\phi_{zz}=0,\qquad -h_0&lt;z&lt;\eta(x,t).$$
+          $$\phi_z=0\quad(z=-h_0),$$
+          $$\eta_t+\phi_x\eta_x=\phi_z\quad(z=\eta),$$
+          $$\phi_t+\frac12\left(\phi_x^2+\phi_z^2\right)+g\eta=0\quad(z=\eta).$$
+        </div>
+        <p class="text-xs sm:text-sm text-slate-600">
+          Keempat baris ini berturut-turut adalah persamaan Laplace, kondisi kedap di dasar, kondisi kinematik (permukaan bergerak bersama fluida), dan persamaan Bernoulli pada muka bebas bertekanan atmosfer.
+        </p>
+
+        <h3 class="text-xl font-bold text-slate-900 mt-8 mb-2">Langkah 2 — Skala gelombang panjang</h3>
+        <p class="text-sm sm:text-base">
+          Misalkan $a$ adalah amplitudo khas dan $l$ panjang gelombang khas. Dua bilangan kecil yang relevan adalah:
+        </p>
+        <ul class="list-disc list-inside space-y-1.5 text-xs sm:text-sm text-slate-700 ml-2">
+          <li><strong>Nonlinieritas:</strong> $\epsilon=\frac{a}{h_0}$.</li>
+          <li><strong>Dispersi gelombang panjang:</strong> $\delta=\frac{h_0^2}{l^2}$.</li>
+        </ul>
+        <p class="text-sm sm:text-base mt-4">
+          Rezim KdV adalah <strong>keseimbangan Boussinesq</strong>, yaitu $\epsilon=O(\delta)=O(\mu)$ dengan $0&lt;\mu\ll1$. Artinya, koreksi nonlinier dan koreksi dispersif harus dipertahankan pada orde yang sama. Dengan kondisi dasar $\phi_z(-h_0)=0$, solusi Laplace dapat diekspansi terhadap kedalaman sebagai:
+        </p>
+        <div class="my-4 p-4 bg-white border border-slate-200 rounded-xl font-mono text-center text-xs sm:text-sm text-slate-800 shadow-sm">
+          $$\phi(x,z,t)=F(x,t)-\frac{(z+h_0)^2}{2}F_{xx}+\frac{(z+h_0)^4}{24}F_{xxxx}+\cdots.$$
+        </div>
+        <p class="text-xs sm:text-sm text-slate-600">
+          Suku kedua dan seterusnya adalah sumber dispersi. Jika semua suku ini dibuang, diperoleh teori air dangkal nondispersif dan soliton tidak dapat muncul.
+        </p>
+
+        <h3 class="text-xl font-bold text-slate-900 mt-8 mb-2">Langkah 3 — Sistem Boussinesq orde pertama</h3>
+        <p class="text-sm sm:text-base">
+          Masukkan ekspansi tersebut ke dua kondisi muka bebas, lalu gunakan variabel tak berdimensi $X=x/l$, $T=c_0t/l$, $H=\eta/a$, dengan $c_0=\sqrt{gh_0}$. Jika $U$ menyatakan kecepatan horizontal terukur yang diskalakan, hasil sampai orde $O(\mu)$ adalah sistem Boussinesq:
+        </p>
+        <div class="my-4 p-4 bg-indigo-50/70 border border-indigo-200 rounded-xl font-mono text-center text-xs sm:text-sm text-slate-900 shadow-sm">
+          $$H_T+U_X+\mu(HU)_X=0,$$
+          $$U_T+H_X+\mu U U_X-\frac{\mu}{3}U_{XXT}=0.$$
+        </div>
+        <p class="text-xs sm:text-sm text-slate-600">
+          Baris pertama menyatakan kekekalan massa. Pada baris kedua, $UU_X$ berasal dari percepatan konvektif dan $-\frac{\mu}{3}U_{XXT}$ adalah koreksi dispersif akibat variasi kecepatan terhadap kedalaman.
+        </p>
+
+        <h3 class="text-xl font-bold text-slate-900 mt-8 mb-2">Langkah 4 — Pilih gelombang yang bergerak ke kanan</h3>
+        <p class="text-sm sm:text-base">
+          Solusi linier ke kanan memenuhi $U\approx H$ dan bergantung pada $X-T$. Karena bentuknya berubah perlahan, gunakan koordinat bergerak dan waktu lambat:
+        </p>
+        <div class="my-4 p-4 bg-white border border-slate-200 rounded-xl font-mono text-center text-xs sm:text-sm text-slate-800 shadow-sm">
+          $$\xi=X-T,\qquad \tau=\mu T,\qquad U=H+\mu U_1+O(\mu^2).$$
+          $$\partial_T=-\partial_\xi+\mu\partial_\tau,\qquad \partial_X=\partial_\xi.$$
+        </div>
+        <p class="text-sm sm:text-base">
+          Substitusi ke persamaan massa dan momentum, kemudian kumpulkan suku orde $\mu$, memberikan dua persamaan berikut:
+        </p>
+        <div class="my-4 p-4 bg-slate-100 rounded-xl font-mono text-center text-xs sm:text-sm text-slate-800">
+          $$H_\tau+(U_1)_\xi+2HH_\xi=0,$$
+          $$H_\tau-(U_1)_\xi+HH_\xi+\frac13H_{\xi\xi\xi}=0.$$
+        </div>
+        <p class="text-sm sm:text-base">
+          Menjumlahkan kedua persamaan menghilangkan koreksi antara $U_1$, sehingga diperoleh penutupan untuk tinggi muka bebas:
+        </p>
+        <div class="my-4 p-4 bg-emerald-50/80 border border-emerald-200 rounded-xl font-mono text-center text-sm sm:text-base text-emerald-950 shadow-sm">
+          $$2H_\tau+3HH_\xi+\frac13H_{\xi\xi\xi}=0$$
+          $$\boxed{H_\tau+\frac32HH_\xi+\frac16H_{\xi\xi\xi}=0.}$$
+        </div>
+
+        <h3 class="text-xl font-bold text-slate-900 mt-8 mb-2">Langkah 5 — Kembali ke besaran fisik dan normalisasi</h3>
+        <p class="text-sm sm:text-base">
+          Mengembalikan satuan menghasilkan KdV dimensional untuk elevasi muka bebas:
+        </p>
+        <div class="my-4 p-4 bg-indigo-50/70 border border-indigo-200 rounded-xl font-mono text-center text-sm sm:text-base text-slate-900 shadow-sm">
+          $$\boxed{\eta_t+c_0\eta_x+\frac{3c_0}{2h_0}\eta\eta_x+\frac{c_0h_0^2}{6}\eta_{xxx}=0,\qquad c_0=\sqrt{gh_0}.}$$
+        </div>
+        <p class="text-sm sm:text-base">
+          Pindahkan ke kerangka yang bergerak bersama kecepatan linier $c_0$ dan tulis persamaan sebagai $\eta_T+a\eta\eta_X+b\eta_{XXX}=0$, dengan $a=\frac{3c_0}{2h_0}$ dan $b=\frac{c_0h_0^2}{6}$. Transformasi $\eta=\frac{6b}{aL^2}u$, $\xi=X/L$, dan $\tau=bT/L^3$ memberi <strong>bentuk standar KdV</strong>:
+        </p>
+        <div class="my-6 p-6 bg-indigo-50/70 border border-indigo-200 rounded-2xl text-center text-slate-900 font-mono text-lg sm:text-2xl shadow-sm">
+          $$\frac{\partial u}{\partial \tau}+6u\frac{\partial u}{\partial \xi}+\frac{\partial^3u}{\partial \xi^3}=0.$$
+        </div>
+        <p class="text-xs text-slate-500 text-center">
+          Koefisien $6$ dan $1$ bukan konstanta fisik baru; keduanya muncul karena pilihan skala amplitudo, ruang, dan waktu.
+        </p>
+
+        <h3 class="text-xl font-bold text-slate-900 mt-8 mb-2">Mekanisme Keseimbangan: Nonlinieritas vs Dispersi</h3>
+        <p class="text-sm sm:text-base">
+          Rahasia keabadian bentuk gelombang soliter terletak pada perimbangan sempurna antara dua gaya yang saling berlawanan:
+        </p>
+
+        <div class="grid sm:grid-cols-2 gap-6 my-4">
+          <div class="p-5 rounded-2xl bg-white border border-slate-200 shadow-sm">
+            <span class="text-xs font-bold uppercase tracking-wider text-red-700">1. Suku Nonlinier: $6u u_x$</span>
+            <h5 class="font-bold text-slate-900 text-base my-1">Efek Pencuraman (Steepening)</h5>
+            <p class="text-xs text-slate-600 leading-relaxed">
+              Karena kecepatan lokal bergantung pada tinggi air ($c \propto u$), puncak gelombang bergerak lebih cepat daripada lembahnya. Tanpa dispersi, bagian atas gelombang akan menyusul bagian depan, mencuramkan lereng hingga akhirnya pecah membentuk gelombang kejut (<em>shock wave</em>).
+            </p>
+          </div>
+          <div class="p-5 rounded-2xl bg-white border border-slate-200 shadow-sm">
+            <span class="text-xs font-bold uppercase tracking-wider text-blue-700">2. Suku Dispersif: $u_{xxx}$</span>
+            <h5 class="font-bold text-slate-900 text-base my-1">Efek Pelebaran (Dispersion)</h5>
+            <p class="text-xs text-slate-600 leading-relaxed">
+              Komponen gelombang frekuensi tinggi merambat dengan kecepatan yang berbeda dibanding komponen frekuensi rendah. Efek dispersi berusaha memecah dan meratakan paket gelombang menjadi riak-riak kecil yang menyebar.
+            </p>
+          </div>
+        </div>
+
+        <div class="p-4 rounded-xl bg-emerald-50/80 border border-emerald-200 text-xs sm:text-sm text-emerald-950 font-medium">
+          <i class="fa-solid fa-scale-balanced mr-2 text-emerald-700"></i>
+          <strong>Keseimbangan Soliton:</strong> Efek nonlinieritas yang berusaha mencuramkan gelombang persis diimbangi oleh efek dispersi yang berusaha melebarkannya. Hasilnya adalah profil gelombang stabil yang merambat kekal tanpa distorsi.
+        </div>
+      </section>
+
+      <!-- 12.3 Solusi Soliton Tunggal -->
+      <section id="soliton-tunggal" class="pt-6 border-t border-slate-200">
+        <h2 class="text-2xl sm:text-3xl font-bold text-slate-900 flex items-center gap-3 mb-4">
+          <span class="text-indigo-600 font-mono text-xl">12.3</span> Solusi Soliton Tunggal (Single Soliton)
+        </h2>
+        <p class="text-sm sm:text-base">
+          Untuk mencari solusi gelombang berjalan yang merambat ke kanan dengan kecepatan konstan $c > 0$ tanpa berubah profil, kita gunakan transformasi gelombang berjalan (<em>traveling wave ansatz</em>):
+        </p>
+        <div class="my-3 p-3 bg-white border border-slate-200 rounded-xl font-mono text-center text-sm sm:text-base text-slate-900 shadow-sm">
+          $$u(x, t) = \phi(\xi), \qquad \xi = x - ct$$
+        </div>
+
+        <p class="text-sm text-slate-600 mt-3">
+          Substitusikan turunan parsial $\frac{\partial}{\partial t} = -c \frac{d}{d\xi}$ dan $\frac{\partial}{\partial x} = \frac{d}{d\xi}$ ke persamaan KdV:
+        </p>
+        <div class="my-3 p-3 bg-slate-100 rounded-xl font-mono text-center text-xs sm:text-sm text-slate-800">
+          $$-c \phi' + 6 \phi \phi' + \phi''' = 0$$
+        </div>
+
+        <p class="text-sm text-slate-600">
+          Integralkan sekali terhadap $\xi$, dengan syarat batas di tak hingga bahwa gelombang terlokalisasi ($\phi, \phi', \phi'' \to 0$ saat $|\xi| \to \infty$):
+        </p>
+        <div class="my-3 p-3 bg-slate-100 rounded-xl font-mono text-center text-xs sm:text-sm text-slate-800">
+          $$-c \phi + 3 \phi^2 + \phi'' = 0 \implies \phi'' = c \phi - 3 \phi^2$$
+        </div>
+
+        <p class="text-sm text-slate-600">
+          Kalikan kedua ruas dengan $2\phi'$ lalu integralkan sekali lagi:
+        </p>
+        <div class="my-3 p-3 bg-slate-100 rounded-xl font-mono text-center text-xs sm:text-sm text-slate-800">
+          $$(\phi')^2 = c \phi^2 - 2 \phi^3 = \phi^2 (c - 2\phi)$$
+        </div>
+
+        <p class="text-sm text-slate-700 mt-4">
+          Melalui substitusi $\phi = \frac{c}{2} \operatorname{sech}^2(\theta)$, kita peroleh <strong>Solusi Eksak Soliton Tunggal KdV</strong>:
+        </p>
+
+        <!-- Main Solution Box Light -->
+        <div class="my-6 p-6 bg-white border-2 border-indigo-300 rounded-2xl text-center text-slate-900 font-mono text-lg sm:text-2xl font-bold shadow-md">
+          $$u(x, t) = \frac{c}{2} \operatorname{sech}^2\left(\frac{\sqrt{c}}{2} (x - ct - x_0)\right)$$
+        </div>
+
+        <h3 class="text-xl font-bold text-slate-900 mt-8 mb-2">Tiga Karakteristik Unik Soliton:</h3>
+        <div class="grid sm:grid-cols-3 gap-4 my-4">
+          <div class="p-4 rounded-xl bg-white border border-slate-200 shadow-sm">
+            <span class="text-xs font-bold uppercase tracking-wider text-indigo-700">1. Amplitudo</span>
+            <div class="font-mono text-sm font-bold text-slate-900 my-1">$$A = \frac{c}{2}$$</div>
+            <p class="text-xs text-slate-600">Amplitudo puncak gelombang berbanding lurus dengan kecepatannya.</p>
+          </div>
+          <div class="p-4 rounded-xl bg-white border border-slate-200 shadow-sm">
+            <span class="text-xs font-bold uppercase tracking-wider text-indigo-700">2. Kecepatan Rambat</span>
+            <div class="font-mono text-sm font-bold text-slate-900 my-1">$$\text{Velocity} = c$$</div>
+            <p class="text-xs text-slate-600">Semakin tinggi gelombang soliton, semakin cepat ia merambat mendahului gelombang lain.</p>
+          </div>
+          <div class="p-4 rounded-xl bg-white border border-slate-200 shadow-sm">
+            <span class="text-xs font-bold uppercase tracking-wider text-indigo-700">3. Lebar Gelombang</span>
+            <div class="font-mono text-sm font-bold text-slate-900 my-1">$$W \propto \frac{1}{\sqrt{c}}$$</div>
+            <p class="text-xs text-slate-600">Semakin tinggi soliton, tubuh gelombangnya semakin ramping dan sempit.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- 12.4 Interaksi Multi-Soliton & Tumbukan Elastis -->
+      <section id="multi-soliton" class="pt-6 border-t border-slate-200">
+        <h2 class="text-2xl sm:text-3xl font-bold text-slate-900 flex items-center gap-3 mb-4">
+          <span class="text-indigo-600 font-mono text-xl">12.4</span> Interaksi Multi-Soliton: Tumbukan Elastis Paripurna
+        </h2>
+        <p class="text-sm sm:text-base">
+          Pada tahun 1965, <strong>Norman Zabusky</strong> dan <strong>Martin Kruskal</strong> melakukan eksperimen komputasi numerik terhadap persamaan KdV. Mereka mengamati fenomena luar biasa ketika dua gelombang soliter dengan kecepatan berbeda ($c_1 > c_2$) bertabrakan:
+        </p>
+        <div class="p-5 rounded-2xl bg-indigo-50/70 border border-indigo-200 my-4 text-xs sm:text-sm text-slate-700 leading-relaxed space-y-2">
+          <p>
+            Soliton yang lebih tinggi ($c_1$) mengejar dan menabrak soliton yang lebih rendah ($c_2$). Saat bertabrakan, terjadi interaksi nonlinier kompleks di mana kedua gelombang bertukar energi dan massa.
+          </p>
+          <p class="font-semibold text-indigo-950">
+            Namun, setelah melewati fase tumbukan, kedua gelombang muncul kembali dengan bentuk, tinggi, dan kecepatan yang persis sama seperti sebelum tabrakan!
+          </p>
+        </div>
+        <p class="text-sm text-slate-600">
+          Satu-satunya jejak interaksi pasca-tabrakan adalah <strong>pergeseran fase (<em>phase shift</em>)</strong>: soliton yang lebih cepat terdorong sedikit maju ke depan, sedangkan soliton yang lebih lambat tertahan sedikit ke belakang. Karena sifat ketahanan bentuknya menyerupai partikel materi elementer, Zabusky dan Kruskal menciptakan istilah <strong>"Soliton"</strong> (akhiran <em>-on</em> lazim dipakai untuk partikel seperti foton, elektron, atau proton).
+        </p>
+      </section>
+
+      <!-- 12.5 Hukum Kekekalan Invarian -->
+      <section id="hukum-kekekalan" class="pt-6 border-t border-slate-200">
+        <h2 class="text-2xl sm:text-3xl font-bold text-slate-900 flex items-center gap-3 mb-4">
+          <span class="text-indigo-600 font-mono text-xl">12.5</span> Hukum Kekekalan Invarian KdV
+        </h2>
+        <p class="text-sm sm:text-base">
+          Alasan mendalam mengapa soliton bersifat kekal dan memiliki sifat integrabilitas sempurna terungkap pada tahun 1968 oleh Robert Miura, Clifford Gardner, John Greene, dan Martin Kruskal: <strong>persamaan KdV memiliki tak berhingga banyak besaran kekekalan (<em>infinite conservation laws</em>)</strong>.
+        </p>
+
+        <p class="text-sm text-slate-600 mt-2">
+          Tiga besaran invarian fisik pertama adalah:
+        </p>
+
+        <div class="grid sm:grid-cols-3 gap-4 my-4">
+          <div class="p-4 rounded-xl bg-white border border-slate-200 shadow-sm">
+            <span class="text-xs font-bold uppercase tracking-wider text-slate-700">1. Kekekalan Massa</span>
+            <div class="font-mono text-sm font-bold text-indigo-700 my-1">$$I_1 = \int_{-\infty}^{\infty} u \, dx$$</div>
+            <p class="text-xs text-slate-500">Total volume air atau massa partikel tetap konstan sepanjang masa.</p>
+          </div>
+          <div class="p-4 rounded-xl bg-white border border-slate-200 shadow-sm">
+            <span class="text-xs font-bold uppercase tracking-wider text-slate-700">2. Kekekalan Momentum</span>
+            <div class="font-mono text-sm font-bold text-indigo-700 my-1">$$I_2 = \int_{-\infty}^{\infty} u^2 \, dx$$</div>
+            <p class="text-xs text-slate-500">Momentum dan energi gelombang kinetik terpelihara secara mutlak.</p>
+          </div>
+          <div class="p-4 rounded-xl bg-white border border-slate-200 shadow-sm">
+            <span class="text-xs font-bold uppercase tracking-wider text-slate-700">3. Energi Hamiltonian</span>
+            <div class="font-mono text-xs font-bold text-indigo-700 my-1">$$I_3 = \int_{-\infty}^{\infty} \left(2u^3 - (u_x)^2\right) dx$$</div>
+            <p class="text-xs text-slate-500">Keseimbangan energi potensial kubik terhadap gradien spasial dispersif.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- 12.6 Analisis Visual Komprehensif (Menggantikan Kode Python) -->
+      <section id="analisis-visual" class="pt-6 border-t border-slate-200">
+        <h2 class="text-2xl sm:text-3xl font-bold text-slate-900 flex items-center gap-3 mb-4">
+          <span class="text-indigo-600 font-mono text-xl">12.6</span> Analisis Visual & Eksplorasi Grafis Soliton
+        </h2>
+        <p class="text-sm sm:text-base leading-relaxed mb-6">
+          Berikut adalah hasil visualisasi analitik mandiri resolusi tinggi yang menyajikan profil soliton tunggal, relasi kecepatan-amplitudo, serta kronologi tumbukan elastis dua soliton tanpa memerlukan kode komputasi:
+        </p>
+
+        <!-- GAMBAR 12.1: Profil Soliton Tunggal & Keseimbangan Gaya -->
+        <div class="my-8 p-6 bg-white rounded-3xl border border-slate-200 shadow-sm">
+          <div class="text-center mb-4">
+            <span class="text-xs font-bold uppercase tracking-wider px-3 py-1 rounded-full bg-indigo-50 text-indigo-700 border border-indigo-100">Gambar 12.1</span>
+            <h4 class="text-lg font-bold text-slate-900 mt-2">Profil Soliton Tunggal $\operatorname{sech}^2$ dan Keseimbangan Dinamik</h4>
+            <p class="text-xs text-slate-500">Perimbangan sempurna antara kecuraman nonlinier dan dispersi gelombang</p>
+          </div>
+
+          <!-- SVG Visual 1 -->
+          <div class="max-w-xl mx-auto my-6">
+            <svg viewBox="0 0 520 260" class="w-full h-auto">
+              <!-- Sumbu Horizontal x dan Vertikal u -->
+              <line x1="50" y1="210" x2="480" y2="210" stroke="#cbd5e1" stroke-width="1.5"/>
+              <line x1="260" y1="230" x2="260" y2="30" stroke="#cbd5e1" stroke-width="1.2"/>
+              <text x="475" y="228" font-size="11" fill="#64748b" font-weight="bold">Posisi (x - ct)</text>
+              <text x="270" y="35" font-size="11" fill="#64748b" font-weight="bold">Amplitudo u</text>
+
+              <!-- Water level baseline -->
+              <line x1="50" y1="210" x2="480" y2="210" stroke="#3b82f6" stroke-width="2"/>
+              <text x="80" y="228" font-size="10" fill="#3b82f6">Permukaan Tenang (u=0)</text>
+
+              <!-- Sech^2 Soliton Curve (Indigo/Blue Gradient Effect) -->
+              <!-- Peak at x=260, y=60 (Height = 150) -->
+              <path d="M 90 210 C 180 210, 210 60, 260 60 C 310 60, 340 210, 430 210" 
+                    fill="none" stroke="#4f46e5" stroke-width="3.5"/>
+              
+              <!-- Soft blue fill under the curve -->
+              <path d="M 90 210 C 180 210, 210 60, 260 60 C 310 60, 340 210, 430 210 Z" 
+                    fill="#e0e7ff" opacity="0.4"/>
+
+              <!-- Peak Marker -->
+              <circle cx="260" cy="60" r="5" fill="#4f46e5"/>
+              <line x1="260" y1="60" x2="190" y2="60" stroke="#dc2626" stroke-dasharray="3"/>
+              <text x="180" y="64" font-size="11" fill="#dc2626" text-anchor="end" font-weight="bold">Puncak A = c/2</text>
+
+              <!-- Half Width Marker W -->
+              <line x1="220" y1="135" x2="300" y2="135" stroke="#059669" stroke-width="1.5"/>
+              <circle cx="220" cy="135" r="3" fill="#059669"/>
+              <circle cx="300" cy="135" r="3" fill="#059669"/>
+              <text x="260" y="152" font-size="10" fill="#047857" text-anchor="middle" font-weight="bold">Lebar Karakteristik W ∝ 1/√c</text>
+
+              <!-- Opposing Forces Labels -->
+              <!-- Nonlinear steepening arrow (forward) -->
+              <path d="M 280 90 C 320 90, 340 100, 350 110" fill="none" stroke="#dc2626" stroke-width="1.8"/>
+              <polygon points="345,112 355,115 352,106" fill="#dc2626"/>
+              <text x="360" y="105" font-size="9" fill="#dc2626" font-weight="bold">Nonlinieritas: Mencuramkan Lereng</text>
+
+              <!-- Dispersion arrow (backward) -->
+              <path d="M 240 90 C 200 90, 180 100, 170 110" fill="none" stroke="#2563eb" stroke-width="1.8"/>
+              <polygon points="175,106 165,115 172,112" fill="#2563eb"/>
+              <text x="160" y="105" font-size="9" fill="#2563eb" text-anchor="end" font-weight="bold">Dispersi: Melebarkan Gelombang</text>
+            </svg>
+          </div>
+
+          <div class="bg-slate-50 p-4 rounded-2xl border border-slate-200 text-xs sm:text-sm text-slate-700 leading-relaxed">
+            <p><strong>Uraian Analisis Gambar 12.1:</strong> Profil gelombang $\operatorname{sech}^2$ simetris terhadap titik pusatnya. Di setiap titik, kecenderungan suku nonlinier $6u u_x$ untuk mencuramkan lereng gelombang dinetralkan secara harmonis oleh suku dispersi spasial orde tiga $u_{xxx}$, menciptakan gelombang soliter yang kekal abadi.</p>
+          </div>
+        </div>
+
+        <!-- GAMBAR 12.2: Hubungan Kecepatan, Amplitudo, dan Lebar -->
+        <div class="my-8 p-6 bg-white rounded-3xl border border-slate-200 shadow-sm">
+          <div class="text-center mb-4">
+            <span class="text-xs font-bold uppercase tracking-wider px-3 py-1 rounded-full bg-emerald-50 text-emerald-700 border border-emerald-100">Gambar 12.2</span>
+            <h4 class="text-lg font-bold text-slate-900 mt-2">Karakteristik Kinematika Soliton: Relasi Amplitudo & Kecepatan</h4>
+            <p class="text-xs text-slate-500">Soliton yang lebih tinggi merambat lebih cepat dan bertubuh lebih ramping</p>
+          </div>
+
+          <!-- SVG Visual 2 -->
+          <div class="max-w-xl mx-auto my-6">
+            <svg viewBox="0 0 520 220" class="w-full h-auto">
+              <!-- Baseline -->
+              <line x1="40" y1="180" x2="480" y2="180" stroke="#cbd5e1" stroke-width="1.5"/>
+              <text x="475" y="198" font-size="10" fill="#64748b">Posisi x</text>
+
+              <!-- Soliton 1 (Tall, Fast, Narrow: c1 = 4 -> A = 2) -->
+              <path d="M 280 180 C 330 180, 345 40, 365 40 C 385 40, 400 180, 450 180" 
+                    fill="none" stroke="#4f46e5" stroke-width="3"/>
+              <!-- Motion Arrow -->
+              <line x1="365" y1="25" x2="410" y2="25" stroke="#4f46e5" stroke-width="2"/>
+              <polygon points="405,21 415,25 405,29" fill="#4f46e5"/>
+              <text x="365" y="18" font-size="10" fill="#4f46e5" text-anchor="middle" font-weight="bold">Soliton A: Tinggi, Cepat (c₁ = 4), Ramping</text>
+
+              <!-- Soliton 2 (Short, Slow, Broad: c2 = 1.5 -> A = 0.75) -->
+              <path d="M 70 180 C 130 180, 150 115, 180 115 C 210 115, 230 180, 290 180" 
+                    fill="none" stroke="#10b981" stroke-width="2.5"/>
+              <!-- Motion Arrow -->
+              <line x1="180" y1="100" x2="215" y2="100" stroke="#10b981" stroke-width="1.5"/>
+              <polygon points="210,97 220,100 210,103" fill="#10b981"/>
+              <text x="180" y="93" font-size="10" fill="#047857" text-anchor="middle" font-weight="bold">Soliton B: Rendah, Lambat (c₂ = 1.5), Lebar</text>
+            </svg>
+          </div>
+
+          <div class="bg-slate-50 p-4 rounded-2xl border border-slate-200 text-xs sm:text-sm text-slate-700 leading-relaxed">
+            <p><strong>Wawasan Fisik Gambar 12.2:</strong> Berbeda total dari gelombang linier di mana kecepatan rambat tidak bergantung pada tinggi gelombang, pada soliton KdV kecepatan perambatan berbanding lurus dengan tinggi puncaknya ($c = 2A$). Akibatnya, soliton besar akan selalu mengejar dan mendahului soliton yang lebih kecil di jalurnya.</p>
+          </div>
+        </div>
+
+        <!-- GAMBAR 12.3: Kronologi Tumbukan 2-Soliton -->
+        <div class="my-8 p-6 bg-white rounded-3xl border border-slate-200 shadow-sm">
+          <div class="text-center mb-4">
+            <span class="text-xs font-bold uppercase tracking-wider px-3 py-1 rounded-full bg-amber-50 text-amber-700 border border-amber-100">Gambar 12.3</span>
+            <h4 class="text-lg font-bold text-slate-900 mt-2">Dinamika Tumbukan Elastis Paripurna Dua Soliton</h4>
+            <p class="text-xs text-slate-500">Tiga fase waktu: sebelum tumbukan, saat puncak interaksi, dan pasca-tumbukan</p>
+          </div>
+
+          <!-- SVG Visual 3 -->
+          <div class="max-w-xl mx-auto my-6">
+            <svg viewBox="0 0 520 280" class="w-full h-auto">
+              <!-- Panel t < 0 (Sebelum Tumbukan) -->
+              <line x1="40" y1="70" x2="480" y2="70" stroke="#cbd5e1" stroke-width="1.2"/>
+              <text x="45" y="45" font-size="10" fill="#475569" font-weight="bold">1. Sebelum Tumbukan (t &lt; 0)</text>
+              <!-- Fast tall wave behind at x=130 -->
+              <path d="M 100 70 C 120 70, 125 15, 135 15 C 145 15, 150 70, 170 70" fill="none" stroke="#4f46e5" stroke-width="2.5"/>
+              <!-- Slow short wave ahead at x=250 -->
+              <path d="M 210 70 C 235 70, 245 42, 255 42 C 265 42, 275 70, 300 70" fill="none" stroke="#10b981" stroke-width="2"/>
+              <text x="350" y="45" font-size="9" fill="#64748b">Soliton cepat mendekat dari belakang &rarr;</text>
+
+              <!-- Panel t = 0 (Saat Interaksi Nonlinier Maksimum) -->
+              <line x1="40" y1="160" x2="480" y2="160" stroke="#cbd5e1" stroke-width="1.2"/>
+              <text x="45" y="135" font-size="10" fill="#475569" font-weight="bold">2. Saat Tumbukan (t = 0)</text>
+              <!-- Combined nonlinear interaction wave -->
+              <path d="M 200 160 C 230 160, 240 100, 250 100 C 260 100, 265 115, 270 115 C 275 115, 285 160, 310 160" fill="none" stroke="#dc2626" stroke-width="2.5"/>
+              <text x="350" y="135" font-size="9" fill="#dc2626" font-weight="bold">Pertukaran energi nonlinier kompleks</text>
+
+              <!-- Panel t > 0 (Setelah Tumbukan) -->
+              <line x1="40" y1="250" x2="480" y2="250" stroke="#cbd5e1" stroke-width="1.2"/>
+              <text x="45" y="225" font-size="10" fill="#475569" font-weight="bold">3. Setelah Tumbukan (t &gt; 0)</text>
+              <!-- Slow short wave now behind at x=230 (shifted backward) -->
+              <path d="M 190 250 C 215 250, 225 222, 235 222 C 245 222, 255 250, 280 250" fill="none" stroke="#10b981" stroke-width="2"/>
+              <!-- Fast tall wave now ahead at x=370 (shifted forward) -->
+              <path d="M 340 250 C 360 250, 365 195, 375 195 C 385 195, 390 250, 410 250" fill="none" stroke="#4f46e5" stroke-width="2.5"/>
+              <text x="350" y="270" font-size="9" fill="#047857" font-weight="bold">Pulih utuh + mengalami Pergeseran Fase (Phase Shift)</text>
+            </svg>
+          </div>
+
+          <div class="bg-slate-50 p-4 rounded-2xl border border-slate-200 text-xs sm:text-sm text-slate-700 leading-relaxed space-y-1">
+            <p><strong>Uraian Analisis Gambar 12.3:</strong></p>
+            <ul class="list-disc list-inside space-y-1 text-slate-600">
+              <li>Meskipun melewati peristiwa tabrakan nonlinier yang keras, kedua gelombang muncul kembali dengan identitas bentuk asli yang sempurna tanpa cacat (<em>pure elastic collision</em>).</li>
+              <li>Pergeseran fase analitik ($\Delta x_1 > 0$ dan $\Delta x_2 < 0$) membuktikan interaksi antar-gelombang soliter mematuhi hukum partikel mikroskopis, mendasari transmisi data gigabit pada kabel serat optik bawah laut modern.</li>
+            </ul>
+          </div>
+        </div>
+
+      </section>
+
+      <!-- 12.7 Latihan & Diskusi Reflektif -->
+      <section id="latihan" class="pt-6 border-t border-slate-200">
+        <h2 class="text-2xl sm:text-3xl font-bold text-slate-900 flex items-center gap-3 mb-4">
+          <span class="text-indigo-600 font-mono text-xl">12.7</span> Latihan & Pertanyaan Diskusi
+        </h2>
+        
+        <div class="space-y-4 my-6">
+          <div class="p-5 rounded-2xl bg-white border border-slate-200 shadow-sm">
+            <h5 class="font-bold text-slate-900 text-sm mb-2 text-indigo-700">Soal 1: Perhitungan Parameter Gelombang Russell</h5>
+            <p class="text-sm text-slate-600">
+              Jika sebuah gelombang soliter air dangkal memiliki kedalaman kanal $h_0 = 1.2 \text{ m}$ dan tinggi puncak di atas permukaan air adalah $a = 0.3 \text{ m}$, hitung kecepatan rambat gelombang soliter tersebut menurut aproksimasi Scott Russell:
+              $$c = \sqrt{g(h_0 + a)}$$
+              Bandingkan dengan kecepatan gelombang linier infinitesimal $c_0 = \sqrt{g h_0}$! Berapa persentase pertambahan kecepatannya akibat efek nonlinier? (Gunakan $g = 9.8 \text{ m/s}^2$).
+            </p>
+          </div>
+
+          <div class="p-5 rounded-2xl bg-white border border-slate-200 shadow-sm">
+            <h5 class="font-bold text-slate-900 text-sm mb-2 text-indigo-700">Soal 2: Verifikasi Turunan Solusi Eksak</h5>
+            <p class="text-sm text-slate-600">
+              Buktikan dengan substitusi langsung bahwa fungsi $u(x, t) = 2 \kappa^2 \operatorname{sech}^2(\kappa(x - 4\kappa^2 t - x_0))$ memenuhi persamaan Korteweg–de Vries standar:
+              $$u_t + 6u u_x + u_{xxx} = 0$$
+              Petunjuk: gunakan identitas $\tanh^2 z = 1 - \operatorname{sech}^2 z$ dan turunan fungsi hiperbolik.
+            </p>
+          </div>
+        </div>
+
+        <h3 class="text-xl font-bold text-slate-900 mt-8 mb-2">Penutup Buku Ajar</h3>
+        <p class="text-sm sm:text-base text-slate-700 leading-relaxed">
+          Bab 12 ini menutup seluruh rangkaian perjalanan materi buku ajar <strong>Pemodelan Matematika</strong>. Dari model pertumbuhan populasi satu spesies Malthus dan Verhulst di Bab 1 & 2, sistem interaksi dua spesies Lotka–Volterra di Bab 3, kompartemen epidemiologi SIR di Bab 4, sistem antrian stokastik Poisson di Bab 5, rantai Markov di Bab 6, matriks input-output ekonomi Leontief di Bab 7, dinamika diskrit & kaos di Bab 8, optimasi jaringan graf di Bab 9, dinamika psikososial pernikahan di Bab 10, gelombang linier Fourier di Bab 11, hingga keagungan gelombang soliter nonlinier KdV di Bab 12.
+        </p>
+        <p class="text-sm sm:text-base text-slate-700 leading-relaxed mt-3">
+          Melalui kedua belas bab ini, matematika telah terbukti bukan sekadar manipulasi simbol abstrak di atas kertas, melainkan sebuah <strong>lensa universal yang tajam, elegan, dan berdaya guna tinggi</strong> untuk memahami, memproyeksikan, serta merancang peradaban dan alam semesta yang kita tempati.
+        </p>
+      </section>
+
+    </article>
+
+    <!-- Navigation Footer between Chapters -->
+    <div class="mt-16 pt-8 border-t border-slate-200 flex flex-col sm:flex-row items-center justify-between gap-4">
+      <a href="bab11.html" class="inline-flex items-center gap-2 text-sm font-semibold text-slate-600 hover:text-indigo-600 transition">
+        <i class="fa-solid fa-arrow-left"></i>
+        <span>Kembali ke Bab 11: Gelombang Linier</span>
+      </a>
+      <a href="index.html" class="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-semibold text-sm shadow-md shadow-indigo-200 transition">
+        <span>Beranda & Daftar Lengkap Bab</span>
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </div>
+
+  </main>
+
+  <!-- Footer -->
+  <footer class="bg-white border-t border-slate-200 py-8 text-center text-xs text-slate-500 mt-16">
+    <div class="max-w-5xl mx-auto px-4">
+      &copy; 2025 Dr. Mohammad Jamhuri, M.Si. &bull; Program Studi Matematika UIN Maulana Malik Ibrahim Malang.
+    </div>
+  </footer>
+
+</body>
+</html>

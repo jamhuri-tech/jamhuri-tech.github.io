@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<html lang="id" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bab 4: Model Epidemiologi SIR dan Variannya - Pemodelan Matematika</title>
+  <meta name="description" content="Bab 4 Buku Ajar Pemodelan Matematika: Model Epidemiologi SIR, Bilangan Reproduksi Dasar R0, Varian SEIR, Vaksinasi, dan Herd Immunity oleh Dr. Mohammad Jamhuri, M.Si.">
+  
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  
+  <!-- MathJax CDN untuk render rumus matematika LaTeX -->
+  <script>
+    window.MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']],
+        displayMath: [['$$', '$$'], ['\\[', '\\]']]
+      }
+    };
+  </script>
+  <script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+  <!-- Google Fonts & Font Awesome -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+            mono: ['"JetBrains Mono"', 'monospace'],
+          }
+        }
+      }
+    }
+  </script>
+</head>
+<body class="bg-slate-50 text-slate-800 antialiased selection:bg-indigo-500 selection:text-white">
+
+  <!-- Header Nav -->
+  <header class="sticky top-0 z-50 bg-white/95 backdrop-blur-md border-b border-slate-200">
+    <div class="max-w-5xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
+      <div class="flex items-center gap-4">
+        <a href="index.html" class="flex items-center gap-2 text-slate-700 hover:text-indigo-600 transition font-semibold text-sm">
+          <i class="fa-solid fa-arrow-left text-xs"></i>
+          <span>Beranda</span>
+        </a>
+        <span class="text-slate-300">|</span>
+        <a href="bab3.html" class="text-xs font-semibold text-slate-500 hover:text-indigo-600 transition">
+          &larr; Bab 3: Predator–Prey
+        </a>
+      </div>
+      <div class="text-xs font-mono text-slate-500 hidden sm:block">
+        Mata Kuliah MAT61730 &bull; Bab 04
+      </div>
+      <div class="flex items-center gap-3">
+        <a href="main.pdf" class="inline-flex items-center gap-2 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 text-xs font-bold px-3 py-1.5 rounded-lg border border-indigo-200 transition">
+          <i class="fa-solid fa-file-pdf"></i>
+          <span>Unduh PDF</span>
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Content Container -->
+  <main class="max-w-4xl mx-auto px-4 sm:px-6 py-12">
+    
+    <!-- Chapter Header -->
+    <div class="border-b border-slate-200 pb-8 mb-10">
+      <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-indigo-100 text-indigo-800 text-xs font-mono font-bold mb-4">
+        BAB 04
+      </div>
+      <h1 class="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-slate-900 tracking-tight leading-tight">
+        Model Epidemiologi: SIR dan Variannya
+      </h1>
+      <p class="text-base sm:text-lg text-slate-600 mt-4 leading-relaxed">
+        Menyelidiki dinamika transmisi penyakit infeksius melalui model kompartemen, konsep bilangan reproduksi dasar ($R_0$), dinamika puncak wabah, varian model SIS dan SEIR, intervensi vaksinasi, serta ambang kekebalan kelompok (<em>herd immunity</em>).
+      </p>
+      <div class="flex items-center gap-4 mt-6 text-xs text-slate-500 pt-4 border-t border-slate-100">
+        <div><i class="fa-solid fa-user-pen mr-1 text-indigo-600"></i> Dr. Mohammad Jamhuri, M.Si.</div>
+        <div><i class="fa-solid fa-book-bookmark mr-1 text-indigo-600"></i> Program Studi Matematika UIN Malang</div>
+      </div>
+    </div>
+
+    <!-- Article Body -->
+    <article class="prose prose-slate max-w-none space-y-10 text-slate-700 leading-relaxed text-base sm:text-lg">
+
+      <!-- 4.1 Pendahuluan -->
+      <section id="pendahuluan">
+        <h2 class="text-2xl sm:text-3xl font-bold text-slate-900 flex items-center gap-3 mb-4">
+          <span class="text-indigo-600 font-mono text-xl">4.1</span> Pendahuluan
+        </h2>
+        <p>
+          Penyakit menular telah menjadi salah satu ancaman terbesar bagi peradaban manusia sepanjang sejarah, mulai dari Wabah Hitam (<em>Black Death</em>) di Eropa abad pertengahan, pandemi flu Spanyol 1918, hingga pandemi COVID-19 modern. Pemodelan matematika berperan vital dalam memahami pola penyebaran patogen, memprediksi puncak kebutuhan fasilitas medis, serta memberikan landasan ilmiah bagi kebijakan karantina, pembatasan sosial, dan vaksinasi massal.
+        </p>
+        <p>
+          Fondasi pemodelan epidemiologi matematika modern diletakkan oleh <strong>William Ogilvy Kermack</strong> dan <strong>Anderson Gray McKendrick</strong> pada tahun 1927 melalui sistem persamaan diferensial kompartemen yang dikenal luas sebagai <strong>Model SIR</strong>.
+        </p>
+      </section>
+
+      <!-- 4.2 Kompartemen dalam Epidemiologi -->
+      <section id="kompartemen" class="pt-6 border-t border-slate-200">
+        <h2 class="text-2xl sm:text-3xl font-bold text-slate-900 flex items-center gap-3 mb-4">
+          <span class="text-indigo-600 font-mono text-xl">4.2</span> Konsep Kompartemen Populasi
+        </h2>
+        <p>
+          Pendekatan kompartemen membagi total populasi $N$ ke dalam beberapa kelompok status kesehatan yang saling eksklusif. Pada model SIR klasik, individu dikelompokkan ke dalam tiga kategori:
+        </p>
+
+        <div class="grid sm:grid-cols-3 gap-4 my-6">
+          <div class="p-5 rounded-2xl bg-white border border-slate-200 shadow-sm">
+            <span class="w-8 h-8 rounded-xl bg-blue-100 text-blue-700 flex items-center justify-center font-bold text-sm mb-3">S</span>
+            <h5 class="font-bold text-slate-900 text-sm mb-1">Rentan (Susceptible)</h5>
+            <p class="text-xs text-slate-600 leading-relaxed">Individu sehat yang belum memiliki kekebalan dan rentan tertular patogen jika terjadi kontak efektif dengan individu infeksius.</p>
+          </div>
+          <div class="p-5 rounded-2xl bg-white border border-slate-200 shadow-sm">
+            <span class="w-8 h-8 rounded-xl bg-red-100 text-red-700 flex items-center justify-center font-bold text-sm mb-3">I</span>
+            <h5 class="font-bold text-slate-900 text-sm mb-1">Terinfeksi (Infectious)</h5>
+            <p class="text-xs text-slate-600 leading-relaxed">Individu yang sedang terjangkit penyakit, menunjukkan atau tanpa gejala, dan mampu menularkan virus/bakteri ke individu rentan.</p>
+          </div>
+          <div class="p-5 rounded-2xl bg-white border border-slate-200 shadow-sm">
+            <span class="w-8 h-8 rounded-xl bg-emerald-100 text-emerald-700 flex items-center justify-center font-bold text-sm mb-3">R</span>
+            <h5 class="font-bold text-slate-900 text-sm mb-1">Pulih/Kebal (Recovered)</h5>
+            <p class="text-xs text-slate-600 leading-relaxed">Individu yang telah sembuh dan memiliki kekebalan permanen, atau telah diisolasi/meninggal sehingga tidak lagi menularkan penyakit.</p>
+          </div>
+        </div>
+
+        <p class="text-sm text-slate-600">
+          Dengan mengasumsikan durasi epidemi jauh lebih singkat dibanding harapan hidup manusia (sehingga laju kelahiran dan kematian alami diabaikan), total ukuran populasi bersifat konstan:
+        </p>
+        <div class="my-3 p-3 bg-white border border-slate-200 rounded-xl font-mono text-center text-sm sm:text-base text-slate-800 shadow-sm">
+          $$S(t) + I(t) + R(t) = N \quad (\text{konstan})$$
+        </div>
+      </section>
+
+      <!-- 4.3 Model SIR -->
+      <section id="model-sir" class="pt-6 border-t border-slate-200">
+        <h2 class="text-2xl sm:text-3xl font-bold text-slate-900 flex items-center gap-3 mb-4">
+          <span class="text-indigo-600 font-mono text-xl">4.3</span> Formulasi Model SIR Klasik
+        </h2>
+        <p class="text-sm sm:text-base">
+          Dinamika perpindahan antar-kompartemen diatur oleh dua parameter utama:
+        </p>
+        <ul class="list-disc list-inside space-y-1.5 text-sm text-slate-700 ml-2">
+          <li><strong>Laju transmisi infeksi ($\beta$):</strong> Probabilitas penularan per kontak dikalikan rata-rata kontak antar-individu per satuan waktu. Berdasarkan prinsip aksi massa, laju infeksi baru adalah $\beta \frac{S I}{N}$ (atau $\beta S I$ jika populasi dinormalisasi $N=1$).</li>
+          <li><strong>Laju pemulihan per kapita ($\gamma$):</strong> Kebalikan dari durasi rata-rata periode infeksius ($D = 1/\gamma$). Jika seorang pasien infeksius rata-rata menularkan penyakit selama 5 hari, maka $\gamma = 0.2$ per hari.</li>
+        </ul>
+
+        <!-- Formula Box Light -->
+        <div class="my-6 p-6 bg-indigo-50/70 border border-indigo-200 rounded-2xl text-center text-slate-900 font-mono text-lg sm:text-xl shadow-sm">
+          <div class="mb-2">$$\frac{dS}{dt} = -\beta \frac{S I}{N}$$</div>
+          <div class="mb-2">$$\frac{dI}{dt} = \beta \frac{S I}{N} - \gamma I = I\left(\beta \frac{S}{N} - \gamma\right)$$</div>
+          <div>$$\frac{dR}{dt} = \gamma I$$</div>
+        </div>
+
+        <h3 class="text-xl font-bold text-slate-900 mt-8 mb-2">Bilangan Reproduksi Dasar ($R_0$)</h3>
+        <p class="text-sm sm:text-base">
+          Salah satu konsep paling krusial dalam epidemiologi matematika adalah <strong>Bilangan Reproduksi Dasar ($R_0$)</strong>. $R_0$ didefinisikan sebagai jumlah rata-rata kasus sekunder yang dihasilkan oleh satu individu terinfeksi tunggal di dalam populasi yang seluruhnya rentan ($S \approx N$).
+        </p>
+        <div class="my-4 p-5 bg-white border border-slate-200 rounded-2xl text-center text-lg sm:text-xl font-mono text-slate-900 font-bold shadow-sm">
+          $$R_0 = \frac{\beta}{\gamma} = \beta \times D$$
+        </div>
+
+        <!-- R0 Threshold Card -->
+        <div class="my-6 p-5 bg-slate-100/70 rounded-2xl border border-slate-200">
+          <h4 class="font-bold text-slate-900 text-sm uppercase tracking-wider text-indigo-700 mb-2">Syarat Terjadinya Wabah (Ambang Batas Epidemi)</h4>
+          <p class="text-sm text-slate-600 leading-relaxed">
+            Perhatikan persamaan laju infeksi pada awal kemunculan kasus ($t=0$ saat $S_0 \approx N$):
+          </p>
+          <div class="text-center font-mono text-slate-900 text-sm sm:text-base my-2">
+            $$\left.\frac{dI}{dt}\right|_{t=0} = I_0 (\beta - \gamma) = \gamma I_0 (R_0 - 1)$$
+          </div>
+          <ul class="list-disc list-inside space-y-1.5 text-xs sm:text-sm text-slate-700 mt-2">
+            <li><strong>Jika $R_0 > 1$:</strong> Maka $\left.\frac{dI}{dt}\right|_{t=0} > 0$. Jumlah kasus infeksi meningkat pesat dan timbul <strong>epidemi/wabah</strong>.</li>
+            <li><strong>Jika $R_0 \le 1$:</strong> Maka $\left.\frac{dI}{dt}\right|_{t=0} \le 0$. Penyakit tidak mampu menyebar luas dan akan padam dengan sendirinya tanpa menimbulkan wabah besar.</li>
+          </ul>
+        </div>
+
+        <h3 class="text-xl font-bold text-slate-900 mt-6 mb-2">Puncak Wabah & Ukuran Akhir Epidemi ($S_\infty$)</h3>
+        <p class="text-sm sm:text-base">
+          Puncak jumlah penderita terinfeksi ($I_{\max}$) terjadi saat $\frac{dI}{dt} = 0$, yaitu saat populasi rentan tertekan turun mencapai nilai ambang batas:
+        </p>
+        <div class="my-3 p-3 bg-white border border-slate-200 rounded-xl font-mono text-center text-sm sm:text-base text-slate-800 shadow-sm">
+          $$S_{\text{peak}} = \frac{\gamma}{\beta} N = \frac{N}{R_0}$$
+        </div>
+        <p class="text-sm text-slate-600">
+          Setelah melewati ambang ini, laju penularan baru lebih lambat dibanding laju kesembuhan, sehingga kurva $I(t)$ berbalik melandai turun. Di akhir epidemi ($t \to \infty$), tidak semua populasi rentan akan tertular; selalu terdapat sisa populasi rentan $S_\infty > 0$ yang lolos dari infeksi.
+        </p>
+      </section>
+
+      <!-- 4.4 Varian Model Epidemiologi -->
+      <section id="varian" class="pt-6 border-t border-slate-200">
+        <h2 class="text-2xl sm:text-3xl font-bold text-slate-900 flex items-center gap-3 mb-4">
+          <span class="text-indigo-600 font-mono text-xl">4.4</span> Varian Model Epidemiologi
+        </h2>
+        
+        <div class="space-y-6 my-6">
+          <!-- Model SIS -->
+          <div class="p-5 rounded-2xl bg-white border border-slate-200 shadow-sm">
+            <h4 class="font-bold text-slate-900 text-base mb-2 text-indigo-700">1. Model SIS (Tanpa Kekebalan Permanen)</h4>
+            <p class="text-sm text-slate-600 mb-3">
+              Cocok untuk penyakit seperti flu musiman atau infeksi bakteri di mana individu yang sembuh tidak memperoleh imunitas jangka panjang dan langsung kembali ke kompartemen rentan ($S \to I \to S$):
+            </p>
+            <div class="font-mono text-xs sm:text-sm text-slate-800 bg-slate-50 p-3 rounded-xl text-center">
+              $$\frac{dS}{dt} = -\beta \frac{S I}{N} + \gamma I, \qquad \frac{dI}{dt} = \beta \frac{S I}{N} - \gamma I$$
+            </div>
+            <p class="text-xs text-slate-500 mt-2">
+              Jika $R_0 > 1$, sistem konvergen menuju keadaan <strong>endemik</strong> konstan $I^* = N(1 - 1/R_0)$.
+            </p>
+          </div>
+
+          <!-- Model SEIR -->
+          <div class="p-5 rounded-2xl bg-white border border-slate-200 shadow-sm">
+            <h4 class="font-bold text-slate-900 text-base mb-2 text-indigo-700">2. Model SEIR (Dengan Masa Inkubasi/Laten)</h4>
+            <p class="text-sm text-slate-600 mb-3">
+              Banyak virus (seperti Campak, Cacar, COVID-19) memiliki masa laten sebelum penderita menjadi infeksius. Ditambahkan kompartemen $E$ (<em>Exposed</em> / terpapar tetapi belum menularkan) dengan laju transisi laten $\sigma = 1/T_{\text{inkubasi}}$:
+            </p>
+            <div class="font-mono text-xs sm:text-sm text-slate-800 bg-slate-50 p-3 rounded-xl text-center">
+              $$\frac{dS}{dt} = -\beta \frac{S I}{N}, \quad \frac{dE}{dt} = \beta \frac{S I}{N} - \sigma E, \quad \frac{dI}{dt} = \sigma E - \gamma I, \quad \frac{dR}{dt} = \gamma I$$
+            </div>
+          </div>
+
+          <!-- Model Vaksinasi & Herd Immunity -->
+          <div class="p-5 rounded-2xl bg-emerald-50/70 border border-emerald-200 shadow-sm">
+            <h4 class="font-bold text-emerald-950 text-base mb-2">3. Vaksinasi & Ambang Kekebalan Kelompok (Herd Immunity)</h4>
+            <p class="text-sm text-emerald-900 mb-3">
+              Jika proporsi populasi yang divaksinasi secara efektif adalah $p$, maka fraksi yang rentan tersisa adalah $(1 - p)$. Bilangan reproduksi efektif tereduksi menjadi $R_e = R_0 (1 - p)$. Agar epidemi tercegah ($R_e < 1$), proporsi vaksinasi minimal memenuhi ambang batas:
+            </p>
+            <div class="font-mono text-sm sm:text-base font-bold text-emerald-950 bg-white p-3 rounded-xl text-center border border-emerald-200">
+              $$p > p_c = 1 - \frac{1}{R_0}$$
+            </div>
+            <p class="text-xs text-emerald-800 mt-2">
+              Contoh: untuk penyakit campak dengan $R_0 \approx 15$, ambang kekebalan kelompok adalah $p_c = 1 - \frac{1}{15} \approx 93.3\%$.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- 4.5 Analisis Visual Komprehensif (Menggantikan Kode Python) -->
+      <section id="analisis-visual" class="pt-6 border-t border-slate-200">
+        <h2 class="text-2xl sm:text-3xl font-bold text-slate-900 flex items-center gap-3 mb-4">
+          <span class="text-indigo-600 font-mono text-xl">4.5</span> Analisis Visual & Eksplorasi Kurva Epidemi
+        </h2>
+        <p class="text-sm sm:text-base leading-relaxed mb-6">
+          Berikut adalah visualisasi komprehensif dinamika penyebaran wabah penyakit, pergerakan kurva kompartemen, dan mekanisme perataan kurva (<em>flattening the curve</em>):
+        </p>
+
+        <!-- GAMBAR 4.1: Diagram Alir Kompartemen -->
+        <div class="my-8 p-6 bg-white rounded-3xl border border-slate-200 shadow-sm">
+          <div class="text-center mb-4">
+            <span class="text-xs font-bold uppercase tracking-wider px-3 py-1 rounded-full bg-indigo-50 text-indigo-700 border border-indigo-100">Gambar 4.1</span>
+            <h4 class="text-lg font-bold text-slate-900 mt-2">Diagram Alir Kompartemen Model SIR dan SEIR</h4>
+            <p class="text-xs text-slate-500">Mekanisme perpindahan individu antar-status kesehatan</p>
+          </div>
+
+          <!-- SVG Visual 1 -->
+          <div class="max-w-xl mx-auto my-6">
+            <svg viewBox="0 0 520 180" class="w-full h-auto">
+              <!-- SIR Model Flow -->
+              <!-- Box S -->
+              <rect x="30" y="30" width="80" height="50" rx="10" fill="#eff6ff" stroke="#3b82f6" stroke-width="2"/>
+              <text x="70" y="55" font-size="14" fill="#1e40af" text-anchor="middle" font-weight="bold">S</text>
+              <text x="70" y="70" font-size="9" fill="#3b82f6" text-anchor="middle">Rentan</text>
+
+              <!-- Arrow S -> I -->
+              <line x1="110" y1="55" x2="200" y2="55" stroke="#475569" stroke-width="2"/>
+              <polygon points="195,51 205,55 195,59" fill="#475569"/>
+              <text x="155" y="45" font-size="10" fill="#475569" text-anchor="middle" font-weight="bold">β·S·I / N</text>
+
+              <!-- Box I -->
+              <rect x="210" y="30" width="80" height="50" rx="10" fill="#fef2f2" stroke="#ef4444" stroke-width="2"/>
+              <text x="250" y="55" font-size="14" fill="#991b1b" text-anchor="middle" font-weight="bold">I</text>
+              <text x="250" y="70" font-size="9" fill="#ef4444" text-anchor="middle">Infeksi</text>
+
+              <!-- Arrow I -> R -->
+              <line x1="290" y1="55" x2="380" y2="55" stroke="#475569" stroke-width="2"/>
+              <polygon points="375,51 385,55 375,59" fill="#475569"/>
+              <text x="335" y="45" font-size="10" fill="#475569" text-anchor="middle" font-weight="bold">γ·I</text>
+
+              <!-- Box R -->
+              <rect x="390" y="30" width="80" height="50" rx="10" fill="#ecfdf5" stroke="#10b981" stroke-width="2"/>
+              <text x="430" y="55" font-size="14" fill="#065f46" text-anchor="middle" font-weight="bold">R</text>
+              <text x="430" y="70" font-size="9" fill="#10b981" text-anchor="middle">Sembuh</text>
+
+              <!-- SEIR Variant Sub-label -->
+              <line x1="30" y1="110" x2="470" y2="110" stroke="#e2e8f0" stroke-dasharray="3"/>
+              <text x="250" y="130" font-size="10" fill="#64748b" text-anchor="middle" font-weight="bold">Varian SEIR: Menyisipkan Kompartemen Terpapar (E) di Antara S dan I</text>
+              <text x="250" y="150" font-size="9" fill="#94a3b8" text-anchor="middle">[ S ] ──(Transmisi β)──&gt; [ E ] ──(Laten σ)──&gt; [ I ] ──(Pulih γ)──&gt; [ R ]</text>
+            </svg>
+          </div>
+
+          <div class="bg-slate-50 p-4 rounded-2xl border border-slate-200 text-xs sm:text-sm text-slate-700 leading-relaxed">
+            <p><strong>Keterangan Gambar 4.1:</strong> Laju penularan sebanding dengan interaksi antara individu rentan ($S$) dan terinfeksi ($I$). Setiap individu rata-rata berada pada kompartemen infeksius selama masa pemulihan $1/\gamma$ hari sebelum bertransisi ke kompartemen kebal ($R$).</p>
+          </div>
+        </div>
+
+        <!-- GAMBAR 4.2: Kurva Epidemi SIR -->
+        <div class="my-8 p-6 bg-white rounded-3xl border border-slate-200 shadow-sm">
+          <div class="text-center mb-4">
+            <span class="text-xs font-bold uppercase tracking-wider px-3 py-1 rounded-full bg-emerald-50 text-emerald-700 border border-emerald-100">Gambar 4.2</span>
+            <h4 class="text-lg font-bold text-slate-900 mt-2">Dinamika Temporal Kurva Epidemi SIR ($S(t), I(t), R(t)$)</h4>
+            <p class="text-xs text-slate-500">Evolusi infeksi dari kemunculan kasus awal hingga padamnya wabah</p>
+          </div>
+
+          <!-- SVG Visual 2 -->
+          <div class="max-w-xl mx-auto my-6">
+            <svg viewBox="0 0 520 280" class="w-full h-auto">
+              <!-- Grid -->
+              <line x1="50" y1="230" x2="480" y2="230" stroke="#cbd5e1" stroke-width="1.5"/>
+              <line x1="50" y1="230" x2="50" y2="25" stroke="#cbd5e1" stroke-width="1.5"/>
+              <text x="475" y="248" font-size="11" fill="#64748b" font-weight="bold">Waktu (Hari)</text>
+              <text x="15" y="30" font-size="11" fill="#64748b" font-weight="bold">Fraksi Populasi</text>
+
+              <text x="35" y="234" font-size="10" fill="#94a3b8">0</text>
+              <text x="25" y="130" font-size="10" fill="#94a3b8">0.5</text>
+              <text x="25" y="40" font-size="10" fill="#94a3b8">1.0</text>
+
+              <!-- Susceptible S(t) (Blue) - Starts at ~1.0, decays to S_inf -->
+              <path d="M 50 40 C 130 42, 170 120, 240 180 C 300 205, 400 210, 480 210" 
+                    fill="none" stroke="#3b82f6" stroke-width="3"/>
+              <text x="80" y="55" font-size="11" fill="#1d4ed8" font-weight="bold">Rentan S(t)</text>
+              <text x="440" y="202" font-size="9" fill="#1d4ed8">S_∞</text>
+
+              <!-- Infectious I(t) (Red) - Bell curve peaking at threshold -->
+              <path d="M 50 225 C 110 220, 160 120, 200 100 C 240 85, 270 140, 480 228" 
+                    fill="none" stroke="#ef4444" stroke-width="3"/>
+              <text x="205" y="80" font-size="11" fill="#b91c1c" font-weight="bold">Puncak Infeksi (I_max)</text>
+
+              <!-- Peak Threshold Mark -->
+              <line x1="210" y1="88" x2="210" y2="230" stroke="#ef4444" stroke-dasharray="3"/>
+              <text x="215" y="150" font-size="9" fill="#b91c1c">S = N / R₀</text>
+
+              <!-- Recovered R(t) (Emerald) - Monotonically increasing -->
+              <path d="M 50 230 C 140 228, 200 160, 260 90 C 320 60, 400 55, 480 55" 
+                    fill="none" stroke="#10b981" stroke-width="3"/>
+              <text x="360" y="45" font-size="11" fill="#047857" font-weight="bold">Sembuh/Kebal R(t)</text>
+              <text x="440" y="70" font-size="9" fill="#047857">R_∞</text>
+            </svg>
+          </div>
+
+          <div class="bg-slate-50 p-4 rounded-2xl border border-slate-200 text-xs sm:text-sm text-slate-700 leading-relaxed space-y-1.5">
+            <p><strong>Uraian Analisis Gambar 4.2:</strong></p>
+            <ul class="list-disc list-inside space-y-1 text-slate-600">
+              <li><span class="text-blue-700 font-semibold">Rentan $S(t)$:</span> Menurun secara monotonik karena individu yang terinfeksi berpindah kompartemen dan tidak dapat kembali lagi pada model SIR klasik.</li>
+              <li><span class="text-red-600 font-semibold">Puncak Wabah:</span> Titik tertinggi $I_{\max}$ dicapai tepat saat jumlah orang rentan menyusut hingga menyentuh ambang $S = N/R_0$. Setelah titik ini, transmisi baru lebih lambat dari pemulihan.</li>
+              <li><span class="text-emerald-700 font-semibold">Sisa Populasi $S_\infty$:</span> Wabah padam bukan karena semua orang telah terinfeksi, melainkan karena kepadatan individu rentan sudah terlalu rendah untuk menyokong penularan rantai infeksi.</li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- GAMBAR 4.3: Flattening the Curve & Herd Immunity -->
+        <div class="my-8 p-6 bg-white rounded-3xl border border-slate-200 shadow-sm">
+          <div class="text-center mb-4">
+            <span class="text-xs font-bold uppercase tracking-wider px-3 py-1 rounded-full bg-amber-50 text-amber-700 border border-amber-100">Gambar 4.3</span>
+            <h4 class="text-lg font-bold text-slate-900 mt-2">Prinsip Meratakan Kurva (<em>Flattening the Curve</em>) & Kekebalan Kelompok</h4>
+            <p class="text-xs text-slate-500">Dampak intervensi pengendalian terhadap kapasitas fasilitas kesehatan</p>
+          </div>
+
+          <!-- SVG Visual 3 -->
+          <div class="max-w-xl mx-auto my-6">
+            <svg viewBox="0 0 520 250" class="w-full h-auto">
+              <!-- Grid -->
+              <line x1="50" y1="210" x2="480" y2="210" stroke="#cbd5e1" stroke-width="1.5"/>
+              <line x1="50" y1="210" x2="50" y2="25" stroke="#cbd5e1" stroke-width="1.5"/>
+              <text x="475" y="228" font-size="11" fill="#64748b" font-weight="bold">Waktu</text>
+              <text x="15" y="30" font-size="11" fill="#64748b" font-weight="bold">Kasus Aktif</text>
+
+              <!-- Healthcare Capacity Line (Red Dashed) -->
+              <line x1="50" y1="120" x2="480" y2="120" stroke="#dc2626" stroke-dasharray="6" stroke-width="2"/>
+              <text x="330" y="112" font-size="10" fill="#dc2626" font-weight="bold">Kapasitas Maksimum Fasilitas Kesehatan</text>
+
+              <!-- Uncontrolled Curve (Steep Red) -->
+              <path d="M 50 205 C 100 200, 130 50, 160 40 C 190 30, 220 180, 280 208" 
+                    fill="none" stroke="#ef4444" stroke-width="2.5"/>
+              <text x="130" y="32" font-size="10" fill="#b91c1c" font-weight="bold">Tanpa Intervensi (R₀ Tinggi)</text>
+
+              <!-- Controlled / Flattened Curve (Broad Emerald) -->
+              <path d="M 50 208 C 120 205, 180 145, 230 140 C 280 135, 340 180, 440 208" 
+                    fill="none" stroke="#10b981" stroke-width="3"/>
+              <text x="240" y="160" font-size="10" fill="#047857" font-weight="bold">Dengan Intervensi (R₀ Diturunkan)</text>
+
+              <!-- Shaded Overload Area -->
+              <path d="M 115 120 C 130 50, 160 40, 160 40 C 190 30, 205 120, 205 120 Z" fill="#fee2e2" opacity="0.6"/>
+              <text x="160" y="85" font-size="9" fill="#991b1b" text-anchor="middle" font-weight="bold">Krisis Beban Faskes</text>
+            </svg>
+          </div>
+
+          <div class="bg-slate-50 p-4 rounded-2xl border border-slate-200 text-xs sm:text-sm text-slate-700 leading-relaxed">
+            <p><strong>Keterangan Gambar 4.3:</strong> Intervensi non-farmasi (masker, karantina, pembatasan mobilitas) menurunkan nilai efektif laju kontak $\beta$, sehingga puncak kurva infeksi tertunda dan tetap berada di bawah daya tampung rumah sakit (<em>healthcare capacity</em>).</p>
+          </div>
+        </div>
+
+      </section>
+
+      <!-- 4.6 Latihan & Diskusi Reflektif -->
+      <section id="latihan" class="pt-6 border-t border-slate-200">
+        <h2 class="text-2xl sm:text-3xl font-bold text-slate-900 flex items-center gap-3 mb-4">
+          <span class="text-indigo-600 font-mono text-xl">4.6</span> Latihan & Pertanyaan Diskusi
+        </h2>
+        
+        <div class="space-y-4 my-6">
+          <div class="p-5 rounded-2xl bg-white border border-slate-200 shadow-sm">
+            <h5 class="font-bold text-slate-900 text-sm mb-2 text-indigo-700">Soal 1: Perhitungan Ambang Vaksinasi Campak vs Flu</h5>
+            <p class="text-sm text-slate-600">
+              Diketahui penyakit influenza musiman memiliki $R_0 \approx 1.4$, sedangkan penyakit campak (<em>measles</em>) memiliki $R_0 \approx 16$. Hitung proporsi vaksinasi minimum ($p_c$) untuk menciptakan kekebalan kelompok (<em>herd immunity</em>) pada kedua penyakit tersebut. Mengapa pengendalian campak membutuhkan cakupan imunisasi yang jauh lebih ketat?
+            </p>
+          </div>
+
+          <div class="p-5 rounded-2xl bg-white border border-slate-200 shadow-sm">
+            <h5 class="font-bold text-slate-900 text-sm mb-2 text-indigo-700">Soal 2: Penentuan Puncak Infeksi $I_{\max}$</h5>
+            <p class="text-sm text-slate-600">
+              Buktikan bahwa pada model SIR klasik, nilai puncak kasus terinfeksi diberikan oleh formula:
+              $$I_{\max} = I_0 + S_0 - \frac{N}{R_0} \left(1 + \ln\left(\frac{R_0 S_0}{N}\right)\right)$$
+              Tafsirkan mengapa penurunan nilai $R_0$ secara signifikan mereduksi beban maksimum kasus rawat inap!
+            </p>
+          </div>
+        </div>
+
+        <h3 class="text-xl font-bold text-slate-900 mt-8 mb-2">Penutup Bab</h3>
+        <p class="text-sm sm:text-base text-slate-700">
+          Model epidemiologi membuktikan bagaimana matematika dapat menyelamatkan jutaan nyawa melalui panduan kebijakan berbasis bukti kuantitatif. Pada bab berikutnya (Bab 5), kita beralih ke dinamika stokastik layanan publik melalui <strong>Model Antrian (Queueing Models)</strong> untuk mengkaji waktu tunggu dan optimalisasi fasilitas operasional.
+        </p>
+      </section>
+
+    </article>
+
+    <!-- Navigation Footer between Chapters -->
+    <div class="mt-16 pt-8 border-t border-slate-200 flex flex-col sm:flex-row items-center justify-between gap-4">
+      <a href="bab3.html" class="inline-flex items-center gap-2 text-sm font-semibold text-slate-600 hover:text-indigo-600 transition">
+        <i class="fa-solid fa-arrow-left"></i>
+        <span>Kembali ke Bab 3: Predator–Prey</span>
+      </a>
+      <a href="bab5.html" class="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-semibold text-sm shadow-md shadow-indigo-200 transition">
+        <span>Lanjut ke Bab 5: Model Antrian</span>
+        <i class="fa-solid fa-arrow-right"></i>
+      </a>
+    </div>
+
+  </main>
+
+  <!-- Footer -->
+  <footer class="bg-white border-t border-slate-200 py-8 text-center text-xs text-slate-500 mt-16">
+    <div class="max-w-5xl mx-auto px-4">
+      &copy; 2025 Dr. Mohammad Jamhuri, M.Si. &bull; Program Studi Matematika UIN Maulana Malik Ibrahim Malang.
+    </div>
+  </footer>
+
+</body>
+</html>

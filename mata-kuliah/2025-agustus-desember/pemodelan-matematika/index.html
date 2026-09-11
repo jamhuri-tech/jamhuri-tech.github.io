@@ -1,0 +1,597 @@
+<!DOCTYPE html>
+<html lang="id" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pemodelan Matematika - Dr. Mohammad Jamhuri, M.Si.</title>
+  <meta name="description" content="Buku Ajar dan Bahan Perkuliahan Pemodelan Matematika (MAT61730) - Program Studi Matematika UIN Maulana Malik Ibrahim Malang">
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Google Fonts: Inter & Plus Jakarta Sans -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <!-- Font Awesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+            mono: ['"JetBrains Mono"', 'monospace'],
+          },
+          colors: {
+            brand: {
+              50: '#eef2ff',
+              100: '#e0e7ff',
+              600: '#4f46e5',
+              700: '#4338ca',
+              800: '#3730a3',
+              900: '#312e81',
+            }
+          }
+        }
+      }
+    }
+  </script>
+  <script>
+    window.MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']],
+        displayMath: [['$$', '$$'], ['\\[', '\\]']]
+      }
+    };
+  </script>
+  <script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+  <style>
+    body { font-family: 'Plus Jakarta Sans', sans-serif; }
+    section[id] { scroll-margin-top: 5rem; }
+    pre, code { font-family: 'JetBrains Mono', monospace; }
+  </style>
+</head>
+<body class="bg-slate-50 text-slate-800 antialiased selection:bg-indigo-500 selection:text-white">
+
+  <!-- Navigation Bar -->
+  <header class="sticky top-0 z-50 bg-white/90 backdrop-blur-md border-b border-slate-200">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+      <a href="#" class="flex items-center gap-3">
+        <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-indigo-700 to-indigo-500 flex items-center justify-center text-white font-bold text-lg shadow-md shadow-indigo-200">
+          <i class="fa-solid fa-square-root-variable"></i>
+        </div>
+        <div>
+          <span class="font-extrabold text-slate-900 tracking-tight text-lg block leading-tight">Pemodelan Matematika</span>
+          <span class="text-xs font-semibold text-indigo-600 block">MAT61730 &bull; UIN Malang</span>
+        </div>
+      </a>
+      <nav class="hidden md:flex items-center gap-6 text-sm font-medium text-slate-600">
+        <a href="#tentang" class="hover:text-indigo-600 transition">Tentang</a>
+        <a href="#cpmk" class="hover:text-indigo-600 transition">CPMK</a>
+        <a href="#daftar-bab" class="hover:text-indigo-600 transition">Daftar Bab</a>
+        <a href="#silabus" class="hover:text-indigo-600 transition">Silabus RPS</a>
+        <a href="#simulasi" class="hover:text-indigo-600 transition">Visualisasi Model</a>
+        <a href="#pengampu" class="hover:text-indigo-600 transition">Pengampu</a>
+      </nav>
+      <div class="flex items-center gap-3">
+        <a href="main.pdf" class="inline-flex items-center gap-2 bg-indigo-600 hover:bg-indigo-700 text-white text-xs sm:text-sm font-semibold px-4 py-2 rounded-xl transition shadow-sm shadow-indigo-300">
+          <i class="fa-solid fa-file-pdf"></i>
+          <span>Unduh PDF</span>
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Hero Section -->
+  <section id="tentang" class="relative overflow-hidden pt-12 pb-20 lg:pt-20 lg:pb-28 bg-gradient-to-b from-indigo-50/50 via-white to-slate-50">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+      <div class="grid lg:grid-cols-12 gap-12 items-center">
+        <div class="lg:col-span-7 text-center lg:text-left">
+          <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-indigo-100 text-indigo-800 text-xs font-semibold mb-6">
+            <span class="w-2 h-2 rounded-full bg-indigo-600 animate-pulse"></span>
+            Buku Ajar & Panduan Perkuliahan Semester 7
+          </div>
+          <h1 class="text-4xl sm:text-5xl lg:text-6xl font-extrabold text-slate-900 tracking-tight leading-[1.15] mb-6">
+            Pemodelan Matematika: <span class="text-transparent bg-clip-text bg-gradient-to-r from-indigo-600 to-violet-600">Teori, Aplikasi, & Simulasi</span>
+          </h1>
+          <p class="text-lg text-slate-600 leading-relaxed mb-8 max-w-2xl mx-auto lg:mx-0">
+            Panduan komprehensif untuk memahami dinamika populasi, epidemiologi kompartemen, sistem antrian, rantai Markov, hingga dinamika nonlinier gelombang soliton melalui pendekatan analitik dan simulasi komputasi modern.
+          </p>
+          <div class="flex flex-wrap gap-4 justify-center lg:justify-start">
+            <a href="main.pdf" class="inline-flex items-center gap-3 bg-indigo-600 hover:bg-indigo-700 text-white font-semibold px-6 py-3.5 rounded-2xl shadow-lg shadow-indigo-200 hover:shadow-indigo-300 transition transform hover:-translate-y-0.5">
+              <i class="fa-solid fa-book-open text-lg"></i>
+              <span>Baca Draf Buku (PDF)</span>
+            </a>
+            <a href="#silabus" class="inline-flex items-center gap-3 bg-white hover:bg-slate-100 text-slate-800 font-semibold px-6 py-3.5 rounded-2xl border border-slate-200 transition">
+              <i class="fa-solid fa-list-check text-slate-500"></i>
+              <span>Silabus 16 Minggu</span>
+            </a>
+          </div>
+
+          <!-- Quick Stats -->
+          <div class="grid grid-cols-3 gap-4 mt-12 pt-8 border-t border-slate-200/80 max-w-md mx-auto lg:mx-0">
+            <div>
+              <div class="text-2xl sm:text-3xl font-extrabold text-slate-900">12 Bab</div>
+              <div class="text-xs font-medium text-slate-500 mt-1">Materi Terstruktur</div>
+            </div>
+            <div>
+              <div class="text-2xl sm:text-3xl font-extrabold text-indigo-600">177 Hal.</div>
+              <div class="text-xs font-medium text-slate-500 mt-1">Draf Buku Ajar</div>
+            </div>
+            <div>
+              <div class="text-2xl sm:text-3xl font-extrabold text-slate-900">3 SKS</div>
+              <div class="text-xs font-medium text-slate-500 mt-1">Bobot Perkuliahan</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Book Preview Card -->
+        <div class="lg:col-span-5 flex justify-center">
+          <div class="relative w-full max-w-sm">
+            <div class="absolute -inset-4 bg-gradient-to-r from-indigo-500 to-purple-500 rounded-3xl blur-2xl opacity-20 transform -rotate-3"></div>
+            <div class="relative bg-white rounded-3xl p-6 border border-slate-200/80 shadow-2xl">
+              <div class="aspect-[3/4] bg-gradient-to-br from-indigo-600 via-indigo-700 to-indigo-800 rounded-2xl p-6 text-white flex flex-col justify-between shadow-lg relative overflow-hidden">
+                <div class="absolute -right-8 -bottom-8 w-48 h-48 bg-indigo-500/20 rounded-full blur-xl"></div>
+                <div>
+                  <div class="flex items-center justify-between text-indigo-300 text-xs font-mono uppercase tracking-wider mb-4">
+                    <span>UIN MALIKI MALANG</span>
+                    <span>MAT61730</span>
+                  </div>
+                  <h3 class="text-2xl font-bold tracking-tight text-white leading-snug">
+                    Pemodelan Matematika
+                  </h3>
+                  <p class="text-xs text-indigo-200 mt-1">Teori, Aplikasi, dan Simulasi</p>
+                </div>
+                <div class="my-6">
+                  <div class="p-3 bg-white/10 rounded-xl backdrop-blur-sm border border-white/10 text-xs font-mono text-indigo-200">
+                    <div>\(\frac{dP}{dt} = rP\left(1 - \frac{P}{K}\right)\)</div>
+                    <div class="mt-1">\(\frac{\partial u}{\partial t} + 6u\frac{\partial u}{\partial x} + \frac{\partial^3 u}{\partial x^3} = 0\)</div>
+                  </div>
+                </div>
+                <div class="pt-4 border-t border-white/10 flex items-center justify-between">
+                  <div>
+                    <div class="text-xs font-bold text-white">Dr. Mohammad Jamhuri, M.Si.</div>
+                    <div class="text-[10px] text-slate-400">Program Studi Matematika</div>
+                  </div>
+                  <span class="text-xs font-bold text-indigo-400 bg-indigo-950/80 px-2 py-1 rounded-md border border-indigo-500/30">2025</span>
+                </div>
+              </div>
+              <div class="mt-4 flex items-center justify-between px-2">
+                <span class="text-xs font-medium text-slate-500"><i class="fa-solid fa-file-lines mr-1.5 text-indigo-500"></i> Format PDF Siap Cetak (A5)</span>
+                <a href="main.pdf" class="text-xs font-bold text-indigo-600 hover:text-indigo-800 transition">Buka Berkas &rarr;</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Capaian Pembelajaran (CPMK) -->
+  <section id="cpmk" class="py-16 bg-white border-y border-slate-200">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="max-w-3xl mx-auto text-center mb-12">
+        <h2 class="text-xs font-bold uppercase tracking-wider text-indigo-600 mb-2">Capaian Pembelajaran</h2>
+        <h3 class="text-3xl font-extrabold text-slate-900">Kompetensi Utama Mahasiswa (CPMK)</h3>
+        <p class="text-slate-600 mt-3 text-sm sm:text-base">
+          Setelah menyelesaikan mata kuliah ini, mahasiswa diharapkan menguasai lima kompetensi esensial berikut:
+        </p>
+      </div>
+      <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div class="p-6 rounded-2xl bg-slate-50 border border-slate-200/80 hover:border-indigo-300 transition">
+          <div class="w-10 h-10 rounded-xl bg-indigo-100 text-indigo-700 flex items-center justify-center font-bold text-base mb-4">1</div>
+          <h4 class="font-bold text-slate-900 mb-2">Konsep Dasar Pemodelan</h4>
+          <p class="text-sm text-slate-600 leading-relaxed">Menjelaskan filosofi, klasifikasi (deterministik/stokastik, diskrit/kontinu), serta siklus iteratif pemodelan matematika.</p>
+        </div>
+        <div class="p-6 rounded-2xl bg-slate-50 border border-slate-200/80 hover:border-indigo-300 transition">
+          <div class="w-10 h-10 rounded-xl bg-indigo-100 text-indigo-700 flex items-center justify-center font-bold text-base mb-4">2</div>
+          <h4 class="font-bold text-slate-900 mb-2">Formulasi dari Masalah Riil</h4>
+          <p class="text-sm text-slate-600 leading-relaxed">Mampu menyusun asumsi realistis dan merumuskan representasi matematis dari fenomena sains, ekonomi, dan dinamika sosial.</p>
+        </div>
+        <div class="p-6 rounded-2xl bg-slate-50 border border-slate-200/80 hover:border-indigo-300 transition">
+          <div class="w-10 h-10 rounded-xl bg-indigo-100 text-indigo-700 flex items-center justify-center font-bold text-base mb-4">3</div>
+          <h4 class="font-bold text-slate-900 mb-2">Analisis & Solusi Model</h4>
+          <p class="text-sm text-slate-600 leading-relaxed">Menganalisis titik kesetimbangan, kestabilan linear lokal (Jacobian), potret fase, serta menurunkan solusi analitik dan aproksimasi.</p>
+        </div>
+        <div class="p-6 rounded-2xl bg-slate-50 border border-slate-200/80 hover:border-indigo-300 transition">
+          <div class="w-10 h-10 rounded-xl bg-indigo-100 text-indigo-700 flex items-center justify-center font-bold text-base mb-4">4</div>
+          <h4 class="font-bold text-slate-900 mb-2">Interpretasi & Validasi</h4>
+          <p class="text-sm text-slate-600 leading-relaxed">Menerjemahkan kembali makna numerik dan grafik ke konteks nyata, mengenali batas validitas model, dan melakukan evaluasi.</p>
+        </div>
+        <div class="p-6 rounded-2xl bg-slate-50 border border-slate-200/80 hover:border-indigo-300 transition md:col-span-2 lg:col-span-2">
+          <div class="w-10 h-10 rounded-xl bg-indigo-600 text-white flex items-center justify-center font-bold text-base mb-4">5</div>
+          <h4 class="font-bold text-slate-900 mb-2">Simulasi Komputasi Modern (Python)</h4>
+          <p class="text-sm text-slate-600 leading-relaxed">Menguasai implementasi pustaka komputasi ilmiah (<code class="text-indigo-600 font-mono text-xs">numpy</code>, <code class="text-indigo-600 font-mono text-xs">scipy.integrate</code>, <code class="text-indigo-600 font-mono text-xs">matplotlib</code>, <code class="text-indigo-600 font-mono text-xs">networkx</code>) untuk mensimulasikan sistem persamaan diferensial dan rantai Markov secara interaktif.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Daftar Bab Buku -->
+  <section id="daftar-bab" class="py-16 bg-slate-50">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="max-w-3xl mx-auto text-center mb-12">
+        <h2 class="text-xs font-bold uppercase tracking-wider text-indigo-600 mb-2">Struktur Konten</h2>
+        <h3 class="text-3xl font-extrabold text-slate-900">Daftar Bab Buku Ajar</h3>
+        <p class="text-slate-600 mt-3 text-sm sm:text-base">Materi terbagi ke dalam 12 bab yang mencakup spektrum luas pemodelan kontinu, diskrit, stokastik, dan persamaan diferensial parsial.</p>
+      </div>
+
+      <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <!-- Bab 1 -->
+        <div class="bg-white p-6 rounded-2xl border border-indigo-200/80 hover:border-indigo-400 hover:shadow-lg transition flex flex-col justify-between group">
+          <div>
+            <div class="flex items-center justify-between">
+              <span class="text-xs font-bold font-mono px-2.5 py-1 bg-indigo-100 text-indigo-700 rounded-lg">BAB 01</span>
+              <span class="text-[10px] font-bold text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded-full border border-emerald-200">Web Tersedia</span>
+            </div>
+            <h4 class="font-bold text-slate-900 mt-3 mb-2 group-hover:text-indigo-600 transition">Pengantar Pemodelan Matematika</h4>
+            <p class="text-sm text-slate-600">Alasan perlunya model, definisi abstraksi, 6 tahapan siklus pemodelan, dan klasifikasi model (deterministik vs stokastik, diskrit vs kontinu).</p>
+          </div>
+          <div class="mt-4 pt-3 border-t border-slate-100 flex items-center justify-between">
+            <span class="text-xs text-slate-400"><i class="fa-solid fa-sliders text-indigo-500 mr-1"></i> Simulasi Interaktif</span>
+            <a href="bab1.html" class="inline-flex items-center gap-1.5 text-xs font-bold text-indigo-600 hover:text-indigo-800 transition">
+              <span>Buka Bab</span>
+              <i class="fa-solid fa-arrow-right text-[10px] group-hover:translate-x-0.5 transition"></i>
+            </a>
+          </div>
+        </div>
+        <!-- Bab 2 -->
+        <div class="bg-white p-6 rounded-2xl border border-slate-200/80 hover:shadow-md hover:border-indigo-300 transition flex flex-col justify-between group">
+          <div>
+            <span class="text-xs font-bold font-mono px-2.5 py-1 bg-indigo-100 text-indigo-700 rounded-lg">BAB 02</span>
+            <h4 class="font-bold text-slate-900 mt-3 mb-2 group-hover:text-indigo-600 transition">Model Pertumbuhan Populasi</h4>
+            <p class="text-sm text-slate-600 leading-relaxed mb-4">Pertumbuhan Malthus eksponensial, model logistik Verhulst, daya tampung lingkungan ($K$), dan pelinieran data populasi BPS.</p>
+          </div>
+          <div>
+            <a href="bab2.html" class="inline-flex items-center gap-1.5 text-xs font-bold text-indigo-600 hover:text-indigo-800 transition">
+              <span>Baca Bab 2</span>
+              <i class="fa-solid fa-arrow-right text-[10px]"></i>
+            </a>
+          </div>
+        </div>
+        <!-- Bab 3 -->
+        <div class="bg-white p-6 rounded-2xl border border-slate-200/80 hover:shadow-md hover:border-indigo-300 transition flex flex-col justify-between group">
+          <div>
+            <span class="text-xs font-bold font-mono px-2.5 py-1 bg-indigo-100 text-indigo-700 rounded-lg">BAB 03</span>
+            <h4 class="font-bold text-slate-900 mt-3 mb-2 group-hover:text-indigo-600 transition">Interaksi Predator–Prey</h4>
+            <p class="text-sm text-slate-600 leading-relaxed mb-4">Model Lotka–Volterra klasik, isoklin nol (nullclines), titik kesetimbangan center, potret fase orbit tertutup, dan modifikasi daya dukung mangsa.</p>
+          </div>
+          <div>
+            <a href="bab3.html" class="inline-flex items-center gap-1.5 text-xs font-bold text-indigo-600 hover:text-indigo-800 transition">
+              <span>Baca Bab 3</span>
+              <i class="fa-solid fa-arrow-right text-[10px]"></i>
+            </a>
+          </div>
+        </div>
+        <!-- Bab 4 -->
+        <div class="bg-white p-6 rounded-2xl border border-slate-200/80 hover:shadow-md hover:border-indigo-300 transition flex flex-col justify-between group">
+          <div>
+            <span class="text-xs font-bold font-mono px-2.5 py-1 bg-indigo-100 text-indigo-700 rounded-lg">BAB 04</span>
+            <h4 class="font-bold text-slate-900 mt-3 mb-2 group-hover:text-indigo-600 transition">Model Epidemiologi: SIR & Variannya</h4>
+            <p class="text-sm text-slate-600 leading-relaxed mb-4">Model kompartemen penyakit menular SIR, konsep bilangan reproduksi dasar ($R_0$), dinamika puncak wabah, varian SEIR, dan kekebalan kelompok.</p>
+          </div>
+          <div>
+            <a href="bab4.html" class="inline-flex items-center gap-1.5 text-xs font-bold text-indigo-600 hover:text-indigo-800 transition">
+              <span>Baca Bab 4</span>
+              <i class="fa-solid fa-arrow-right text-[10px]"></i>
+            </a>
+          </div>
+        </div>
+        <!-- Bab 5 -->
+        <div class="bg-white p-6 rounded-2xl border border-slate-200/80 hover:shadow-md hover:border-indigo-300 transition flex flex-col justify-between group">
+          <div>
+            <span class="text-xs font-bold font-mono px-2.5 py-1 bg-indigo-100 text-indigo-700 rounded-lg">BAB 05</span>
+            <h4 class="font-bold text-slate-900 mt-3 mb-2 group-hover:text-indigo-600 transition">Model Antrian (Queueing Models)</h4>
+            <p class="text-sm text-slate-600 leading-relaxed mb-4">Notasi Kendall, proses Poisson, sistem $M/M/1$, multi-server $M/M/c$, formula Erlang-C, Hukum Little, dan ledakan nonlinier waktu tunggu.</p>
+          </div>
+          <div>
+            <a href="bab5.html" class="inline-flex items-center gap-1.5 text-xs font-bold text-indigo-600 hover:text-indigo-800 transition">
+              <span>Baca Bab 5</span>
+              <i class="fa-solid fa-arrow-right text-[10px]"></i>
+            </a>
+          </div>
+        </div>
+        <!-- Bab 6 -->
+        <div class="bg-white p-6 rounded-2xl border border-slate-200/80 hover:shadow-md hover:border-indigo-300 transition flex flex-col justify-between group">
+          <div>
+            <span class="text-xs font-bold font-mono px-2.5 py-1 bg-indigo-100 text-indigo-700 rounded-lg">BAB 06</span>
+            <h4 class="font-bold text-slate-900 mt-3 mb-2 group-hover:text-indigo-600 transition">Model Stokastik & Rantai Markov</h4>
+            <p class="text-sm text-slate-600 leading-relaxed mb-4">Sifat nirdaya ingat (Markovian), matriks probabilitas transisi, evolusi Chapman-Kolmogorov, distribusi stasioner, ergodisitas, dan rantai penyerap.</p>
+          </div>
+          <div>
+            <a href="bab6.html" class="inline-flex items-center gap-1.5 text-xs font-bold text-indigo-600 hover:text-indigo-800 transition">
+              <span>Baca Bab 6</span>
+              <i class="fa-solid fa-arrow-right text-[10px]"></i>
+            </a>
+          </div>
+        </div>
+        <!-- Bab 7 -->
+        <div class="bg-white p-6 rounded-2xl border border-slate-200/80 hover:shadow-md hover:border-indigo-300 transition flex flex-col justify-between group">
+          <div>
+            <span class="text-xs font-bold font-mono px-2.5 py-1 bg-indigo-100 text-indigo-700 rounded-lg">BAB 07</span>
+            <h4 class="font-bold text-slate-900 mt-3 mb-2 group-hover:text-indigo-600 transition">Model Input–Output Leontief</h4>
+            <p class="text-sm text-slate-600 leading-relaxed mb-4">Analisis keterkaitan makroekonomi antar-sektor, matriks koefisien teknologis, invers Leontief $(I-A)^{-1}$, dan efek pengganda rantai pasok.</p>
+          </div>
+          <div>
+            <a href="bab7.html" class="inline-flex items-center gap-1.5 text-xs font-bold text-indigo-600 hover:text-indigo-800 transition">
+              <span>Baca Bab 7</span>
+              <i class="fa-solid fa-arrow-right text-[10px]"></i>
+            </a>
+          </div>
+        </div>
+        <!-- Bab 8 -->
+        <div class="bg-white p-6 rounded-2xl border border-slate-200/80 hover:shadow-md hover:border-indigo-300 transition flex flex-col justify-between group">
+          <div>
+            <span class="text-xs font-bold font-mono px-2.5 py-1 bg-indigo-100 text-indigo-700 rounded-lg">BAB 08</span>
+            <h4 class="font-bold text-slate-900 mt-3 mb-2 group-hover:text-indigo-600 transition">Persamaan Beda & Model Diskrit</h4>
+            <p class="text-sm text-slate-600 leading-relaxed mb-4">Sistem waktu diskrit, kestabilan titik tetap $|f'(x^*)| < 1$, diagram sarang laba-laba (<em>cobweb</em>), kaskade bifurkasi Feigenbaum, dan kaos deterministik.</p>
+          </div>
+          <div>
+            <a href="bab8.html" class="inline-flex items-center gap-1.5 text-xs font-bold text-indigo-600 hover:text-indigo-800 transition">
+              <span>Baca Bab 8</span>
+              <i class="fa-solid fa-arrow-right text-[10px]"></i>
+            </a>
+          </div>
+        </div>
+        <!-- Bab 9 -->
+        <div class="bg-white p-6 rounded-2xl border border-slate-200/80 hover:shadow-md hover:border-indigo-300 transition flex flex-col justify-between group">
+          <div>
+            <span class="text-xs font-bold font-mono px-2.5 py-1 bg-indigo-100 text-indigo-700 rounded-lg">BAB 09</span>
+            <h4 class="font-bold text-slate-900 mt-3 mb-2 group-hover:text-indigo-600 transition">Model Berbasis Graf & Jaringan</h4>
+            <p class="text-sm text-slate-600 leading-relaxed mb-4">Matriks ketetanggaan, optimasi rute terpendek Dijkstra, aliran kapasitas jaringan, dan sentralitas sosial.</p>
+          </div>
+          <div>
+            <a href="bab9.html" class="inline-flex items-center gap-1.5 text-xs font-bold text-indigo-600 hover:text-indigo-800 transition">
+              <span>Baca Bab 9</span>
+              <i class="fa-solid fa-arrow-right text-[10px]"></i>
+            </a>
+          </div>
+        </div>
+        <!-- Bab 10 -->
+        <div class="bg-white p-6 rounded-2xl border border-slate-200/80 hover:shadow-md hover:border-indigo-300 transition flex flex-col justify-between group">
+          <div>
+            <span class="text-xs font-bold font-mono px-2.5 py-1 bg-indigo-100 text-indigo-700 rounded-lg">BAB 10</span>
+            <h4 class="font-bold text-slate-900 mt-3 mb-2 group-hover:text-indigo-600 transition">Pemodelan Dinamika Pasangan</h4>
+            <p class="text-sm text-slate-600 leading-relaxed mb-4">Sistem persamaan diferensial nonlinier interaksi pernikahan Gottman-Murray, fungsi pengaruh, dan kurva separatrix.</p>
+          </div>
+          <div>
+            <a href="bab10.html" class="inline-flex items-center gap-1.5 text-xs font-bold text-indigo-600 hover:text-indigo-800 transition">
+              <span>Baca Bab 10</span>
+              <i class="fa-solid fa-arrow-right text-[10px]"></i>
+            </a>
+          </div>
+        </div>
+        <!-- Bab 11 -->
+        <div class="bg-white p-6 rounded-2xl border border-slate-200/80 hover:shadow-md hover:border-indigo-300 transition flex flex-col justify-between group">
+          <div>
+            <span class="text-xs font-bold font-mono px-2.5 py-1 bg-indigo-100 text-indigo-700 rounded-lg">BAB 11</span>
+            <h4 class="font-bold text-slate-900 mt-3 mb-2 group-hover:text-indigo-600 transition">Pemodelan Gelombang Linier</h4>
+            <p class="text-sm text-slate-600 leading-relaxed mb-4">Penurunan persamaan gelombang 1D dari mekanika tali tegang, kondisi batas Dirichlet/Neumann, metode pemisahan variabel, dan mode harmonik deret Fourier.</p>
+          </div>
+          <div>
+            <a href="bab11.html" class="inline-flex items-center gap-1.5 text-xs font-bold text-indigo-600 hover:text-indigo-800 transition">
+              <span>Baca Bab 11</span>
+              <i class="fa-solid fa-arrow-right text-[10px]"></i>
+            </a>
+          </div>
+        </div>
+        <!-- Bab 12 -->
+        <div class="bg-white p-6 rounded-2xl border border-slate-200/80 hover:shadow-md hover:border-indigo-300 transition flex flex-col justify-between group">
+          <div>
+            <span class="text-xs font-bold font-mono px-2.5 py-1 bg-indigo-100 text-indigo-700 rounded-lg">BAB 12</span>
+            <h4 class="font-bold text-slate-900 mt-3 mb-2 group-hover:text-indigo-600 transition">Gelombang Nonlinier: Soliton KdV</h4>
+            <p class="text-sm text-slate-600 leading-relaxed mb-4">Persamaan Korteweg–de Vries (KdV), perimbangan dispersi dan nonlinieritas, solusi soliton tunggal $\text{sech}^2$, dan interaksi elastis multi-soliton.</p>
+          </div>
+          <div>
+            <a href="bab12.html" class="inline-flex items-center gap-1.5 text-xs font-bold text-indigo-600 hover:text-indigo-800 transition">
+              <span>Baca Bab 12</span>
+              <i class="fa-solid fa-arrow-right text-[10px]"></i>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Silabus RPS (16 Minggu) -->
+  <section id="silabus" class="py-16 bg-white border-t border-slate-200">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="max-w-3xl mx-auto text-center mb-12">
+        <h2 class="text-xs font-bold uppercase tracking-wider text-indigo-600 mb-2">Rencana Perkuliahan</h2>
+        <h3 class="text-3xl font-extrabold text-slate-900">Jadwal Perkuliahan 16 Minggu (RPS)</h3>
+        <p class="text-slate-600 mt-3 text-sm sm:text-base">Mata Kuliah: Pemodelan Matematika (MAT61730, 3 SKS) &bull; Semester 7</p>
+      </div>
+
+      <div class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
+        <div class="overflow-x-auto">
+          <table class="w-full text-left text-sm">
+            <thead class="bg-slate-100/75 border-b border-slate-200 text-xs font-bold uppercase text-slate-600">
+              <tr>
+                <th class="py-4 px-6 w-20">Minggu</th>
+                <th class="py-4 px-6">Pokok Bahasan & Materi Kajian</th>
+                <th class="py-4 px-6 w-48">Metode Pembelajaran</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-slate-200">
+              <tr class="hover:bg-slate-50/80 transition">
+                <td class="py-4 px-6 font-mono font-bold text-indigo-600">01</td>
+                <td class="py-4 px-6">Pengantar Pemodelan: Definisi, klasifikasi, 6 langkah pemodelan, contoh populasi Malthus.</td>
+                <td class="py-4 px-6 text-slate-600">Ceramah & Diskusi</td>
+              </tr>
+              <tr class="hover:bg-slate-50/80 transition">
+                <td class="py-4 px-6 font-mono font-bold text-indigo-600">02</td>
+                <td class="py-4 px-6">Model Pertumbuhan Populasi: Eksponensial, Logistik, Carrying Capacity, Estimasi Parameter BPS.</td>
+                <td class="py-4 px-6 text-slate-600">Ceramah & Latihan</td>
+              </tr>
+              <tr class="hover:bg-slate-50/80 transition">
+                <td class="py-4 px-6 font-mono font-bold text-indigo-600">03</td>
+                <td class="py-4 px-6">Model Predator–Prey Lotka–Volterra: Titik kesetimbangan, linearisasi Jacobian, potret fase orbit tertutup.</td>
+                <td class="py-4 px-6 text-slate-600">Simulasi Komputer</td>
+              </tr>
+              <tr class="hover:bg-slate-50/80 transition">
+                <td class="py-4 px-6 font-mono font-bold text-indigo-600">04</td>
+                <td class="py-4 px-6">Model Epidemiologi: Kompartemen SIR, reproduksi dasar $R_0$, fase puncak wabah, varian SEIR & vaksinasi.</td>
+                <td class="py-4 px-6 text-slate-600">Simulasi Komputer</td>
+              </tr>
+              <tr class="hover:bg-slate-50/80 transition">
+                <td class="py-4 px-6 font-mono font-bold text-indigo-600">05</td>
+                <td class="py-4 px-6">Model Antrian: Notasi Kendall, sistem Poisson $M/M/1$, multi-server $M/M/c$, dan performa sistem (Little's Law).</td>
+                <td class="py-4 px-6 text-slate-600">Studi Kasus Antrian</td>
+              </tr>
+              <tr class="hover:bg-slate-50/80 transition">
+                <td class="py-4 px-6 font-mono font-bold text-indigo-600">06</td>
+                <td class="py-4 px-6">Model Stokastik & Rantai Markov: Matriks transisi, sifat ergodik, distribusi stasioner jangka panjang.</td>
+                <td class="py-4 px-6 text-slate-600">Ceramah & Simulasi</td>
+              </tr>
+              <tr class="hover:bg-slate-50/80 transition">
+                <td class="py-4 px-6 font-mono font-bold text-indigo-600">07</td>
+                <td class="py-4 px-6">Model Input–Output Leontief: Matriks teknologi, invers Leontief $(I-A)^{-1}$, dampak pengganda ekonomi.</td>
+                <td class="py-4 px-6 text-slate-600">Ceramah & Latihan</td>
+              </tr>
+              <tr class="bg-indigo-50/60 font-semibold text-indigo-950">
+                <td class="py-4 px-6 font-mono font-bold text-indigo-700">08</td>
+                <td class="py-4 px-6"><i class="fa-solid fa-pen-clip mr-2 text-indigo-600"></i> Ujian Tengah Semester (UTS)</td>
+                <td class="py-4 px-6">Evaluasi Tertulis</td>
+              </tr>
+              <tr class="hover:bg-slate-50/80 transition">
+                <td class="py-4 px-6 font-mono font-bold text-indigo-600">09</td>
+                <td class="py-4 px-6">Persamaan Beda & Model Diskrit: Solusi orde 1 dan 2, kestabilan titik tetap, diagram cobweb, peta logistik kaos.</td>
+                <td class="py-4 px-6 text-slate-600">Ceramah & Diskusi</td>
+              </tr>
+              <tr class="hover:bg-slate-50/80 transition">
+                <td class="py-4 px-6 font-mono font-bold text-indigo-600">10</td>
+                <td class="py-4 px-6">Model Berbasis Graf & Jaringan: Transportasi rute terpendek, aliran kapasitas jaringan, sentralitas sosial.</td>
+                <td class="py-4 px-6 text-slate-600">Studi Kasus Jaringan</td>
+              </tr>
+              <tr class="hover:bg-slate-50/80 transition">
+                <td class="py-4 px-6 font-mono font-bold text-indigo-600">11</td>
+                <td class="py-4 px-6">Dinamika Hubungan Sosial (Pernikahan): Sistem persamaan diferensial nonlinier interaksi emosi pasangan.</td>
+                <td class="py-4 px-6 text-slate-600">Diskusi & Analisis</td>
+              </tr>
+              <tr class="hover:bg-slate-50/80 transition">
+                <td class="py-4 px-6 font-mono font-bold text-indigo-600">12</td>
+                <td class="py-4 px-6">Pemodelan Gelombang Linier: Tali bergetar, kondisi batas, pemisahan variabel, analisis deret Fourier.</td>
+                <td class="py-4 px-6 text-slate-600">Ceramah & Simulasi</td>
+              </tr>
+              <tr class="hover:bg-slate-50/80 transition">
+                <td class="py-4 px-6 font-mono font-bold text-indigo-600">13</td>
+                <td class="py-4 px-6">Gelombang Nonlinier: Penurunan persamaan KdV, penyeimbang dispersi-nonlinieritas, karakteristik soliton.</td>
+                <td class="py-4 px-6 text-slate-600">Ceramah & Simulasi</td>
+              </tr>
+              <tr class="hover:bg-slate-50/80 transition">
+                <td class="py-4 px-6 font-mono font-bold text-indigo-600">14</td>
+                <td class="py-4 px-6">Mini Project Pemodelan: Perumusan masalah riil dan pembentukan model matematis per kelompok.</td>
+                <td class="py-4 px-6 text-slate-600">Bimbingan & Diskusi</td>
+              </tr>
+              <tr class="hover:bg-slate-50/80 transition">
+                <td class="py-4 px-6 font-mono font-bold text-indigo-600">15</td>
+                <td class="py-4 px-6">Presentasi & Kolokium Mini Project: Analisis numerik, validasi data riil, dan interpretasi kebijakan.</td>
+                <td class="py-4 px-6 text-slate-600">Presentasi Kelompok</td>
+              </tr>
+              <tr class="bg-indigo-50/60 font-semibold text-indigo-950">
+                <td class="py-4 px-6 font-mono font-bold text-indigo-700">16</td>
+                <td class="py-4 px-6"><i class="fa-solid fa-graduation-cap mr-2 text-indigo-600"></i> Ujian Akhir Semester (UAS)</td>
+                <td class="py-4 px-6">Laporan & Ujian</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Analisis Visual & Eksplorasi Model -->
+  <section id="simulasi" class="py-16 bg-white border-t border-slate-200">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="max-w-3xl mx-auto text-center mb-12">
+        <h2 class="text-xs font-bold uppercase tracking-wider text-indigo-600 mb-2">Visualisasi Analitik</h2>
+        <h3 class="text-3xl font-extrabold text-slate-900">Eksplorasi Grafis Solusi Model</h3>
+        <p class="text-slate-600 mt-3 text-sm sm:text-base">
+          Setiap bab dilengkapi dengan visualisasi mandiri, kurva dinamika temporal, dan potret fase sistem untuk memberikan pemahaman komprehensif tanpa perlu menjalankan kode program.
+        </p>
+      </div>
+
+      <div class="grid md:grid-cols-2 gap-8">
+        <!-- Card 1: Model Populasi -->
+        <div class="bg-slate-50 rounded-3xl p-6 sm:p-8 border border-slate-200/80 shadow-sm flex flex-col justify-between hover:border-indigo-300 transition">
+          <div>
+            <div class="flex items-center justify-between mb-4">
+              <span class="text-xs font-bold uppercase tracking-wider px-3 py-1 rounded-full bg-emerald-100 text-emerald-800">Bab 02 &bull; Populasi</span>
+              <span class="text-xs text-slate-500 font-mono">Verhulst (1838)</span>
+            </div>
+            <h4 class="text-xl font-bold text-slate-900 mb-2">Kurva Sigmoid & Titik Kestabilan</h4>
+            <p class="text-sm text-slate-600 leading-relaxed mb-6">
+              Memvisualisasikan perbedaan mendasar antara pertumbuhan Malthus tak terbatas dan kurva logistik dengan rem daya tampung lingkungan ($K$), serta garis fase kestabilan titik kritis $P^*=0$ dan $P^*=K$.
+            </p>
+          </div>
+          <div class="pt-4 border-t border-slate-200 flex items-center justify-between">
+            <span class="text-xs text-slate-500"><i class="fa-solid fa-chart-line text-emerald-600 mr-1.5"></i> 3 Grafik Mandiri</span>
+            <a href="bab2.html" class="inline-flex items-center gap-2 text-xs font-bold text-indigo-600 hover:text-indigo-800 transition">
+              <span>Buka Bab 2</span>
+              <i class="fa-solid fa-arrow-right"></i>
+            </a>
+          </div>
+        </div>
+
+        <!-- Card 2: Model Predator-Prey -->
+        <div class="bg-slate-50 rounded-3xl p-6 sm:p-8 border border-slate-200/80 shadow-sm flex flex-col justify-between hover:border-indigo-300 transition">
+          <div>
+            <div class="flex items-center justify-between mb-4">
+              <span class="text-xs font-bold uppercase tracking-wider px-3 py-1 rounded-full bg-indigo-100 text-indigo-800">Bab 03 &bull; Interaksi Spesies</span>
+              <span class="text-xs text-slate-500 font-mono">Lotka–Volterra</span>
+            </div>
+            <h4 class="text-xl font-bold text-slate-900 mb-2">Osilasi Periodik & Potret Fase</h4>
+            <p class="text-sm text-slate-600 leading-relaxed mb-6">
+              Menganalisis fenomena jeda fase (<em>phase lag</em>) mangsa-pemangsa, isoklin nol (<em>nullclines</em>), kuantitas kekekalan $V(x,y)=C$, serta orbit tertutup yang mengitari titik pusat koeksistensi.
+            </p>
+          </div>
+          <div class="pt-4 border-t border-slate-200 flex items-center justify-between">
+            <span class="text-xs text-slate-500"><i class="fa-solid fa-circle-nodes text-indigo-600 mr-1.5"></i> Diagram Potret Fase</span>
+            <a href="bab3.html" class="inline-flex items-center gap-2 text-xs font-bold text-indigo-600 hover:text-indigo-800 transition">
+              <span>Buka Bab 3</span>
+              <i class="fa-solid fa-arrow-right"></i>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Profil Pengampu -->
+  <section id="pengampu" class="py-16 bg-white">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="max-w-3xl mx-auto text-center mb-12">
+        <h2 class="text-xs font-bold uppercase tracking-wider text-indigo-600 mb-2">Dosen Pengampu</h2>
+        <h3 class="text-3xl font-extrabold text-slate-900">Tentang Penulis & Pengampu</h3>
+      </div>
+      <div class="max-w-2xl mx-auto bg-slate-50 border border-slate-200 rounded-3xl p-8 text-center sm:text-left sm:flex items-center gap-8">
+        <div class="w-24 h-24 sm:w-28 sm:h-28 rounded-2xl bg-indigo-600 text-white flex items-center justify-center text-4xl font-extrabold mx-auto sm:mx-0 shadow-lg shadow-indigo-200 shrink-0">
+          MJ
+        </div>
+        <div>
+          <h4 class="text-xl font-bold text-slate-900">Dr. Mohammad Jamhuri, M.Si.</h4>
+          <p class="text-indigo-600 font-medium text-sm mt-0.5">Dosen Program Studi Matematika</p>
+          <p class="text-xs text-slate-500 mt-1">Fakultas Sains dan Teknologi &bull; UIN Maulana Malik Ibrahim Malang</p>
+          <p class="text-sm text-slate-600 mt-4 leading-relaxed">
+            Menyelesaikan pendidikan doktoral di bidang Matematika Terapan di Institut Teknologi Sepuluh Nopember (ITS) Surabaya. Memiliki fokus penelitian pada pemodelan matematika, sistem dinamik, analisis numerik, dan kecerdasan komputasional.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="bg-slate-950 text-slate-400 py-12 border-t border-slate-800">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs">
+      <div>
+        &copy; 2025 <strong class="text-slate-200">Dr. Mohammad Jamhuri, M.Si.</strong> &bull; Program Studi Matematika UIN Maulana Malik Ibrahim Malang.
+      </div>
+      <div class="flex items-center gap-4 text-slate-400">
+        <a href="main.pdf" class="hover:text-white transition"><i class="fa-solid fa-file-pdf mr-1"></i> Draf PDF</a>
+        <a href="#silabus" class="hover:text-white transition"><i class="fa-solid fa-table mr-1"></i> RPS</a>
+        <a href="https://github.com/cmdsi-info/pemodelan-matematika" target="_blank" rel="noopener noreferrer" class="hover:text-white transition"><i class="fa-brands fa-github mr-1"></i> Repositori GitHub</a>
+      </div>
+    </div>
+  </footer>
+
+</body>
+</html>

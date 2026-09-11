@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="id" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bab 7: Model Input–Output Leontief dalam Ekonomi - Pemodelan Matematika</title>
+  <meta name="description" content="Bab 7 Buku Ajar Pemodelan Matematika: Model Input-Output Leontief, Matriks Teknologi, Invers Leontief, Kondisi Hawkins-Simon, dan Angka Pengganda oleh Dr. Mohammad Jamhuri, M.Si.">
+  
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  
+  <!-- MathJax CDN untuk render rumus matematika LaTeX -->
+  <script>
+    window.MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']],
+        displayMath: [['$$', '$$'], ['\\[', '\\]']]
+      }
+    };
+  </script>
+  <script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+  <!-- Google Fonts & Font Awesome -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+            mono: ['"JetBrains Mono"', 'monospace'],
+          }
+        }
+      }
+    }
+  </script>
+</head>
+<body class="bg-slate-50 text-slate-800 antialiased selection:bg-indigo-500 selection:text-white">
+
+  <!-- Header Nav -->
+  <header class="sticky top-0 z-50 bg-white/95 backdrop-blur-md border-b border-slate-200">
+    <div class="max-w-5xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
+      <div class="flex items-center gap-4">
+        <a href="index.html" class="flex items-center gap-2 text-slate-700 hover:text-indigo-600 transition font-semibold text-sm">
+          <i class="fa-solid fa-arrow-left text-xs"></i>
+          <span>Beranda</span>
+        </a>
+        <span class="text-slate-300">|</span>
+        <a href="bab6.html" class="text-xs font-semibold text-slate-500 hover:text-indigo-600 transition">
+          &larr; Bab 6: Rantai Markov
+        </a>
+      </div>
+      <div class="text-xs font-mono text-slate-500 hidden sm:block">
+        Mata Kuliah MAT61730 &bull; Bab 07
+      </div>
+      <div class="flex items-center gap-3">
+        <a href="main.pdf" class="inline-flex items-center gap-2 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 text-xs font-bold px-3 py-1.5 rounded-lg border border-indigo-200 transition">
+          <i class="fa-solid fa-file-pdf"></i>
+          <span>Unduh PDF</span>
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Content Container -->
+  <main class="max-w-4xl mx-auto px-4 sm:px-6 py-12">
+    
+    <!-- Chapter Header -->
+    <div class="border-b border-slate-200 pb-8 mb-10">
+      <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-indigo-100 text-indigo-800 text-xs font-mono font-bold mb-4">
+        BAB 07
+      </div>
+      <h1 class="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-slate-900 tracking-tight leading-tight">
+        Model Input–Output Leontief dalam Ekonomi
+      </h1>
+      <p class="text-base sm:text-lg text-slate-600 mt-4 leading-relaxed">
+        Menyelidiki struktur saling-ketergantungan antar-sektor industri makroekonomi, formulasi matriks koefisien input teknologis, perumusan matriks invers Leontief, kondisi Hawkins–Simon, serta analisis dampak pengganda (*multiplier effect*).
+      </p>
+      <div class="flex items-center gap-4 mt-6 text-xs text-slate-500 pt-4 border-t border-slate-100">
+        <div><i class="fa-solid fa-user-pen mr-1 text-indigo-600"></i> Dr. Mohammad Jamhuri, M.Si.</div>
+        <div><i class="fa-solid fa-book-bookmark mr-1 text-indigo-600"></i> Program Studi Matematika UIN Malang</div>
+      </div>
+    </div>
+
+    <!-- Article Body -->
+    <article class="prose prose-slate max-w-none space-y-10 text-slate-700 leading-relaxed text-base sm:text-lg">
+
+      <!-- 7.1 Pendahuluan -->
+      <section id="pendahuluan">
+        <h2 class="text-2xl sm:text-3xl font-bold text-slate-900 flex items-center gap-3 mb-4">
+          <span class="text-indigo-600 font-mono text-xl">7.1</span> Pendahuluan
+        </h2>
+        <p>
+          Perekonomian suatu negara adalah jaringan interaksi raksasa di mana output dari satu industri menjadi input bagi industri lainnya. Sektor otomotif memerlukan baja, kaca, dan ban; sektor industri baja membutuhkan bijih besi, batu bara, dan energi listrik; sementara sektor energi listrik membutuhkan mesin dan bahan bakar tambang.
+        </p>
+        <p>
+          Untuk memodelkan jejaring interdependensi sektoral ini, ekonom kelahiran Rusia <strong>Wassily Leontief</strong> mengembangkan <strong>Analisis Input–Output (*Input–Output Analysis*)</strong> pada tahun 1930-an. Karya revolusioner ini menganugerahkan Hadiah Nobel Ekonomi kepada Leontief pada tahun 1973 dan hingga saat ini menjadi standar baku Badan Pusat Statistik (BPS) dan kementerian perencanaan pembangunan di seluruh dunia untuk menyusun Tabel Input-Output nasional.
+        </p>
+      </section>
+
+      <!-- 7.2 Formulasi Dasar -->
+      <section id="formulasi" class="pt-6 border-t border-slate-200">
+        <h2 class="text-2xl sm:text-3xl font-bold text-slate-900 flex items-center gap-3 mb-4">
+          <span class="text-indigo-600 font-mono text-xl">7.2</span> Formulasi Neraca Antar-Sektor
+        </h2>
+        <p class="text-sm sm:text-base">
+          Misalkan perekonomian dibagi menjadi $n$ sektor industri yang saling berhubungan. Untuk setiap sektor $i$ ($i = 1, 2, \dots, n$):
+        </p>
+        <ul class="list-disc list-inside space-y-1 text-xs sm:text-sm text-slate-700 ml-2">
+          <li>$X_i$: Total nilai produksi (output bruto) dari sektor $i$.</li>
+          <li>$x_{ij}$: Nilai output dari sektor $i$ yang dibeli dan digunakan sebagai input antara (*intermediate input*) oleh sektor $j$.</li>
+          <li>$D_i$: Nilai permintaan akhir (*final demand*) dari sektor $i$ yang dikonsumsi oleh rumah tangga, pemerintah, investasi, atau ekspor.</li>
+        </ul>
+
+        <h3 class="text-xl font-bold text-slate-900 mt-6 mb-2">Prinsip Keseimbangan Neraca Sektoral</h3>
+        <p class="text-sm text-slate-600">
+          Total output sektor $i$ harus mencukupi seluruh konsumsi antara oleh semua sektor ditambah permintaan akhir:
+        </p>
+
+        <!-- Formula Box Light -->
+        <div class="my-4 p-5 bg-indigo-50/70 border border-indigo-200 rounded-2xl text-center text-slate-900 font-mono text-base sm:text-lg shadow-sm">
+          $$X_i = \sum_{j=1}^n x_{ij} + D_i = x_{i1} + x_{i2} + \dots + x_{in} + D_i$$
+        </div>
+
+        <h3 class="text-xl font-bold text-slate-900 mt-6 mb-2">Koefisien Input Teknis ($a_{ij}$)</h3>
+        <p class="text-sm text-slate-600">
+          Asumsi sentral Leontief adalah <strong>proporsionalitas teknologi produksi</strong>: untuk menghasilkan 1 unit nilai output sektor $j$, dibutuhkan proporsi tetap $a_{ij}$ dari output sektor $i$:
+        </p>
+        <div class="my-3 p-4 bg-white border border-slate-200 rounded-xl font-mono text-center text-sm sm:text-base text-slate-900 font-bold shadow-sm">
+          $$a_{ij} = \frac{x_{ij}}{X_j} \implies x_{ij} = a_{ij} X_j$$
+        </div>
+        <p class="text-xs text-slate-500 text-center">
+          Nilai $a_{ij}$ disebut koefisien input teknologis (koefisien teknis) yang mencerminkan struktur rekayasa produksi saat itu.
+        </p>
+      </section>
+
+      <!-- 7.3 Bentuk Matriks & Invers Leontief -->
+      <section id="bentuk-matriks" class="pt-6 border-t border-slate-200">
+        <h2 class="text-2xl sm:text-3xl font-bold text-slate-900 flex items-center gap-3 mb-4">
+          <span class="text-indigo-600 font-mono text-xl">7.3</span> Bentuk Matriks & Matriks Invers Leontief
+        </h2>
+        <p class="text-sm sm:text-base">
+          Dengan mensubstitusikan $x_{ij} = a_{ij} X_j$, persamaan neraca sektoral dapat dituliskan dalam notasi aljabar matriks:
+        </p>
+        <div class="my-3 p-4 bg-slate-100/70 rounded-xl font-mono text-center text-base sm:text-lg text-slate-900 font-bold">
+          $$\mathbf{X} = A \mathbf{X} + \mathbf{D}$$
+        </div>
+        <p class="text-xs sm:text-sm text-slate-600">
+          di mana $\mathbf{X} = [X_1, \dots, X_n]^T$ adalah vektor output total, $\mathbf{D} = [D_1, \dots, D_n]^T$ adalah vektor permintaan akhir, dan $A = [a_{ij}]$ adalah <strong>matriks teknologi Leontief</strong> berukuran $n \times n$.
+        </p>
+
+        <h3 class="text-xl font-bold text-slate-900 mt-6 mb-2">Penyelesaian Sistem: Matriks Pengganda $(I - A)^{-1}$</h3>
+        <p class="text-sm text-slate-600">
+          Kelompokkan variabel output total $\mathbf{X}$:
+        </p>
+        <div class="my-3 p-4 bg-white border border-slate-200 rounded-xl font-mono text-center text-base sm:text-lg text-slate-900 shadow-sm">
+          $$(I - A) \mathbf{X} = \mathbf{D}$$
+        </div>
+        <p class="text-sm text-slate-600">
+          Jika matriks $(I - A)$ nonsingular (memiliki invers), maka solusi tunggal total output perekonomian adalah:
+        </p>
+
+        <!-- Formula Box Light -->
+        <div class="my-4 p-5 bg-emerald-50/70 border border-emerald-200 rounded-2xl text-center text-slate-900 font-mono text-lg sm:text-xl font-bold shadow-sm">
+          $$\mathbf{X} = (I - A)^{-1} \mathbf{D}$$
+        </div>
+        <p class="text-xs sm:text-sm text-slate-600">
+          Matriks $L = (I - A)^{-1}$ disebut <strong>Matriks Invers Leontief</strong> atau matriks pengganda output (*output multiplier matrix*). Elemen $L_{ij}$ merepresentasikan total unit output yang harus diproduksi sektor $i$ untuk memenuhi 1 unit kenaikan permintaan akhir pada sektor $j$.
+        </p>
+
+        <!-- Deret Pangkat Neuman -->
+        <div class="my-5 p-5 bg-slate-100/70 rounded-2xl border border-slate-200 text-xs sm:text-sm text-slate-700 leading-relaxed">
+          <h5 class="font-bold text-slate-900 text-sm mb-1 uppercase tracking-wider text-indigo-700">Ekspansi Deret Neumann (Dampak Berantai)</h5>
+          <p>Jika jari-jari spektral matriks teknologi memenuhi $\rho(A) < 1$, invers Leontief dapat diekspansikan sebagai deret geometri matriks tak hingga:</p>
+          <div class="text-center font-mono font-bold text-slate-900 text-sm sm:text-base my-2">
+            $$(I - A)^{-1} = I + A + A^2 + A^3 + \dots$$
+          </div>
+          <p class="text-xs text-slate-500">
+            Interpretasi ekonomi: $I$ adalah dampak langsung, $A$ adalah dampak tidak langsung putaran pertama, $A^2$ putaran kedua, dst.
+          </p>
+        </div>
+      </section>
+
+      <!-- 7.4 Kondisi Hawkins-Simon -->
+      <section id="hawkins-simon" class="pt-6 border-t border-slate-200">
+        <h2 class="text-2xl sm:text-3xl font-bold text-slate-900 flex items-center gap-3 mb-4">
+          <span class="text-indigo-600 font-mono text-xl">7.4</span> Kondisi Hawkins–Simon & Kelaikan Ekonomi
+        </h2>
+        <p class="text-sm sm:text-base">
+          Secara matematis, penyelesaian aljabar matriks dapat saja menghasilkan nilai negatif. Namun di dunia riil, output fisik tidak mungkin bernilai negatif ($\mathbf{X} \ge \mathbf{0}$ untuk setiap $\mathbf{D} \ge \mathbf{0}$).
+        </p>
+        <p class="text-sm sm:text-base">
+          David Hawkins dan Herbert A. Simon (1949) menetapkan syarat perlu dan cukup agar sistem Leontief memiliki solusi non-negatif yang bermakna ekonomis (<strong>Kondisi Hawkins–Simon</strong>):
+        </p>
+
+        <div class="my-4 p-5 bg-white border border-slate-200 rounded-2xl shadow-sm space-y-3 text-xs sm:text-sm">
+          <div class="flex items-start gap-3">
+            <span class="w-6 h-6 rounded-lg bg-emerald-100 text-emerald-800 flex items-center justify-center font-bold text-xs shrink-0">1</span>
+            <p class="text-slate-700 leading-relaxed"><strong>Konsumsi Internal &lt; 1:</strong> Elemen diagonal $a_{ii} < 1$ untuk semua $i$. Satu sektor tidak boleh menghabiskan lebih dari 1 unit outputnya sendiri hanya untuk memproduksi 1 unit output.</p>
+          </div>
+          <div class="flex items-start gap-3">
+            <span class="w-6 h-6 rounded-lg bg-emerald-100 text-emerald-800 flex items-center justify-center font-bold text-xs shrink-0">2</span>
+            <p class="text-slate-700 leading-relaxed"><strong>Determinan Minor Utama Positif:</strong> Semua *leading principal minors* dari matriks $(I - A)$ harus bernilai positif ($\det(I - A) > 0$).</p>
+          </div>
+        </div>
+        <p class="text-xs text-slate-500">
+          Jika kondisi ini dilanggar, perekonomian bersifat <em>tidak produktif</em> (menyerap sumber daya lebih besar dibanding nilai output bersih yang diciptakan).
+        </p>
+      </section>
+
+      <!-- 7.5 Analisis Visual Komprehensif -->
+      <section id="analisis-visual" class="pt-6 border-t border-slate-200">
+        <h2 class="text-2xl sm:text-3xl font-bold text-slate-900 flex items-center gap-3 mb-4">
+          <span class="text-indigo-600 font-mono text-xl">7.5</span> Analisis Visual & Interpretasi Aliran Intersektoral
+        </h2>
+        <p class="text-sm sm:text-base leading-relaxed mb-6">
+          Berikut adalah representasi grafis mandiri yang menguraikan diagram aliran antar-industri, mekanisme angka pengganda, dan studi kasus numerik:
+        </p>
+
+        <!-- GAMBAR 7.1: Diagram Alir Intersektoral -->
+        <div class="my-8 p-6 bg-white rounded-3xl border border-slate-200 shadow-sm">
+          <div class="text-center mb-4">
+            <span class="text-xs font-bold uppercase tracking-wider px-3 py-1 rounded-full bg-indigo-50 text-indigo-700 border border-indigo-100">Gambar 7.1</span>
+            <h4 class="text-lg font-bold text-slate-900 mt-2">Diagram Aliran Transaksi Intersektoral Perekonomian</h4>
+            <p class="text-xs text-slate-500">Sirkulasi output antara Pertanian (P), Manufaktur (M), dan Jasa (J)</p>
+          </div>
+
+          <!-- SVG Visual 1 -->
+          <div class="max-w-xl mx-auto my-6">
+            <svg viewBox="0 0 520 280" class="w-full h-auto">
+              <!-- Sector 1: Pertanian (Top Left) -->
+              <circle cx="140" cy="90" r="40" fill="#ecfdf5" stroke="#10b981" stroke-width="2.5"/>
+              <text x="140" y="85" font-size="12" fill="#065f46" text-anchor="middle" font-weight="bold">Pertanian</text>
+              <text x="140" y="100" font-size="9" fill="#10b981" text-anchor="middle">Sektor 1</text>
+
+              <!-- Sector 2: Manufaktur (Top Right) -->
+              <circle cx="380" cy="90" r="40" fill="#eff6ff" stroke="#3b82f6" stroke-width="2.5"/>
+              <text x="380" y="85" font-size="12" fill="#1e40af" text-anchor="middle" font-weight="bold">Manufaktur</text>
+              <text x="380" y="100" font-size="9" fill="#3b82f6" text-anchor="middle">Sektor 2</text>
+
+              <!-- Sector 3: Jasa (Bottom Center) -->
+              <circle cx="260" cy="210" r="40" fill="#faf5ff" stroke="#8b5cf6" stroke-width="2.5"/>
+              <text x="260" y="205" font-size="12" fill="#5b21b6" text-anchor="middle" font-weight="bold">Jasa</text>
+              <text x="260" y="220" font-size="9" fill="#8b5cf6" text-anchor="middle">Sektor 3</text>
+
+              <!-- Arrows Between Sectors (Two-way flows) -->
+              <!-- Pertanian <-> Manufaktur -->
+              <line x1="180" y1="80" x2="340" y2="80" stroke="#475569" stroke-width="1.8"/>
+              <polygon points="335,76 345,80 335,84" fill="#475569"/>
+              <text x="260" y="72" font-size="10" fill="#475569" text-anchor="middle">x₁₂ (Bahan Baku)</text>
+
+              <line x1="340" y1="100" x2="180" y2="100" stroke="#475569" stroke-width="1.8"/>
+              <polygon points="185,96 175,100 185,104" fill="#475569"/>
+              <text x="260" y="115" font-size="10" fill="#475569" text-anchor="middle">x₂₁ (Mesin/Pupuk)</text>
+
+              <!-- Pertanian <-> Jasa -->
+              <line x1="165" y1="125" x2="235" y2="185" stroke="#475569" stroke-width="1.5"/>
+              <polygon points="234,178 240,190 228,185" fill="#475569"/>
+
+              <!-- Manufaktur <-> Jasa -->
+              <line x1="355" y1="125" x2="285" y2="185" stroke="#475569" stroke-width="1.5"/>
+              <polygon points="292,185 280,190 286,178" fill="#475569"/>
+
+              <!-- Final Demand Injections (External Arrows) -->
+              <line x1="60" y1="90" x2="95" y2="90" stroke="#ef4444" stroke-width="2"/>
+              <polygon points="90,86 100,90 90,94" fill="#ef4444"/>
+              <text x="50" y="80" font-size="9" fill="#b91c1c" font-weight="bold">D₁</text>
+
+              <line x1="460" y1="90" x2="425" y2="90" stroke="#ef4444" stroke-width="2"/>
+              <polygon points="430,86 420,90 430,94" fill="#ef4444"/>
+              <text x="470" y="80" font-size="9" fill="#b91c1c" font-weight="bold">D₂</text>
+
+              <line x1="260" y1="275" x2="260" y2="255" stroke="#ef4444" stroke-width="2"/>
+              <polygon points="256,260 260,250 264,260" fill="#ef4444"/>
+              <text x="280" y="270" font-size="9" fill="#b91c1c" font-weight="bold">D₃ (Konsumsi)</text>
+            </svg>
+          </div>
+
+          <div class="bg-slate-50 p-4 rounded-2xl border border-slate-200 text-xs sm:text-sm text-slate-700 leading-relaxed">
+            <p><strong>Keterangan Gambar 7.1:</strong> Setiap sektor saling menyuplai input antara (panah abu-abu) dan merespons injeksi permintaan akhir konsumen (panah merah). Gangguan pada satu sektor otomatis merambat ke seluruh sektor lainnya.</p>
+          </div>
+        </div>
+
+        <!-- GAMBAR 7.2: Mekanisme Pengganda Output -->
+        <div class="my-8 p-6 bg-white rounded-3xl border border-slate-200 shadow-sm">
+          <div class="text-center mb-4">
+            <span class="text-xs font-bold uppercase tracking-wider px-3 py-1 rounded-full bg-emerald-50 text-emerald-700 border border-emerald-100">Gambar 7.2</span>
+            <h4 class="text-lg font-bold text-slate-900 mt-2">Mekanisme Angka Pengganda Output (*Output Multiplier*)</h4>
+            <p class="text-xs text-slate-500">Transmisi dampak kenaikan permintaan akhir $\Delta D$ ke output agregat $\Delta X$</p>
+          </div>
+
+          <!-- SVG Visual 2 -->
+          <div class="max-w-xl mx-auto my-6">
+            <svg viewBox="0 0 520 220" class="w-full h-auto">
+              <!-- Step 1: Injeksi Awal -->
+              <rect x="30" y="40" width="100" height="70" rx="10" fill="#f0fdf4" stroke="#10b981" stroke-width="2"/>
+              <text x="80" y="65" font-size="11" fill="#047857" text-anchor="middle" font-weight="bold">Injeksi Awal</text>
+              <text x="80" y="85" font-size="14" fill="#065f46" text-anchor="middle" font-weight="extrabold">ΔD = 100</text>
+              <text x="80" y="100" font-size="9" fill="#059669" text-anchor="middle">(Permintaan)</text>
+
+              <!-- Arrow 1 -->
+              <line x1="130" y1="75" x2="180" y2="75" stroke="#475569" stroke-width="2"/>
+              <polygon points="175,71 185,75 175,79" fill="#475569"/>
+
+              <!-- Step 2: Putaran 1 -->
+              <rect x="185" y="40" width="110" height="70" rx="10" fill="#eff6ff" stroke="#3b82f6" stroke-width="2"/>
+              <text x="240" y="65" font-size="11" fill="#1e40af" text-anchor="middle" font-weight="bold">Dampak Langsung</text>
+              <text x="240" y="85" font-size="13" fill="#1e3a8a" text-anchor="middle" font-weight="bold">A·ΔD ≈ 45</text>
+              <text x="240" y="100" font-size="9" fill="#3b82f6" text-anchor="middle">(Input Tahap 1)</text>
+
+              <!-- Arrow 2 -->
+              <line x1="295" y1="75" x2="345" y2="75" stroke="#475569" stroke-width="2"/>
+              <polygon points="340,71 350,75 340,79" fill="#475569"/>
+
+              <!-- Step 3: Putaran Lanjutan -->
+              <rect x="350" y="40" width="140" height="70" rx="10" fill="#faf5ff" stroke="#8b5cf6" stroke-width="2"/>
+              <text x="420" y="65" font-size="11" fill="#5b21b6" text-anchor="middle" font-weight="bold">Dampak Sekunder</text>
+              <text x="420" y="85" font-size="13" fill="#4c1d95" text-anchor="middle" font-weight="bold">(A² + A³ + ···)ΔD ≈ 35</text>
+              <text x="420" y="100" font-size="9" fill="#8b5cf6" text-anchor="middle">(Dampak Induksi)</text>
+
+              <!-- Total Result Box Below -->
+              <rect x="110" y="145" width="300" height="50" rx="12" fill="#ecfdf5" stroke="#059669" stroke-width="2"/>
+              <text x="260" y="168" font-size="12" fill="#065f46" text-anchor="middle" font-weight="bold">Total Pertambahan Output Agregat:</text>
+              <text x="260" y="185" font-size="13" fill="#047857" text-anchor="middle" font-weight="extrabold">ΔX = (I - A)⁻¹ ΔD = 180  (Angka Pengganda = 1.8x)</text>
+            </svg>
+          </div>
+
+          <div class="bg-slate-50 p-4 rounded-2xl border border-slate-200 text-xs sm:text-sm text-slate-700 leading-relaxed space-y-1">
+            <p><strong>Wawasan Manajerial Gambar 7.2:</strong> Setiap kenaikan Rp 100 miliar permintaan akhir pada sektor prioritas dapat memicu lonjakan produksi total Rp 180 miliar di seluruh perekonomian berkat efek pengganda (*multiplier*). Inilah formula dasar analisis dampak proyek strategis nasional.</p>
+          </div>
+        </div>
+
+      </section>
+
+      <!-- 7.6 Latihan & Diskusi Reflektif -->
+      <section id="latihan" class="pt-6 border-t border-slate-200">
+        <h2 class="text-2xl sm:text-3xl font-bold text-slate-900 flex items-center gap-3 mb-4">
+          <span class="text-indigo-600 font-mono text-xl">7.6</span> Latihan & Pertanyaan Diskusi
+        </h2>
+        
+        <div class="space-y-4 my-6">
+          <div class="p-5 rounded-2xl bg-white border border-slate-200 shadow-sm">
+            <h5 class="font-bold text-slate-900 text-sm mb-2 text-indigo-700">Soal 1: Perekonomian Dua Sektor Sederhana</h5>
+            <p class="text-sm text-slate-600">
+              Diketahui matriks teknologi ekonomi dua sektor (Energi dan Industri Manufaktur) adalah:
+              $$A = \begin{bmatrix} 0.2 & 0.4 \\ 0.3 & 0.1 \end{bmatrix}$$
+              Jika target permintaan akhir konsumen adalah $\mathbf{D} = [100, 200]^T$ (dalam triliun rupiah):
+            </p>
+            <ul class="list-disc list-inside text-xs sm:text-sm text-slate-600 mt-2 space-y-1">
+              <li>Ujilah apakah sistem memenuhi kondisi Hawkins–Simon!</li>
+              <li>Hitung matriks invers Leontief $(I - A)^{-1}$!</li>
+              <li>Tentukan vektor output total $\mathbf{X}$ yang wajib diproduksi oleh masing-masing sektor!</li>
+            </ul>
+          </div>
+
+          <div class="p-5 rounded-2xl bg-white border border-slate-200 shadow-sm">
+            <h5 class="font-bold text-slate-900 text-sm mb-2 text-indigo-700">Soal 2: Dampak Disrupsi Rantai Pasok Global</h5>
+            <p class="text-sm text-slate-600">
+              Jika harga energi impor melonjak sehingga biaya input antara naik, jelaskan secara analitis menggunakan matriks $(I - A)^{-1}$ bagaimana inflasi biaya pada sektor primer merambat ke seluruh sektor hilir perekonomian!
+            </p>
+          </div>
+        </div>
+
+        <h3 class="text-xl font-bold text-slate-900 mt-8 mb-2">Penutup Bab</h3>
+        <p class="text-sm sm:text-base text-slate-700">
+          Model Input–Output Leontief memperlihatkan kekuatan aljabar linier dalam membaca denyut ekonomi makro. Pada bab berikutnya (Bab 8), kita beralih ke dinamika diskrit waktu melalui <strong>Persamaan Beda dan Model Diskrit</strong> untuk mempelajari stabilitas titik tetap, diagram sarang laba-laba (*cobweb*), dan rute menuju dinamika kaos (*chaos*).
+        </p>
+      </section>
+
+    </article>
+
+    <!-- Navigation Footer between Chapters -->
+    <div class="mt-16 pt-8 border-t border-slate-200 flex flex-col sm:flex-row items-center justify-between gap-4">
+      <a href="bab6.html" class="inline-flex items-center gap-2 text-sm font-semibold text-slate-600 hover:text-indigo-600 transition">
+        <i class="fa-solid fa-arrow-left"></i>
+        <span>Kembali ke Bab 6: Rantai Markov</span>
+      </a>
+      <a href="bab8.html" class="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-semibold text-sm shadow-md shadow-indigo-200 transition">
+        <span>Lanjut ke Bab 8: Persamaan Beda</span>
+        <i class="fa-solid fa-arrow-right"></i>
+      </a>
+    </div>
+
+  </main>
+
+  <!-- Footer -->
+  <footer class="bg-white border-t border-slate-200 py-8 text-center text-xs text-slate-500 mt-16">
+    <div class="max-w-5xl mx-auto px-4">
+      &copy; 2025 Dr. Mohammad Jamhuri, M.Si. &bull; Program Studi Matematika UIN Maulana Malik Ibrahim Malang.
+    </div>
+  </footer>
+
+</body>
+</html>

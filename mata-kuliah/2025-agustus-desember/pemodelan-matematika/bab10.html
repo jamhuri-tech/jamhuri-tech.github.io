@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="id" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bab 10: Pemodelan Dinamika Hubungan Pasangan - Pemodelan Matematika</title>
+  <meta name="description" content="Bab 10 Buku Ajar Pemodelan Matematika: Dinamika Emosional Hubungan Pernikahan, Model Gottman-Murray, Titik Kestabilan, dan Separatrix oleh Dr. Mohammad Jamhuri, M.Si.">
+  
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  
+  <!-- MathJax CDN untuk render rumus matematika LaTeX -->
+  <script>
+    window.MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']],
+        displayMath: [['$$', '$$'], ['\\[', '\\]']]
+      }
+    };
+  </script>
+  <script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+  <!-- Google Fonts & Font Awesome -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+            mono: ['"JetBrains Mono"', 'monospace'],
+          }
+        }
+      }
+    }
+  </script>
+</head>
+<body class="bg-slate-50 text-slate-800 antialiased selection:bg-indigo-500 selection:text-white">
+
+  <!-- Header Nav -->
+  <header class="sticky top-0 z-50 bg-white/95 backdrop-blur-md border-b border-slate-200">
+    <div class="max-w-5xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
+      <div class="flex items-center gap-4">
+        <a href="index.html" class="flex items-center gap-2 text-slate-700 hover:text-indigo-600 transition font-semibold text-sm">
+          <i class="fa-solid fa-arrow-left text-xs"></i>
+          <span>Beranda</span>
+        </a>
+        <span class="text-slate-300">|</span>
+        <a href="bab9.html" class="text-xs font-semibold text-slate-500 hover:text-indigo-600 transition">
+          &larr; Bab 9: Model Graf
+        </a>
+      </div>
+      <div class="text-xs font-mono text-slate-500 hidden sm:block">
+        Mata Kuliah MAT61730 &bull; Bab 10
+      </div>
+      <div class="flex items-center gap-3">
+        <a href="main.pdf" class="inline-flex items-center gap-2 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 text-xs font-bold px-3 py-1.5 rounded-lg border border-indigo-200 transition">
+          <i class="fa-solid fa-file-pdf"></i>
+          <span>Unduh PDF</span>
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Content Container -->
+  <main class="max-w-4xl mx-auto px-4 sm:px-6 py-12">
+    
+    <!-- Chapter Header -->
+    <div class="border-b border-slate-200 pb-8 mb-10">
+      <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-indigo-100 text-indigo-800 text-xs font-mono font-bold mb-4">
+        BAB 10
+      </div>
+      <h1 class="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-slate-900 tracking-tight leading-tight">
+        Pemodelan Dinamika Hubungan Pasangan (Pernikahan)
+      </h1>
+      <p class="text-base sm:text-lg text-slate-600 mt-4 leading-relaxed">
+        Aplikasi sistem persamaan diferensial nonlinier berpasangan untuk memodelkan interaksi emosional suami–istri, fungsi pengaruh nonlinier, konsep separatrix, serta kestabilan penarik (<em>attractor</em>) pernikahan harmonis vs perceraian.
+      </p>
+      <div class="flex items-center gap-4 mt-6 text-xs text-slate-500 pt-4 border-t border-slate-100">
+        <div><i class="fa-solid fa-user-pen mr-1 text-indigo-600"></i> Dr. Mohammad Jamhuri, M.Si.</div>
+        <div><i class="fa-solid fa-book-bookmark mr-1 text-indigo-600"></i> Program Studi Matematika UIN Malang</div>
+      </div>
+    </div>
+
+    <!-- Article Body -->
+    <article class="prose prose-slate max-w-none space-y-10 text-slate-700 leading-relaxed text-base sm:text-lg">
+
+      <!-- 10.1 Pendahuluan -->
+      <section id="pendahuluan">
+        <h2 class="text-2xl sm:text-3xl font-bold text-slate-900 flex items-center gap-3 mb-4">
+          <span class="text-indigo-600 font-mono text-xl">10.1</span> Pendahuluan
+        </h2>
+        <p>
+          Banyak orang beranggapan bahwa dinamika emosi manusia, cinta, dan hubungan pernikahan terlalu abstrak dan subjektif untuk didekati dengan formula matematis. Namun, kolaborasi legendaris antara psikolog klinis <strong>John M. Gottman</strong> dan matematikawan biologi terkemuka <strong>James D. Murray</strong> (2002) membuktikan hal sebaliknya: interaksi perkawinan dapat dimodelkan secara kuantitatif dengan akurasi prediksi keberlanjutan hubungan mencapai lebih dari 90%.
+        </p>
+        <p>
+          Melalui pengamatan laboratorium terhadap ribuan pasangan yang sedang berdiskusi mengenai topik sensitif (seperti keuangan, pengasuhan anak, atau mertua), Gottman mencatat skor emosi kedua pasangan per detik (ekspresi wajah, nada suara, detak jantung). Murray kemudian menerjemahkan data dinamika psikologis tersebut ke dalam kerangka <strong>sistem persamaan diferensial nonlinier berpasangan</strong>.
+        </p>
+      </section>
+
+      <!-- 10.2 Formulasi Model Dasar -->
+      <section id="formulasi" class="pt-6 border-t border-slate-200">
+        <h2 class="text-2xl sm:text-3xl font-bold text-slate-900 flex items-center gap-3 mb-4">
+          <span class="text-indigo-600 font-mono text-xl">10.2</span> Formulasi Sistem Dinamika Emosi Pasangan
+        </h2>
+        <p class="text-sm sm:text-base">
+          Misalkan pada waktu percakapan $t$:
+        </p>
+        <ul class="list-disc list-inside space-y-1 text-sm sm:text-base text-slate-700 ml-2">
+          <li>$x(t)$: skor emosional <strong>suami</strong> ($x > 0$ menunjukkan rasa senang/humor/apresiasi, $x < 0$ menunjukkan kemarahan/kritik/defensif).</li>
+          <li>$y(t)$: skor emosional <strong>istri</strong> dengan skala yang sama.</li>
+        </ul>
+
+        <h3 class="text-xl font-bold text-slate-900 mt-6 mb-2">Tiga Komponen Penentu Dinamika:</h3>
+        <p class="text-sm text-slate-600 mb-4">
+          Laju perubahan emosi masing-masing pasangan dipengaruhi oleh tiga faktor independen:
+        </p>
+
+        <div class="grid sm:grid-cols-3 gap-4 my-4">
+          <div class="p-4 rounded-xl bg-white border border-slate-200 shadow-sm">
+            <h5 class="font-bold text-slate-900 text-xs uppercase tracking-wider text-indigo-700 mb-1">1. Disposisi Dasar (Baseline Mood)</h5>
+            <p class="text-xs text-slate-600">Konstanta suasana hati alami ($a_0$ dan $b_0$) saat sendiri tanpa stimulasi pasangan.</p>
+          </div>
+          <div class="p-4 rounded-xl bg-white border border-slate-200 shadow-sm">
+            <h5 class="font-bold text-slate-900 text-xs uppercase tracking-wider text-indigo-700 mb-1">2. Inersia Emosional (Inertia)</h5>
+            <p class="text-xs text-slate-600">Kecenderungan untuk tetap berada pada suasana hati sebelumnya (parameter peluruhan $-a_1 x$ dan $-b_1 y$, $a_1, b_1 > 0$).</p>
+          </div>
+          <div class="p-4 rounded-xl bg-white border border-slate-200 shadow-sm">
+            <h5 class="font-bold text-slate-900 text-xs uppercase tracking-wider text-indigo-700 mb-1">3. Fungsi Pengaruh (Influence Function)</h5>
+            <p class="text-xs text-slate-600">Dampak perkataan dan bahasa tubuh pasangan terhadap emosi diri sendiri ($I_{H}(y)$ dan $I_{W}(x)$).</p>
+          </div>
+        </div>
+
+        <!-- Formula Box Light -->
+        <div class="my-6 p-6 bg-indigo-50/70 border border-indigo-200 rounded-2xl text-center text-slate-900 font-mono text-lg sm:text-xl shadow-sm">
+          <div class="mb-2">$$\frac{dx}{dt} = a_0 - a_1 x + I_H(y)$$</div>
+          <div>$$\frac{dy}{dt} = b_0 - b_1 y + I_W(x)$$</div>
+        </div>
+
+        <h3 class="text-xl font-bold text-slate-900 mt-6 mb-2">Sifat Nonlinier Fungsi Pengaruh ($I_H, I_W$)</h3>
+        <p class="text-sm text-slate-600">
+          Temuan terpenting dari eksperimen Gottman adalah bahwa manusia bereaksi secara <strong>sangat asimetris</strong> terhadap pasangan:
+        </p>
+        <ul class="list-disc list-inside space-y-1 text-sm text-slate-700 ml-2">
+          <li><strong>Zona Positif ($y > 0$):</strong> Pasangan merespons humor dan kasih sayang secara moderat linear.</li>
+          <li><strong>Zona Negatif ($y < 0$):</strong> Pasangan merespons kritik dan nada sinis secara sangat tajam dan melipatgandakan respons defensif jika melewati ambang toleransi tertentu (<em>low tolerance threshold</em>).</li>
+        </ul>
+      </section>
+
+      <!-- 10.3 Titik Kesetimbangan & Analisis Jacobian -->
+      <section id="titik-kesetimbangan" class="pt-6 border-t border-slate-200">
+        <h2 class="text-2xl sm:text-3xl font-bold text-slate-900 flex items-center gap-3 mb-4">
+          <span class="text-indigo-600 font-mono text-xl">10.3</span> Titik Kesetimbangan & Bistabilitas Hubungan
+        </h2>
+        <p class="text-sm sm:text-base">
+          Akibat bentuk nonlinier dari fungsi pengaruh $I_H(y)$ dan $I_W(x)$, sistem persamaan diferensial ini memiliki fenomena <strong>bistabilitas (<em>bistability</em>)</strong>: memiliki lebih dari satu titik kesetimbangan stabil (<em>attractor</em>).
+        </p>
+
+        <div class="grid sm:grid-cols-2 gap-4 my-6">
+          <div class="p-5 rounded-2xl bg-emerald-50/70 border border-emerald-200 shadow-sm">
+            <h5 class="font-bold text-emerald-950 text-sm mb-1"><i class="fa-solid fa-heart mr-1.5 text-emerald-600"></i> Attractor Pernikahan Harmonis ($E_{\text{marital}}$)</h5>
+            <p class="text-xs text-emerald-900 leading-relaxed">
+              Terletak di kuadran positif ($x^* > 0, y^* > 0$). Kedua pasangan saling memperkuat afirmasi positif, humor, dan rasa aman. Gangguan perselisihan kecil dapat diredam dan sistem kembali ke titik harmonis ini.
+            </p>
+          </div>
+
+          <div class="p-5 rounded-2xl bg-red-50/70 border border-red-200 shadow-sm">
+            <h5 class="font-bold text-red-950 text-sm mb-1"><i class="fa-solid fa-heart-crack mr-1.5 text-red-600"></i> Attractor Perceraian ($E_{\text{divorce}}$)</h5>
+            <p class="text-xs text-red-900 leading-relaxed">
+              Terletak di kuadran negatif ($x^* < 0, y^* < 0$). Pasangan terjebak dalam perangkap permusuhan (<em>negative cascade</em>): setiap perkataan dianggap sebagai serangan personal, memicu pertengkaran kronis dan pemisahan.
+            </p>
+          </div>
+        </div>
+
+        <h3 class="text-xl font-bold text-slate-900 mt-6 mb-2">Konsep Separatrix (Garis Batas Nasib Hubungan)</h3>
+        <p class="text-sm text-slate-600">
+          Di antara kedua cekungan penarik (<em>basins of attraction</em>) tersebut, terdapat sebuah titik kesetimbangan pelana (<em>saddle point</em>) yang manifold stabilnya membentuk kurva pemisah yang disebut <strong>Separatrix</strong>:
+        </p>
+        <ul class="list-disc list-inside space-y-1 text-xs sm:text-sm text-slate-700 ml-2">
+          <li>Jika kondisi interaksi pasangan berada di <em>sisi atas separatrix</em>, percakapan akan mengalir menuju hubungan harmonis ($E_{\text{marital}}$).</li>
+          <li>Jika interaksi jatuh di <em>sisi bawah separatrix</em>, percakapan akan terhisap ke pusaran negatif ($E_{\text{divorce}}$).</li>
+        </ul>
+      </section>
+
+      <!-- 10.4 Analisis Visual Komprehensif (Menggantikan Kode Python) -->
+      <section id="analisis-visual" class="pt-6 border-t border-slate-200">
+        <h2 class="text-2xl sm:text-3xl font-bold text-slate-900 flex items-center gap-3 mb-4">
+          <span class="text-indigo-600 font-mono text-xl">10.4</span> Analisis Visual Bidang Fase Emosi Pasangan
+        </h2>
+        <p class="text-sm sm:text-base leading-relaxed mb-6">
+          Berikut adalah hasil simulasi nonlinier mandiri yang memperlihatkan fungsi pengaruh emosional, bidang fase separatrix, serta dinamika pemulihan konflik:
+        </p>
+
+        <!-- GAMBAR 10.1: Fungsi Pengaruh Emosional -->
+        <div class="my-8 p-6 bg-white rounded-3xl border border-slate-200 shadow-sm">
+          <div class="text-center mb-4">
+            <span class="text-xs font-bold uppercase tracking-wider px-3 py-1 rounded-full bg-indigo-50 text-indigo-700 border border-indigo-100">Gambar 10.1</span>
+            <h4 class="text-lg font-bold text-slate-900 mt-2">Karakteristik Fungsi Pengaruh Emosional Nonlinier Pasangan</h4>
+            <p class="text-xs text-slate-500">Bentuk kurva respons pasangan terhadap emosi positif vs emosi negatif</p>
+          </div>
+
+          <!-- SVG Visual 1 -->
+          <div class="max-w-xl mx-auto my-6">
+            <svg viewBox="0 0 520 220" class="w-full h-auto">
+              <!-- Grid & Sumbu -->
+              <line x1="40" y1="120" x2="480" y2="120" stroke="#cbd5e1" stroke-width="1.5"/>
+              <line x1="260" y1="200" x2="260" y2="20" stroke="#cbd5e1" stroke-width="1.5"/>
+              <text x="475" y="140" font-size="10" fill="#64748b" font-weight="bold">Emosi Pasangan (y)</text>
+              <text x="268" y="25" font-size="10" fill="#64748b" font-weight="bold">Pengaruh I(y)</text>
+
+              <!-- Labels for Quadrants -->
+              <text x="360" y="50" font-size="11" fill="#047857" font-weight="bold">Zona Apresiasi (+)</text>
+              <text x="80" y="180" font-size="11" fill="#b91c1c" font-weight="bold">Zona Reaksi Negatif (-)</text>
+
+              <!-- Asymmetric Influence Function Curve (Emerald/Red) -->
+              <!-- Flat/Mild slope for y > 0, steep downward slope for y < 0 -->
+              <path d="M 60 200 C 130 195, 180 180, 260 120 C 330 80, 400 65, 470 60" 
+                    fill="none" stroke="#4f46e5" stroke-width="3"/>
+
+              <!-- Threshold Mark on Negative Axis -->
+              <line x1="160" y1="120" x2="160" y2="185" stroke="#dc2626" stroke-dasharray="3"/>
+              <text x="160" y="112" font-size="9" fill="#dc2626" text-anchor="middle" font-weight="bold">Ambang Batas Konflik</text>
+              <circle cx="160" cy="178" r="4" fill="#dc2626"/>
+
+              <!-- Center Neutral Point -->
+              <circle cx="260" cy="120" r="4" fill="#475569"/>
+              <text x="270" y="135" font-size="10" fill="#475569">Netral (0,0)</text>
+            </svg>
+          </div>
+
+          <div class="bg-slate-50 p-4 rounded-2xl border border-slate-200 text-xs sm:text-sm text-slate-700 leading-relaxed">
+            <p><strong>Keterangan Gambar 10.1:</strong> Kemiringan pada zona negatif jauh lebih curam dibanding zona positif. Artinya, satu perkataan sinis atau penghinaan membutuhkan setidaknya 5 interaksi positif untuk menetralkan dampaknya (konsep rasio 5:1 Gottman).</p>
+          </div>
+        </div>
+
+        <!-- GAMBAR 10.2: Potret Fase & Separatrix -->
+        <div class="my-8 p-6 bg-white rounded-3xl border border-slate-200 shadow-sm">
+          <div class="text-center mb-4">
+            <span class="text-xs font-bold uppercase tracking-wider px-3 py-1 rounded-full bg-emerald-50 text-emerald-700 border border-emerald-100">Gambar 10.2</span>
+            <h4 class="text-lg font-bold text-slate-900 mt-2">Potret Fase Bidang $(x,y)$ dan Kurva Separatrix</h4>
+            <p class="text-xs text-slate-500">Cekungan penarik pernikahan stabil ($E_{\text{marital}}$) vs penarik perceraian ($E_{\text{divorce}}$)</p>
+          </div>
+
+          <!-- SVG Visual 2 -->
+          <div class="max-w-xl mx-auto my-6">
+            <svg viewBox="0 0 520 280" class="w-full h-auto">
+              <!-- Sumbu Horizontal x (Suami) dan Vertikal y (Istri) -->
+              <line x1="40" y1="140" x2="480" y2="140" stroke="#94a3b8" stroke-width="1.5"/>
+              <line x1="260" y1="260" x2="260" y2="20" stroke="#94a3b8" stroke-width="1.5"/>
+              <text x="475" y="160" font-size="11" fill="#475569" font-weight="bold">Emosi Suami (x)</text>
+              <text x="270" y="30" font-size="11" fill="#475569" font-weight="bold">Emosi Istri (y)</text>
+
+              <!-- Separatrix (Red Dashed Curve) -->
+              <path d="M 40 40 Q 240 120, 480 240" fill="none" stroke="#ef4444" stroke-width="2.5" stroke-dasharray="6"/>
+              <text x="370" y="215" font-size="10" fill="#dc2626" font-weight="bold">Separatrix (Batas Kritis)</text>
+
+              <!-- Saddle Point on Separatrix -->
+              <circle cx="260" cy="140" r="5" fill="#f59e0b"/>
+              <text x="270" y="135" font-size="10" fill="#b45309" font-weight="bold">Saddle (Titik Balik)</text>
+
+              <!-- Attractor Marital (Kuadran I Positif) -->
+              <circle cx="380" cy="65" r="7" fill="#10b981"/>
+              <text x="395" y="65" font-size="11" fill="#047857" font-weight="bold">E_marital (Stabil)</text>
+              <text x="395" y="78" font-size="9" fill="#059669">Harmonis &amp; Langgeng</text>
+
+              <!-- Inflow Arrows to Marital Attractor -->
+              <path d="M 320 40 C 350 45, 370 55, 375 62" fill="none" stroke="#10b981" stroke-width="1.5"/>
+              <polygon points="377,65 370,60 374,56" fill="#10b981"/>
+              <path d="M 430 110 C 410 95, 395 80, 386 70" fill="none" stroke="#10b981" stroke-width="1.5"/>
+              <polygon points="383,67 386,74 391,70" fill="#10b981"/>
+
+              <!-- Attractor Divorce (Kuadran III Negatif) -->
+              <circle cx="140" cy="215" r="7" fill="#ef4444"/>
+              <text x="155" y="215" font-size="11" fill="#b91c1c" font-weight="bold">E_divorce (Stabil)</text>
+              <text x="155" y="228" font-size="9" fill="#dc2626">Spiral Perceraian</text>
+
+              <!-- Inflow Arrows to Divorce Attractor -->
+              <path d="M 90 170 C 110 190, 125 205, 133 212" fill="none" stroke="#ef4444" stroke-width="1.5"/>
+              <polygon points="135,214 130,207 125,212" fill="#ef4444"/>
+              <path d="M 210 245 C 180 240, 160 230, 147 221" fill="none" stroke="#ef4444" stroke-width="1.5"/>
+              <polygon points="144,218 150,224 153,219" fill="#ef4444"/>
+            </svg>
+          </div>
+
+          <div class="bg-slate-50 p-4 rounded-2xl border border-slate-200 text-xs sm:text-sm text-slate-700 leading-relaxed space-y-1.5">
+            <p><strong>Uraian Analisis Gambar 10.2:</strong></p>
+            <ul class="list-disc list-inside space-y-1 text-slate-600">
+              <li><span class="text-emerald-700 font-semibold">Cekungan Harmonis:</span> Setiap interaksi yang berawal di atas kurva separatrix akan secara alami tertarik menuju $E_{\text{marital}}$, di mana pasangan memiliki kemampuan meredakan ketegangan secara konstruktif.</li>
+              <li><span class="text-red-700 font-semibold">Cekungan Perceraian:</span> Pasangan yang tergelincir ke bawah garis separatrix akan terus tersedot ke $E_{\text{divorce}}$, di mana percakapan netral pun ditafsirkan secara bermusuhan. Konseling pernikahan secara matematis bertujuan menggeser posisi koordinat atau mengubah parameter inersia agar melompati garis separatrix kembali ke zona aman.</li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- GAMBAR 10.3: Dinamika Temporal Percakapan -->
+        <div class="my-8 p-6 bg-white rounded-3xl border border-slate-200 shadow-sm">
+          <div class="text-center mb-4">
+            <span class="text-xs font-bold uppercase tracking-wider px-3 py-1 rounded-full bg-amber-50 text-amber-700 border border-amber-100">Gambar 10.3</span>
+            <h4 class="text-lg font-bold text-slate-900 mt-2">Dinamika Temporal Skor Emosi Selama Percakapan</h4>
+            <p class="text-xs text-slate-500">Perbandingan pola diskusi pasangan stabil (Peredaman) vs pasangan berisiko (Eskalasi)</p>
+          </div>
+
+          <!-- SVG Visual 3 -->
+          <div class="max-w-xl mx-auto my-6">
+            <svg viewBox="0 0 520 220" class="w-full h-auto">
+              <!-- Panel 1: Pasangan Stabil (Meredam) -->
+              <rect x="20" y="20" width="225" height="175" rx="10" fill="#f8fafc" stroke="#cbd5e1"/>
+              <text x="132" y="40" font-size="11" fill="#047857" text-anchor="middle" font-weight="bold">A. Pasangan Stabil (Regulated)</text>
+              <line x1="35" y1="110" x2="230" y2="110" stroke="#94a3b8" stroke-dasharray="3"/>
+              <text x="40" y="105" font-size="8" fill="#64748b">0 (Netral)</text>
+              
+              <!-- Damped positive trajectory -->
+              <path d="M 35 110 C 60 70, 90 85, 120 75 C 150 70, 180 65, 220 60" fill="none" stroke="#10b981" stroke-width="2.5"/>
+              <path d="M 35 110 C 60 130, 90 100, 120 80 C 150 75, 180 70, 220 65" fill="none" stroke="#3b82f6" stroke-width="2" stroke-dasharray="4"/>
+              <text x="132" y="180" font-size="9" fill="#047857" text-anchor="middle">Konvergen ke Zona Positif (+)</text>
+
+              <!-- Panel 2: Pasangan Berisiko (Eskalasi Negatif) -->
+              <rect x="275" y="20" width="225" height="175" rx="10" fill="#f8fafc" stroke="#cbd5e1"/>
+              <text x="387" y="40" font-size="11" fill="#b91c1c" text-anchor="middle" font-weight="bold">B. Pasangan Berisiko (Non-regulated)</text>
+              <line x1="290" y1="110" x2="485" y2="110" stroke="#94a3b8" stroke-dasharray="3"/>
+              <text x="295" y="105" font-size="8" fill="#64748b">0 (Netral)</text>
+
+              <!-- Cascading negative trajectory -->
+              <path d="M 290 105 C 320 120, 350 145, 390 160 C 430 175, 460 180, 485 185" fill="none" stroke="#ef4444" stroke-width="2.5"/>
+              <path d="M 290 105 C 320 135, 360 150, 400 170 C 440 185, 460 188, 485 190" fill="none" stroke="#f59e0b" stroke-width="2" stroke-dasharray="4"/>
+              <text x="387" y="180" font-size="9" fill="#b91c1c" text-anchor="middle">Terperosok ke Zona Negatif (-)</text>
+            </svg>
+          </div>
+
+          <div class="bg-slate-50 p-4 rounded-2xl border border-slate-200 text-xs sm:text-sm text-slate-700 leading-relaxed">
+            <p><strong>Keterangan Gambar 10.3:</strong> Pada pasangan teregulasi (Panel A), ketegangan sesaat segera diredam oleh sinyal perbaikan (<em>repair attempts</em>) seperti candaan atau sentuhan empati, sehingga skor emosi kembali positif. Pada pasangan non-teregulasi (Panel B), kritik dibalas dengan penolakan (<em>stonewalling</em>), memicu spiral ke bawah yang tak berujung.</p>
+          </div>
+        </div>
+
+      </section>
+
+      <!-- 10.5 Latihan & Diskusi Reflektif -->
+      <section id="latihan" class="pt-6 border-t border-slate-200">
+        <h2 class="text-2xl sm:text-3xl font-bold text-slate-900 flex items-center gap-3 mb-4">
+          <span class="text-indigo-600 font-mono text-xl">10.5</span> Latihan & Pertanyaan Diskusi
+        </h2>
+        
+        <div class="space-y-4 my-6">
+          <div class="p-5 rounded-2xl bg-white border border-slate-200 shadow-sm">
+            <h5 class="font-bold text-slate-900 text-sm mb-2 text-indigo-700">Soal 1: Analisis Kestabilan Pasangan Linier</h5>
+            <p class="text-sm text-slate-600">
+              Diberikan model interaksi linier sederhana tanpa suku luar:
+              $$\frac{dx}{dt} = -2x + y, \qquad \frac{dy}{dt} = x - 2y$$
+              Tentukan nilai-nilai eigen matriks sistem. Apakah hubungan ini memiliki titik kesetimbangan $(0,0)$ yang stabil? Bagaimana nasib emosional pasangan ini jika diawali dengan sedikit kesalahpahaman negatif?
+            </p>
+          </div>
+
+          <div class="p-5 rounded-2xl bg-white border border-slate-200 shadow-sm">
+            <h5 class="font-bold text-slate-900 text-sm mb-2 text-indigo-700">Soal 2: Desain Intervensi Terapeutik</h5>
+            <p class="text-sm text-slate-600">
+              Dalam konseling pernikahan berbasis model Gottman, konselor dapat melatih pasangan untuk menurunkan inersia emosional negatif (mengecilkan $a_1$ dan $b_1$) atau mengubah fungsi pengaruh $I(y)$ agar memiliki batas toleransi lebih lebar. Jelaskan secara matematis bagaimana perubahan parameter tersebut menggeser kurva separatrix dan memperluas cekungan penarik pernikahan stabil!
+            </p>
+          </div>
+        </div>
+
+        <h3 class="text-xl font-bold text-slate-900 mt-8 mb-2">Penutup Bab</h3>
+        <p class="text-sm sm:text-base text-slate-700">
+          Pemodelan dinamika hubungan pasangan memperlihatkan keluasan cakupan sistem persamaan diferensial nonlinier dalam memahami perilaku emosi manusia. Pada bab berikutnya (Bab 11), kita kembali ke fenomena fisika klasik melalui <strong>Pemodelan Gelombang Linier</strong> untuk mempelajari persamaan gelombang 1D, getaran tali tegang, dan deret Fourier.
+        </p>
+      </section>
+
+    </article>
+
+    <!-- Navigation Footer between Chapters -->
+    <div class="mt-16 pt-8 border-t border-slate-200 flex flex-col sm:flex-row items-center justify-between gap-4">
+      <a href="bab9.html" class="inline-flex items-center gap-2 text-sm font-semibold text-slate-600 hover:text-indigo-600 transition">
+        <i class="fa-solid fa-arrow-left"></i>
+        <span>Kembali ke Bab 9</span>
+      </a>
+      <a href="bab11.html" class="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-semibold text-sm shadow-md shadow-indigo-200 transition">
+        <span>Lanjut ke Bab 11: Gelombang Linier</span>
+        <i class="fa-solid fa-arrow-right"></i>
+      </a>
+    </div>
+
+  </main>
+
+  <!-- Footer -->
+  <footer class="bg-white border-t border-slate-200 py-8 text-center text-xs text-slate-500 mt-16">
+    <div class="max-w-5xl mx-auto px-4">
+      &copy; 2025 Dr. Mohammad Jamhuri, M.Si. &bull; Program Studi Matematika UIN Maulana Malik Ibrahim Malang.
+    </div>
+  </footer>
+
+</body>
+</html>

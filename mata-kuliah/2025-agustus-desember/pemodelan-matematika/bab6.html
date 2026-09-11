@@ -1,0 +1,487 @@
+<!DOCTYPE html>
+<html lang="id" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bab 6: Model Stokastik dan Rantai Markov - Pemodelan Matematika</title>
+  <meta name="description" content="Bab 6 Buku Ajar Pemodelan Matematika: Model Stokastik, Sifat Markov, Matriks Transisi, Distribusi Stasioner, dan Teorema Limit oleh Dr. Mohammad Jamhuri, M.Si.">
+  
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  
+  <!-- MathJax CDN untuk render rumus matematika LaTeX -->
+  <script>
+    window.MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']],
+        displayMath: [['$$', '$$'], ['\\[', '\\]']]
+      }
+    };
+  </script>
+  <script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+  <!-- Google Fonts & Font Awesome -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+            mono: ['"JetBrains Mono"', 'monospace'],
+          }
+        }
+      }
+    }
+  </script>
+</head>
+<body class="bg-slate-50 text-slate-800 antialiased selection:bg-indigo-500 selection:text-white">
+
+  <!-- Header Nav -->
+  <header class="sticky top-0 z-50 bg-white/95 backdrop-blur-md border-b border-slate-200">
+    <div class="max-w-5xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
+      <div class="flex items-center gap-4">
+        <a href="index.html" class="flex items-center gap-2 text-slate-700 hover:text-indigo-600 transition font-semibold text-sm">
+          <i class="fa-solid fa-arrow-left text-xs"></i>
+          <span>Beranda</span>
+        </a>
+        <span class="text-slate-300">|</span>
+        <a href="bab5.html" class="text-xs font-semibold text-slate-500 hover:text-indigo-600 transition">
+          &larr; Bab 5: Antrian
+        </a>
+      </div>
+      <div class="text-xs font-mono text-slate-500 hidden sm:block">
+        Mata Kuliah MAT61730 &bull; Bab 06
+      </div>
+      <div class="flex items-center gap-3">
+        <a href="main.pdf" class="inline-flex items-center gap-2 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 text-xs font-bold px-3 py-1.5 rounded-lg border border-indigo-200 transition">
+          <i class="fa-solid fa-file-pdf"></i>
+          <span>Unduh PDF</span>
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Content Container -->
+  <main class="max-w-4xl mx-auto px-4 sm:px-6 py-12">
+    
+    <!-- Chapter Header -->
+    <div class="border-b border-slate-200 pb-8 mb-10">
+      <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-indigo-100 text-indigo-800 text-xs font-mono font-bold mb-4">
+        BAB 06
+      </div>
+      <h1 class="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-slate-900 tracking-tight leading-tight">
+        Model Stokastik dan Rantai Markov
+      </h1>
+      <p class="text-base sm:text-lg text-slate-600 mt-4 leading-relaxed">
+        Menyelidiki sistem probabilistik dengan sifat nirdaya ingat (Markovian), matriks probabilitas transisi, evolusi Chapman–Kolmogorov, klasifikasi keadaan, distribusi stasioner jangka panjang, teorema limit ergodik, serta aplikasi nyata.
+      </p>
+      <div class="flex items-center gap-4 mt-6 text-xs text-slate-500 pt-4 border-t border-slate-100">
+        <div><i class="fa-solid fa-user-pen mr-1 text-indigo-600"></i> Dr. Mohammad Jamhuri, M.Si.</div>
+        <div><i class="fa-solid fa-book-bookmark mr-1 text-indigo-600"></i> Program Studi Matematika UIN Malang</div>
+      </div>
+    </div>
+
+    <!-- Article Body -->
+    <article class="prose prose-slate max-w-none space-y-10 text-slate-700 leading-relaxed text-base sm:text-lg">
+
+      <!-- 6.1 Pendahuluan -->
+      <section id="pendahuluan">
+        <h2 class="text-2xl sm:text-3xl font-bold text-slate-900 flex items-center gap-3 mb-4">
+          <span class="text-indigo-600 font-mono text-xl">6.1</span> Pendahuluan
+        </h2>
+        <p>
+          Pada bab-bab awal, kita telah memusatkan perhatian pada model deterministik di mana kondisi awal sistem secara mutlak menentukan lintasan perilakunya di masa depan. Namun, banyak fenomena alam, teknologi, dan ekonomi yang dipenuhi unsur keacakan (<em>randomness</em>), derau lingkungan (<em>environmental noise</em>), atau ketidakpastian informasi.
+        </p>
+        <p>
+          Model stokastik menyediakan fondasi aljabar linier dan teori probabilitas untuk menganalisis sistem yang berevolusi secara probabilistik. Salah satu kelas model stokastik paling berpengaruh adalah <strong>Rantai Markov (<em>Markov Chains</em>)</strong>, yang diperkenalkan oleh matematikawan Rusia <strong>Andrey Andreyevich Markov</strong> (1856–1922). Sifat utamanya adalah <em>nirdaya ingat</em> (<em>memoryless property</em>): masa depan sistem hanya bergantung pada keadaan saat ini, bukan pada rangkaian peristiwa di masa lampau.
+        </p>
+      </section>
+
+      <!-- 6.2 Definisi Formal -->
+      <section id="definisi" class="pt-6 border-t border-slate-200">
+        <h2 class="text-2xl sm:text-3xl font-bold text-slate-900 flex items-center gap-3 mb-4">
+          <span class="text-indigo-600 font-mono text-xl">6.2</span> Definisi Formal Rantai Markov Diskrit
+        </h2>
+        <p class="text-sm sm:text-base">
+          Misalkan $(\Omega, \mathcal{F}, P)$ adalah ruang probabilitas. Suatu kumpulan variabel acak $\{X_n, n \in T\}$ dengan himpunan indeks waktu diskrit $T = \{0, 1, 2, \dots\}$ dan ruang keadaan (<em>state space</em>) tercacah $S = \{s_1, s_2, \dots, s_M\}$ disebut sebagai <strong>proses stokastik waktu diskrit</strong>.
+        </p>
+
+        <h3 class="text-xl font-bold text-slate-900 mt-6 mb-2">Sifat Markov (The Markov Property)</h3>
+        <p class="text-sm sm:text-base">
+          Proses stokastik $\{X_n\}$ dikatakan memenuhi <strong>sifat Markov</strong> jika untuk setiap langkah $n \ge 0$ dan semua kemungkinan keadaan $i_0, i_1, \dots, i_{n-1}, i, j \in S$:
+        </p>
+        
+        <!-- Formula Box Light -->
+        <div class="my-4 p-5 bg-indigo-50/70 border border-indigo-200 rounded-2xl text-center text-slate-900 font-mono text-base sm:text-lg shadow-sm">
+          $$P(X_{n+1} = j \mid X_n = i, X_{n-1} = i_{n-1}, \dots, X_0 = i_0) = P(X_{n+1} = j \mid X_n = i)$$
+        </div>
+
+        <p class="text-sm text-slate-600">
+          Jika peluang bersyarat ini tidak berubah seiring waktu (tidak bergantung pada $n$), rantai Markov disebut <strong>homogen waktu (<em>time-homogeneous</em>)</strong>, dan kita mendefinisikan peluang transisi satu-langkah:
+        </p>
+        <div class="my-3 p-3 bg-white border border-slate-200 rounded-xl font-mono text-center text-sm sm:text-base text-slate-900 font-bold shadow-sm">
+          $$p_{ij} = P(X_{n+1} = j \mid X_n = i)$$
+        </div>
+        <p class="text-xs text-slate-500 text-center">
+          yang menyatakan probabilitas berpindah dari keadaan $i$ ke keadaan $j$ dalam satu langkah waktu.
+        </p>
+      </section>
+
+      <!-- 6.3 Matriks Transisi & Persamaan Chapman-Kolmogorov -->
+      <section id="matriks-transisi" class="pt-6 border-t border-slate-200">
+        <h2 class="text-2xl sm:text-3xl font-bold text-slate-900 flex items-center gap-3 mb-4">
+          <span class="text-indigo-600 font-mono text-xl">6.3</span> Matriks Probabilitas Transisi & Chapman–Kolmogorov
+        </h2>
+        <p class="text-sm sm:text-base">
+          Jika ruang keadaan berukuran $M$, seluruh peluang transisi satu-langkah dapat disusun dalam matriks persegi $P = [p_{ij}]$ berukuran $M \times M$:
+        </p>
+        
+        <div class="my-4 p-5 bg-white border border-slate-200 rounded-2xl text-center text-sm sm:text-base font-mono text-slate-900 shadow-sm">
+          $$P = \begin{bmatrix}
+          p_{11} & p_{12} & \cdots & p_{1M} \\
+          p_{21} & p_{22} & \cdots & p_{2M} \\
+          \vdots & \vdots & \ddots & \vdots \\
+          p_{M1} & p_{M2} & \cdots & p_{MM}
+          \end{bmatrix}$$
+        </div>
+
+        <h4 class="font-bold text-slate-900 text-sm mb-2">Sifat Matriks Stokastik:</h4>
+        <ol class="list-decimal list-inside space-y-1 text-xs sm:text-sm text-slate-700 ml-2">
+          <li>Setiap elemen non-negatif: $p_{ij} \ge 0$ untuk setiap $i, j \in S$.</li>
+          <li>Jumlah peluang pada setiap baris harus sama dengan satu: $\sum_{j=1}^M p_{ij} = 1$ untuk setiap baris $i$.</li>
+        </ol>
+
+        <h3 class="text-xl font-bold text-slate-900 mt-6 mb-2">Persamaan Chapman–Kolmogorov & Evolusi Sistem</h3>
+        <p class="text-sm sm:text-base">
+          Peluang transisi $n$-langkah, yaitu $p_{ij}^{(n)} = P(X_{m+n} = j \mid X_m = i)$, memenuhi persamaan fundamental Chapman–Kolmogorov:
+        </p>
+        <div class="my-3 p-3 bg-slate-100/70 rounded-xl font-mono text-center text-sm sm:text-base text-slate-900">
+          $$p_{ij}^{(m+n)} = \sum_{k \in S} p_{ik}^{(m)} p_{kj}^{(n)}$$
+        </div>
+        <p class="text-sm text-slate-600">
+          Secara aljabar matriks, matriks transisi $n$-langkah tidak lain adalah perpangkatan matriks: $P^{(n)} = P^n$. Jika vektor baris $\mathbf{\pi}^{(0)} = [\pi_1^{(0)}, \dots, \pi_M^{(0)}]$ menyatakan distribusi probabilitas awal pada $t=0$, maka distribusi probabilitas sistem pada langkah ke-$n$ adalah:
+        </p>
+        <div class="my-3 p-4 bg-indigo-50/70 border border-indigo-200 rounded-xl font-mono text-center text-base sm:text-lg text-slate-900 font-bold">
+          $$\mathbf{\pi}^{(n)} = \mathbf{\pi}^{(0)} P^n$$
+        </div>
+      </section>
+
+      <!-- 6.4 Klasifikasi Keadaan -->
+      <section id="klasifikasi-state" class="pt-6 border-t border-slate-200">
+        <h2 class="text-2xl sm:text-3xl font-bold text-slate-900 flex items-center gap-3 mb-4">
+          <span class="text-indigo-600 font-mono text-xl">6.4</span> Klasifikasi Keadaan (State Classification)
+        </h2>
+        <p class="text-sm sm:text-base">
+          Struktur jangka panjang sistem ditentukan oleh hubungan keterjangkauan antar-keadaan:
+        </p>
+
+        <div class="grid sm:grid-cols-2 gap-4 my-4">
+          <div class="p-4 rounded-xl bg-white border border-slate-200 shadow-sm">
+            <h5 class="font-bold text-slate-900 text-sm mb-1 text-indigo-700">Communicating & Irreducible</h5>
+            <p class="text-xs text-slate-600 leading-relaxed">State $i$ dan $j$ berkomunikasi ($i \leftrightarrow j$) jika masing-masing dapat dijangkau dari yang lain. Rantai disebut <strong>irreducible</strong> jika semua keadaan saling berkomunikasi (hanya ada 1 kelas).</p>
+          </div>
+          <div class="p-4 rounded-xl bg-white border border-slate-200 shadow-sm">
+            <h5 class="font-bold text-slate-900 text-sm mb-1 text-indigo-700">Transient vs Recurrent</h5>
+            <p class="text-xs text-slate-600 leading-relaxed">Suatu state disebut <strong>recurrent</strong> jika peluang sistem kembali ke state tersebut adalah 1. Jika peluang kembali kurang dari 1, state disebut <strong>transient</strong> (sementara).</p>
+          </div>
+          <div class="p-4 rounded-xl bg-white border border-slate-200 shadow-sm">
+            <h5 class="font-bold text-slate-900 text-sm mb-1 text-indigo-700">Periodisitas (Periodicity)</h5>
+            <p class="text-xs text-slate-600 leading-relaxed">Periode $d(i) = \gcd \{n \ge 1 \mid p_{ii}^{(n)} > 0\}$. Jika $d(i) = 1$, state disebut <strong>aperiodic</strong> (tidak memiliki siklus kaku teratur).</p>
+          </div>
+          <div class="p-4 rounded-xl bg-white border border-slate-200 shadow-sm">
+            <h5 class="font-bold text-slate-900 text-sm mb-1 text-red-700">Keadaan Penyerap (Absorbing State)</h5>
+            <p class="text-xs text-slate-600 leading-relaxed">State $i$ bersifat menyerap jika $p_{ii} = 1$. Sekali sistem memasuki keadaan ini, ia tidak akan pernah bisa keluar lagi (contoh: kebangkrutan total atau kematian).</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- 6.5 Distribusi Stasioner & Teorema Limit -->
+      <section id="distribusi-stasioner" class="pt-6 border-t border-slate-200">
+        <h2 class="text-2xl sm:text-3xl font-bold text-slate-900 flex items-center gap-3 mb-4">
+          <span class="text-indigo-600 font-mono text-xl">6.5</span> Distribusi Stasioner & Teorema Limit
+        </h2>
+        <p class="text-sm sm:text-base">
+          Vektor baris probabilitas $\mathbf{\pi} = [\pi_1, \pi_2, \dots, \pi_M]$ dikatakan sebagai <strong>distribusi stasioner</strong> (distribusi tunak) jika memenuhi:
+        </p>
+
+        <div class="my-4 p-5 bg-white border border-slate-200 rounded-2xl text-center text-base sm:text-lg font-mono text-slate-900 font-bold shadow-sm">
+          $$\mathbf{\pi} P = \mathbf{\pi}, \qquad \sum_{i=1}^M \pi_i = 1, \quad \pi_i \ge 0$$
+        </div>
+        <p class="text-xs sm:text-sm text-slate-600">
+          Artinya, $\mathbf{\pi}$ adalah vektor eigen kiri dari matriks transisi $P$ yang berpadanan dengan nilai eigen $\lambda = 1$. Jika sistem telah mencapai distribusi $\mathbf{\pi}$, maka probabilitas berada di setiap state tidak lagi berubah pada langkah berikutnya.
+        </p>
+
+        <!-- Ergodic Theorem Card -->
+        <div class="my-5 p-5 bg-slate-100/70 rounded-2xl border border-slate-200">
+          <h4 class="font-bold text-slate-900 text-sm uppercase tracking-wider text-indigo-700 mb-1">Teorema Limit Ergodik</h4>
+          <p class="text-xs sm:text-sm text-slate-600 leading-relaxed">
+            Jika suatu rantai Markov berhingga bersifat <strong>irreducible</strong> dan <strong>aperiodic</strong> (disebut rantai <em>ergodik</em>), maka:
+          </p>
+          <div class="text-center font-mono font-bold text-slate-900 text-base my-2">
+            $$\lim_{n \to \infty} P^n = \begin{bmatrix} \mathbf{\pi} \\ \mathbf{\pi} \\ \vdots \\ \mathbf{\pi} \end{bmatrix} \implies \lim_{n \to \infty} \mathbf{\pi}^{(0)} P^n = \mathbf{\pi}$$
+          </div>
+          <p class="text-xs text-slate-500">
+            Sistem memiliki sifat <em>ergodisitas</em>: distribusi probabilitas jangka panjang selalu konvergen ke $\mathbf{\pi}$ yang unik, tanpa terpengaruh oleh kondisi awal apa pun ($\mathbf{\pi}^{(0)}$). Nilai $\pi_j$ menyatakan proporsi waktu jangka panjang yang dihabiskan sistem pada keadaan $j$.
+          </p>
+        </div>
+      </section>
+
+      <!-- 6.6 Analisis Visual Komprehensif (Menggantikan Kode Python) -->
+      <section id="analisis-visual" class="pt-6 border-t border-slate-200">
+        <h2 class="text-2xl sm:text-3xl font-bold text-slate-900 flex items-center gap-3 mb-4">
+          <span class="text-indigo-600 font-mono text-xl">6.6</span> Analisis Visual & Simulasi Dinamika Rantai Markov
+        </h2>
+        <p class="text-sm sm:text-base leading-relaxed mb-6">
+          Berikut adalah representasi grafis mandiri yang menguraikan diagram transisi state, konvergensi asimtotik distribusi stasioner, serta rantai penyerap:
+        </p>
+
+        <!-- GAMBAR 6.1: Diagram Graf Transisi State -->
+        <div class="my-8 p-6 bg-white rounded-3xl border border-slate-200 shadow-sm">
+          <div class="text-center mb-4">
+            <span class="text-xs font-bold uppercase tracking-wider px-3 py-1 rounded-full bg-indigo-50 text-indigo-700 border border-indigo-100">Gambar 6.1</span>
+            <h4 class="text-lg font-bold text-slate-900 mt-2">Diagram Transisi State & Matriks Stokastik (Model Cuaca)</h4>
+            <p class="text-xs text-slate-500">Graf berarah probabilitas transisi harian antara kondisi Cerah (C) dan Hujan (H)</p>
+          </div>
+
+          <!-- SVG Visual 1 -->
+          <div class="max-w-xl mx-auto my-6">
+            <svg viewBox="0 0 520 220" class="w-full h-auto">
+              <!-- Node C (Cerah) -->
+              <circle cx="140" cy="110" r="35" fill="#eef2ff" stroke="#4f46e5" stroke-width="2.5"/>
+              <text x="140" y="107" font-size="14" fill="#312e81" text-anchor="middle" font-weight="bold">Cerah</text>
+              <text x="140" y="123" font-size="10" fill="#6366f1" text-anchor="middle">(C)</text>
+
+              <!-- Node H (Hujan) -->
+              <circle cx="380" cy="110" r="35" fill="#f0fdf4" stroke="#10b981" stroke-width="2.5"/>
+              <text x="380" y="107" font-size="14" fill="#064e3b" text-anchor="middle" font-weight="bold">Hujan</text>
+              <text x="380" y="123" font-size="10" fill="#10b981" text-anchor="middle">(H)</text>
+
+              <!-- Loop C -> C (0.7) -->
+              <path d="M 120 80 C 80 40, 110 20, 140 75" fill="none" stroke="#4f46e5" stroke-width="2"/>
+              <polygon points="135,72 142,77 140,68" fill="#4f46e5"/>
+              <text x="100" y="35" font-size="11" fill="#4f46e5" font-weight="bold">0.7</text>
+
+              <!-- Transition C -> H (0.3) -->
+              <path d="M 175 95 C 240 70, 280 70, 345 95" fill="none" stroke="#64748b" stroke-width="2"/>
+              <polygon points="340,90 350,96 342,100" fill="#64748b"/>
+              <text x="260" y="70" font-size="11" fill="#334155" text-anchor="middle" font-weight="bold">0.3</text>
+
+              <!-- Transition H -> C (0.4) -->
+              <path d="M 345 125 C 280 150, 240 150, 175 125" fill="none" stroke="#64748b" stroke-width="2"/>
+              <polygon points="180,120 170,124 178,130" fill="#64748b"/>
+              <text x="260" y="160" font-size="11" fill="#334155" text-anchor="middle" font-weight="bold">0.4</text>
+
+              <!-- Loop H -> H (0.6) -->
+              <path d="M 400 80 C 440 40, 410 20, 380 75" fill="none" stroke="#10b981" stroke-width="2"/>
+              <polygon points="380,68 378,77 385,72" fill="#10b981"/>
+              <text x="420" y="35" font-size="11" fill="#047857" font-weight="bold">0.6</text>
+            </svg>
+          </div>
+
+          <div class="bg-slate-50 p-4 rounded-2xl border border-slate-200 text-xs sm:text-sm text-slate-700 leading-relaxed">
+            <p><strong>Keterangan Gambar 6.1:</strong> Matriks peluang transisi berkorespondensi satu-satu dengan graf berarah berbobot:
+            $$P = \begin{bmatrix} 0.7 & 0.3 \\ 0.4 & 0.6 \end{bmatrix}$$
+            Jumlah bobot panah yang keluar dari setiap simpul selalu bernilai 1.0 (sifat total probabilitas).</p>
+          </div>
+        </div>
+
+        <!-- GAMBAR 6.2: Konvergensi Asimtotik Menuju Distribusi Stasioner -->
+        <div class="my-8 p-6 bg-white rounded-3xl border border-slate-200 shadow-sm">
+          <div class="text-center mb-4">
+            <span class="text-xs font-bold uppercase tracking-wider px-3 py-1 rounded-full bg-emerald-50 text-emerald-700 border border-emerald-100">Gambar 6.2</span>
+            <h4 class="text-lg font-bold text-slate-900 mt-2">Konvergensi Cepat Menuju Distribusi Stasioner Jangka Panjang</h4>
+            <p class="text-xs text-slate-500">Evolusi probabilitas cerah $\pi_C^{(n)}$ dari dua kondisi awal yang bertolak belakang</p>
+          </div>
+
+          <!-- SVG Visual 2 -->
+          <div class="max-w-xl mx-auto my-6">
+            <svg viewBox="0 0 520 260" class="w-full h-auto">
+              <!-- Grid -->
+              <line x1="50" y1="210" x2="480" y2="210" stroke="#cbd5e1" stroke-width="1.5"/>
+              <line x1="50" y1="210" x2="50" y2="30" stroke="#cbd5e1" stroke-width="1.5"/>
+              <text x="475" y="228" font-size="11" fill="#64748b" font-weight="bold">Langkah Waktu (Hari ke-n)</text>
+              <text x="15" y="30" font-size="11" fill="#64748b" font-weight="bold">P(Cerah)</text>
+
+              <text x="50" y="228" font-size="10" fill="#94a3b8" text-anchor="middle">0</text>
+              <text x="120" y="228" font-size="10" fill="#94a3b8" text-anchor="middle">1</text>
+              <text x="190" y="228" font-size="10" fill="#94a3b8" text-anchor="middle">2</text>
+              <text x="260" y="228" font-size="10" fill="#94a3b8" text-anchor="middle">3</text>
+              <text x="330" y="228" font-size="10" fill="#94a3b8" text-anchor="middle">4</text>
+              <text x="400" y="228" font-size="10" fill="#94a3b8" text-anchor="middle">5</text>
+              <text x="470" y="228" font-size="10" fill="#94a3b8" text-anchor="middle">10</text>
+
+              <!-- Y Axis Ticks -->
+              <text x="35" y="214" font-size="10" fill="#94a3b8">0.0</text>
+              <text x="35" y="125" font-size="10" fill="#94a3b8">0.5</text>
+              <text x="35" y="45" font-size="10" fill="#94a3b8">1.0</text>
+
+              <!-- Stationary Asymptote Line (pi_C = 4/7 approx 0.571) -->
+              <line x1="50" y1="113" x2="480" y2="113" stroke="#ef4444" stroke-dasharray="5" stroke-width="2"/>
+              <text x="360" y="105" font-size="10" fill="#dc2626" font-weight="bold">Nilai Stasioner Analitik: π_C = 4/7 ≈ 57.1%</text>
+
+              <!-- Trajectory 1: Starts at P(C)=1.0 (100% cerah di hari ke-0) -->
+              <path d="M 50 40 L 120 91 L 190 106 L 260 111 L 330 113 L 470 113" 
+                    fill="none" stroke="#4f46e5" stroke-width="2.5"/>
+              <circle cx="50" cy="40" r="4" fill="#4f46e5"/>
+              <circle cx="120" cy="91" r="4" fill="#4f46e5"/>
+              <circle cx="190" cy="106" r="4" fill="#4f46e5"/>
+              <circle cx="260" cy="111" r="4" fill="#4f46e5"/>
+              <text x="60" y="32" font-size="10" fill="#4f46e5" font-weight="bold">Mulai 100% Cerah [1, 0]</text>
+
+              <!-- Trajectory 2: Starts at P(C)=0.0 (100% hujan di hari ke-0) -->
+              <path d="M 50 210 L 120 142 L 190 122 L 260 115 L 330 113 L 470 113" 
+                    fill="none" stroke="#10b981" stroke-width="2.5" stroke-dasharray="4"/>
+              <circle cx="50" cy="210" r="4" fill="#10b981"/>
+              <circle cx="120" cy="142" r="4" fill="#10b981"/>
+              <circle cx="190" cy="122" r="4" fill="#10b981"/>
+              <circle cx="260" cy="115" r="4" fill="#10b981"/>
+              <text x="60" y="200" font-size="10" fill="#047857" font-weight="bold">Mulai 100% Hujan [0, 1]</text>
+            </svg>
+          </div>
+
+          <div class="bg-slate-50 p-4 rounded-2xl border border-slate-200 text-xs sm:text-sm text-slate-700 leading-relaxed space-y-1">
+            <p><strong>Wawasan Teorema Limit Gambar 6.2:</strong></p>
+            <ul class="list-disc list-inside space-y-1 text-slate-600">
+              <li>Meskipun kondisi awal cuaca bertolak belakang (satu lintasan mulai dari hari terik 100% cerah dan lintasan lain mulai dari hari badai 100% hujan), keduanya <strong>berkonvergensi eksponensial ke garis stasioner yang persis sama</strong> dalam waktu kurang dari 5 hari.</li>
+              <li>Hasil analitik sistem: $\pi_C = \frac{4}{7} \approx 57.1\%$ dan $\pi_H = \frac{3}{7} \approx 42.9\%$. Dalam jangka panjang, rata-rata 57.1% hari di daerah tersebut cerah dan 42.9% hujan.</li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- GAMBAR 6.3: Rantai Penyerap (Gambler's Ruin) -->
+        <div class="my-8 p-6 bg-white rounded-3xl border border-slate-200 shadow-sm">
+          <div class="text-center mb-4">
+            <span class="text-xs font-bold uppercase tracking-wider px-3 py-1 rounded-full bg-amber-50 text-amber-700 border border-amber-100">Gambar 6.3</span>
+            <h4 class="text-lg font-bold text-slate-900 mt-2">Struktur Rantai Penyerap: Model Kebangkrutan Penjudi (<em>Gambler's Ruin</em>)</h4>
+            <p class="text-xs text-slate-500">Transisi antar-tingkat modal dengan keadaan penyerap di batas 0 dan N</p>
+          </div>
+
+          <!-- SVG Visual 3 -->
+          <div class="max-w-xl mx-auto my-6">
+            <svg viewBox="0 0 520 180" class="w-full h-auto">
+              <!-- Absorbing State 0 -->
+              <circle cx="50" cy="90" r="24" fill="#fee2e2" stroke="#ef4444" stroke-width="2.5"/>
+              <text x="50" y="94" font-size="12" fill="#991b1b" text-anchor="middle" font-weight="bold">$0</text>
+              <!-- Self loop p=1 -->
+              <path d="M 35 70 C 15 40, 45 40, 55 66" fill="none" stroke="#ef4444" stroke-width="2"/>
+              <polygon points="52,62 57,68 60,60" fill="#ef4444"/>
+              <text x="35" y="32" font-size="10" fill="#dc2626" font-weight="bold">p=1 (Penyerap)</text>
+              <text x="50" y="130" font-size="9" fill="#b91c1c" text-anchor="middle" font-weight="bold">Bangkrut</text>
+
+              <!-- Transient State 1 -->
+              <circle cx="150" cy="90" r="22" fill="#f8fafc" stroke="#94a3b8" stroke-width="2"/>
+              <text x="150" y="94" font-size="12" fill="#334155" text-anchor="middle" font-weight="bold">$1</text>
+
+              <!-- Transient State 2 -->
+              <circle cx="250" cy="90" r="22" fill="#f8fafc" stroke="#94a3b8" stroke-width="2"/>
+              <text x="250" y="94" font-size="12" fill="#334155" text-anchor="middle" font-weight="bold">$2</text>
+
+              <!-- Transient State 3 -->
+              <circle cx="350" cy="90" r="22" fill="#f8fafc" stroke="#94a3b8" stroke-width="2"/>
+              <text x="350" y="94" font-size="12" fill="#334155" text-anchor="middle" font-weight="bold">$3</text>
+
+              <!-- Absorbing State N ($4) -->
+              <circle cx="450" cy="90" r="24" fill="#ecfdf5" stroke="#10b981" stroke-width="2.5"/>
+              <text x="450" y="94" font-size="12" fill="#065f46" text-anchor="middle" font-weight="bold">$4</text>
+              <!-- Self loop p=1 -->
+              <path d="M 435 70 C 415 40, 445 40, 455 66" fill="none" stroke="#10b981" stroke-width="2"/>
+              <polygon points="452,62 457,68 460,60" fill="#10b981"/>
+              <text x="435" y="32" font-size="10" fill="#047857" font-weight="bold">p=1 (Penyerap)</text>
+              <text x="450" y="130" font-size="9" fill="#047857" text-anchor="middle" font-weight="bold">Target Menang</text>
+
+              <!-- Arrows Between States -->
+              <!-- Forward Arrows (p) -->
+              <path d="M 170 80 C 190 70, 210 70, 230 80" fill="none" stroke="#4f46e5" stroke-width="1.5"/>
+              <polygon points="225,76 233,81 228,84" fill="#4f46e5"/>
+              <text x="200" y="68" font-size="9" fill="#4f46e5" font-weight="bold">p (menang)</text>
+
+              <path d="M 270 80 C 290 70, 310 70, 330 80" fill="none" stroke="#4f46e5" stroke-width="1.5"/>
+              <polygon points="325,76 333,81 328,84" fill="#4f46e5"/>
+
+              <path d="M 370 80 C 390 70, 410 70, 430 80" fill="none" stroke="#4f46e5" stroke-width="1.5"/>
+              <polygon points="425,76 433,81 428,84" fill="#4f46e5"/>
+
+              <!-- Backward Arrows (q = 1-p) -->
+              <path d="M 230 100 C 210 110, 190 110, 170 100" fill="none" stroke="#dc2626" stroke-width="1.5"/>
+              <polygon points="175,104 167,99 172,96" fill="#dc2626"/>
+              <text x="200" y="125" font-size="9" fill="#dc2626" font-weight="bold">q = 1-p (kalah)</text>
+
+              <path d="M 330 100 C 310 110, 290 110, 270 100" fill="none" stroke="#dc2626" stroke-width="1.5"/>
+              <polygon points="275,104 267,99 272,96" fill="#dc2626"/>
+
+              <path d="M 130 100 C 110 110, 90 110, 70 100" fill="none" stroke="#dc2626" stroke-width="1.5"/>
+              <polygon points="75,104 67,99 72,96" fill="#dc2626"/>
+            </svg>
+          </div>
+
+          <div class="bg-slate-50 p-4 rounded-2xl border border-slate-200 text-xs sm:text-sm text-slate-700 leading-relaxed">
+            <p><strong>Keterangan Gambar 6.3:</strong> State $1, 2, 3$ adalah keadaan sementara (<em>transient states</em>). Pada akhirnya saat $n \to \infty$, sistem pasti akan terserap ke salah satu dari dua keadaan penyerap (<em>absorbing states</em>): bangkrut total ($0) atau mencapai target menang ($4). Model ini banyak digunakan dalam analisis risiko likuiditas perbankan dan keandalan sistem kritis.</p>
+          </div>
+        </div>
+
+      </section>
+
+      <!-- 6.7 Latihan & Diskusi Reflektif -->
+      <section id="latihan" class="pt-6 border-t border-slate-200">
+        <h2 class="text-2xl sm:text-3xl font-bold text-slate-900 flex items-center gap-3 mb-4">
+          <span class="text-indigo-600 font-mono text-xl">6.7</span> Latihan & Pertanyaan Diskusi
+        </h2>
+        
+        <div class="space-y-4 my-6">
+          <div class="p-5 rounded-2xl bg-white border border-slate-200 shadow-sm">
+            <h5 class="font-bold text-slate-900 text-sm mb-2 text-indigo-700">Soal 1: Beban Server Jaringan</h5>
+            <p class="text-sm text-slate-600">
+              Sebuah server komputasi awan memiliki 3 status beban: Rendah (1), Sedang (2), dan Tinggi (3). Matriks transisinya adalah:
+              $$P = \begin{bmatrix}
+              0.6 & 0.3 & 0.1 \\
+              0.2 & 0.5 & 0.3 \\
+              0.1 & 0.4 & 0.5
+              \end{bmatrix}$$
+              Tunjukkan bahwa rantai ini bersifat <em>irreducible</em> dan <em>aperiodic</em>, lalu tentukan vektor distribusi stasionernya $\mathbf{\pi}$! Berapa persen waktu server berada pada status beban tinggi dalam jangka panjang?
+            </p>
+          </div>
+
+          <div class="p-5 rounded-2xl bg-white border border-slate-200 shadow-sm">
+            <h5 class="font-bold text-slate-900 text-sm mb-2 text-indigo-700">Soal 2: Algoritma PageRank Google</h5>
+            <p class="text-sm text-slate-600">
+              Jelaskan bagaimana konsep rantai Markov, penjelajah acak (<em>random surfer</em>), dan faktor redaman (<em>damping factor</em> $d \approx 0.85$) digunakan oleh mesin pencari Google untuk mengatasi simpul buntu (<em>dangling nodes</em>) dan menghitung skor otoritas halaman web!
+            </p>
+          </div>
+        </div>
+
+        <h3 class="text-xl font-bold text-slate-900 mt-8 mb-2">Penutup Bab</h3>
+        <p class="text-sm sm:text-base text-slate-700">
+          Rantai Markov menjembatani ketidakpastian stokastik dengan kekuatan komputasi aljabar linier. Pada bab berikutnya (Bab 7), kita beralih ke struktur interdependensi makroekonomi melalui <strong>Model Input–Output Leontief dalam Ekonomi</strong> untuk menelaah neraca input-output antar-sektor industri nasional.
+        </p>
+      </section>
+
+    </article>
+
+    <!-- Navigation Footer between Chapters -->
+    <div class="mt-16 pt-8 border-t border-slate-200 flex flex-col sm:flex-row items-center justify-between gap-4">
+      <a href="bab5.html" class="inline-flex items-center gap-2 text-sm font-semibold text-slate-600 hover:text-indigo-600 transition">
+        <i class="fa-solid fa-arrow-left"></i>
+        <span>Kembali ke Bab 5</span>
+      </a>
+      <a href="bab7.html" class="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-semibold text-sm shadow-md shadow-indigo-200 transition">
+        <span>Lanjut ke Bab 7: Model Leontief</span>
+        <i class="fa-solid fa-arrow-right"></i>
+      </a>
+    </div>
+
+  </main>
+
+  <!-- Footer -->
+  <footer class="bg-white border-t border-slate-200 py-8 text-center text-xs text-slate-500 mt-16">
+    <div class="max-w-5xl mx-auto px-4">
+      &copy; 2025 Dr. Mohammad Jamhuri, M.Si. &bull; Program Studi Matematika UIN Maulana Malik Ibrahim Malang.
+    </div>
+  </footer>
+
+</body>
+</html>

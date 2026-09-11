@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html lang="id" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bab 3: Model Predator–Prey Lotka–Volterra - Pemodelan Matematika</title>
+  <meta name="description" content="Bab 3 Buku Ajar Pemodelan Matematika: Model Interaksi Dua Spesies Predator-Prey Lotka-Volterra oleh Dr. Mohammad Jamhuri, M.Si.">
+  
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  
+  <!-- MathJax CDN untuk render rumus matematika LaTeX -->
+  <script>
+    window.MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']],
+        displayMath: [['$$', '$$'], ['\\[', '\\]']]
+      }
+    };
+  </script>
+  <script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+  <!-- Google Fonts & Font Awesome -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+            mono: ['"JetBrains Mono"', 'monospace'],
+          }
+        }
+      }
+    }
+  </script>
+</head>
+<body class="bg-slate-50 text-slate-800 antialiased selection:bg-indigo-500 selection:text-white">
+
+  <!-- Header Nav -->
+  <header class="sticky top-0 z-50 bg-white/95 backdrop-blur-md border-b border-slate-200">
+    <div class="max-w-5xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
+      <div class="flex items-center gap-4">
+        <a href="index.html" class="flex items-center gap-2 text-slate-700 hover:text-indigo-600 transition font-semibold text-sm">
+          <i class="fa-solid fa-arrow-left text-xs"></i>
+          <span>Beranda</span>
+        </a>
+        <span class="text-slate-300">|</span>
+        <a href="bab2.html" class="text-xs font-semibold text-slate-500 hover:text-indigo-600 transition">
+          &larr; Bab 2: Populasi
+        </a>
+      </div>
+      <div class="text-xs font-mono text-slate-500 hidden sm:block">
+        Mata Kuliah MAT61730 &bull; Bab 03
+      </div>
+      <div class="flex items-center gap-3">
+        <a href="main.pdf" class="inline-flex items-center gap-2 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 text-xs font-bold px-3 py-1.5 rounded-lg border border-indigo-200 transition">
+          <i class="fa-solid fa-file-pdf"></i>
+          <span>Unduh PDF</span>
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Content Container -->
+  <main class="max-w-4xl mx-auto px-4 sm:px-6 py-12">
+    
+    <!-- Chapter Header -->
+    <div class="border-b border-slate-200 pb-8 mb-10">
+      <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-indigo-100 text-indigo-800 text-xs font-mono font-bold mb-4">
+        BAB 03
+      </div>
+      <h1 class="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-slate-900 tracking-tight leading-tight">
+        Model Interaksi Populasi: Predator–Prey Lotka–Volterra
+      </h1>
+      <p class="text-base sm:text-lg text-slate-600 mt-4 leading-relaxed">
+        Menyelidiki dinamika interaksi nonlinier antara mangsa dan pemangsa, titik kesetimbangan Jacobian, kuantitas konservatif, potret fase orbit tertutup, serta modifikasi realistis daya dukung lingkungan.
+      </p>
+      <div class="flex items-center gap-4 mt-6 text-xs text-slate-500 pt-4 border-t border-slate-100">
+        <div><i class="fa-solid fa-user-pen mr-1 text-indigo-600"></i> Dr. Mohammad Jamhuri, M.Si.</div>
+        <div><i class="fa-solid fa-book-bookmark mr-1 text-indigo-600"></i> Program Studi Matematika UIN Malang</div>
+      </div>
+    </div>
+
+    <!-- Article Body -->
+    <article class="prose prose-slate max-w-none space-y-10 text-slate-700 leading-relaxed text-base sm:text-lg">
+
+      <!-- 3.1 Pendahuluan -->
+      <section id="pendahuluan">
+        <h2 class="text-2xl sm:text-3xl font-bold text-slate-900 flex items-center gap-3 mb-4">
+          <span class="text-indigo-600 font-mono text-xl">3.1</span> Pendahuluan
+        </h2>
+        <p>
+          Pada Bab 2, kita telah mempelajari dinamika spesies tunggal terisolasi melalui model eksponensial dan logistik. Namun di alam bebas, spesies tidak pernah hidup terpisah tanpa saling berinteraksi. Hubungan interspesifik yang paling umum adalah pemangsaan (<em>predator–prey</em>), di mana kelangsungan hidup predator bergantung langsung pada ketersediaan mangsanya.
+        </p>
+        <p>
+          Model matematika interaksi ini dirumuskan secara terpisah oleh <strong>Alfred J. Lotka</strong> (1925) dan <strong>Vito Volterra</strong> (1926). Volterra terdorong oleh data tangkapan ikan Laut Adriatik pasca-Perang Dunia I: saat penangkapan ikan terhenti akibat perang, populasi ikan predator (seperti hiu) justru melonjak tajam dibanding mangsanya. Teori sistem dinamik nonlinier memberikan penjelasan matematis yang presisi atas fenomena ini.
+        </p>
+      </section>
+
+      <!-- 3.2 Formulasi Model -->
+      <section id="formulasi" class="pt-6 border-t border-slate-200">
+        <h2 class="text-2xl sm:text-3xl font-bold text-slate-900 flex items-center gap-3 mb-4">
+          <span class="text-indigo-600 font-mono text-xl">3.2</span> Formulasi Model Lotka–Volterra Klasik
+        </h2>
+        <p>
+          Misalkan $x(t) \ge 0$ adalah kepadatan populasi <strong>mangsa (prey)</strong> dan $y(t) \ge 0$ adalah kepadatan populasi <strong>pemangsa (predator)</strong> pada waktu $t$.
+        </p>
+
+        <h3 class="text-xl font-bold text-slate-900 mt-6 mb-2">Asumsi-Asumsi Pokok:</h3>
+        <ol class="list-decimal list-inside space-y-2 text-sm sm:text-base text-slate-700 ml-2">
+          <li>Tanpa predator ($y = 0$), mangsa bertumbuh eksponensial dengan laju $a > 0$: $\frac{dx}{dt} = ax$.</li>
+          <li>Tanpa mangsa ($x = 0$), predator mengalami kelaparan dan meluruh eksponensial menuju kepunahan dengan laju kematian alami $c > 0$: $\frac{dy}{dt} = -cy$.</li>
+          <li>Interaksi predasi sebanding dengan frekuensi perjumpaan kedua spesies ($xy$). Setiap perjumpaan menurunkan populasi mangsa sebesar $bxy$ ($b > 0$) dan menyumbang penambahan populasi predator sebesar $dxy$ ($d > 0$).</li>
+        </ol>
+
+        <!-- Formula Box Light -->
+        <div class="my-6 p-6 bg-indigo-50/70 border border-indigo-200 rounded-2xl text-center text-slate-900 font-mono text-lg sm:text-xl shadow-sm">
+          <div class="mb-2">$$\frac{dx}{dt} = ax - bxy = x(a - by)$$</div>
+          <div>$$\frac{dy}{dt} = -cy + dxy = y(-c + dx)$$</div>
+        </div>
+        <p class="text-xs text-slate-500 text-center">
+          dengan parameter positif $a, b, c, d > 0$.
+        </p>
+      </section>
+
+      <!-- 3.3 Analisis Model & Kestabilan -->
+      <section id="analisis" class="pt-6 border-t border-slate-200">
+        <h2 class="text-2xl sm:text-3xl font-bold text-slate-900 flex items-center gap-3 mb-4">
+          <span class="text-indigo-600 font-mono text-xl">3.3</span> Titik Kesetimbangan & Analisis Jacobian
+        </h2>
+        <p class="text-sm sm:text-base">
+          Laju perubahan bernilai nol saat $\frac{dx}{dt} = 0$ dan $\frac{dy}{dt} = 0$, menghasilkan dua titik kesetimbangan:
+        </p>
+
+        <div class="grid sm:grid-cols-2 gap-4 my-4">
+          <div class="p-5 rounded-xl bg-white border border-slate-200 shadow-sm">
+            <h5 class="font-bold text-slate-900 text-base mb-1">1. Titik Asal $E_1(0, 0)$</h5>
+            <p class="text-xs sm:text-sm text-slate-600">Keadaan kepunahan mutlak kedua spesies.</p>
+          </div>
+          <div class="p-5 rounded-xl bg-white border border-slate-200 shadow-sm">
+            <h5 class="font-bold text-slate-900 text-base mb-1">2. Titik Koeksistensi $E_2\left(\frac{c}{d}, \frac{a}{b}\right)$</h5>
+            <p class="text-xs sm:text-sm text-slate-600">Kondisi di mana kedua populasi berdampingan secara konstan.</p>
+          </div>
+        </div>
+
+        <h3 class="text-xl font-bold text-slate-900 mt-6 mb-2">Matriks Jacobian Sistem</h3>
+        <p class="text-sm sm:text-base">
+          Turunan parsial sistem menghasilkan matriks Jacobian:
+        </p>
+        <div class="my-4 p-4 bg-white border border-slate-200 rounded-xl font-mono text-center text-sm sm:text-base text-slate-900 shadow-sm">
+          $$J(x, y) = \begin{bmatrix}
+          a - by & -bx \\
+          dy & -c + dx
+          \end{bmatrix}$$
+        </div>
+
+        <div class="space-y-4 my-4">
+          <div class="p-5 rounded-2xl bg-slate-100/70 border border-slate-200">
+            <h5 class="font-bold text-slate-900 text-sm mb-1 text-red-700"><i class="fa-solid fa-triangle-exclamation mr-1"></i> Kestabilan Titik Asal $E_1(0,0)$</h5>
+            <div class="font-mono text-sm text-slate-900 my-2 text-center">
+              $$J(0,0) = \begin{bmatrix} a & 0 \\ 0 & -c \end{bmatrix} \implies \lambda_1 = a > 0, \; \lambda_2 = -c < 0$$
+            </div>
+            <p class="text-xs sm:text-sm text-slate-600">
+              Karena nilai eigen memiliki tanda berlawanan, titik $(0,0)$ adalah <strong>Titik Pelana (Saddle Point)</strong> yang bersifat <strong>tidak stabil</strong>.
+            </p>
+          </div>
+
+          <div class="p-5 rounded-2xl bg-indigo-50/70 border border-indigo-200">
+            <h5 class="font-bold text-slate-900 text-sm mb-1 text-indigo-700"><i class="fa-solid fa-circle-nodes mr-1"></i> Kestabilan Titik Koeksistensi $E_2\left(\frac{c}{d}, \frac{a}{b}\right)$</h5>
+            <div class="font-mono text-sm text-slate-900 my-2 text-center">
+              $$J(E_2) = \begin{bmatrix} 0 & -\frac{bc}{d} \\ \frac{ad}{b} & 0 \end{bmatrix} \implies \lambda_{1,2} = \pm i \sqrt{ac}$$
+            </div>
+            <p class="text-xs sm:text-sm text-slate-600">
+              Nilai eigen berupa <strong>bilangan imajiner murni</strong>. Titik ini merupakan <strong>Titik Pusat (Center)</strong> dengan kestabilan netral (<em>neutrally stable</em>), menghasilkan gerak osilasi periodik yang kekal.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- 3.4 Sifat Dinamika & Kuantitas Konservatif -->
+      <section id="sifat-dinamika" class="pt-6 border-t border-slate-200">
+        <h2 class="text-2xl sm:text-3xl font-bold text-slate-900 flex items-center gap-3 mb-4">
+          <span class="text-indigo-600 font-mono text-xl">3.4</span> Besaran Kekekalan (Konstanta Gerak)
+        </h2>
+        <p class="text-sm sm:text-base">
+          Membagi $\frac{dy}{dt}$ dengan $\frac{dx}{dt}$ memungkinkan eliminasi parameter waktu $t$:
+        </p>
+        <div class="my-4 p-4 bg-white border border-slate-200 rounded-xl font-mono text-center text-sm sm:text-base text-slate-900 shadow-sm">
+          $$\frac{a - by}{y} dy = \frac{-c + dx}{x} dx$$
+        </div>
+        <p class="text-sm sm:text-base">
+          Integralkan kedua ruas untuk mendapatkan <strong>fungsi invarian kekekalan $V(x,y)$</strong>:
+        </p>
+        <div class="my-4 p-5 bg-white border border-slate-200 rounded-2xl text-center text-lg sm:text-xl font-mono text-slate-900 font-bold shadow-sm">
+          $$V(x, y) = d x - c \ln x + b y - a \ln y = C \quad (\text{konstan})$$
+        </div>
+        <p class="text-sm text-slate-600">
+          Karena $\frac{dV}{dt} = 0$, sistem Lotka–Volterra bersifat <strong>konservatif</strong>. Kurva ketinggian $V(x,y) = C$ membentuk kurva tertutup (<em>closed orbits</em>) yang mengitari titik pusat $E_2$.
+        </p>
+      </section>
+
+      <!-- 3.5 Analisis Visual Komprehensif (Menggantikan Kode Python) -->
+      <section id="analisis-visual" class="pt-6 border-t border-slate-200">
+        <h2 class="text-2xl sm:text-3xl font-bold text-slate-900 flex items-center gap-3 mb-4">
+          <span class="text-indigo-600 font-mono text-xl">3.5</span> Analisis Visual & Eksplorasi Bidang Fase
+        </h2>
+        <p class="text-sm sm:text-base leading-relaxed mb-6">
+          Berikut adalah hasil simulasi komprehensif sistem interaksi mangsa-pemangsa tanpa memerlukan eksekusi kode:
+        </p>
+
+        <!-- GAMBAR 3.1: Osilasi Periodik Temporal -->
+        <div class="my-8 p-6 bg-white rounded-3xl border border-slate-200 shadow-sm">
+          <div class="text-center mb-4">
+            <span class="text-xs font-bold uppercase tracking-wider px-3 py-1 rounded-full bg-indigo-50 text-indigo-700 border border-indigo-100">Gambar 3.1</span>
+            <h4 class="text-lg font-bold text-slate-900 mt-2">Dinamika Temporal: Osilasi Periodik & Jeda Fase</h4>
+            <p class="text-xs text-slate-500">Fluktuasi populasi Mangsa $x(t)$ dan Predator $y(t)$ sepanjang waktu</p>
+          </div>
+
+          <!-- SVG Visual 1 -->
+          <div class="max-w-xl mx-auto my-6">
+            <svg viewBox="0 0 520 250" class="w-full h-auto">
+              <!-- Grid -->
+              <line x1="50" y1="210" x2="480" y2="210" stroke="#cbd5e1" stroke-width="1.5"/>
+              <line x1="50" y1="210" x2="50" y2="25" stroke="#cbd5e1" stroke-width="1.5"/>
+              <text x="475" y="228" font-size="11" fill="#64748b" font-weight="bold">Waktu (t)</text>
+              <text x="15" y="30" font-size="11" fill="#64748b" font-weight="bold">Populasi</text>
+
+              <!-- Prey Wave x(t) (Emerald) -->
+              <path d="M 50 140 C 70 80, 90 50, 110 50 C 130 50, 150 120, 180 190 C 200 205, 210 205, 230 140 C 250 80, 270 50, 290 50 C 310 50, 330 120, 360 190 C 380 205, 390 205, 410 140 C 430 80, 450 50, 470 50" 
+                    fill="none" stroke="#10b981" stroke-width="3"/>
+
+              <!-- Predator Wave y(t) (Amber) - Phase Lagged ~1/4 cycle -->
+              <path d="M 50 170 C 80 180, 110 160, 130 110 C 145 70, 160 70, 175 110 C 195 160, 230 185, 270 170 C 300 160, 315 110, 330 70 C 345 70, 360 110, 380 160 C 410 185, 440 170, 470 110" 
+                    fill="none" stroke="#f59e0b" stroke-width="2.5" stroke-dasharray="6 2"/>
+
+              <!-- Phase Lag Annotations -->
+              <line x1="110" y1="50" x2="110" y2="210" stroke="#94a3b8" stroke-dasharray="3"/>
+              <line x1="152" y1="70" x2="152" y2="210" stroke="#94a3b8" stroke-dasharray="3"/>
+              <line x1="110" y1="40" x2="152" y2="40" stroke="#4f46e5" stroke-width="1.5"/>
+              <text x="131" y="32" font-size="10" fill="#4f46e5" text-anchor="middle" font-weight="bold">Jeda Fase (Phase Lag)</text>
+
+              <!-- Legend -->
+              <rect x="330" y="25" width="140" height="45" rx="8" fill="#ffffff" stroke="#e2e8f0"/>
+              <line x1="340" y1="40" x2="365" y2="40" stroke="#10b981" stroke-width="2.5"/>
+              <text x="372" y="43" font-size="10" fill="#047857" font-weight="bold">Mangsa x(t)</text>
+              <line x1="340" y1="55" x2="365" y2="55" stroke="#f59e0b" stroke-width="2.5" stroke-dasharray="4"/>
+              <text x="372" y="58" font-size="10" fill="#b45309" font-weight="bold">Pemangsa y(t)</text>
+            </svg>
+          </div>
+
+          <!-- Explanation Box -->
+          <div class="bg-slate-50 p-4 rounded-2xl border border-slate-200 text-xs sm:text-sm text-slate-700 leading-relaxed space-y-2">
+            <p><strong>Uraian Analisis Gambar 3.1:</strong></p>
+            <ul class="list-disc list-inside space-y-1 text-slate-600">
+              <li><span class="text-emerald-700 font-semibold">Siklus Tak Berujung:</span> Jumlah mangsa dan predator berfluktuasi periodik dengan frekuensi $\omega = \sqrt{ac}$.</li>
+              <li><span class="text-indigo-700 font-semibold">Fenomena Jeda Fase:</span> Puncak populasi predator selalu tertinggal di belakang puncak populasi mangsa. Ketika mangsa melimpah, predator butuh waktu untuk berkembang biak. Saat pemangsa mencapai puncak, konsumsi berlebih menyebabkan populasi mangsa jatuh drastis, disusul kejatuhan populasi predator.</li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- GAMBAR 3.2: Potret Fase Komprehensif -->
+        <div class="my-8 p-6 bg-white rounded-3xl border border-slate-200 shadow-sm">
+          <div class="text-center mb-4">
+            <span class="text-xs font-bold uppercase tracking-wider px-3 py-1 rounded-full bg-emerald-50 text-emerald-700 border border-emerald-100">Gambar 3.2</span>
+            <h4 class="text-lg font-bold text-slate-900 mt-2">Diagram Potret Fase & Keluarga Orbit Tertutup</h4>
+            <p class="text-xs text-slate-500">Lintasan tertutup konservatif di sekitar titik pusat koeksistensi $E_2$</p>
+          </div>
+
+          <!-- SVG Visual 2 -->
+          <div class="max-w-xl mx-auto my-6">
+            <svg viewBox="0 0 520 300" class="w-full h-auto">
+              <!-- Sumbu Sumbu -->
+              <line x1="50" y1="260" x2="480" y2="260" stroke="#475569" stroke-width="2"/>
+              <line x1="50" y1="260" x2="50" y2="20" stroke="#475569" stroke-width="2"/>
+              <text x="475" y="280" font-size="11" fill="#475569" font-weight="bold">Mangsa (x)</text>
+              <text x="15" y="30" font-size="11" fill="#475569" font-weight="bold">Predator (y)</text>
+
+              <!-- Nullclines Merah Putus-putus -->
+              <line x1="260" y1="260" x2="260" y2="25" stroke="#ef4444" stroke-dasharray="5" stroke-width="1.5"/>
+              <text x="265" y="38" font-size="11" fill="#dc2626" font-weight="bold">Isoklin Vertikal: x = c/d</text>
+
+              <line x1="50" y1="140" x2="480" y2="140" stroke="#ef4444" stroke-dasharray="5" stroke-width="1.5"/>
+              <text x="390" y="132" font-size="11" fill="#dc2626" font-weight="bold">Isoklin: y = a/b</text>
+
+              <!-- Titik E1 (0,0) Pelana -->
+              <circle cx="50" cy="260" r="5" fill="#ef4444"/>
+              <text x="60" y="255" font-size="10" fill="#dc2626" font-weight="bold">E₁ (0,0) Saddle</text>
+
+              <!-- Titik E2 (c/d, a/b) Pusat -->
+              <circle cx="260" cy="140" r="6" fill="#1e293b"/>
+              <text x="270" y="135" font-size="12" fill="#0f172a" font-weight="extrabold">E₂ (c/d, a/b) Pusat</text>
+
+              <!-- Keluarga Orbit Tertutup Konsentris -->
+              <ellipse cx="260" cy="140" rx="60" ry="35" fill="none" stroke="#6366f1" stroke-width="2.5"/>
+              <polygon points="255,102 265,105 265,99" fill="#4f46e5"/>
+
+              <ellipse cx="260" cy="140" rx="110" ry="65" fill="none" stroke="#818cf8" stroke-width="2"/>
+              <polygon points="255,72 265,75 265,69" fill="#6366f1"/>
+
+              <ellipse cx="260" cy="140" rx="160" ry="95" fill="none" stroke="#a5b4fc" stroke-width="1.8"/>
+              <polygon points="255,42 265,45 265,39" fill="#818cf8"/>
+
+              <text x="140" y="85" font-size="10" fill="#4f46e5" font-weight="bold">Arah Gerak Berlawanan Jarum Jam</text>
+            </svg>
+          </div>
+
+          <!-- Explanation Box -->
+          <div class="bg-slate-50 p-4 rounded-2xl border border-slate-200 text-xs sm:text-sm text-slate-700 leading-relaxed space-y-2">
+            <p><strong>Uraian Analisis Gambar 3.2:</strong></p>
+            <ul class="list-disc list-inside space-y-1 text-slate-600">
+              <li><span class="text-slate-800 font-semibold">Kuadran Arah:</span> Perpotongan isoklin merah ($x = c/d$ dan $y = a/b$) membagi bidang fase menjadi 4 wilayah di mana vektor arah gerak selalu memutar berlawanan jarum jam.</li>
+              <li><span class="text-indigo-700 font-semibold">Kekekalan Orbit:</span> Tidak ada orbit yang saling memotong. Ukuran orbit sepenuhnya ditentukan oleh konstanta energi awal $C = V(x_0, y_0)$.</li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- GAMBAR 3.3: Perbandingan Modifikasi Realistis -->
+        <div class="my-8 p-6 bg-white rounded-3xl border border-slate-200 shadow-sm">
+          <div class="text-center mb-4">
+            <span class="text-xs font-bold uppercase tracking-wider px-3 py-1 rounded-full bg-amber-50 text-amber-700 border border-amber-100">Gambar 3.3</span>
+            <h4 class="text-lg font-bold text-slate-900 mt-2">Dampak Modifikasi Realistis: Orbit Netral vs Spiral Teredam vs Siklus Limit</h4>
+            <p class="text-xs text-slate-500">Evolusi potret fase saat model klasik disempurnakan dengan kapasitas logistik dan respon fungsional</p>
+          </div>
+
+          <!-- SVG Visual 3 -->
+          <div class="max-w-xl mx-auto my-6">
+            <svg viewBox="0 0 520 220" class="w-full h-auto">
+              <!-- Panel 1: Klasik (Konservatif) -->
+              <rect x="20" y="20" width="150" height="170" rx="12" fill="#f8fafc" stroke="#e2e8f0"/>
+              <text x="95" y="42" font-size="11" fill="#1e293b" text-anchor="middle" font-weight="bold">A. Model Klasik</text>
+              <ellipse cx="95" cy="115" rx="45" ry="30" fill="none" stroke="#6366f1" stroke-width="2"/>
+              <ellipse cx="95" cy="115" rx="25" ry="18" fill="none" stroke="#818cf8" stroke-width="1.5"/>
+              <circle cx="95" cy="115" r="3" fill="#0f172a"/>
+              <text x="95" y="170" font-size="9" fill="#64748b" text-anchor="middle">Orbit Tertutup Netral</text>
+
+              <!-- Panel 2: Mangsa Logistik (Spiral Stabil) -->
+              <rect x="185" y="20" width="150" height="170" rx="12" fill="#f8fafc" stroke="#e2e8f0"/>
+              <text x="260" y="42" font-size="11" fill="#1e293b" text-anchor="middle" font-weight="bold">B. Mangsa Logistik</text>
+              <path d="M 310 115 C 310 145, 285 145, 260 145 C 235 145, 230 125, 230 115 C 230 95, 250 95, 260 95 C 275 95, 280 110, 280 115 C 280 125, 270 125, 260 125" 
+                    fill="none" stroke="#10b981" stroke-width="2"/>
+              <polygon points="278,112 282,118 276,118" fill="#10b981"/>
+              <circle cx="260" cy="115" r="3" fill="#047857"/>
+              <text x="260" y="170" font-size="9" fill="#047857" text-anchor="middle">Fokus Stabil (Spiral Teredam)</text>
+
+              <!-- Panel 3: Holling II (Limit Cycle) -->
+              <rect x="350" y="20" width="150" height="170" rx="12" fill="#f8fafc" stroke="#e2e8f0"/>
+              <text x="425" y="42" font-size="11" fill="#1e293b" text-anchor="middle" font-weight="bold">C. Respon Holling II</text>
+              <ellipse cx="425" cy="115" rx="42" ry="28" fill="none" stroke="#f59e0b" stroke-width="2.5"/>
+              <path d="M 465 60 C 475 95, 470 115, 467 115" fill="none" stroke="#d97706" stroke-width="1.2" stroke-dasharray="3"/>
+              <path d="M 425 115 C 428 115, 435 118, 435 125 C 435 138, 400 138, 400 115" fill="none" stroke="#d97706" stroke-width="1.2" stroke-dasharray="3"/>
+              <text x="425" y="170" font-size="9" fill="#b45309" text-anchor="middle">Siklus Limit Terisolasi</text>
+            </svg>
+          </div>
+
+          <!-- Explanation Box -->
+          <div class="bg-slate-50 p-4 rounded-2xl border border-slate-200 text-xs sm:text-sm text-slate-700 leading-relaxed space-y-2">
+            <p><strong>Uraian Analisis Gambar 3.3:</strong></p>
+            <ul class="list-disc list-inside space-y-1 text-slate-600">
+              <li><span class="text-indigo-700 font-semibold">Panel A (Model Klasik):</span> Kestabilan netral rentan terhadap gangguan; orbit baru terbentuk jika terjadi guncangan lingkungan.</li>
+              <li><span class="text-emerald-700 font-semibold">Panel B (Mangsa Logistik):</span> Keterbatasan daya tampung habitat meredam fluktuasi liar, mengalirkan lintasan spiral menuju satu titik koeksistensi seimbang yang stabil permanen.</li>
+              <li><span class="text-amber-700 font-semibold">Panel C (Respon Holling II):</span> Kejenuhan makan predator memicu fenomena <em>bifurkasi Hopf</em>, menghasilkan siklus limit yang menarik semua lintasan dari dalam maupun dari luar, sangat cocok merefleksikan ritme populasi di alam nyata.</li>
+            </ul>
+          </div>
+        </div>
+
+      </section>
+
+      <!-- 3.6 Latihan & Diskusi Reflektif -->
+      <section id="latihan" class="pt-6 border-t border-slate-200">
+        <h2 class="text-2xl sm:text-3xl font-bold text-slate-900 flex items-center gap-3 mb-4">
+          <span class="text-indigo-600 font-mono text-xl">3.6</span> Latihan & Pertanyaan Diskusi
+        </h2>
+        
+        <div class="space-y-4 my-6">
+          <div class="p-5 rounded-2xl bg-white border border-slate-200 shadow-sm">
+            <h5 class="font-bold text-slate-900 text-sm mb-2 text-indigo-700">Soal 1: Prinsip Volterra & Dampak Insektisida</h5>
+            <p class="text-sm text-slate-600">
+              Misalkan penyemprotan insektisida mematikan serangga mangsa (hama) dan serangga pemangsa (musuh alami) dengan laju per kapita yang sama $\epsilon > 0$:
+              $$\frac{dx}{dt} = (a - \epsilon)x - bxy, \qquad \frac{dy}{dt} = -(c + \epsilon)y + dxy$$
+              Tunjukkan secara aljabar bahwa rerata populasi mangsa $\bar{x} = \frac{c + \epsilon}{d}$ justru meningkat, sedangkan rerata pemangsa $\bar{y} = \frac{a - \epsilon}{b}$ menurun. Apa dampaknya terhadap strategi Pengendalian Hama Terpadu (PHT)?
+            </p>
+          </div>
+
+          <div class="p-5 rounded-2xl bg-white border border-slate-200 shadow-sm">
+            <h5 class="font-bold text-slate-900 text-sm mb-2 text-indigo-700">Soal 2: Model Kompetisi Dua Spesies (Gause)</h5>
+            <p class="text-sm text-slate-600">
+              Dua spesies bersaing memperebutkan habitat yang sama:
+              $$\frac{dx_1}{dt} = r_1 x_1 \left(1 - \frac{x_1 + \alpha x_2}{K_1}\right), \qquad \frac{dx_2}{dt} = r_2 x_2 \left(1 - \frac{x_2 + \beta x_1}{K_2}\right)$$
+              Tentukan syarat analitik parameter $\alpha, \beta, K_1, K_2$ agar terjadi koeksistensi stabil, atau salah satu spesies punah (<em>Prinsip Eksklusi Kompetitif</em>)!
+            </p>
+          </div>
+        </div>
+
+        <h3 class="text-xl font-bold text-slate-900 mt-8 mb-2">Penutup Bab</h3>
+        <p class="text-sm sm:text-base text-slate-700">
+          Model Lotka–Volterra membuktikan kemampuan sistem persamaan diferensial nonlinier berdimensi dua dalam menjelaskan ritme alamiah ekosistem. Pada bab selanjutnya (Bab 4), kita akan memanfaatkan kerangka interaksi massa aksi ini untuk memodelkan transmisi penyakit infeksius melalui <strong>Model Epidemiologi: SIR dan Variannya</strong>.
+        </p>
+      </section>
+
+    </article>
+
+    <!-- Navigation Footer between Chapters -->
+    <div class="mt-16 pt-8 border-t border-slate-200 flex flex-col sm:flex-row items-center justify-between gap-4">
+      <a href="bab2.html" class="inline-flex items-center gap-2 text-sm font-semibold text-slate-600 hover:text-indigo-600 transition">
+        <i class="fa-solid fa-arrow-left"></i>
+        <span>Kembali ke Bab 2</span>
+      </a>
+      <a href="bab4.html" class="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-semibold text-sm shadow-md shadow-indigo-200 transition">
+        <span>Lanjut ke Bab 4: Epidemiologi SIR</span>
+        <i class="fa-solid fa-arrow-right"></i>
+      </a>
+    </div>
+
+  </main>
+
+  <!-- Footer -->
+  <footer class="bg-white border-t border-slate-200 py-8 text-center text-xs text-slate-500 mt-16">
+    <div class="max-w-5xl mx-auto px-4">
+      &copy; 2025 Dr. Mohammad Jamhuri, M.Si. &bull; Program Studi Matematika UIN Maulana Malik Ibrahim Malang.
+    </div>
+  </footer>
+
+</body>
+</html>

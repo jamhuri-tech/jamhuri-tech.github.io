@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html lang="id" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bab 8: Persamaan Beda dan Model Diskrit - Pemodelan Matematika</title>
+  <meta name="description" content="Bab 8 Buku Ajar Pemodelan Matematika: Persamaan Beda, Kestabilan Titik Tetap, Cobweb Plot, Peta Logistik Diskrit, dan Dinamika Kaos oleh Dr. Mohammad Jamhuri, M.Si.">
+  
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  
+  <!-- MathJax CDN untuk render rumus matematika LaTeX -->
+  <script>
+    window.MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']],
+        displayMath: [['$$', '$$'], ['\\[', '\\]']]
+      }
+    };
+  </script>
+  <script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+  <!-- Google Fonts & Font Awesome -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+            mono: ['"JetBrains Mono"', 'monospace'],
+          }
+        }
+      }
+    }
+  </script>
+</head>
+<body class="bg-slate-50 text-slate-800 antialiased selection:bg-indigo-500 selection:text-white">
+
+  <!-- Header Nav -->
+  <header class="sticky top-0 z-50 bg-white/95 backdrop-blur-md border-b border-slate-200">
+    <div class="max-w-5xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
+      <div class="flex items-center gap-4">
+        <a href="index.html" class="flex items-center gap-2 text-slate-700 hover:text-indigo-600 transition font-semibold text-sm">
+          <i class="fa-solid fa-arrow-left text-xs"></i>
+          <span>Beranda</span>
+        </a>
+        <span class="text-slate-300">|</span>
+        <a href="bab7.html" class="text-xs font-semibold text-slate-500 hover:text-indigo-600 transition">
+          &larr; Bab 7: Leontief
+        </a>
+      </div>
+      <div class="text-xs font-mono text-slate-500 hidden sm:block">
+        Mata Kuliah MAT61730 &bull; Bab 08
+      </div>
+      <div class="flex items-center gap-3">
+        <a href="main.pdf" class="inline-flex items-center gap-2 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 text-xs font-bold px-3 py-1.5 rounded-lg border border-indigo-200 transition">
+          <i class="fa-solid fa-file-pdf"></i>
+          <span>Unduh PDF</span>
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Content Container -->
+  <main class="max-w-4xl mx-auto px-4 sm:px-6 py-12">
+    
+    <!-- Chapter Header -->
+    <div class="border-b border-slate-200 pb-8 mb-10">
+      <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-indigo-100 text-indigo-800 text-xs font-mono font-bold mb-4">
+        BAB 08
+      </div>
+      <h1 class="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-slate-900 tracking-tight leading-tight">
+        Persamaan Beda dan Model Diskrit
+      </h1>
+      <p class="text-base sm:text-lg text-slate-600 mt-4 leading-relaxed">
+        Menyelidiki dinamika waktu diskrit, persamaan beda linier orde 1 dan 2, kestabilan titik tetap lokal, metode grafis diagram sarang laba-laba (*cobweb plot*), peta logistik diskrit, bifurkasi penggandaan periode, serta transisi menuju kekacauan deterministik (*chaos*).
+      </p>
+      <div class="flex items-center gap-4 mt-6 text-xs text-slate-500 pt-4 border-t border-slate-100">
+        <div><i class="fa-solid fa-user-pen mr-1 text-indigo-600"></i> Dr. Mohammad Jamhuri, M.Si.</div>
+        <div><i class="fa-solid fa-book-bookmark mr-1 text-indigo-600"></i> Program Studi Matematika UIN Malang</div>
+      </div>
+    </div>
+
+    <!-- Article Body -->
+    <article class="prose prose-slate max-w-none space-y-10 text-slate-700 leading-relaxed text-base sm:text-lg">
+
+      <!-- 8.1 Pendahuluan -->
+      <section id="pendahuluan">
+        <h2 class="text-2xl sm:text-3xl font-bold text-slate-900 flex items-center gap-3 mb-4">
+          <span class="text-indigo-600 font-mono text-xl">8.1</span> Pendahuluan
+        </h2>
+        <p>
+          Dalam pemodelan kontinu, kita memperlakukan waktu sebagai variabel mulus ($t \in \mathbb{R}$) dan mendeskripsikan laju perubahan menggunakan turunan $\frac{dx}{dt}$. Namun dalam banyak fenomena nyata, observasi hanya terjadi pada interval waktu terpisah (diskrit): sensus tahunan penduduk, laporan keuangan triwulanan, atau siklus perkembangbiakan serangga musiman di mana generasi dewasa bertelur lalu mati sebelum generasi berikutnya menetas.
+        </p>
+        <p>
+          Pada konteks tersebut, alat matematis yang tepat bukanlah persamaan diferensial, melainkan <strong>Persamaan Beda (*Difference Equations* atau Peta Rekursif)</strong>. Menariknya, sistem diskrit nonlinier satu dimensi yang tampak sangat sederhana dapat memperlihatkan kompleksitas perilaku yang luar biasa kaya—mulai dari titik tetap stabil, osilasi periodik, hingga <strong>kaos deterministik (*deterministic chaos*)</strong> yang mustahil muncul pada persamaan diferensial biasa 1D.
+        </p>
+      </section>
+
+      <!-- 8.2 Definisi Persamaan Beda -->
+      <section id="definisi" class="pt-6 border-t border-slate-200">
+        <h2 class="text-2xl sm:text-3xl font-bold text-slate-900 flex items-center gap-3 mb-4">
+          <span class="text-indigo-600 font-mono text-xl">8.2</span> Definisi Persamaan Beda & Orde Sistem
+        </h2>
+        <p class="text-sm sm:text-base">
+          Persamaan beda menyatakan nilai variabel pada langkah berikutnya ($x_{n+1}$) sebagai fungsi dari nilai-nilai pada langkah sebelumnya:
+        </p>
+
+        <!-- Formula Box Light -->
+        <div class="my-4 p-5 bg-indigo-50/70 border border-indigo-200 rounded-2xl text-center text-slate-900 font-mono text-base sm:text-lg shadow-sm">
+          $$x_{n+1} = f(x_n), \qquad n = 0, 1, 2, \dots$$
+        </div>
+        <p class="text-xs sm:text-sm text-slate-600">
+          Persamaan di atas disebut persamaan beda otonom orde pertama. Jika $x_{n+1}$ bergantung pada $k$ langkah sebelumnya ($x_{n+1} = f(x_n, x_{n-1}, \dots, x_{n-k+1})$), maka persamaan tersebut berorde $k$.
+        </p>
+
+        <h3 class="text-xl font-bold text-slate-900 mt-6 mb-2">Persamaan Beda Linier Orde 1 & 2</h3>
+        <div class="grid sm:grid-cols-2 gap-4 my-4">
+          <div class="p-4 rounded-xl bg-white border border-slate-200 shadow-sm">
+            <h5 class="font-bold text-slate-900 text-xs uppercase tracking-wider text-indigo-700 mb-2">Linier Orde Pertama</h5>
+            <div class="font-mono text-xs text-slate-800 text-center my-2">
+              $$x_{n+1} = a x_n + b \implies x_n = a^n x_0 + b \frac{1 - a^n}{1 - a}$$
+            </div>
+            <p class="text-xs text-slate-500">Stabil konvergen jika $|a| < 1$, divergen jika $|a| > 1$.</p>
+          </div>
+          <div class="p-4 rounded-xl bg-white border border-slate-200 shadow-sm">
+            <h5 class="font-bold text-slate-900 text-xs uppercase tracking-wider text-indigo-700 mb-2">Linier Orde Kedua (Contoh: Fibonacci)</h5>
+            <div class="font-mono text-xs text-slate-800 text-center my-2">
+              $$x_{n+2} - x_{n+1} - x_n = 0 \implies \lambda^2 - \lambda - 1 = 0$$
+            </div>
+            <p class="text-xs text-slate-500">Akar karakteristik $\lambda_{1,2} = \frac{1 \pm \sqrt{5}}{2}$ menghasilkan rasio emas ($\Phi \approx 1.618$).</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- 8.3 Kestabilan Titik Tetap & Cobweb -->
+      <section id="titik-tetap" class="pt-6 border-t border-slate-200">
+        <h2 class="text-2xl sm:text-3xl font-bold text-slate-900 flex items-center gap-3 mb-4">
+          <span class="text-indigo-600 font-mono text-xl">8.3</span> Kestabilan Titik Tetap & Metode Cobweb
+        </h2>
+        <p class="text-sm sm:text-base">
+          Titik $x^*$ disebut <strong>titik tetap (*fixed point*)</strong> dari peta $x_{n+1} = f(x_n)$ jika nilai variabel tidak lagi berubah saat dipetakan:
+        </p>
+        <div class="my-3 p-4 bg-white border border-slate-200 rounded-xl text-center text-lg font-mono text-slate-900 font-bold shadow-sm">
+          $$f(x^*) = x^*$$
+        </div>
+        <p class="text-sm text-slate-600">
+          Secara geometris, titik tetap adalah titik perpotongan antara kurva fungsi $y = f(x)$ dan garis diagonal identitas $y = x$.
+        </p>
+
+        <!-- Kriteria Kestabilan Card -->
+        <div class="my-6 p-5 bg-slate-100/70 rounded-2xl border border-slate-200">
+          <h4 class="font-bold text-slate-900 text-sm uppercase tracking-wider text-indigo-700 mb-2">Kriteria Kestabilan Linier Lokal</h4>
+          <p class="text-sm text-slate-600 leading-relaxed">
+            Misalkan perturbasi kecil didefinisikan sebagai $\epsilon_n = x_n - x^*$. Melalui ekspansi deret Taylor orde pertama:
+          </p>
+          <div class="text-center font-mono text-slate-900 text-sm sm:text-base my-2">
+            $$\epsilon_{n+1} \approx f'(x^*) \epsilon_n \implies \epsilon_n \approx [f'(x^*)]^n \epsilon_0$$
+          </div>
+          <ul class="list-disc list-inside space-y-1.5 text-xs sm:text-sm text-slate-700 mt-2">
+            <li><strong>Jika $|f'(x^*)| < 1$:</strong> Perturbasi mengecil secara eksponensial ($\epsilon_n \to 0$). Titik $x^*$ bersifat <strong>stabil asimtotik (*attractor / sink*)</strong>.</li>
+            <li><strong>Jika $|f'(x^*)| > 1$:</strong> Perturbasi membesar menjauhi titik tetap. Titik $x^*$ bersifat <strong>tidak stabil (*repeller / source*)</strong>.</li>
+            <li><strong>Jika $|f'(x^*)| = 1$:</strong> Kondisi marjinal/kritis (bifurkasi).</li>
+          </ul>
+        </div>
+      </section>
+
+      <!-- 8.4 Peta Logistik & Kaos -->
+      <section id="peta-logistik" class="pt-6 border-t border-slate-200">
+        <h2 class="text-2xl sm:text-3xl font-bold text-slate-900 flex items-center gap-3 mb-4">
+          <span class="text-indigo-600 font-mono text-xl">8.4</span> Peta Logistik Diskrit & Rute Menuju Kaos
+        </h2>
+        <p class="text-sm sm:text-base">
+          Salah satu persamaan paling terkenal dalam seluruh sejarah sains matematika dipopulerkan oleh biologis teoretis <strong>Robert May</strong> (1976) melalui <strong>Peta Logistik Diskrit (*Logistic Map*)</strong>:
+        </p>
+
+        <!-- Formula Box Light -->
+        <div class="my-4 p-5 bg-indigo-50/70 border border-indigo-200 rounded-2xl text-center text-slate-900 font-mono text-lg sm:text-xl font-bold shadow-sm">
+          $$x_{n+1} = r x_n (1 - x_n), \qquad x_n \in [0, 1], \quad 0 < r \le 4$$
+        </div>
+        <p class="text-xs sm:text-sm text-slate-600">
+          di mana $x_n$ adalah fraksi populasi terhadap kapasitas maksimum, dan $r$ adalah parameter laju reproduksi.
+        </p>
+
+        <h3 class="text-xl font-bold text-slate-900 mt-6 mb-2">Transisi Perilaku Dinamik terhadap Parameter $r$:</h3>
+        <div class="space-y-3 my-4 text-xs sm:text-sm">
+          <div class="p-4 rounded-xl bg-white border border-slate-200 shadow-sm">
+            <strong class="text-indigo-700">1. $0 < r \le 1$:</strong> Populasi punah ($x^* = 0$ stabil).
+          </div>
+          <div class="p-4 rounded-xl bg-white border border-slate-200 shadow-sm">
+            <strong class="text-indigo-700">2. $1 < r \le 3$:</strong> Populasi konvergen ke titik tetap positif $x^* = 1 - 1/r$.
+          </div>
+          <div class="p-4 rounded-xl bg-white border border-slate-200 shadow-sm">
+            <strong class="text-indigo-700">3. $3 < r < 3.449$:</strong> Titik tetap kehilangan kestabilan; muncul <strong>siklus periode-2</strong> (berosilasi bolak-balik antara 2 nilai).
+          </div>
+          <div class="p-4 rounded-xl bg-white border border-slate-200 shadow-sm">
+            <strong class="text-indigo-700">4. $3.449 < r < 3.5699$:</strong> Kaskade bifurkasi penggandaan periode (*period doubling cascade*: siklus 4, 8, 16, 32, ...). Jarak interval parameter memendek memenuhi konstanta universal Feigenbaum $\delta \approx 4.6692$.
+          </div>
+          <div class="p-4 rounded-xl bg-white border border-slate-200 shadow-sm">
+            <strong class="text-red-700">5. $r > 3.5699$:</strong> Sistem memasuki rezim <strong>Kaos Deterministik (*Deterministic Chaos*)</strong>! Lintasan tidak berulang, sangat peka terhadap kondisi awal (*Butterfly Effect*), namun tetap terikat pada batas deterministik $[0, 1]$.
+          </div>
+        </div>
+      </section>
+
+      <!-- 8.5 Analisis Visual Komprehensif -->
+      <section id="analisis-visual" class="pt-6 border-t border-slate-200">
+        <h2 class="text-2xl sm:text-3xl font-bold text-slate-900 flex items-center gap-3 mb-4">
+          <span class="text-indigo-600 font-mono text-xl">8.5</span> Analisis Visual & Interpretasi Grafis Dinamika Diskrit
+        </h2>
+        <p class="text-sm sm:text-base leading-relaxed mb-6">
+          Berikut adalah visualisasi mandiri komprehensif yang membedah metode grafis cobwebbing, kaskade bifurkasi, dan sensitivitas kondisi awal tanpa memerlukan eksekusi kode:
+        </p>
+
+        <!-- GAMBAR 8.1: Cobweb Plot -->
+        <div class="my-8 p-6 bg-white rounded-3xl border border-slate-200 shadow-sm">
+          <div class="text-center mb-4">
+            <span class="text-xs font-bold uppercase tracking-wider px-3 py-1 rounded-full bg-indigo-50 text-indigo-700 border border-indigo-100">Gambar 8.1</span>
+            <h4 class="text-lg font-bold text-slate-900 mt-2">Metode Grafis Diagram Sarang Laba-Laba (*Cobweb Plot*)</h4>
+            <p class="text-xs text-slate-500">Konvergensi lintasan spiral diskrit menuju titik tetap stabil $x^*$</p>
+          </div>
+
+          <!-- SVG Visual 1 -->
+          <div class="max-w-xl mx-auto my-6">
+            <svg viewBox="0 0 520 280" class="w-full h-auto">
+              <!-- Grid & Axis -->
+              <line x1="60" y1="230" x2="480" y2="230" stroke="#cbd5e1" stroke-width="1.5"/>
+              <line x1="60" y1="230" x2="60" y2="30" stroke="#cbd5e1" stroke-width="1.5"/>
+              <text x="475" y="248" font-size="11" fill="#64748b" font-weight="bold">x_n</text>
+              <text x="25" y="35" font-size="11" fill="#64748b" font-weight="bold">x_{n+1}</text>
+
+              <!-- Diagonal Line y = x (45 degrees) -->
+              <line x1="60" y1="230" x2="440" y2="40" stroke="#94a3b8" stroke-dasharray="4" stroke-width="1.5"/>
+              <text x="445" y="38" font-size="10" fill="#64748b">Garis Identitas y = x</text>
+
+              <!-- Parabola y = f(x) (Logistic Curve) -->
+              <!-- Peak at x=250, y=50 -->
+              <path d="M 60 230 Q 250 10, 440 230" fill="none" stroke="#4f46e5" stroke-width="3"/>
+              <text x="250" y="35" font-size="11" fill="#4338ca" text-anchor="middle" font-weight="bold">y = f(x) = r x (1 - x)</text>
+
+              <!-- Fixed Point x* (Intersection) at approx (325, 98) -->
+              <circle cx="325" cy="98" r="5" fill="#dc2626"/>
+              <text x="335" y="95" font-size="11" fill="#dc2626" font-weight="bold">Titik Tetap x*</text>
+
+              <!-- Cobweb Spiral Inward Path (Emerald) -->
+              <!-- x0 = 120 -> y1=170 -> x1=170 -> y2=125 -> x2=125 -> y3=110 -> x3=110 -> ... -->
+              <path d="M 120 230 L 120 170 L 170 170 L 170 125 L 235 125 L 235 105 L 285 105 L 285 98 L 325 98" 
+                    fill="none" stroke="#10b981" stroke-width="2.5"/>
+
+              <!-- Initial Point Point x0 -->
+              <circle cx="120" cy="230" r="4" fill="#047857"/>
+              <text x="120" y="248" font-size="10" fill="#047857" text-anchor="middle" font-weight="bold">x₀</text>
+
+              <text x="200" y="160" font-size="9" fill="#059669" font-weight="bold">Spiral Konvergen (|f'(x*)| &lt; 1)</text>
+            </svg>
+          </div>
+
+          <div class="bg-slate-50 p-4 rounded-2xl border border-slate-200 text-xs sm:text-sm text-slate-700 leading-relaxed">
+            <p><strong>Cara Membaca Cobweb:</strong> Dari titik awal $x_0$, tarik garis vertikal ke kurva fungsi $f(x)$ untuk mendapatkan $x_1$. Lalu tarik garis horizontal ke garis identitas $y = x$ untuk mentransfer nilai menjadi input berikutnya. Jika kemiringan $|f'(x^*)| < 1$, garis membentuk spiral yang menyempit masuk ke titik tetap stabil $x^*$.</p>
+          </div>
+        </div>
+
+        <!-- GAMBAR 8.2: Diagram Bifurkasi -->
+        <div class="my-8 p-6 bg-white rounded-3xl border border-slate-200 shadow-sm">
+          <div class="text-center mb-4">
+            <span class="text-xs font-bold uppercase tracking-wider px-3 py-1 rounded-full bg-emerald-50 text-emerald-700 border border-emerald-100">Gambar 8.2</span>
+            <h4 class="text-lg font-bold text-slate-900 mt-2">Diagram Bifurkasi Penggandaan Periode Menuju Kaos</h4>
+            <p class="text-xs text-slate-500">Peta transisi nilai limit populasi jangka panjang $x_\infty$ terhadap laju parameter $r$</p>
+          </div>
+
+          <!-- SVG Visual 2 -->
+          <div class="max-w-xl mx-auto my-6">
+            <svg viewBox="0 0 520 260" class="w-full h-auto">
+              <!-- Grid -->
+              <line x1="50" y1="220" x2="480" y2="220" stroke="#cbd5e1" stroke-width="1.5"/>
+              <line x1="50" y1="220" x2="50" y2="25" stroke="#cbd5e1" stroke-width="1.5"/>
+              <text x="475" y="238" font-size="11" fill="#64748b" font-weight="bold">Parameter r</text>
+              <text x="15" y="30" font-size="11" fill="#64748b" font-weight="bold">x_∞</text>
+
+              <text x="50" y="235" font-size="10" fill="#94a3b8" text-anchor="middle">2.5</text>
+              <text x="170" y="235" font-size="10" fill="#94a3b8" text-anchor="middle">3.0</text>
+              <text x="270" y="235" font-size="10" fill="#94a3b8" text-anchor="middle">3.45</text>
+              <text x="350" y="235" font-size="10" fill="#dc2626" text-anchor="middle" font-weight="bold">3.57</text>
+              <text x="450" y="235" font-size="10" fill="#94a3b8" text-anchor="middle">4.0</text>
+
+              <!-- Single branch r in [2.5, 3.0] -->
+              <path d="M 50 140 C 100 135, 140 130, 170 125" fill="none" stroke="#4f46e5" stroke-width="2.5"/>
+              <text x="100" y="115" font-size="10" fill="#4f46e5" font-weight="bold">1 Titik Tetap</text>
+
+              <!-- Period 2 branch r in [3.0, 3.45] -->
+              <!-- Splits at (170, 125) into top branch and bottom branch -->
+              <path d="M 170 125 Q 220 90, 270 70" fill="none" stroke="#059669" stroke-width="2"/>
+              <path d="M 170 125 Q 220 160, 270 180" fill="none" stroke="#059669" stroke-width="2"/>
+              <text x="220" y="60" font-size="10" fill="#047857" font-weight="bold">Siklus 2</text>
+
+              <!-- Period 4 branch r in [3.45, 3.57] -->
+              <path d="M 270 70 Q 310 55, 350 45" fill="none" stroke="#d97706" stroke-width="1.5"/>
+              <path d="M 270 70 Q 310 85, 350 90" fill="none" stroke="#d97706" stroke-width="1.5"/>
+              <path d="M 270 180 Q 310 165, 350 160" fill="none" stroke="#d97706" stroke-width="1.5"/>
+              <path d="M 270 180 Q 310 195, 350 205" fill="none" stroke="#d97706" stroke-width="1.5"/>
+              <text x="300" y="40" font-size="9" fill="#b45309" font-weight="bold">Siklus 4</text>
+
+              <!-- Chaotic Region r > 3.57 -->
+              <rect x="350" y="25" width="130" height="195" fill="#fef2f2" opacity="0.6"/>
+              <line x1="350" y1="220" x2="350" y2="25" stroke="#ef4444" stroke-dasharray="3"/>
+              
+              <!-- Shaded Chaotic Dense Bands in SVG -->
+              <path d="M 350 45 Q 400 30, 480 35 M 350 90 Q 410 110, 480 85 M 350 160 Q 400 145, 480 170 M 350 205 Q 420 215, 480 205" 
+                    fill="none" stroke="#ef4444" stroke-width="1"/>
+              <text x="415" y="115" font-size="12" fill="#991b1b" text-anchor="middle" font-weight="extrabold">REJIM KAOS</text>
+              <text x="415" y="130" font-size="9" fill="#b91c1c" text-anchor="middle">(Deterministic Chaos)</text>
+            </svg>
+          </div>
+
+          <div class="bg-slate-50 p-4 rounded-2xl border border-slate-200 text-xs sm:text-sm text-slate-700 leading-relaxed space-y-1">
+            <p><strong>Wawasan Gambar 8.2:</strong> Di sebelah kiri garis $r = 3.57$, masa depan populasi dapat diprediksi secara periodik teratur. Begitu melewati nilai kritis $r_{\infty} \approx 3.5699$, kurva pecah menjadi pita awan tak berhingga di mana populasi berfluktuasi secara acak murni meskipun sistemnya 100% deterministik.</p>
+          </div>
+        </div>
+
+        <!-- GAMBAR 8.3: Efek Kupu-Kupu (Butterfly Effect) -->
+        <div class="my-8 p-6 bg-white rounded-3xl border border-slate-200 shadow-sm">
+          <div class="text-center mb-4">
+            <span class="text-xs font-bold uppercase tracking-wider px-3 py-1 rounded-full bg-red-50 text-red-700 border border-red-100">Gambar 8.3</span>
+            <h4 class="text-lg font-bold text-slate-900 mt-2">Sensitivitas Ekstrem Kondisi Awal (*The Butterfly Effect*)</h4>
+            <p class="text-xs text-slate-500">Divergensi dua lintasan pada peta logistik kaos ($r = 3.9$) dengan selisih awal hanya $\Delta x_0 = 0.0001$</p>
+          </div>
+
+          <!-- SVG Visual 3 -->
+          <div class="max-w-xl mx-auto my-6">
+            <svg viewBox="0 0 520 240" class="w-full h-auto">
+              <!-- Grid -->
+              <line x1="50" y1="200" x2="480" y2="200" stroke="#cbd5e1" stroke-width="1.5"/>
+              <line x1="50" y1="200" x2="50" y2="25" stroke="#cbd5e1" stroke-width="1.5"/>
+              <text x="475" y="218" font-size="11" fill="#64748b" font-weight="bold">Iterasi (n)</text>
+              <text x="15" y="30" font-size="11" fill="#64748b" font-weight="bold">x_n</text>
+
+              <!-- Iteration Ticks -->
+              <text x="50" y="215" font-size="10" fill="#94a3b8" text-anchor="middle">0</text>
+              <text x="135" y="215" font-size="10" fill="#94a3b8" text-anchor="middle">5</text>
+              <text x="220" y="215" font-size="10" fill="#94a3b8" text-anchor="middle">10</text>
+              <text x="305" y="215" font-size="10" fill="#dc2626" text-anchor="middle" font-weight="bold">15 (Pisah!)</text>
+              <text x="390" y="215" font-size="10" fill="#94a3b8" text-anchor="middle">20</text>
+              <text x="475" y="215" font-size="10" fill="#94a3b8" text-anchor="middle">25</text>
+
+              <!-- Path 1 (x0 = 0.5000, Blue Solid) -->
+              <path d="M 50 110 L 70 50 L 90 180 L 110 80 L 130 160 L 150 70 L 170 150 L 190 60 L 210 170 L 230 75 L 250 165 L 270 80 L 305 60 L 340 180 L 375 70 L 410 190 L 445 60 L 475 170" 
+                    fill="none" stroke="#3b82f6" stroke-width="2.5"/>
+
+              <!-- Path 2 (x0 = 0.5001, Red Dashed) -->
+              <!-- Overlaps up to n=12, then completely separates -->
+              <path d="M 50 110 L 70 50 L 90 180 L 110 80 L 130 160 L 150 70 L 170 150 L 190 60 L 210 170 L 230 73 L 250 168 L 270 86 L 305 170 L 340 65 L 375 190 L 410 80 L 445 180 L 475 65" 
+                    fill="none" stroke="#ef4444" stroke-width="2" stroke-dasharray="4"/>
+
+              <!-- Separation Point Annotations -->
+              <line x1="305" y1="200" x2="305" y2="35" stroke="#ef4444" stroke-dasharray="2"/>
+              <text x="315" y="45" font-size="10" fill="#dc2626" font-weight="bold">Divergensi Eksponensial (Lyapunov λ &gt; 0)</text>
+
+              <!-- Legend -->
+              <rect x="70" y="30" width="180" height="40" rx="8" fill="#ffffff" stroke="#e2e8f0"/>
+              <line x1="80" y1="42" x2="105" y2="42" stroke="#3b82f6" stroke-width="2.5"/>
+              <text x="112" y="45" font-size="9" fill="#1e40af" font-weight="bold">Kondisi Awal x₀ = 0.5000</text>
+              <line x1="80" y1="56" x2="105" y2="56" stroke="#ef4444" stroke-width="2" stroke-dasharray="4"/>
+              <text x="112" y="59" font-size="9" fill="#991b1b" font-weight="bold">Kondisi Awal x₀ = 0.5001</text>
+            </svg>
+          </div>
+
+          <div class="bg-slate-50 p-4 rounded-2xl border border-slate-200 text-xs sm:text-sm text-slate-700 leading-relaxed">
+            <p><strong>Makna Filosofis Gambar 8.3:</strong> Pada $10$ langkah pertama, kedua lintasan tampak menyatu tanpa celah. Namun karena eksponen Lyapunov bernilai positif ($\lambda > 0$), perbedaan sekecil $0.0001$ dilipatgandakan secara eksponensial sehingga setelah langkah ke-15, kedua masa depan sistem saling bertolak belakang. Inilah alasan mendasar mengapa prakiraan cuaca atau pasar modal jangka panjang secara teoretis mustahil dibuat presisi 100%.</p>
+          </div>
+        </div>
+
+      </section>
+
+      <!-- 8.6 Latihan & Diskusi Reflektif -->
+      <section id="latihan" class="pt-6 border-t border-slate-200">
+        <h2 class="text-2xl sm:text-3xl font-bold text-slate-900 flex items-center gap-3 mb-4">
+          <span class="text-indigo-600 font-mono text-xl">8.6</span> Latihan & Pertanyaan Diskusi
+        </h2>
+        
+        <div class="space-y-4 my-6">
+          <div class="p-5 rounded-2xl bg-white border border-slate-200 shadow-sm">
+            <h5 class="font-bold text-slate-900 text-sm mb-2 text-indigo-700">Soal 1: Analisis Kestabilan Peta Kuadratik</h5>
+            <p class="text-sm text-slate-600">
+              Diberikan peta diskrit $x_{n+1} = x_n^2 - \frac{1}{4}$. Tentukan semua titik tetapnya, hitung nilai turunan $f'(x^*)$, dan tentukan kestabilan masing-masing titik tetap tersebut! Gambarkan sketsa *cobweb plot*-nya!
+            </p>
+          </div>
+
+          <div class="p-5 rounded-2xl bg-white border border-slate-200 shadow-sm">
+            <h5 class="font-bold text-slate-900 text-sm mb-2 text-indigo-700">Soal 2: Model Pasar Cobweb Ekonomi</h5>
+            <p class="text-sm text-slate-600">
+              Dalam model pasar pertanian, penawaran petani bergantung pada harga musim lalu ($Q_{s,t} = c + d P_{t-1}$), sedangkan permintaan konsumen bergantung pada harga saat ini ($Q_{d,t} = a - b P_t$). Susunlah persamaan beda untuk harga $P_t$, dan buktikan bahwa harga akan stabil konvergen menuju kesetimbangan jika dan hanya jika kurva penawaran lebih landai dibanding kurva permintaan ($d/b < 1$)!
+            </p>
+          </div>
+        </div>
+
+        <h3 class="text-xl font-bold text-slate-900 mt-8 mb-2">Penutup Bab</h3>
+        <p class="text-sm sm:text-base text-slate-700">
+          Persamaan beda membuktikan bahwa determinisme tidak identik dengan keteraturan sederhana; kesederhanaan formula aljabar dapat memuat kekacauan yang tak terhingga. Pada bab berikutnya (Bab 9), kita beralih ke analisis topologi dan struktur konektivitas melalui <strong>Model Berbasis Graf</strong> untuk memodelkan jaringan transportasi dan jejaring sosial.
+        </p>
+      </section>
+
+    </article>
+
+    <!-- Navigation Footer between Chapters -->
+    <div class="mt-16 pt-8 border-t border-slate-200 flex flex-col sm:flex-row items-center justify-between gap-4">
+      <a href="bab7.html" class="inline-flex items-center gap-2 text-sm font-semibold text-slate-600 hover:text-indigo-600 transition">
+        <i class="fa-solid fa-arrow-left"></i>
+        <span>Kembali ke Bab 7: Leontief</span>
+      </a>
+      <a href="index.html#daftar-bab" class="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-semibold text-sm shadow-md shadow-indigo-200 transition">
+        <span>Daftar Bab & Silabus</span>
+        <i class="fa-solid fa-list"></i>
+      </a>
+    </div>
+
+  </main>
+
+  <!-- Footer -->
+  <footer class="bg-white border-t border-slate-200 py-8 text-center text-xs text-slate-500 mt-16">
+    <div class="max-w-5xl mx-auto px-4">
+      &copy; 2025 Dr. Mohammad Jamhuri, M.Si. &bull; Program Studi Matematika UIN Maulana Malik Ibrahim Malang.
+    </div>
+  </footer>
+
+</body>
+</html>

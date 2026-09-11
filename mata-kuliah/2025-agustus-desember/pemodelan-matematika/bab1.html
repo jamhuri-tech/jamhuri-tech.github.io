@@ -1,0 +1,1051 @@
+<!DOCTYPE html>
+<html lang="id" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bab 1: Pengantar Pemodelan Matematika - Dr. Mohammad Jamhuri, M.Si.</title>
+  <meta name="description" content="Bab 1 Buku Ajar Pemodelan Matematika: Filosofi, Definisi, 6 Tahap Siklus Pemodelan, Klasifikasi Model, dan Studi Kasus Populasi Malthus vs Logistik.">
+
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400;1,600&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  
+  <!-- Font Awesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  
+  <!-- Chart.js for Interactive Simulation -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+  <!-- MathJax Configuration and Script -->
+  <script>
+    window.MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']],
+        displayMath: [['$$', '$$'], ['\\[', '\\]']],
+        processEscapes: true
+      },
+      options: {
+        skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+    };
+  </script>
+  <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+            mono: ['"JetBrains Mono"', 'monospace'],
+          },
+          colors: {
+            brand: {
+              50: '#eef2ff',
+              100: '#e0e7ff',
+              200: '#c7d2fe',
+              500: '#6366f1',
+              600: '#4f46e5',
+              700: '#4338ca',
+              800: '#3730a3',
+              900: '#312e81',
+            }
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    body { font-family: 'Plus Jakarta Sans', sans-serif; }
+    code, pre { font-family: 'JetBrains Mono', monospace; }
+    .mjx-chtml { font-size: 110% !important; }
+    /* Reading progress bar */
+    #progress-bar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      height: 3.5px;
+      background: linear-gradient(to right, #4f46e5, #9333ea);
+      width: 0%;
+      z-index: 100;
+      transition: width 0.1s ease-out;
+    }
+  </style>
+</head>
+<body class="bg-slate-50 text-slate-800 antialiased selection:bg-indigo-500 selection:text-white">
+
+  <!-- Progress Bar -->
+  <div id="progress-bar"></div>
+
+  <!-- Top Navigation Bar -->
+  <header class="sticky top-0 z-40 bg-white/90 backdrop-blur-md border-b border-slate-200">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+      <div class="flex items-center gap-3">
+        <a href="index.html" class="flex items-center gap-2 text-slate-500 hover:text-indigo-600 transition text-sm font-semibold mr-2" title="Kembali ke Beranda">
+          <i class="fa-solid fa-arrow-left"></i>
+          <span class="hidden sm:inline">Beranda</span>
+        </a>
+        <div class="h-5 w-px bg-slate-200 hidden sm:block"></div>
+        <div class="flex items-center gap-2.5">
+          <div class="w-8 h-8 rounded-lg bg-indigo-600 flex items-center justify-center text-white font-bold text-sm shadow-sm">
+            01
+          </div>
+          <div>
+            <span class="font-bold text-slate-900 text-sm tracking-tight block leading-tight">Pengantar Pemodelan Matematika</span>
+            <span class="text-[11px] font-medium text-slate-500 block">Buku Ajar &bull; MAT61730</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="flex items-center gap-3">
+        <a href="main.pdf" class="inline-flex items-center gap-1.5 text-xs font-semibold px-3 py-1.5 rounded-lg border border-slate-200 bg-white hover:bg-slate-50 text-slate-700 transition shadow-sm">
+          <i class="fa-solid fa-file-pdf text-red-500"></i>
+          <span>Draf PDF</span>
+        </a>
+        <a href="index.html#daftar-bab" class="inline-flex items-center gap-1.5 text-xs font-semibold px-3.5 py-1.5 rounded-lg bg-indigo-600 hover:bg-indigo-700 text-white transition shadow-sm shadow-indigo-200">
+          <i class="fa-solid fa-list"></i>
+          <span>Daftar Bab</span>
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Hero Header -->
+  <section class="relative pt-12 pb-14 bg-gradient-to-b from-indigo-50/70 via-white to-slate-50 border-b border-slate-200">
+    <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-indigo-100 text-indigo-800 text-xs font-bold uppercase tracking-wider mb-4">
+        <i class="fa-solid fa-book-bookmark text-indigo-600"></i>
+        Bab 01 &bull; Fondasi & Filosofi
+      </div>
+      <h1 class="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-slate-900 tracking-tight leading-tight mb-4">
+        Pengantar Pemodelan Matematika
+      </h1>
+      <p class="text-base sm:text-lg text-slate-600 leading-relaxed max-w-3xl mb-6">
+        Menjelajahi konsep dasar pemodelan, matematika sebagai bahasa abstraksi realitas, siklus iteratif enam tahap, taksonomi model sistemik, serta perbandingan fundamental antara pertumbuhan Malthus dan kurva logistik Verhulst.
+      </p>
+
+      <!-- Meta Info Pills -->
+      <div class="flex flex-wrap items-center gap-4 text-xs font-medium text-slate-500 pt-4 border-t border-slate-200/80">
+        <span class="flex items-center gap-1.5">
+          <i class="fa-solid fa-user-tie text-indigo-500"></i>
+          Dr. Mohammad Jamhuri, M.Si.
+        </span>
+        <span class="flex items-center gap-1.5">
+          <i class="fa-solid fa-graduation-cap text-indigo-500"></i>
+          UIN Maulana Malik Ibrahim Malang
+        </span>
+        <span class="flex items-center gap-1.5">
+          <i class="fa-regular fa-clock text-indigo-500"></i>
+          Waktu Baca: ~15 Menit
+        </span>
+        <span class="flex items-center gap-1.5">
+          <i class="fa-solid fa-chart-line text-indigo-500"></i>
+          Disertai Simulasi Interaktif
+        </span>
+      </div>
+    </div>
+  </section>
+
+  <!-- Main Container: Sidebar + Content -->
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 items-start">
+      
+      <!-- Sticky Sidebar Table of Contents -->
+      <aside class="hidden lg:block lg:col-span-3 sticky top-24">
+        <div class="bg-white rounded-2xl border border-slate-200 p-5 shadow-sm">
+          <h3 class="text-xs font-bold uppercase tracking-wider text-slate-400 mb-3 flex items-center gap-2">
+            <i class="fa-solid fa-compass text-indigo-600"></i> Navigasi Halaman
+          </h3>
+          <nav class="space-y-1 text-sm font-medium">
+            <a href="#mengapa-pemodelan" class="block px-3 py-2 rounded-xl text-slate-600 hover:text-indigo-600 hover:bg-indigo-50/50 transition">
+              1.1 Mengapa Pemodelan?
+            </a>
+            <a href="#apa-itu-pemodelan" class="block px-3 py-2 rounded-xl text-slate-600 hover:text-indigo-600 hover:bg-indigo-50/50 transition">
+              1.2 Definisi & Tujuan
+            </a>
+            <a href="#langkah-pemodelan" class="block px-3 py-2 rounded-xl text-slate-600 hover:text-indigo-600 hover:bg-indigo-50/50 transition">
+              1.3 6 Langkah Siklus Pemodelan
+            </a>
+            <a href="#klasifikasi-model" class="block px-3 py-2 rounded-xl text-slate-600 hover:text-indigo-600 hover:bg-indigo-50/50 transition">
+              1.4 Klasifikasi Model Matematika
+            </a>
+            <a href="#contoh-kasus-populasi" class="block px-3 py-2 rounded-xl text-slate-600 hover:text-indigo-600 hover:bg-indigo-50/50 transition">
+              1.5 Studi Kasus: Populasi
+            </a>
+            <a href="#lab-interaktif" class="block px-3 py-2 rounded-xl text-indigo-600 bg-indigo-50/70 hover:bg-indigo-100 transition font-semibold">
+              <i class="fa-solid fa-flask mr-1"></i> 1.6 Simulasi Interaktif
+            </a>
+            <a href="#refleksi-diskusi" class="block px-3 py-2 rounded-xl text-slate-600 hover:text-indigo-600 hover:bg-indigo-50/50 transition">
+              1.7 Refleksi & Diskusi Kritis
+            </a>
+            <a href="#penutup" class="block px-3 py-2 rounded-xl text-slate-600 hover:text-indigo-600 hover:bg-indigo-50/50 transition">
+              1.8 Penutup Bab
+            </a>
+          </nav>
+          
+          <div class="mt-6 pt-5 border-t border-slate-100">
+            <div class="p-3 bg-slate-50 rounded-xl text-xs text-slate-500">
+              <span class="font-bold text-slate-700 block mb-1">Rekomendasi Kuliah</span>
+              Diskusikan hasil simulasi pada pertemuan Minggu 1 sesuai silabus RPS.
+            </div>
+          </div>
+        </div>
+      </aside>
+
+      <!-- Content Area -->
+      <main class="lg:col-span-9 space-y-16">
+
+        <!-- Section 1.1 -->
+        <article id="mengapa-pemodelan" class="bg-white rounded-3xl p-6 sm:p-10 border border-slate-200/90 shadow-sm scroll-mt-24">
+          <div class="flex items-center gap-2 text-indigo-600 text-xs font-bold font-mono tracking-wider uppercase mb-2">
+            <span>Bagian 1.1</span>
+          </div>
+          <h2 class="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight mb-6">
+            Mengapa Kita Membutuhkan Pemodelan?
+          </h2>
+          
+          <div class="prose prose-slate max-w-none text-slate-700 text-base leading-relaxed space-y-4">
+            <p>
+              Sejak awal peradaban, manusia selalu berusaha memahami pola-pola yang muncul dalam kehidupan sehari-hari. Petani di lembah Sungai Nil, misalnya, memperhatikan siklus pasang-surut air sungai untuk menentukan waktu terbaik menanam gandum. Para astronom Babilonia dengan tekun mencatat pergerakan konstelasi bintang di langit malam, lalu berusaha meramalkan waktu terjadinya gerhana bulan dan matahari. Meskipun pada masa lampau mereka belum memiliki kalkulus atau aljabar linier formal, sesungguhnya yang mereka lakukan adalah membangun sebuah <em>model</em>: suatu representasi yang disederhanakan dari kenyataan yang kompleks agar perilaku alam semesta dapat diantisipasi dan dipahami.
+            </p>
+            <p>
+              Seiring dengan perkembangan ilmu pengetahuan, pemodelan berevolusi menjadi metode yang terstruktur dan sistematis. Matematika kemudian hadir sebagai bahasa universal yang mampu merangkum fenomena-fenomena multivariat dalam simbol-simbol yang ringkas, terukur, presisi, dan konsisten. Melalui instrumen matematika, kita dapat mengubah pengamatan kualitatif yang samar menjadi penalaran kuantitatif yang kokoh:
+            </p>
+
+            <!-- Comparison Cards -->
+            <div class="grid sm:grid-cols-2 gap-4 my-6 not-prose">
+              <div class="p-5 rounded-2xl bg-amber-50/70 border border-amber-200/70">
+                <div class="flex items-center gap-2 text-amber-800 font-bold text-sm mb-2">
+                  <i class="fa-solid fa-comment-dots text-amber-600"></i> Deskripsi Kualitatif (Tanpa Model)
+                </div>
+                <p class="text-sm text-amber-900/80 leading-relaxed italic">
+                  “Jumlah penduduk kota bertambah sangat cepat setiap tahunnya, dan harga komoditas pokok di pasar cenderung mengalami kenaikan.”
+                </p>
+              </div>
+              <div class="p-5 rounded-2xl bg-indigo-50/70 border border-indigo-200/70">
+                <div class="flex items-center gap-2 text-indigo-800 font-bold text-sm mb-2">
+                  <i class="fa-solid fa-calculator text-indigo-600"></i> Analisis Kuantitatif (Dengan Model)
+                </div>
+                <p class="text-sm text-indigo-900/80 leading-relaxed font-medium">
+                  “Dengan laju pertumbuhan $r = 0.035$, populasi akan berlipat ganda dalam 19.8 tahun dan harga akan konvergen menuju kesetimbangan $P^* = \$24.50$.”
+                </p>
+              </div>
+            </div>
+
+            <p>
+              Inilah mengapa pemodelan matematika menjadi pilar paling fundamental bagi sains modern, rekayasa teknologi, epidemiologi kesehatan masyarakat, hingga pengambilan kebijakan ekonomi makro. Model tidak hanya mendeskripsikan apa yang sedang berlangsung, tetapi menyediakan laboratorium kalkulasi untuk menguji hipotesis, memproyeksikan masa depan, serta mengevaluasi skenario intervensi tanpa risiko fisik di dunia nyata.
+            </p>
+          </div>
+        </article>
+
+        <!-- Section 1.2 -->
+        <article id="apa-itu-pemodelan" class="bg-white rounded-3xl p-6 sm:p-10 border border-slate-200/90 shadow-sm scroll-mt-24">
+          <div class="flex items-center gap-2 text-indigo-600 text-xs font-bold font-mono tracking-wider uppercase mb-2">
+            <span>Bagian 1.2</span>
+          </div>
+          <h2 class="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight mb-6">
+            Apa Itu Pemodelan Matematika?
+          </h2>
+
+          <div class="prose prose-slate max-w-none text-slate-700 text-base leading-relaxed space-y-4">
+            <p>
+              Ketika berhadapan dengan fenomena dunia nyata—seperti dinamika interaksi spesies di hutan belantara, transmisi patogen infeksius di tengah masyarakat padat, atau fluktuasi indeks saham—kita menyadari bahwa realitas terlalu rumit untuk ditiru secara sempurna dalam setiap rinciannya. Di sinilah matematika bertindak sebagai <strong>alat abstraksi</strong>.
+            </p>
+
+            <!-- Definition Callout -->
+            <div class="p-6 rounded-2xl bg-indigo-50/80 border border-indigo-200 text-slate-900 not-prose my-6 shadow-sm">
+              <div class="flex items-start gap-4">
+                <div class="w-10 h-10 rounded-xl bg-indigo-600 flex items-center justify-center shrink-0 text-lg text-white">
+                  <i class="fa-solid fa-lightbulb"></i>
+                </div>
+                <div>
+                  <h4 class="text-base font-bold text-indigo-950 mb-1">Definisi Pemodelan Matematika</h4>
+                  <p class="text-sm text-slate-700 leading-relaxed">
+                    Proses menerjemahkan fenomena dunia nyata ke dalam bentuk representasi matematis—baik berupa persamaan diferensial, persamaan beda, matriks stokastik, fungsi aljabar, maupun algoritma komputasi—yang menyaring derau (noise) dan mempertahankan esensi dinamika sistem untuk keperluan pemahaman, peramalan, serta optimisasi.
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <p>
+              Proses ini identik dengan pembuatan <em>peta navigasi</em>: peta bukanlah wilayah geografis yang sesungguhnya, melainkan abstraksi geometris dua dimensi yang dihilangkan detail daun, batu, dan pepohonannya, namun menyajikan jaringan jalan yang cukup akurat untuk mengantarkan musafir ke tujuan.
+            </p>
+
+            <h3 class="text-xl font-bold text-slate-900 mt-8 mb-4">Tiga Tujuan Pokok Model</h3>
+            
+            <div class="grid md:grid-cols-3 gap-6 not-prose my-6">
+              <div class="p-5 rounded-2xl bg-slate-50 border border-slate-200 hover:border-indigo-300 transition">
+                <div class="w-9 h-9 rounded-xl bg-indigo-100 text-indigo-700 flex items-center justify-center font-bold text-sm mb-3">
+                  1
+                </div>
+                <h4 class="font-bold text-slate-900 mb-1.5 text-sm">Memahami Fenomena</h4>
+                <p class="text-xs text-slate-600 leading-relaxed">
+                  Mengisolasi variabel kunci dan mengungkap struktur interaksi dasar (misalnya mengidentifikasi apakah penularan wabah ditentukan oleh kontak acak atau durasi infeksi).
+                </p>
+              </div>
+              <div class="p-5 rounded-2xl bg-slate-50 border border-slate-200 hover:border-indigo-300 transition">
+                <div class="w-9 h-9 rounded-xl bg-indigo-100 text-indigo-700 flex items-center justify-center font-bold text-sm mb-3">
+                  2
+                </div>
+                <h4 class="font-bold text-slate-900 mb-1.5 text-sm">Memprediksi Perilaku</h4>
+                <p class="text-xs text-slate-600 leading-relaxed">
+                  Menghitung lintasan masa depan dari variabel sistem (misalnya memprediksi kapan jumlah populasi satwa liar akan melampaui daya dukung ekosistemnya).
+                </p>
+              </div>
+              <div class="p-5 rounded-2xl bg-slate-50 border border-slate-200 hover:border-indigo-300 transition">
+                <div class="w-9 h-9 rounded-xl bg-indigo-100 text-indigo-700 flex items-center justify-center font-bold text-sm mb-3">
+                  3
+                </div>
+                <h4 class="font-bold text-slate-900 mb-1.5 text-sm">Mendukung Keputusan</h4>
+                <p class="text-xs text-slate-600 leading-relaxed">
+                  Menyediakan landasan kuantitatif rasional untuk intervensi kebijakan (misalnya menentukan proporsi vaksinasi minimum untuk menciptakan kekebalan kelompok).
+                </p>
+              </div>
+            </div>
+
+            <!-- Case Study Snippet -->
+            <div class="p-5 rounded-2xl bg-emerald-50 border border-emerald-200 not-prose mt-6">
+              <h4 class="font-bold text-emerald-900 text-sm flex items-center gap-2 mb-2">
+                <i class="fa-solid fa-vial-virus text-emerald-600"></i> Contoh Komparatif: Epidemiolog di Lapangan
+              </h4>
+              <p class="text-xs text-emerald-800 leading-relaxed mb-3">
+                Tanpa model matematika, seorang epidemiolog hanya mampu melaporkan data historis reaktif: <em>“Hari ini tercatat penambahan 50 pasien terinfeksi di bangsal isolasi.”</em>
+              </p>
+              <p class="text-xs text-emerald-950 font-medium leading-relaxed">
+                Namun melalui formulasi model epidemi kompartemen, pertanyaan-pertanyaan strategis berikut dapat dijawab secara tuntas:
+              </p>
+              <ul class="list-disc list-inside text-xs text-emerald-900 mt-2 space-y-1 pl-1">
+                <li>Berapa hari lagi kurva penularan mencapai titik puncak infeksi ($I_{\max}$)?</li>
+                <li>Berapa total proporsi populasi yang akan terdampak saat epidemi berakhir?</li>
+                <li>Berapa angka ambang reproduksi dasar ($R_0$) yang harus diturunkan melalui pembatasan mobilitas?</li>
+              </ul>
+            </div>
+          </div>
+        </article>
+
+        <!-- Section 1.3 -->
+        <article id="langkah-pemodelan" class="bg-white rounded-3xl p-6 sm:p-10 border border-slate-200/90 shadow-sm scroll-mt-24">
+          <div class="flex items-center gap-2 text-indigo-600 text-xs font-bold font-mono tracking-wider uppercase mb-2">
+            <span>Bagian 1.3</span>
+          </div>
+          <h2 class="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight mb-4">
+            Enam Langkah Siklus Pemodelan Matematika
+          </h2>
+          <p class="text-slate-600 text-base leading-relaxed mb-8">
+            Membangun model bukanlah prosedur linier sekali jalan yang berhenti ketika sebuah persamaan selesai ditulis. Pemodelan adalah siklus ilmiah berulang (iterative loop) yang terus mengoreksi asumsi berdasarkan umpan balik data observasi.
+          </p>
+
+          <!-- Timeline Steps -->
+          <div class="space-y-6 not-prose">
+            
+            <!-- Step 1 -->
+            <div class="flex gap-4 sm:gap-6 p-5 rounded-2xl bg-slate-50 border border-slate-200/80 hover:bg-white hover:shadow-md transition">
+              <div class="w-12 h-12 rounded-2xl bg-indigo-600 text-white flex items-center justify-center font-extrabold text-lg shrink-0 shadow-md shadow-indigo-100">
+                1
+              </div>
+              <div>
+                <h4 class="text-base font-bold text-slate-900">Identifikasi & Karakterisasi Masalah</h4>
+                <p class="text-xs font-semibold text-indigo-600 mb-1">“Fenomena apa yang sesungguhnya ingin kita jawab?”</p>
+                <p class="text-sm text-slate-600 leading-relaxed">
+                  Menentukan batasan sistem, variabel yang dapat diamati, dan pertanyaan spesifik yang ingin dipecahkan. Tanpa formulasi masalah yang tajam, pemodelan akan mudah terjebak dalam kompleksitas yang tidak relevan.
+                </p>
+              </div>
+            </div>
+
+            <!-- Step 2 -->
+            <div class="flex gap-4 sm:gap-6 p-5 rounded-2xl bg-slate-50 border border-slate-200/80 hover:bg-white hover:shadow-md transition">
+              <div class="w-12 h-12 rounded-2xl bg-indigo-600 text-white flex items-center justify-center font-extrabold text-lg shrink-0 shadow-md shadow-indigo-100">
+                2
+              </div>
+              <div>
+                <h4 class="text-base font-bold text-slate-900">Penyusunan Asumsi Penyederhanaan</h4>
+                <p class="text-xs font-semibold text-indigo-600 mb-1">“Apa detail yang dapat kita abaikan demi keterlacakan?”</p>
+                <p class="text-sm text-slate-600 leading-relaxed">
+                  Dunia nyata memuat jutaan faktor acak. Di tahap ini, kita menetapkan asumsi rasional: misalnya populasi dianggap homogen (tercampur sempurna), tidak ada migrasi keluar-masuk, atau sumber daya lingkungan diasumsikan cukup untuk rentang waktu tertentu.
+                </p>
+              </div>
+            </div>
+
+            <!-- Step 3 -->
+            <div class="flex gap-4 sm:gap-6 p-5 rounded-2xl bg-slate-50 border border-slate-200/80 hover:bg-white hover:shadow-md transition">
+              <div class="w-12 h-12 rounded-2xl bg-indigo-600 text-white flex items-center justify-center font-extrabold text-lg shrink-0 shadow-md shadow-indigo-100">
+                3
+              </div>
+              <div>
+                <h4 class="text-base font-bold text-slate-900">Formulasi Representasi Matematis</h4>
+                <p class="text-xs font-semibold text-indigo-600 mb-1">“Menerjemahkan hipotesis verbal ke persamaan formal”</p>
+                <p class="text-sm text-slate-600 leading-relaxed mb-2">
+                  Mengubah hubungan sebab-akibat menjadi persamaan kalkulus, aljabar, atau matriks probabilitas. Sebagai contoh, asumsi bahwa laju penambahan populasi sebanding dengan besar populasi saat itu dimanifestasikan dalam persamaan diferensial sederhana:
+                </p>
+                <div class="inline-block p-2.5 px-4 rounded-xl bg-white border border-slate-200 text-xs font-mono text-indigo-700">
+                  $$\frac{dP}{dt} = rP$$
+                </div>
+              </div>
+            </div>
+
+            <!-- Step 4 -->
+            <div class="flex gap-4 sm:gap-6 p-5 rounded-2xl bg-slate-50 border border-slate-200/80 hover:bg-white hover:shadow-md transition">
+              <div class="w-12 h-12 rounded-2xl bg-indigo-600 text-white flex items-center justify-center font-extrabold text-lg shrink-0 shadow-md shadow-indigo-100">
+                4
+              </div>
+              <div>
+                <h4 class="text-base font-bold text-slate-900">Analisis & Komputasi Solusi</h4>
+                <p class="text-xs font-semibold text-indigo-600 mb-1">“Mengekstrak perilaku sistem secara analitik atau numerik”</p>
+                <p class="text-sm text-slate-600 leading-relaxed">
+                  Menentukan titik kesetimbangan (steady states), menganalisis kestabilan lokal via linearisasi matriks Jacobian, mengidentifikasi bifurkasi, atau mengintegrasikan metode numerik (seperti Runge-Kutta) ketika persamaan nonlinier tidak memiliki solusi analitik tertutup.
+                </p>
+              </div>
+            </div>
+
+            <!-- Step 5 -->
+            <div class="flex gap-4 sm:gap-6 p-5 rounded-2xl bg-slate-50 border border-slate-200/80 hover:bg-white hover:shadow-md transition">
+              <div class="w-12 h-12 rounded-2xl bg-indigo-600 text-white flex items-center justify-center font-extrabold text-lg shrink-0 shadow-md shadow-indigo-100">
+                5
+              </div>
+              <div>
+                <h4 class="text-base font-bold text-slate-900">Interpretasi Makna Hasil</h4>
+                <p class="text-xs font-semibold text-indigo-600 mb-1">“Apa pesan empiris di balik nilai eigen dan grafik fasa?”</p>
+                <p class="text-sm text-slate-600 leading-relaxed">
+                  Menghubungkan formula simbolik kembali ke konteks dunia riil. Contohnya, mengetahui bahwa nilai eigen sistem bertanda negatif bermakna ekosistem mampu kembali seimbang secara mandiri pasca gangguan eksternal.
+                </p>
+              </div>
+            </div>
+
+            <!-- Step 6 -->
+            <div class="flex gap-4 sm:gap-6 p-5 rounded-2xl bg-slate-50 border border-slate-200/80 hover:bg-white hover:shadow-md transition">
+              <div class="w-12 h-12 rounded-2xl bg-indigo-600 text-white flex items-center justify-center font-extrabold text-lg shrink-0 shadow-md shadow-indigo-100">
+                6
+              </div>
+              <div>
+                <h4 class="text-base font-bold text-slate-900">Validasi, Kalibrasi, & Uji Kelaikan</h4>
+                <p class="text-xs font-semibold text-indigo-600 mb-1">“Apakah prediksi model sesuai dengan data empiris lapangan?”</p>
+                <p class="text-sm text-slate-600 leading-relaxed">
+                  Membandingkan lintasan model terhadap data historis riil. Jika terjadi deviasi signifikan, kita kembali ke langkah kedua (revisi asumsi) atau langkah ketiga (perluasan model) dalam siklus iteratif hingga dicapai keseimbangan optimal antara kepraktisan dan akurasi.
+                </p>
+              </div>
+            </div>
+
+          </div>
+        </article>
+
+        <!-- Section 1.4 -->
+        <article id="klasifikasi-model" class="bg-white rounded-3xl p-6 sm:p-10 border border-slate-200/90 shadow-sm scroll-mt-24">
+          <div class="flex items-center gap-2 text-indigo-600 text-xs font-bold font-mono tracking-wider uppercase mb-2">
+            <span>Bagian 1.4</span>
+          </div>
+          <h2 class="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight mb-4">
+            Klasifikasi Model Matematika
+          </h2>
+          <p class="text-slate-600 text-base leading-relaxed mb-6">
+            Mengetahui taksonomi model adalah langkah krusial untuk memilih perangkat analisis yang tepat. Secara umum, model matematika dikelompokkan ke dalam tiga poros dikotomi fundamental:
+          </p>
+
+          <!-- Core Taxonomy Equation Banner -->
+          <div class="p-4 rounded-2xl bg-indigo-50 border border-indigo-200/80 text-center not-prose mb-8">
+            <div class="text-sm sm:text-base font-bold text-indigo-950 font-mono">
+              $$\text{Deterministik vs Stokastik} \quad\boldsymbol{\vert}\quad \text{Statis vs Dinamis} \quad\boldsymbol{\vert}\quad \text{Diskrit vs Kontinu}$$
+            </div>
+          </div>
+
+          <!-- 3 Taxonomic Dimensions -->
+          <div class="space-y-8">
+            
+            <!-- Dimension 1: Deterministik vs Stokastik -->
+            <div class="border border-slate-200 rounded-2xl p-6 bg-slate-50/50">
+              <h3 class="text-lg font-bold text-slate-900 mb-3 flex items-center gap-2">
+                <span class="w-7 h-7 rounded-lg bg-indigo-600 text-white flex items-center justify-center text-xs">A</span>
+                Deterministik versus Stokastik
+              </h3>
+              <p class="text-sm text-slate-600 mb-4 leading-relaxed">
+                <strong>Model Deterministik</strong> tidak memuat unsur ketidakpastian; dengan kondisi awal dan parameter yang persis sama, luaran model selalu identik. Sebaliknya, <strong>Model Stokastik</strong> memperhitungkan variabel acak sehingga luaran berupa distribusi probabilitas.
+              </p>
+              <div class="grid md:grid-cols-2 gap-4">
+                <div class="bg-white p-4 rounded-xl border border-slate-200">
+                  <span class="text-xs font-bold text-indigo-600 uppercase tracking-wide">Contoh Deterministik</span>
+                  <div class="my-2 font-mono text-sm text-slate-800">
+                    $$F = ma \quad \text{atau} \quad y = mx + c$$
+                  </div>
+                  <p class="text-xs text-slate-500">
+                    Lintasan planet Kepler atau dinamika bandul sederhana tanpa gangguan acak.
+                  </p>
+                </div>
+                <div class="bg-white p-4 rounded-xl border border-slate-200">
+                  <span class="text-xs font-bold text-purple-600 uppercase tracking-wide">Contoh Stokastik</span>
+                  <div class="my-2 font-mono text-sm text-slate-800">
+                    $$P = \begin{bmatrix} 0.7 & 0.3 \\ 0.4 & 0.6 \end{bmatrix}, \quad P(X=1)=p$$
+                  </div>
+                  <p class="text-xs text-slate-500">
+                    Rantai Markov transisi cuaca (Cerah/Hujan) dan proses stokastik Bernoulli.
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <!-- Dimension 2: Statis vs Dinamis -->
+            <div class="border border-slate-200 rounded-2xl p-6 bg-slate-50/50">
+              <h3 class="text-lg font-bold text-slate-900 mb-3 flex items-center gap-2">
+                <span class="w-7 h-7 rounded-lg bg-indigo-600 text-white flex items-center justify-center text-xs">B</span>
+                Statis versus Dinamis
+              </h3>
+              <p class="text-sm text-slate-600 mb-4 leading-relaxed">
+                <strong>Model Statis</strong> memotret hubungan variabel pada satu titik waktu kesetimbangan tanpa melibatkan evolusi waktu ($t$). Sementara <strong>Model Dinamis</strong> berfokus pada lintasan perubahan sistem sepanjang waktu melalui turunan atau relasi rekursif.
+              </p>
+              <div class="grid md:grid-cols-2 gap-4">
+                <div class="bg-white p-4 rounded-xl border border-slate-200">
+                  <span class="text-xs font-bold text-indigo-600 uppercase tracking-wide">Contoh Statis</span>
+                  <div class="my-2 font-mono text-sm text-slate-800">
+                    $$Q_d = a - bP, \quad Q_s = c + dP$$
+                  </div>
+                  <p class="text-xs text-slate-500">
+                    Keseimbangan pasar instan (Supply–Demand) di mana harga $P^*$ ditentukan langsung tanpa lintasan waktu.
+                  </p>
+                </div>
+                <div class="bg-white p-4 rounded-xl border border-slate-200">
+                  <span class="text-xs font-bold text-purple-600 uppercase tracking-wide">Contoh Dinamis (SIR Model)</span>
+                  <div class="my-2 font-mono text-sm text-slate-800">
+                    $$\frac{dS}{dt} = -\beta SI, \quad \frac{dI}{dt} = \beta SI - \gamma I$$
+                  </div>
+                  <p class="text-xs text-slate-500">
+                    Perubahan jumlah individu rentan ($S$) dan terinfeksi ($I$) secara temporal setiap detik.
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <!-- Dimension 3: Diskrit vs Kontinu -->
+            <div class="border border-slate-200 rounded-2xl p-6 bg-slate-50/50">
+              <h3 class="text-lg font-bold text-slate-900 mb-3 flex items-center gap-2">
+                <span class="w-7 h-7 rounded-lg bg-indigo-600 text-white flex items-center justify-center text-xs">C</span>
+                Diskrit versus Kontinu
+              </h3>
+              <p class="text-sm text-slate-600 mb-4 leading-relaxed">
+                <strong>Model Diskrit</strong> memperbarui nilai variabel pada langkah-langkah waktu bulat terpisah ($t \in \mathbb{Z}$), biasanya menggunakan persamaan beda (difference equations). <strong>Model Kontinu</strong> memandang waktu mengalir secara halus dan mulus ($t \in \mathbb{R}$), direpresentasikan melalui persamaan diferensial.
+              </p>
+              <div class="grid md:grid-cols-2 gap-4">
+                <div class="bg-white p-4 rounded-xl border border-slate-200">
+                  <span class="text-xs font-bold text-indigo-600 uppercase tracking-wide">Contoh Diskrit (Logistic Map)</span>
+                  <div class="my-2 font-mono text-sm text-slate-800">
+                    $$x_{n+1} = r x_n (1 - x_n), \quad n = 0, 1, 2, \dots$$
+                  </div>
+                  <p class="text-xs text-slate-500">
+                    Populasi serangga musiman yang berganti generasi per musim reproduksi.
+                  </p>
+                </div>
+                <div class="bg-white p-4 rounded-xl border border-slate-200">
+                  <span class="text-xs font-bold text-purple-600 uppercase tracking-wide">Contoh Kontinu (Gelombang 1D)</span>
+                  <div class="my-2 font-mono text-sm text-slate-800">
+                    $$\frac{\partial^2 u}{\partial t^2} = c^2 \frac{\partial^2 u}{\partial x^2}$$
+                  </div>
+                  <p class="text-xs text-slate-500">
+                    Getaran tali dawai atau penjalaran gelombang akustik dalam media kontinu.
+                  </p>
+                </div>
+              </div>
+            </div>
+
+          </div>
+
+          <!-- Hybrid Insight Box -->
+          <div class="mt-8 p-5 rounded-2xl bg-indigo-900 text-white not-prose flex items-start gap-4">
+            <i class="fa-solid fa-code-merge text-indigo-300 text-xl mt-1"></i>
+            <div>
+              <h4 class="font-bold text-indigo-200 text-sm mb-1">Perpaduan Dimensi & Pemodelan Stokastik Kontinu</h4>
+              <p class="text-xs text-slate-300 leading-relaxed">
+                Klasifikasi ini tidak bersifat eksklusif. Kita dapat memodelkan sistem yang bersifat <em>dinamis, stokastik, dan kontinu</em> secara simultan, misalnya model pertumbuhan logistik yang dipengaruhi derau lingkungan putih (white noise):
+              </p>
+              <div class="font-mono text-xs text-indigo-200 mt-2 bg-indigo-950/80 p-2.5 rounded-lg inline-block border border-indigo-700/50">
+                $$\frac{dP}{dt} = rP\left(1 - \frac{P}{K}\right) + \sigma\,\eta(t)$$
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <!-- Section 1.5 -->
+        <article id="contoh-kasus-populasi" class="bg-white rounded-3xl p-6 sm:p-10 border border-slate-200/90 shadow-sm scroll-mt-24">
+          <div class="flex items-center gap-2 text-indigo-600 text-xs font-bold font-mono tracking-wider uppercase mb-2">
+            <span>Bagian 1.5</span>
+          </div>
+          <h2 class="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight mb-4">
+            Contoh Kasus Klasik: Pertumbuhan Populasi
+          </h2>
+          <p class="text-slate-600 text-base leading-relaxed mb-6">
+            Dinamika populasi adalah studi kasus paling ideal untuk melihat bagaimana perubahan asumsi penyederhanaan menghasilkan perbedaan dramatis pada struktur model matematis dan prediksi masa depan.
+          </p>
+
+          <!-- Model Eksponensial Subsection -->
+          <div class="mb-10 pb-8 border-b border-slate-200">
+            <div class="inline-flex items-center gap-2 px-3 py-1 rounded-lg bg-blue-50 text-blue-700 font-bold text-xs uppercase mb-3">
+              1.5.1 Model Eksponensial (Malthus, 1798)
+            </div>
+            <h3 class="text-xl font-bold text-slate-900 mb-3">Asumsi: Sumber Daya Tanpa Batas</h3>
+            <p class="text-sm text-slate-600 leading-relaxed mb-4">
+              Diasumsikan populasi terisolasi, makanan melimpah, tidak ada predator, dan laju pertumbuhan per kapita konstan sebesar $r$. Dengan demikian, laju penambahan populasi berbanding lurus dengan besar populasi saat itu:
+            </p>
+            <div class="p-4 bg-slate-50 rounded-2xl border border-slate-200 font-mono text-center text-sm mb-4">
+              $$\frac{dP}{dt} = rP, \quad P(0) = P_0$$
+            </div>
+            <p class="text-sm text-slate-600 leading-relaxed mb-4">
+              Dengan metode pemisahan variabel $\frac{dP}{P} = r\,dt$, kita peroleh solusi eksak analitik:
+            </p>
+            <div class="p-4 bg-indigo-50/60 rounded-2xl border border-indigo-200/70 font-mono text-center text-base font-bold text-indigo-900 mb-4">
+              $$P(t) = P_0 \, e^{rt}$$
+            </div>
+            
+            <div class="grid sm:grid-cols-3 gap-3 text-xs mb-4">
+              <div class="p-3 rounded-xl bg-slate-100/70 border border-slate-200">
+                <span class="font-bold text-slate-800 block mb-0.5">$r > 0$</span>
+                Populasi meledak tanpa batas ($\lim_{t\to\infty} P(t) = \infty$).
+              </div>
+              <div class="p-3 rounded-xl bg-slate-100/70 border border-slate-200">
+                <span class="font-bold text-slate-800 block mb-0.5">$r < 0$</span>
+                Populasi menyusut eksponensial menuju kepunahan ($\lim_{t\to\infty} P(t) = 0$).
+              </div>
+              <div class="p-3 rounded-xl bg-slate-100/70 border border-slate-200">
+                <span class="font-bold text-slate-800 block mb-0.5">$r = 0$</span>
+                Populasi stagnan tetap sebesar $P_0$.
+              </div>
+            </div>
+
+            <div class="p-4 rounded-xl bg-amber-50 border border-amber-200 text-xs text-amber-900 leading-relaxed">
+              <strong>Kritik Keterbatasan:</strong> Model Malthus hanya akurat pada fase inisiasi kultur bakteri atau kolonisasi organisme baru. Di alam nyata, tidak ada habitat yang sanggup menampung pertumbuhan tak berhingga karena keterbatasan ruang, nutrisi, akumulasi limbah metabolik, dan penyakit.
+            </div>
+          </div>
+
+          <!-- Model Logistik Subsection -->
+          <div>
+            <div class="inline-flex items-center gap-2 px-3 py-1 rounded-lg bg-emerald-50 text-emerald-700 font-bold text-xs uppercase mb-3">
+              1.5.2 Model Logistik (Verhulst, 1838)
+            </div>
+            <h3 class="text-xl font-bold text-slate-900 mb-3">Asumsi: Kapasitas Lingkungan (Carrying Capacity $K$)</h3>
+            <p class="text-sm text-slate-600 leading-relaxed mb-4">
+              Pierre-François Verhulst menyempurnakan persamaan Malthus dengan menambahkan suku rem interaksi intraspesifik $\left(1 - \frac{P}{K}\right)$, di mana $K$ adalah populasi maksimum yang dapat ditopang habitat secara berkelanjutan:
+            </p>
+            <div class="p-4 bg-slate-50 rounded-2xl border border-slate-200 font-mono text-center text-sm mb-4">
+              $$\frac{dP}{dt} = rP\left(1 - \frac{P}{K}\right), \quad P(0) = P_0$$
+            </div>
+            <p class="text-sm text-slate-600 leading-relaxed mb-4">
+              Persamaan Bernoulli ini dapat diselesaikan melalui substitusi $u = 1/P$ atau pecahan parsial, menghasilkan solusi analitik berbentuk <strong>kurva sigmoid ($S$-curve)</strong>:
+            </p>
+            <div class="p-4 bg-emerald-50/60 rounded-2xl border border-emerald-200/70 font-mono text-center text-base font-bold text-emerald-950 mb-4">
+              $$P(t) = \frac{K}{1 + \left(\frac{K - P_0}{P_0}\right)e^{-rt}}$$
+            </div>
+
+            <!-- Dynamics Behavior Table -->
+            <div class="overflow-x-auto rounded-2xl border border-slate-200 not-prose mb-6">
+              <table class="w-full text-left text-xs">
+                <thead class="bg-slate-100 text-slate-700 font-bold uppercase">
+                  <tr>
+                    <th class="py-3 px-4">Kondisi Awal Populasi</th>
+                    <th class="py-3 px-4">Tanda Nilai $\frac{dP}{dt}$</th>
+                    <th class="py-3 px-4">Karakteristik Pertumbuhan</th>
+                    <th class="py-3 px-4">Asimtot ($t \to \infty$)</th>
+                  </tr>
+                </thead>
+                <tbody class="divide-y divide-slate-200">
+                  <tr class="hover:bg-slate-50">
+                    <td class="py-3 px-4 font-mono font-bold text-indigo-600">$P_0 < K/2$</td>
+                    <td class="py-3 px-4 font-mono text-emerald-600">> 0 (Cekung ke atas)</td>
+                    <td class="py-3 px-4">Fase pertumbuhan cepat (mirip eksponensial).</td>
+                    <td class="py-3 px-4 font-mono font-bold">$K$</td>
+                  </tr>
+                  <tr class="hover:bg-slate-50">
+                    <td class="py-3 px-4 font-mono font-bold text-indigo-600">$K/2 < P_0 < K$</td>
+                    <td class="py-3 px-4 font-mono text-amber-600">> 0 (Cekung ke bawah)</td>
+                    <td class="py-3 px-4">Fase deselerasi karena tekanan kompetisi.</td>
+                    <td class="py-3 px-4 font-mono font-bold">$K$</td>
+                  </tr>
+                  <tr class="hover:bg-slate-50">
+                    <td class="py-3 px-4 font-mono font-bold text-indigo-600">$P_0 > K$</td>
+                    <td class="py-3 px-4 font-mono text-red-600">< 0 (Monoton turun)</td>
+                    <td class="py-3 px-4">Kematian massal akibat habitat overkapasitas.</td>
+                    <td class="py-3 px-4 font-mono font-bold">$K$</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
+            <p class="text-xs text-slate-500 italic">
+              <strong>Catatan Teknis:</strong> Titik belok (inflection point) kurva logistik terjadi tepat pada saat populasi mencapai separuh daya tampung lingkungan, yakni $P = K/2$, di mana laju penambahan populasi per satuan waktu mencapai nilai maksimum absolutnya $\left(\frac{dP}{dt}\right)_{\max} = \frac{rK}{4}$.
+            </p>
+          </div>
+        </article>
+
+        <!-- Section 1.6: Interactive Laboratory -->
+        <article id="lab-interaktif" class="bg-gradient-to-br from-slate-900 via-indigo-950 to-slate-900 text-white rounded-3xl p-6 sm:p-10 border border-slate-800 shadow-2xl scroll-mt-24 not-prose">
+          <div class="flex flex-wrap items-center justify-between gap-4 mb-6">
+            <div>
+              <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-indigo-500/20 text-indigo-300 text-xs font-mono font-semibold mb-2 border border-indigo-500/30">
+                <i class="fa-solid fa-sliders text-yellow-400"></i> Laboratorium Numerik Interaktif
+              </div>
+              <h2 class="text-2xl sm:text-3xl font-extrabold tracking-tight text-white">
+                Simulasi Perbandingan Eksponensial vs Logistik
+              </h2>
+              <p class="text-slate-400 text-xs sm:text-sm mt-1">
+                Ubah parameter di bawah ini untuk melihat pergeseran langsung kurva Malthus versus Verhulst.
+              </p>
+            </div>
+            <button onclick="resetSliders()" class="px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-xs font-mono text-slate-300 border border-slate-700 transition flex items-center gap-1.5">
+              <i class="fa-solid fa-arrow-rotate-left"></i> Reset Parameter
+            </button>
+          </div>
+
+          <!-- Sliders Grid -->
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-6 p-5 rounded-2xl bg-slate-950/60 border border-slate-800 mb-6">
+            <div>
+              <div class="flex justify-between items-center text-xs font-mono mb-2">
+                <span class="text-indigo-300 font-bold">Populasi Awal ($P_0$)</span>
+                <span id="val-p0" class="text-yellow-400 font-bold px-2 py-0.5 rounded bg-slate-900 border border-slate-800">50</span>
+              </div>
+              <input type="range" id="slider-p0" min="10" max="200" step="5" value="50" class="w-full accent-indigo-500 cursor-pointer" oninput="updateSimulation()">
+              <div class="flex justify-between text-[10px] text-slate-500 font-mono mt-1">
+                <span>10</span>
+                <span>200</span>
+              </div>
+            </div>
+
+            <div>
+              <div class="flex justify-between items-center text-xs font-mono mb-2">
+                <span class="text-indigo-300 font-bold">Laju Tumbuh ($r$)</span>
+                <span id="val-r" class="text-yellow-400 font-bold px-2 py-0.5 rounded bg-slate-900 border border-slate-800">0.40</span>
+              </div>
+              <input type="range" id="slider-r" min="0.05" max="1.0" step="0.05" value="0.4" class="w-full accent-indigo-500 cursor-pointer" oninput="updateSimulation()">
+              <div class="flex justify-between text-[10px] text-slate-500 font-mono mt-1">
+                <span>0.05 /wkt</span>
+                <span>1.00 /wkt</span>
+              </div>
+            </div>
+
+            <div>
+              <div class="flex justify-between items-center text-xs font-mono mb-2">
+                <span class="text-indigo-300 font-bold">Kapasitas Lingkungan ($K$)</span>
+                <span id="val-k" class="text-yellow-400 font-bold px-2 py-0.5 rounded bg-slate-900 border border-slate-800">500</span>
+              </div>
+              <input type="range" id="slider-k" min="200" max="1200" step="50" value="500" class="w-full accent-indigo-500 cursor-pointer" oninput="updateSimulation()">
+              <div class="flex justify-between text-[10px] text-slate-500 font-mono mt-1">
+                <span>200</span>
+                <span>1200</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Canvas Chart -->
+          <div class="bg-slate-950 p-4 rounded-2xl border border-slate-800 mb-6">
+            <div class="h-80 sm:h-96 w-full">
+              <canvas id="popChart"></canvas>
+            </div>
+          </div>
+
+          <!-- Dynamic Indicators Output -->
+          <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 text-center">
+            <div class="p-3.5 rounded-xl bg-slate-950 border border-slate-800">
+              <span class="text-[11px] text-slate-400 block mb-1">Doubling Time ($t_d$)</span>
+              <span id="stat-doubling" class="text-base font-bold font-mono text-indigo-300">1.73 wkt</span>
+            </div>
+            <div class="p-3.5 rounded-xl bg-slate-950 border border-slate-800">
+              <span class="text-[11px] text-slate-400 block mb-1">Titik Belok ($K/2$)</span>
+              <span id="stat-inflection" class="text-base font-bold font-mono text-emerald-400">250 jiwa</span>
+            </div>
+            <div class="p-3.5 rounded-xl bg-slate-950 border border-slate-800">
+              <span class="text-[11px] text-slate-400 block mb-1">Pertumbuhan Maksimal</span>
+              <span id="stat-maxgrowth" class="text-base font-bold font-mono text-yellow-400">50.0 /wkt</span>
+            </div>
+            <div class="p-3.5 rounded-xl bg-slate-950 border border-slate-800">
+              <span class="text-[11px] text-slate-400 block mb-1">Populasi Akhir ($t=20$)</span>
+              <span id="stat-finalpop" class="text-base font-bold font-mono text-white">499 jiwa</span>
+            </div>
+          </div>
+        </article>
+
+        <!-- Section 1.7: Reflection and Discussion -->
+        <article id="refleksi-diskusi" class="bg-white rounded-3xl p-6 sm:p-10 border border-slate-200/90 shadow-sm scroll-mt-24">
+          <div class="flex items-center gap-2 text-indigo-600 text-xs font-bold font-mono tracking-wider uppercase mb-2">
+            <span>Bagian 1.7</span>
+          </div>
+          <h2 class="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight mb-4">
+            Refleksi & Diskusi Kritis
+          </h2>
+          <p class="text-slate-600 text-base leading-relaxed mb-6">
+            Pembelajaran pemodelan bukan sekadar menghafal teknik diferensiasi, melainkan membangun kepekaan ilmiah dalam menimbang batasan validitas (<em>domain of validity</em>) dari setiap hipotesis. Diskusikan empat pertanyaan kritis berikut bersama rekan kelompok Anda:
+          </p>
+
+          <div class="space-y-4 not-prose">
+            <div class="p-5 rounded-2xl bg-slate-50 border border-slate-200">
+              <div class="flex items-start gap-3">
+                <span class="w-7 h-7 rounded-lg bg-indigo-100 text-indigo-700 font-bold text-xs flex items-center justify-center shrink-0">Q1</span>
+                <div>
+                  <h4 class="font-bold text-slate-900 text-sm mb-1">Realitas Asumsi Eksponensial pada Populasi Manusia</h4>
+                  <p class="text-xs sm:text-sm text-slate-600 leading-relaxed">
+                    Apakah laju eksponensial murni realistis untuk populasi manusia modern? Pada kondisi peradaban apa asumsi Malthus tersebut sempat berlaku, dan faktor sosio-teknologis apa yang menyebabkannya gagal di abad ke-21?
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <div class="p-5 rounded-2xl bg-slate-50 border border-slate-200">
+              <div class="flex items-start gap-3">
+                <span class="w-7 h-7 rounded-lg bg-indigo-100 text-indigo-700 font-bold text-xs flex items-center justify-center shrink-0">Q2</span>
+                <div>
+                  <h4 class="font-bold text-slate-900 text-sm mb-1">Deviasi Empiris terhadap Kurva Logistik</h4>
+                  <p class="text-xs sm:text-sm text-slate-600 leading-relaxed">
+                    Faktor nyata apa saja yang menyebabkan laju pertumbuhan populasi di alam menyimpang dari kurva mulus $S$ Verhulst? Misalnya fenomena migrasi musiman, osilasi musim kering-hujan, bencana alam mendadak, atau fluktuasi panen.
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <div class="p-5 rounded-2xl bg-slate-50 border border-slate-200">
+              <div class="flex items-start gap-3">
+                <span class="w-7 h-7 rounded-lg bg-indigo-100 text-indigo-700 font-bold text-xs flex items-center justify-center shrink-0">Q3</span>
+                <div>
+                  <h4 class="font-bold text-slate-900 text-sm mb-1">Analogi Fenomena Non-Biologis Berpola Logistik</h4>
+                  <p class="text-xs sm:text-sm text-slate-600 leading-relaxed">
+                    Dapatkah Anda mengidentifikasi fenomena sosial-teknologi di lingkungan kampus yang mengikuti kurva sigmoid? Misalnya difusi adopsi aplikasi kecerdasan buatan, penetrasi smartphone di masyarakat pedesaan, atau penyebaran tren bahasa slang.
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <div class="p-5 rounded-2xl bg-slate-50 border border-slate-200">
+              <div class="flex items-start gap-3">
+                <span class="w-7 h-7 rounded-lg bg-indigo-100 text-indigo-700 font-bold text-xs flex items-center justify-center shrink-0">Q4</span>
+                <div>
+                  <h4 class="font-bold text-slate-900 text-sm mb-1">Kriteria Model yang “Baik”</h4>
+                  <p class="text-xs sm:text-sm text-slate-600 leading-relaxed">
+                    Bagaimana kita menilai sebuah model matematika dikatakan memuaskan? Apakah semata-mata diukur dari kedekatan kurva dengan data statistik (goodness-of-fit), ataukah prinsip kesederhanaan (prinsip parsimoni / Pisau Occam) dan kejelasan interpretasi parameter memegang peranan lebih penting?
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <!-- Section 1.8: Chapter Summary & Next Steps -->
+        <article id="penutup" class="bg-white rounded-3xl p-6 sm:p-10 border border-slate-200/90 shadow-sm scroll-mt-24">
+          <div class="flex items-center gap-2 text-indigo-600 text-xs font-bold font-mono tracking-wider uppercase mb-2">
+            <span>Bagian 1.8</span>
+          </div>
+          <h2 class="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight mb-4">
+            Rangkuman & Jembatan ke Bab Berikutnya
+          </h2>
+
+          <div class="prose prose-slate max-w-none text-slate-700 text-base leading-relaxed space-y-4">
+            <p>
+              Pada bab pembuka ini, kita telah meletakkan fondasi filosofis dan metodologis pemodelan matematika:
+            </p>
+            <ul class="list-disc list-inside space-y-2 text-sm text-slate-600 pl-2">
+              <li><strong>Model sebagai jembatan:</strong> Representasi matematika menyederhanakan kompleksitas alam tanpa kehilangan mekanisme esensialnya.</li>
+              <li><strong>Siklus berulang:</strong> Formulasi matematika tidak bersifat mutlak melainkan terus diuji dan dikalibrasi terhadap data empiris nyata.</li>
+              <li><strong>Taksonomi sistemik:</strong> Pilihan struktur model (deterministik/stokastik, statis/dinamis, diskrit/kontinu) ditentukan oleh karakteristik data dan tujuan studi.</li>
+              <li><strong>Kekuatan asumsi:</strong> Pergeseran sederhana dari asumsi sumber daya tak terbatas (Malthus) ke daya dukung terbatas (Verhulst) secara fundamental mengubah dinamika dari ledakan eksponensial menjadi kestabilan asimtotik sigmoid.</li>
+            </ul>
+
+            <!-- Next Chapter Link Card -->
+            <div class="mt-8 p-6 rounded-2xl bg-gradient-to-r from-indigo-50 to-violet-50 border border-indigo-200 not-prose flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+              <div>
+                <span class="text-xs font-bold text-indigo-600 uppercase tracking-wider block mb-1">Materi Selanjutnya</span>
+                <h4 class="text-lg font-extrabold text-slate-900">Bab 02: Model Pertumbuhan Populasi: Eksponensial & Logistik</h4>
+                <p class="text-xs text-slate-600 mt-1">Pendalaman bukti analitik solusi persamaan Bernoulli, estimasi parameter dengan data BPS Indonesia, dan kode komputasi Python.</p>
+              </div>
+              <a href="index.html#daftar-bab" class="inline-flex items-center gap-2 px-5 py-3 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-semibold text-sm transition shrink-0 shadow-md shadow-indigo-200">
+                <span>Daftar Bab Lengkap</span>
+                <i class="fa-solid fa-arrow-right"></i>
+              </a>
+            </div>
+          </div>
+        </article>
+
+      </main>
+
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="bg-white border-t border-slate-200 py-10 mt-16">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-slate-500">
+      <div class="flex items-center gap-3">
+        <div class="w-7 h-7 rounded-lg bg-indigo-600 text-white flex items-center justify-center font-bold text-xs">
+          PM
+        </div>
+        <div>
+          <span class="font-bold text-slate-800 block">Pemodelan Matematika (MAT61730)</span>
+          <span>Program Studi Matematika &bull; Fakultas Sains dan Teknologi &bull; UIN Maulana Malik Ibrahim Malang</span>
+        </div>
+      </div>
+      <div class="flex items-center gap-4">
+        <a href="index.html" class="hover:text-indigo-600 transition">Beranda</a>
+        <a href="bab2.html" class="hover:text-indigo-600 transition font-semibold text-indigo-600">Bab 2: Populasi &rarr;</a>
+        <a href="main.pdf" class="hover:text-indigo-600 transition">PDF Lengkap</a>
+        <a href="https://github.com/cmdsi-info/pemodelan-matematika" target="_blank" class="hover:text-indigo-600 transition">GitHub Repo</a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Simulation Logic & UI Handler -->
+  <script>
+    // Reading Progress Indicator
+    window.addEventListener('scroll', () => {
+      const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+      const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+      const scrolled = (winScroll / height) * 100;
+      document.getElementById('progress-bar').style.width = scrolled + '%';
+    });
+
+    // Chart.js Setup
+    let popChartInstance = null;
+
+    function initChart() {
+      const ctx = document.getElementById('popChart').getContext('2d');
+      popChartInstance = new Chart(ctx, {
+        type: 'line',
+        data: {
+          labels: [],
+          datasets: [
+            {
+              label: 'Model Logistik Verhulst P(t)',
+              data: [],
+              borderColor: '#10b981',
+              backgroundColor: 'rgba(16, 185, 129, 0.1)',
+              borderWidth: 3,
+              fill: true,
+              tension: 0.25,
+              pointRadius: 0,
+              pointHitRadius: 10
+            },
+            {
+              label: 'Model Eksponensial Malthus P(t)',
+              data: [],
+              borderColor: '#ef4444',
+              borderDash: [5, 5],
+              borderWidth: 2,
+              fill: false,
+              tension: 0.1,
+              pointRadius: 0,
+              pointHitRadius: 10
+            },
+            {
+              label: 'Daya Tampung Lingkungan (K)',
+              data: [],
+              borderColor: '#6366f1',
+              borderDash: [3, 3],
+              borderWidth: 1.5,
+              fill: false,
+              pointRadius: 0
+            }
+          ]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          interaction: {
+            mode: 'index',
+            intersect: false,
+          },
+          plugins: {
+            legend: {
+              labels: {
+                color: '#cbd5e1',
+                font: { family: 'Plus Jakarta Sans', size: 11 }
+              }
+            },
+            tooltip: {
+              backgroundColor: '#0f172a',
+              titleColor: '#e2e8f0',
+              bodyColor: '#cbd5e1',
+              borderColor: '#334155',
+              borderWidth: 1,
+              padding: 10
+            }
+          },
+          scales: {
+            x: {
+              title: { display: true, text: 'Waktu (t)', color: '#94a3b8', font: { family: 'Plus Jakarta Sans', size: 12 } },
+              ticks: { color: '#64748b', font: { family: 'JetBrains Mono', size: 10 } },
+              grid: { color: 'rgba(51, 65, 85, 0.4)' }
+            },
+            y: {
+              title: { display: true, text: 'Jumlah Populasi P(t)', color: '#94a3b8', font: { family: 'Plus Jakarta Sans', size: 12 } },
+              ticks: { color: '#64748b', font: { family: 'JetBrains Mono', size: 10 } },
+              grid: { color: 'rgba(51, 65, 85, 0.4)' },
+              beginAtZero: true
+            }
+          }
+        }
+      });
+    }
+
+    function calculateData(p0, r, k, tMax = 20, steps = 100) {
+      const labels = [];
+      const dataLog = [];
+      const dataExp = [];
+      const dataK = [];
+      const dt = tMax / steps;
+
+      for (let i = 0; i <= steps; i++) {
+        const t = (i * dt);
+        labels.push(t.toFixed(1));
+
+        // Logistic Formula: P(t) = K / (1 + ((K - P0)/P0) * exp(-r*t))
+        const logVal = k / (1 + ((k - p0) / p0) * Math.exp(-r * t));
+        dataLog.push(logVal);
+
+        // Exponential Formula: P(t) = P0 * exp(r*t)
+        const expVal = p0 * Math.exp(r * t);
+        dataExp.push(expVal <= k * 2.5 ? expVal : null); // Cap view to keep chart readable
+
+        dataK.push(k);
+      }
+
+      return { labels, dataLog, dataExp, dataK };
+    }
+
+    function updateSimulation() {
+      const p0 = parseFloat(document.getElementById('slider-p0').value);
+      const r = parseFloat(document.getElementById('slider-r').value);
+      const k = parseFloat(document.getElementById('slider-k').value);
+
+      // Update Labels
+      document.getElementById('val-p0').innerText = p0;
+      document.getElementById('val-r').innerText = r.toFixed(2);
+      document.getElementById('val-k').innerText = k;
+
+      // Update Indicators
+      const doublingTime = (Math.log(2) / r).toFixed(2);
+      document.getElementById('stat-doubling').innerText = doublingTime + ' wkt';
+      document.getElementById('stat-inflection').innerText = Math.round(k / 2) + ' jiwa';
+      
+      const maxGrowth = ((r * k) / 4).toFixed(1);
+      document.getElementById('stat-maxgrowth').innerText = maxGrowth + ' /wkt';
+
+      const finalPop = (k / (1 + ((k - p0) / p0) * Math.exp(-r * 20))).toFixed(0);
+      document.getElementById('stat-finalpop').innerText = finalPop + ' jiwa';
+
+      // Update Chart
+      const { labels, dataLog, dataExp, dataK } = calculateData(p0, r, k);
+      popChartInstance.data.labels = labels;
+      popChartInstance.data.datasets[0].data = dataLog;
+      popChartInstance.data.datasets[1].data = dataExp;
+      popChartInstance.data.datasets[2].data = dataK;
+      popChartInstance.options.scales.y.max = Math.min(k * 2.2, Math.max(k * 1.25, 250));
+      popChartInstance.update('none');
+    }
+
+    function resetSliders() {
+      document.getElementById('slider-p0').value = 50;
+      document.getElementById('slider-r').value = 0.4;
+      document.getElementById('slider-k').value = 500;
+      updateSimulation();
+    }
+
+    // Initialize on window load
+    window.addEventListener('DOMContentLoaded', () => {
+      initChart();
+      updateSimulation();
+    });
+  </script>
+</body>
+</html>

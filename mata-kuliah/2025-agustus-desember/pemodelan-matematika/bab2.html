@@ -1,0 +1,512 @@
+<!DOCTYPE html>
+<html lang="id" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bab 2: Model Pertumbuhan Populasi - Pemodelan Matematika</title>
+  <meta name="description" content="Bab 2 Buku Ajar Pemodelan Matematika: Model Pertumbuhan Populasi Eksponensial dan Logistik oleh Dr. Mohammad Jamhuri, M.Si.">
+  
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  
+  <!-- MathJax CDN untuk render rumus matematika LaTeX -->
+  <script>
+    window.MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']],
+        displayMath: [['$$', '$$'], ['\\[', '\\]']]
+      }
+    };
+  </script>
+  <script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+  <!-- Google Fonts & Font Awesome -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+            mono: ['"JetBrains Mono"', 'monospace'],
+          }
+        }
+      }
+    }
+  </script>
+</head>
+<body class="bg-slate-50 text-slate-800 antialiased selection:bg-indigo-500 selection:text-white">
+
+  <!-- Header Nav -->
+  <header class="sticky top-0 z-50 bg-white/95 backdrop-blur-md border-b border-slate-200">
+    <div class="max-w-5xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
+      <div class="flex items-center gap-4">
+        <a href="index.html" class="flex items-center gap-2 text-slate-700 hover:text-indigo-600 transition font-semibold text-sm">
+          <i class="fa-solid fa-arrow-left text-xs"></i>
+          <span>Beranda</span>
+        </a>
+        <span class="text-slate-300">|</span>
+        <a href="bab1.html" class="text-xs font-semibold text-slate-500 hover:text-indigo-600 transition">
+          &larr; Bab 1: Pengantar
+        </a>
+      </div>
+      <div class="text-xs font-mono text-slate-500 hidden sm:block">
+        Mata Kuliah MAT61730 &bull; Bab 02
+      </div>
+      <div class="flex items-center gap-3">
+        <a href="main.pdf" class="inline-flex items-center gap-2 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 text-xs font-bold px-3 py-1.5 rounded-lg border border-indigo-200 transition">
+          <i class="fa-solid fa-file-pdf"></i>
+          <span>Unduh PDF</span>
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Content Container -->
+  <main class="max-w-4xl mx-auto px-4 sm:px-6 py-12">
+    
+    <!-- Chapter Header -->
+    <div class="border-b border-slate-200 pb-8 mb-10">
+      <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-indigo-100 text-indigo-800 text-xs font-mono font-bold mb-4">
+        BAB 02
+      </div>
+      <h1 class="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-slate-900 tracking-tight leading-tight">
+        Model Pertumbuhan Populasi: Eksponensial dan Logistik
+      </h1>
+      <p class="text-base sm:text-lg text-slate-600 mt-4 leading-relaxed">
+        Menyelidiki dinamika pertumbuhan satu spesies, formulasi analitik Malthus dan Verhulst, daya dukung lingkungan (carrying capacity), kestabilan titik kesetimbangan, kurva sigmoid, serta analisis grafik komprehensif.
+      </p>
+      <div class="flex items-center gap-4 mt-6 text-xs text-slate-500 pt-4 border-t border-slate-100">
+        <div><i class="fa-solid fa-user-pen mr-1 text-indigo-600"></i> Dr. Mohammad Jamhuri, M.Si.</div>
+        <div><i class="fa-solid fa-book-bookmark mr-1 text-indigo-600"></i> Program Studi Matematika UIN Malang</div>
+      </div>
+    </div>
+
+    <!-- Article Body -->
+    <article class="prose prose-slate max-w-none space-y-10 text-slate-700 leading-relaxed text-base sm:text-lg">
+
+      <!-- 2.1 Pendahuluan -->
+      <section id="pendahuluan">
+        <h2 class="text-2xl sm:text-3xl font-bold text-slate-900 flex items-center gap-3 mb-4">
+          <span class="text-indigo-600 font-mono text-xl">2.1</span> Pendahuluan
+        </h2>
+        <p>
+          Pertumbuhan populasi adalah salah satu fenomena biologis dan sosial paling mendasar. Dari pembiakan mikroba dalam medium kultur laboratorium, kepadatan satwa di suaka alam, hingga proyeksi jumlah penduduk suatu negara—semuanya memperlihatkan keteraturan laju yang dapat dirumuskan secara matematis.
+        </p>
+        <p>
+          Pada bab ini, kita menelaah dua model dasar pertumbuhan spesies tunggal:
+        </p>
+        <div class="grid sm:grid-cols-2 gap-4 my-6">
+          <div class="p-5 rounded-2xl bg-white border border-slate-200 shadow-sm">
+            <h4 class="font-bold text-slate-900 text-base mb-2 text-indigo-700"><i class="fa-solid fa-arrow-trend-up mr-2"></i>Model Eksponensial (Malthus)</h4>
+            <p class="text-sm text-slate-600 leading-relaxed">
+              Mengasumsikan laju pertumbuhan proporsional terhadap ukuran populasi tanpa adanya batasan sumber daya. Model ini relevan pada fase awal kolonisasi di mana ruang dan makanan melimpah.
+            </p>
+          </div>
+          <div class="p-5 rounded-2xl bg-white border border-slate-200 shadow-sm">
+            <h4 class="font-bold text-slate-900 text-base mb-2 text-emerald-700"><i class="fa-solid fa-chart-line mr-2"></i>Model Logistik (Verhulst)</h4>
+            <p class="text-sm text-slate-600 leading-relaxed">
+              Menyempurnakan model eksponensial dengan memperhitungkan faktor keterbatasan daya tampung lingkungan ($K$), menghasilkan lintasan kurva-S (sigmoid) yang stabil asimtotik.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- 2.2 Model Eksponensial -->
+      <section id="eksponensial" class="pt-6 border-t border-slate-200">
+        <h2 class="text-2xl sm:text-3xl font-bold text-slate-900 flex items-center gap-3 mb-4">
+          <span class="text-indigo-600 font-mono text-xl">2.2</span> Model Eksponensial (Malthus, 1798)
+        </h2>
+        <p>
+          Misalkan $P(t)$ menyatakan jumlah populasi pada waktu $t$. Asumsi paling sederhana menyatakan bahwa laju pertambahan populasi per satuan waktu berbanding lurus dengan jumlah populasi saat itu:
+        </p>
+        
+        <!-- Formula Box Light -->
+        <div class="my-4 p-5 bg-indigo-50/70 border border-indigo-200 rounded-2xl text-center text-slate-900 font-mono text-lg sm:text-xl">
+          $$\frac{dP}{dt} = rP$$
+        </div>
+        <p class="text-sm text-slate-600">
+          di mana $r$ adalah konstanta laju pertumbuhan intrinsik per kapita ($r = b - d$, selisih laju kelahiran dan laju kematian per individu).
+        </p>
+
+        <h3 class="text-xl font-bold text-slate-900 mt-6 mb-2">Solusi Analitik & Waktu Penggandaan</h3>
+        <p class="text-sm sm:text-base">
+          Dengan memisahkan variabel $\frac{dP}{P} = r \, dt$ dan mengintegralkan dari $t=0$, diperoleh solusi eksak:
+        </p>
+        <div class="my-4 p-5 bg-white border border-slate-200 rounded-2xl text-center text-lg sm:text-xl font-mono text-slate-900 font-bold shadow-sm">
+          $$P(t) = P(0) e^{rt}$$
+        </div>
+
+        <!-- Doubling Time Card -->
+        <div class="my-6 p-5 bg-slate-100/70 rounded-2xl border border-slate-200">
+          <h4 class="font-bold text-slate-900 text-sm uppercase tracking-wider text-indigo-700 mb-2">Waktu Penggandaan (Doubling Time)</h4>
+          <p class="text-sm text-slate-600">
+            Waktu yang dibutuhkan populasi untuk melipatgandakan ukurannya ($P(t_d) = 2P_0$) memenuhi hubungan:
+          </p>
+          <div class="text-center font-mono font-bold text-slate-900 text-base my-2">
+            $$2P_0 = P_0 e^{rt_d} \implies t_d = \frac{\ln 2}{r} \approx \frac{0.6931}{r}$$
+          </div>
+          <p class="text-xs text-slate-500">
+            Nilai $t_d$ konstan sepanjang waktu: waktu yang dibutuhkan bakteri untuk tumbuh dari 100 ke 200 sel persis sama dengan waktu yang dibutuhkan untuk tumbuh dari 1 juta ke 2 juta sel.
+          </p>
+        </div>
+
+        <h3 class="text-xl font-bold text-slate-900 mt-6 mb-2">Contoh Numerik: Koloni Bakteri</h3>
+        <p class="text-sm sm:text-base">
+          Jika koloni bakteri memiliki ukuran awal $P(0) = 100$ sel dan bertumbuh dengan laju $r = 0.5$ per jam, maka setelah 10 jam:
+        </p>
+        <div class="my-3 p-3 bg-white border border-slate-200 rounded-xl font-mono text-sm sm:text-base text-slate-900 text-center shadow-sm">
+          $$P(10) = 100 \times e^{0.5 \times 10} = 100 \times e^5 \approx 14.841 \text{ sel}$$
+        </div>
+        <p class="text-sm text-slate-600">
+          Dalam 10 jam, populasi melonjak hampir 150 kali lipat.
+        </p>
+
+        <h3 class="text-xl font-bold text-slate-900 mt-6 mb-2">Keterbatasan Model Eksponensial</h3>
+        <p class="text-sm sm:text-base">
+          Model Malthus mengasumsikan lingkungan tanpa batas. Di dunia nyata, ruang, pasokan nutrisi, dan akumulasi sisa metabolisme akan menjadi pembatas ketat yang menghentikan pertumbuhan eksplosif tersebut.
+        </p>
+      </section>
+
+      <!-- 2.3 Model Logistik -->
+      <section id="logistik" class="pt-6 border-t border-slate-200">
+        <h2 class="text-2xl sm:text-3xl font-bold text-slate-900 flex items-center gap-3 mb-4">
+          <span class="text-indigo-600 font-mono text-xl">2.3</span> Model Logistik (Verhulst, 1838)
+        </h2>
+        <p>
+          Pierre-François Verhulst menyempurnakan model Malthus dengan memperkenalkan parameter <strong>kapasitas lingkungan</strong> (<em>carrying capacity</em>) $K$, yaitu batas maksimum populasi yang dapat didukung secara berkelanjutan oleh habitat.
+        </p>
+
+        <!-- Formula Box Light -->
+        <div class="my-4 p-5 bg-emerald-50/70 border border-emerald-200 rounded-2xl text-center text-slate-900 font-mono text-lg sm:text-xl">
+          $$\frac{dP}{dt} = rP\left(1 - \frac{P}{K}\right)$$
+        </div>
+
+        <p class="text-sm sm:text-base">
+          Suku $\left(1 - \frac{P}{K}\right)$ berperan sebagai faktor penghambat kepadatan:
+        </p>
+        <ul class="list-disc list-inside space-y-1 text-sm text-slate-700 ml-2">
+          <li>Jika $P \ll K$: faktor penghambat $\approx 1$, pertumbuhan berlangsung cepat mendekati model eksponensial.</li>
+          <li>Jika $P \to K$: faktor penghambat $\to 0$, sehingga laju pertumbuhan melambat dan terhenti ($\frac{dP}{dt} \to 0$).</li>
+          <li>Jika $P > K$: faktor penghambat bernilai negatif, menyebabkan populasi menurun secara alami menuju $K$.</li>
+        </ul>
+
+        <h3 class="text-xl font-bold text-slate-900 mt-6 mb-2">Solusi Eksak Kurva Sigmoid</h3>
+        <p class="text-sm sm:text-base">
+          Melalui integrasi pecahan parsial, diperoleh solusi analitik berbentuk <strong>kurva-S (sigmoid)</strong>:
+        </p>
+        <div class="my-4 p-5 bg-white border border-slate-200 rounded-2xl text-center text-lg sm:text-xl font-mono text-slate-900 font-bold shadow-sm">
+          $$P(t) = \frac{K}{1 + \left(\frac{K - P_0}{P_0}\right) e^{-rt}}$$
+        </div>
+
+        <h3 class="text-xl font-bold text-slate-900 mt-6 mb-2">Analisis Kestabilan Titik Kesetimbangan</h3>
+        <p class="text-sm sm:text-base">
+          Laju perubahan bernilai nol saat $f(P) = rP(1 - P/K) = 0$, menghasilkan dua titik kesetimbangan:
+        </p>
+        <div class="grid sm:grid-cols-2 gap-4 my-4">
+          <div class="p-4 rounded-xl bg-white border border-slate-200 shadow-sm">
+            <h5 class="font-bold text-slate-900 text-sm mb-1 text-red-600"><i class="fa-solid fa-circle-xmark mr-1"></i> Titik $P_1^* = 0$ (Kepunahan)</h5>
+            <p class="text-xs text-slate-600">Turunan $f'(0) = r > 0$. Titik ini bersifat <strong>tidak stabil (unstable / repeller)</strong>. Gangguan populasi kecil akan berkembang menjauhi titik nol.</p>
+          </div>
+          <div class="p-4 rounded-xl bg-white border border-slate-200 shadow-sm">
+            <h5 class="font-bold text-slate-900 text-sm mb-1 text-emerald-600"><i class="fa-solid fa-circle-check mr-1"></i> Titik $P_2^* = K$ (Daya Dukung)</h5>
+            <p class="text-xs text-slate-600">Turunan $f'(K) = -r < 0$. Titik ini bersifat <strong>stabil asimtotik (asymptotically stable / attractor)</strong>. Semua lintasan populasi positif akan konvergen ke $K$.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- 2.4 Pelinieran Data BPS -->
+      <section id="pelinieran" class="pt-6 border-t border-slate-200">
+        <h2 class="text-2xl sm:text-3xl font-bold text-slate-900 flex items-center gap-3 mb-4">
+          <span class="text-indigo-600 font-mono text-xl">2.4</span> Pelinieran Model & Estimasi Parameter
+        </h2>
+        <p class="text-sm sm:text-base">
+          Untuk mengestimasi parameter $r$ dan $K$ dari data riil, model nonlinier dapat ditransformasikan ke persamaan garis lurus ($Y = A + B t$):
+        </p>
+        
+        <div class="grid sm:grid-cols-2 gap-4 my-4">
+          <div class="p-4 rounded-xl bg-white border border-slate-200 shadow-sm">
+            <h5 class="font-bold text-slate-900 text-xs uppercase tracking-wider text-indigo-700 mb-2">Pelinieran Eksponensial</h5>
+            <div class="font-mono text-xs text-slate-800 text-center my-2">
+              $$\ln P(t) = \ln P_0 + r t$$
+            </div>
+            <p class="text-xs text-slate-500">Plot $\ln P$ terhadap $t$ menghasilkan garis lurus dengan kemiringan $r$.</p>
+          </div>
+          <div class="p-4 rounded-xl bg-white border border-slate-200 shadow-sm">
+            <h5 class="font-bold text-slate-900 text-xs uppercase tracking-wider text-emerald-700 mb-2">Pelinieran Logistik Bersyarat</h5>
+            <div class="font-mono text-xs text-slate-800 text-center my-2">
+              $$\ln\left(\frac{K - P}{P}\right) = \ln\left(\frac{K - P_0}{P_0}\right) - r t$$
+            </div>
+            <p class="text-xs text-slate-500">Jika $K$ ditaksir dari batas daya tampung wilayah, plot rasio terhadap $t$ menghasilkan garis lurus berkemiringan $-r$.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- 2.5 Analisis Visual Komprehensif (Menggantikan Kode Python) -->
+      <section id="analisis-visual" class="pt-6 border-t border-slate-200">
+        <h2 class="text-2xl sm:text-3xl font-bold text-slate-900 flex items-center gap-3 mb-4">
+          <span class="text-indigo-600 font-mono text-xl">2.5</span> Analisis Visual & Interpretasi Solusi Model
+        </h2>
+        <p class="text-sm sm:text-base leading-relaxed mb-6">
+          Berikut adalah hasil simulasi numerik dan analisis grafis komprehensif yang membedah perilaku solusi model populasi secara visual tanpa memerlukan eksekusi kode terpisah:
+        </p>
+
+        <!-- GAMBAR 2.1: Dinamika Temporal -->
+        <div class="my-8 p-6 bg-white rounded-3xl border border-slate-200 shadow-sm">
+          <div class="text-center mb-4">
+            <span class="text-xs font-bold uppercase tracking-wider px-3 py-1 rounded-full bg-indigo-50 text-indigo-700 border border-indigo-100">Gambar 2.1</span>
+            <h4 class="text-lg font-bold text-slate-900 mt-2">Dinamika Temporal Pertumbuhan: Eksponensial vs Logistik</h4>
+            <p class="text-xs text-slate-500">Perbandingan kurva populasi dari kondisi awal yang sama ($P_0 = 50$, $r = 0.05$, $K = 200$)</p>
+          </div>
+
+          <!-- SVG Visual 1 -->
+          <div class="max-w-xl mx-auto my-6">
+            <svg viewBox="0 0 520 280" class="w-full h-auto">
+              <!-- Background Grid Lines -->
+              <line x1="60" y1="230" x2="480" y2="230" stroke="#cbd5e1" stroke-width="1.5"/>
+              <line x1="60" y1="180" x2="480" y2="180" stroke="#f1f5f9" stroke-width="1"/>
+              <line x1="60" y1="130" x2="480" y2="130" stroke="#f1f5f9" stroke-width="1"/>
+              <line x1="60" y1="80" x2="480" y2="80" stroke="#f1f5f9" stroke-width="1"/>
+              <line x1="60" y1="230" x2="60" y2="25" stroke="#cbd5e1" stroke-width="1.5"/>
+
+              <!-- Axis Labels -->
+              <text x="475" y="248" font-size="11" fill="#64748b" font-weight="bold">Waktu (t)</text>
+              <text x="15" y="32" font-size="11" fill="#64748b" font-weight="bold">P(t)</text>
+              <text x="40" y="234" font-size="10" fill="#94a3b8">0</text>
+              <text x="25" y="184" font-size="10" fill="#94a3b8">50</text>
+              <text x="20" y="134" font-size="10" fill="#94a3b8">100</text>
+              <text x="20" y="84" font-size="10" fill="#94a3b8">200</text>
+              <text x="20" y="44" font-size="10" fill="#94a3b8">240</text>
+
+              <!-- Carrying Capacity Line K -->
+              <line x1="60" y1="80" x2="480" y2="80" stroke="#ef4444" stroke-dasharray="5" stroke-width="1.5"/>
+              <text x="360" y="72" font-size="11" fill="#dc2626" font-weight="bold">Daya Tampung K = 200</text>
+
+              <!-- Inflection Line K/2 -->
+              <line x1="60" y1="130" x2="480" y2="130" stroke="#94a3b8" stroke-dasharray="3" stroke-width="1"/>
+              <text x="360" y="124" font-size="10" fill="#64748b">Titik Belok K/2 = 100</text>
+
+              <!-- Exponential Curve (Indigo Dashed) -->
+              <path d="M 60 180 Q 180 170, 240 30" fill="none" stroke="#6366f1" stroke-width="2.5" stroke-dasharray="6"/>
+              <text x="245" y="45" font-size="11" fill="#4f46e5" font-weight="bold">Eksponensial P(t)</text>
+
+              <!-- Overpopulation Curve (Starts at P0=240, decays to K) -->
+              <path d="M 60 40 C 120 70, 200 79, 480 80" fill="none" stroke="#f59e0b" stroke-width="2"/>
+              <text x="90" y="32" font-size="10" fill="#d97706" font-weight="bold">Kondisi Lebih: P₀ > K (Meluruh ke K)</text>
+
+              <!-- Logistic Sigmoid Curve (Emerald Solid) -->
+              <path d="M 60 180 C 160 180, 180 82, 480 80" fill="none" stroke="#10b981" stroke-width="3.5"/>
+              <text x="340" y="98" font-size="11" fill="#059669" font-weight="bold">Logistik P(t) (Sigmoid)</text>
+
+              <!-- Initial Point Point P0 -->
+              <circle cx="60" cy="180" r="4" fill="#4f46e5"/>
+              <text x="70" y="195" font-size="10" fill="#4f46e5" font-weight="bold">P₀ = 50</text>
+
+              <!-- Inflection Point Mark -->
+              <circle cx="170" cy="130" r="4" fill="#059669"/>
+              <text x="180" y="145" font-size="10" fill="#059669" font-weight="bold">Titik Belok (Laju Maksimum)</text>
+            </svg>
+          </div>
+
+          <!-- Explanation Box -->
+          <div class="bg-slate-50 p-4 rounded-2xl border border-slate-200 text-xs sm:text-sm text-slate-700 leading-relaxed space-y-2">
+            <p><strong>Uraian Analisis Gambar 2.1:</strong></p>
+            <ul class="list-disc list-inside space-y-1 text-slate-600">
+              <li><span class="text-indigo-700 font-semibold">Kurva Eksponensial:</span> Terus membubung tajam tanpa batas atas, hanya realistis saat populasi masih sangat kecil dibanding kapasitas habitat ($P \ll K$).</li>
+              <li><span class="text-emerald-700 font-semibold">Kurva Logistik (Kurva-S):</span> Mengalami 3 fase distingtif: fase percepatan di awal, fase laju maksimum pada titik belok $P = K/2 = 100$, dan fase saturasi di mana laju melambat hingga konvergen stabil di $K = 200$.</li>
+              <li><span class="text-amber-700 font-semibold">Kasus $P_0 > K$:</span> Jika habitat kelebihan muatan di awal, populasi secara alami mengalami penurunan laju mortalitas tinggi hingga kembali seimbang di daya dukung $K$.</li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- GAMBAR 2.2: Phase Line & Laju Pertumbuhan -->
+        <div class="my-8 p-6 bg-white rounded-3xl border border-slate-200 shadow-sm">
+          <div class="text-center mb-4">
+            <span class="text-xs font-bold uppercase tracking-wider px-3 py-1 rounded-full bg-emerald-50 text-emerald-700 border border-emerald-100">Gambar 2.2</span>
+            <h4 class="text-lg font-bold text-slate-900 mt-2">Diagram Garis Fase (Phase Line) dan Kestabilan Titik Kritis</h4>
+            <p class="text-xs text-slate-500">Karakteristik grafik fungsi laju $\frac{dP}{dt} = f(P)$ terhadap ukuran populasi $P$</p>
+          </div>
+
+          <!-- SVG Visual 2 -->
+          <div class="max-w-xl mx-auto my-6">
+            <svg viewBox="0 0 520 220" class="w-full h-auto">
+              <!-- Sumbu Horizontal P dan Vertikal dP/dt -->
+              <line x1="40" y1="150" x2="480" y2="150" stroke="#475569" stroke-width="2"/>
+              <line x1="80" y1="200" x2="80" y2="20" stroke="#475569" stroke-width="1.5"/>
+              <text x="470" y="170" font-size="11" fill="#475569" font-weight="bold">Populasi (P)</text>
+              <text x="15" y="30" font-size="11" fill="#475569" font-weight="bold">dP/dt</text>
+
+              <!-- Parabola dP/dt = rP(1 - P/K) -->
+              <!-- Starts at P=80 (P=0), peaks at P=240 (P=K/2), ends at P=400 (P=K) -->
+              <path d="M 80 150 Q 240 10, 400 150" fill="none" stroke="#10b981" stroke-width="3"/>
+              
+              <!-- Continuation below horizontal axis for P > K -->
+              <path d="M 400 150 Q 440 210, 480 250" fill="none" stroke="#10b981" stroke-width="2" stroke-dasharray="4"/>
+
+              <!-- Critical Points -->
+              <!-- P = 0 (Unstable / Repeller: Hollow Circle) -->
+              <circle cx="80" cy="150" r="5" fill="#ffffff" stroke="#ef4444" stroke-width="2.5"/>
+              <text x="70" y="175" font-size="11" fill="#dc2626" font-weight="bold">P₁ = 0</text>
+              <text x="45" y="190" font-size="9" fill="#dc2626">(Tak Stabil)</text>
+
+              <!-- P = K (Stable / Attractor: Solid Circle) -->
+              <circle cx="400" cy="150" r="5" fill="#10b981" stroke="#047857" stroke-width="1.5"/>
+              <text x="390" y="175" font-size="11" fill="#047857" font-weight="bold">P₂ = K</text>
+              <text x="380" y="190" font-size="9" fill="#047857">(Stabil Asimtotik)</text>
+
+              <!-- Peak at P = K/2 -->
+              <line x1="240" y1="150" x2="240" y2="80" stroke="#94a3b8" stroke-dasharray="3"/>
+              <circle cx="240" cy="80" r="4" fill="#059669"/>
+              <text x="210" y="65" font-size="10" fill="#059669" font-weight="bold">Puncak Laju: rK/4</text>
+              <text x="220" y="170" font-size="10" fill="#64748b">P = K/2</text>
+
+              <!-- Dynamic Arrows on Phase Axis -->
+              <!-- Arrow between 0 and K (pointing right -> increasing) -->
+              <polygon points="165,147 175,150 165,153" fill="#10b981"/>
+              <polygon points="315,147 325,150 315,153" fill="#10b981"/>
+
+              <!-- Arrow for P > K (pointing left -> decreasing) -->
+              <polygon points="445,150 435,147 435,153" fill="#ef4444"/>
+            </svg>
+          </div>
+
+          <!-- Explanation Box -->
+          <div class="bg-slate-50 p-4 rounded-2xl border border-slate-200 text-xs sm:text-sm text-slate-700 leading-relaxed space-y-2">
+            <p><strong>Uraian Analisis Gambar 2.2:</strong></p>
+            <ul class="list-disc list-inside space-y-1 text-slate-600">
+              <li><span class="text-slate-800 font-semibold">Parabola Pertumbuhan:</span> Laju pertumbuhan $\frac{dP}{dt}$ bernilai positif di interval $0 < P < K$, dengan kecepatan tertinggi dicapai tepat pada saat populasi terisi setengah ($P = K/2$).</li>
+              <li><span class="text-red-600 font-semibold">Titik Nol (Repeller):</span> Karena kemiringan kurva di titik nol bernilai positif ($f'(0) = r > 0$), panah dinamika bergerak menjauh. Populasi tidak akan bertahan di titik nol bila ada bibit individu.</li>
+              <li><span class="text-emerald-700 font-semibold">Titik K (Attractor):</span> Karena kemiringan di titik $K$ negatif ($f'(K) = -r < 0$), semua panah dari kiri maupun kanan mengarah masuk ke $K$. Hal ini membuktikan kestabilan asimtotik global untuk setiap kondisi awal $P_0 > 0$.</li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- GAMBAR 2.3: Fitting Data BPS -->
+        <div class="my-8 p-6 bg-white rounded-3xl border border-slate-200 shadow-sm">
+          <div class="text-center mb-4">
+            <span class="text-xs font-bold uppercase tracking-wider px-3 py-1 rounded-full bg-amber-50 text-amber-700 border border-amber-100">Gambar 2.3</span>
+            <h4 class="text-lg font-bold text-slate-900 mt-2">Pencocokan Model Terhadap Data Sensus Penduduk (BPS)</h4>
+            <p class="text-xs text-slate-500">Evaluasi daya prediksi model logistik vs eksponensial pada interval 2000–2025</p>
+          </div>
+
+          <!-- SVG Visual 3 -->
+          <div class="max-w-xl mx-auto my-6">
+            <svg viewBox="0 0 520 260" class="w-full h-auto">
+              <!-- Grid -->
+              <line x1="60" y1="210" x2="480" y2="210" stroke="#cbd5e1" stroke-width="1.5"/>
+              <line x1="60" y1="210" x2="60" y2="30" stroke="#cbd5e1" stroke-width="1.5"/>
+
+              <!-- Years Labels -->
+              <text x="60" y="228" font-size="10" fill="#64748b" text-anchor="middle">2000</text>
+              <text x="130" y="228" font-size="10" fill="#64748b" text-anchor="middle">2005</text>
+              <text x="200" y="228" font-size="10" fill="#64748b" text-anchor="middle">2010</text>
+              <text x="270" y="228" font-size="10" fill="#64748b" text-anchor="middle">2015</text>
+              <text x="340" y="228" font-size="10" fill="#64748b" text-anchor="middle">2020</text>
+              <text x="410" y="228" font-size="10" fill="#64748b" text-anchor="middle">2025</text>
+
+              <!-- Population Axis Labels (Juta Jiwa) -->
+              <text x="25" y="175" font-size="10" fill="#64748b">120M</text>
+              <text x="25" y="125" font-size="10" fill="#64748b">150M</text>
+              <text x="25" y="75" font-size="10" fill="#64748b">180M</text>
+
+              <!-- Carrying Capacity Reference ~190M -->
+              <line x1="60" y1="60" x2="480" y2="60" stroke="#ef4444" stroke-dasharray="4" stroke-width="1.2"/>
+              <text x="360" y="52" font-size="10" fill="#dc2626" font-weight="bold">Kapasitas Saturasi ≈ 190 Juta</text>
+
+              <!-- Exponential Diverging Fit (Purple Dashed) -->
+              <path d="M 60 170 Q 240 140, 420 40" fill="none" stroke="#6366f1" stroke-width="2" stroke-dasharray="5"/>
+              <text x="380" y="32" font-size="10" fill="#4f46e5" font-weight="bold">Model Eksponensial</text>
+
+              <!-- Logistic Fit Curve (Emerald Solid) -->
+              <path d="M 60 170 C 180 150, 240 95, 460 65" fill="none" stroke="#10b981" stroke-width="3"/>
+              <text x="270" y="90" font-size="10" fill="#059669" font-weight="bold">Fitting Logistik (Akurat)</text>
+
+              <!-- Data Points (Red Dots) -->
+              <circle cx="60" cy="170" r="4" fill="#dc2626"/>  <!-- 2000: 120.0 -->
+              <circle cx="130" cy="151" r="4" fill="#dc2626"/> <!-- 2005: 132.5 -->
+              <circle cx="200" cy="131" r="4" fill="#dc2626"/> <!-- 2010: 145.8 -->
+              <circle cx="270" cy="112" r="4" fill="#dc2626"/> <!-- 2015: 158.2 -->
+              <circle cx="340" cy="96" r="4" fill="#dc2626"/>  <!-- 2020: 169.1 -->
+              <circle cx="410" cy="83" r="4" fill="#dc2626"/>  <!-- 2025: 177.6 -->
+            </svg>
+          </div>
+
+          <!-- Explanation Box -->
+          <div class="bg-slate-50 p-4 rounded-2xl border border-slate-200 text-xs sm:text-sm text-slate-700 leading-relaxed space-y-2">
+            <p><strong>Uraian Analisis Gambar 2.3:</strong></p>
+            <ul class="list-disc list-inside space-y-1 text-slate-600">
+              <li>Titik-titik merah mewakili data sensus riil populasi usia produktif Indonesia interval 5 tahunan.</li>
+              <li>Memasuki dekade 2015–2025, terlihat jelas adanya kelengkungan melambat (<em>deceleration</em>) yang mengikuti kurva logistik mendekati batas asimtotik $\sim 190$ juta jiwa.</li>
+              <li>Model eksponensial (garis ungu putus-putus) mulai menyimpang jauh ke atas setelah tahun 2015, membuktikan bahwa mengabaikan daya tampung lingkungan akan menghasilkan estimasi populasi yang terlalu optimistis dan menyesatkan.</li>
+            </ul>
+          </div>
+        </div>
+
+      </section>
+
+      <!-- 2.6 Latihan & Diskusi Reflektif -->
+      <section id="latihan" class="pt-6 border-t border-slate-200">
+        <h2 class="text-2xl sm:text-3xl font-bold text-slate-900 flex items-center gap-3 mb-4">
+          <span class="text-indigo-600 font-mono text-xl">2.6</span> Latihan & Pertanyaan Diskusi
+        </h2>
+        
+        <div class="space-y-4 my-6">
+          <div class="p-5 rounded-2xl bg-white border border-slate-200 shadow-sm">
+            <h5 class="font-bold text-slate-900 text-sm mb-2 text-indigo-700">Soal 1: Waktu Penggandaan Biakan Sel</h5>
+            <p class="text-sm text-slate-600">
+              Sebuah biakan sel memiliki waktu penggandaan 45 menit dalam fase pertumbuhan eksponensial. Tentukan konstanta pertumbuhan relatif per jam ($r$) dan hitung ukuran koloni setelah 6 jam jika ukuran awal adalah $5 \times 10^3$ sel!
+            </p>
+          </div>
+          <div class="p-5 rounded-2xl bg-white border border-slate-200 shadow-sm">
+            <h5 class="font-bold text-slate-900 text-sm mb-2 text-indigo-700">Soal 2: Model Penangkapan Ikan (Harvesting)</h5>
+            <p class="text-sm text-slate-600">
+              Populasi ikan di sebuah suaka danau dimodelkan dengan persamaan logistik dengan penangkapan konstan $h > 0$:
+              $$\frac{dP}{dt} = rP\left(1 - \frac{P}{K}\right) - h$$
+              Tentukan nilai penangkapan kritis maksimum ($h_c$) agar populasi ikan tidak mengalami kepunahan mendadak (<em>bifurkasi saddle-node</em>)!
+            </p>
+          </div>
+          <div class="p-5 rounded-2xl bg-white border border-slate-200 shadow-sm">
+            <h5 class="font-bold text-slate-900 text-sm mb-2 text-indigo-700">Soal 3: Efek Allee pada Populasi Rentan</h5>
+            <p class="text-sm text-slate-600">
+              Pada beberapa spesies langka, populasi tidak dapat bertahan hidup jika kepadatannya terlalu rendah di bawah ambang batas $A > 0$ (efek Allee):
+              $$\frac{dP}{dt} = rP\left(1 - \frac{P}{K}\right)\left(\frac{P}{A} - 1\right)$$
+              Tentukan semua titik kesetimbangan model ini dan analisis kestabilannya secara grafis!
+            </p>
+          </div>
+        </div>
+
+        <h3 class="text-xl font-bold text-slate-900 mt-8 mb-2">Penutup Bab</h3>
+        <p class="text-sm sm:text-base text-slate-700">
+          Model eksponensial dan logistik membuktikan bagaimana matematika mampu memodelkan siklus hidup satu spesies secara elegan. Pada bab selanjutnya (Bab 3), kita melangkah menuju ekosistem multispesies: menyelidiki bagaimana dua spesies berinteraksi dalam hubungan pemangsaan melalui <strong>Model Predator–Prey Lotka–Volterra</strong>.
+        </p>
+      </section>
+
+    </article>
+
+    <!-- Navigation Footer between Chapters -->
+    <div class="mt-16 pt-8 border-t border-slate-200 flex flex-col sm:flex-row items-center justify-between gap-4">
+      <a href="bab1.html" class="inline-flex items-center gap-2 text-sm font-semibold text-slate-600 hover:text-indigo-600 transition">
+        <i class="fa-solid fa-arrow-left"></i>
+        <span>Kembali ke Bab 1: Pengantar</span>
+      </a>
+      <a href="bab3.html" class="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-semibold text-sm shadow-md shadow-indigo-200 transition">
+        <span>Lanjut ke Bab 3: Predator–Prey</span>
+        <i class="fa-solid fa-arrow-right"></i>
+      </a>
+    </div>
+
+  </main>
+
+  <!-- Footer -->
+  <footer class="bg-white border-t border-slate-200 py-8 text-center text-xs text-slate-500 mt-16">
+    <div class="max-w-5xl mx-auto px-4">
+      &copy; 2025 Dr. Mohammad Jamhuri, M.Si. &bull; Program Studi Matematika UIN Maulana Malik Ibrahim Malang.
+    </div>
+  </footer>
+
+</body>
+</html>

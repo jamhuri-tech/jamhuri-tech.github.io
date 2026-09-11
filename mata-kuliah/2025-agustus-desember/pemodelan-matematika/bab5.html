@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html lang="id" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bab 5: Model Antrian (Queueing Models) - Pemodelan Matematika</title>
+  <meta name="description" content="Bab 5 Buku Ajar Pemodelan Matematika: Model Antrian Kendall, Sistem M/M/1, Multi-server M/M/c, Hukum Little, dan Waktu Tunggu oleh Dr. Mohammad Jamhuri, M.Si.">
+  
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  
+  <!-- MathJax CDN untuk render rumus matematika LaTeX -->
+  <script>
+    window.MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']],
+        displayMath: [['$$', '$$'], ['\\[', '\\]']]
+      }
+    };
+  </script>
+  <script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+  <!-- Google Fonts & Font Awesome -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+            mono: ['"JetBrains Mono"', 'monospace'],
+          }
+        }
+      }
+    }
+  </script>
+</head>
+<body class="bg-slate-50 text-slate-800 antialiased selection:bg-indigo-500 selection:text-white">
+
+  <!-- Header Nav -->
+  <header class="sticky top-0 z-50 bg-white/95 backdrop-blur-md border-b border-slate-200">
+    <div class="max-w-5xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
+      <div class="flex items-center gap-4">
+        <a href="index.html" class="flex items-center gap-2 text-slate-700 hover:text-indigo-600 transition font-semibold text-sm">
+          <i class="fa-solid fa-arrow-left text-xs"></i>
+          <span>Beranda</span>
+        </a>
+        <span class="text-slate-300">|</span>
+        <a href="bab4.html" class="text-xs font-semibold text-slate-500 hover:text-indigo-600 transition">
+          &larr; Bab 4: Epidemiologi
+        </a>
+      </div>
+      <div class="text-xs font-mono text-slate-500 hidden sm:block">
+        Mata Kuliah MAT61730 &bull; Bab 05
+      </div>
+      <div class="flex items-center gap-3">
+        <a href="main.pdf" class="inline-flex items-center gap-2 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 text-xs font-bold px-3 py-1.5 rounded-lg border border-indigo-200 transition">
+          <i class="fa-solid fa-file-pdf"></i>
+          <span>Unduh PDF</span>
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Content Container -->
+  <main class="max-w-4xl mx-auto px-4 sm:px-6 py-12">
+    
+    <!-- Chapter Header -->
+    <div class="border-b border-slate-200 pb-8 mb-10">
+      <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-indigo-100 text-indigo-800 text-xs font-mono font-bold mb-4">
+        BAB 05
+      </div>
+      <h1 class="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-slate-900 tracking-tight leading-tight">
+        Model Antrian (Queueing Models)
+      </h1>
+      <p class="text-base sm:text-lg text-slate-600 mt-4 leading-relaxed">
+        Menganalisis fenomena antrean stokastik, notasi Kendall, perumusan model single-server $M/M/1$ dan multi-server $M/M/c$, distribusi steady-state, Hukum Little, serta dampak nonlinier utilisasi server terhadap waktu tunggu.
+      </p>
+      <div class="flex items-center gap-4 mt-6 text-xs text-slate-500 pt-4 border-t border-slate-100">
+        <div><i class="fa-solid fa-user-pen mr-1 text-indigo-600"></i> Dr. Mohammad Jamhuri, M.Si.</div>
+        <div><i class="fa-solid fa-book-bookmark mr-1 text-indigo-600"></i> Program Studi Matematika UIN Malang</div>
+      </div>
+    </div>
+
+    <!-- Article Body -->
+    <article class="prose prose-slate max-w-none space-y-10 text-slate-700 leading-relaxed text-base sm:text-lg">
+
+      <!-- 5.1 Pendahuluan -->
+      <section id="pendahuluan">
+        <h2 class="text-2xl sm:text-3xl font-bold text-slate-900 flex items-center gap-3 mb-4">
+          <span class="text-indigo-600 font-mono text-xl">5.1</span> Pendahuluan
+        </h2>
+        <p>
+          Antrean (<em>queue</em>) adalah pengalaman universal yang dialami setiap manusia: menunggu di loket rumah sakit, gerbang tol jalan raya, antrean kasir supermarket, hingga lalu lintas paket data di server komputasi awan. Fenomena antrean muncul setiap kali permintaan layanan melebihi kapasitas pelayanan sesaat yang tersedia.
+        </p>
+        <p>
+          Secara operasional, terdapat tarik-menarik biaya yang berlawanan (<em>trade-off</em>):
+        </p>
+        <div class="grid sm:grid-cols-2 gap-4 my-6">
+          <div class="p-5 rounded-2xl bg-white border border-slate-200 shadow-sm">
+            <h5 class="font-bold text-slate-900 text-sm mb-1 text-red-700"><i class="fa-solid fa-clock mr-2"></i>Biaya Menunggu (Cost of Waiting)</h5>
+            <p class="text-xs text-slate-600 leading-relaxed">Waktu produktif yang terbuang, ketidakpuasan pelanggan, atau risiko medis pada pasien gawat darurat yang menunggu terlalu lama.</p>
+          </div>
+          <div class="p-5 rounded-2xl bg-white border border-slate-200 shadow-sm">
+            <h5 class="font-bold text-slate-900 text-sm mb-1 text-indigo-700"><i class="fa-solid fa-server mr-2"></i>Biaya Penyediaan Fasilitas (Cost of Service)</h5>
+            <p class="text-xs text-slate-600 leading-relaxed">Investasi modal untuk menambah jumlah loket, dokter, server, atau staf yang dapat menganggur saat sistem sepi.</p>
+          </div>
+        </div>
+        <p>
+          <strong>Teori Antrean (<em>Queueing Theory</em>)</strong>, yang dipelopori oleh insinyur Denmark <strong>A.K. Erlang</strong> pada tahun 1909 dalam konteks jaringan telepon Kopenhagen, memberikan kerangka matematis probabilistik untuk mengoptimalkan titik temu antara kedua biaya tersebut.
+        </p>
+      </section>
+
+      <!-- 5.2 Komponen Dasar Sistem Antrian -->
+      <section id="komponen" class="pt-6 border-t border-slate-200">
+        <h2 class="text-2xl sm:text-3xl font-bold text-slate-900 flex items-center gap-3 mb-4">
+          <span class="text-indigo-600 font-mono text-xl">5.2</span> Komponen Dasar Sistem Antrian
+        </h2>
+        <p class="text-sm sm:text-base">
+          Setiap sistem antrean dibentuk oleh empat elemen arsitektur dasar:
+        </p>
+
+        <div class="space-y-4 my-6">
+          <div class="p-4 rounded-2xl bg-white border border-slate-200 shadow-sm">
+            <h5 class="font-bold text-slate-900 text-sm mb-1 text-indigo-700">1. Pola Kedatangan (Arrival Process)</h5>
+            <p class="text-xs sm:text-sm text-slate-600">Frekuensi dan distribusi waktu antar-kedatangan pelanggan. Pada model klasik, kedatangan diasumsikan acak independen mengikuti <strong>Proses Poisson</strong> dengan laju rata-rata $\lambda$ pelanggan per satuan waktu (sehingga waktu antar-kedatangan berdistribusi eksponensial dengan rerata $1/\lambda$).</p>
+          </div>
+          <div class="p-4 rounded-2xl bg-white border border-slate-200 shadow-sm">
+            <h5 class="font-bold text-slate-900 text-sm mb-1 text-indigo-700">2. Struktur & Kapasitas Antrean (Queue Discipline)</h5>
+            <p class="text-xs sm:text-sm text-slate-600">Kapasitas ruang tunggu (berhingga atau tak hingga) dan urutan pemilihan pelanggan yang dilayani: FIFO (<em>First-In First-Out</em>), LIFO (<em>Last-In First-Out</em>), SIRO (<em>Service In Random Order</em>), atau berdasarkan prioritas urgensi (<em>Priority Queue</em>).</p>
+          </div>
+          <div class="p-4 rounded-2xl bg-white border border-slate-200 shadow-sm">
+            <h5 class="font-bold text-slate-900 text-sm mb-1 text-indigo-700">3. Mekanisme Pelayanan (Service Mechanism)</h5>
+            <p class="text-xs sm:text-sm text-slate-600">Jumlah stasiun server paralel ($c$) dan distribusi durasi pelayanan. Sering dimodelkan berdistribusi eksponensial dengan laju rata-rata $\mu$ pelanggan per server (waktu pelayanan rata-rata $1/\mu$).</p>
+          </div>
+          <div class="p-4 rounded-2xl bg-white border border-slate-200 shadow-sm">
+            <h5 class="font-bold text-slate-900 text-sm mb-1 text-indigo-700">4. Keberangkatan (Departure)</h5>
+            <p class="text-xs sm:text-sm text-slate-600">Pelanggan yang selesai dilayani meninggalkan sistem, atau kembali ke antrean lain pada sistem berantai (<em>tandem queues</em>).</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- 5.3 Notasi Kendall -->
+      <section id="notasi-kendall" class="pt-6 border-t border-slate-200">
+        <h2 class="text-2xl sm:text-3xl font-bold text-slate-900 flex items-center gap-3 mb-4">
+          <span class="text-indigo-600 font-mono text-xl">5.3</span> Notasi Standar Kendall
+        </h2>
+        <p class="text-sm sm:text-base">
+          David G. Kendall (1953) merumuskan notasi universal berformat $A/S/c/K/N/D$ untuk mengklasifikasikan sistem antrean:
+        </p>
+
+        <!-- Formula Box Light -->
+        <div class="my-4 p-5 bg-indigo-50/70 border border-indigo-200 rounded-2xl text-center text-slate-900 font-mono text-base sm:text-lg shadow-sm">
+          $$A \;/\; S \;/\; c \;/\; K \;/\; N \;/\; D$$
+        </div>
+
+        <ul class="list-disc list-inside space-y-1.5 text-xs sm:text-sm text-slate-700 ml-2">
+          <li><strong>$A$ (Distribusi Kedatangan):</strong> $M$ = Markovian/Eksponensial, $D$ = Deterministik/Pasti, $E_k$ = Erlang-$k$, $G$ = Distribusi Umum (<em>General</em>).</li>
+          <li><strong>$S$ (Distribusi Waktu Pelayanan):</strong> Simbol yang sama seperti $A$.</li>
+          <li><strong>$c$ (Jumlah Server Paralel):</strong> $1, 2, 3, \dots$ server identik yang melayani antrean secara mandiri.</li>
+          <li><strong>$K$ (Kapasitas Maksimum Sistem):</strong> Jika diabaikan, diasumsikan tak hingga ($\infty$).</li>
+          <li><strong>$N$ (Ukuran Populasi Sumber):</strong> Jika diabaikan, diasumsikan tak hingga ($\infty$).</li>
+          <li><strong>$D$ (Disiplin Antrean):</strong> Standar bawaan adalah FIFO (<em>First In First Out</em>).</li>
+        </ul>
+      </section>
+
+      <!-- 5.4 Model Klasik M/M/1 -->
+      <section id="model-mm1" class="pt-6 border-t border-slate-200">
+        <h2 class="text-2xl sm:text-3xl font-bold text-slate-900 flex items-center gap-3 mb-4">
+          <span class="text-indigo-600 font-mono text-xl">5.4</span> Model Klasik Single-Server $M/M/1$
+        </h2>
+        <p class="text-sm sm:text-base">
+          Sistem $M/M/1$ adalah model paling mendasar: satu stasiun server ($c=1$) dengan kedatangan Poisson berparameter $\lambda$ dan waktu pelayanan eksponensial berparameter $\mu$.
+        </p>
+
+        <h3 class="text-xl font-bold text-slate-900 mt-6 mb-2">Tingkat Utilisasi Server ($\rho$)</h3>
+        <p class="text-sm text-slate-600">
+          Rasio antara laju kedatangan dan laju pelayanan disebut <strong>utilisasi sistem</strong>:
+        </p>
+        <div class="my-3 p-4 bg-white border border-slate-200 rounded-xl text-center text-lg font-mono text-slate-900 font-bold shadow-sm">
+          $$\rho = \frac{\lambda}{\mu}$$
+        </div>
+        <p class="text-xs text-red-600 font-semibold mb-4">
+          Syarat mutlak kestabilan sistem (steady-state): $\rho < 1$ ($\lambda < \mu$). Jika $\lambda \ge \mu$, antrean akan membengkak menuju tak hingga dan sistem meledak (<em>unstable</em>).
+        </p>
+
+        <h3 class="text-xl font-bold text-slate-900 mt-6 mb-2">Distribusi Peluang Steady-State</h3>
+        <p class="text-sm text-slate-600">
+          Peluang terdapat tepat $n$ pelanggan di dalam sistem pada kondisi tunak dinyatakan oleh barisan geometris:
+        </p>
+        <div class="my-3 p-4 bg-indigo-50/70 border border-indigo-200 rounded-xl font-mono text-center text-base sm:text-lg text-slate-900">
+          $$P_n = (1 - \rho) \rho^n, \qquad n = 0, 1, 2, \dots$$
+        </div>
+        <p class="text-xs text-slate-600">
+          Peluang server menganggur (sistem kosong) adalah $P_0 = 1 - \rho$.
+        </p>
+
+        <h3 class="text-xl font-bold text-slate-900 mt-6 mb-2">Ukuran Kinerja Utama Sistem $M/M/1$</h3>
+        
+        <div class="grid sm:grid-cols-2 gap-4 my-4">
+          <div class="p-4 rounded-xl bg-white border border-slate-200 shadow-sm">
+            <span class="text-xs font-bold uppercase tracking-wider text-indigo-700">Jumlah Rata-rata Pelanggan</span>
+            <div class="font-mono text-sm text-slate-900 my-2">
+              $$L = \frac{\rho}{1 - \rho} = \frac{\lambda}{\mu - \lambda} \quad (\text{dalam sistem})$$
+              $$L_q = \frac{\rho^2}{1 - \rho} = \frac{\lambda^2}{\mu(\mu - \lambda)} \quad (\text{dalam antrean})$$
+            </div>
+          </div>
+
+          <div class="p-4 rounded-xl bg-white border border-slate-200 shadow-sm">
+            <span class="text-xs font-bold uppercase tracking-wider text-indigo-700">Waktu Rata-rata Tunggu</span>
+            <div class="font-mono text-sm text-slate-900 my-2">
+              $$W = \frac{1}{\mu - \lambda} = \frac{L}{\lambda} \quad (\text{total waktu})$$
+              $$W_q = \frac{\lambda}{\mu(\mu - \lambda)} = \frac{L_q}{\lambda} \quad (\text{waktu antre murni})$$
+            </div>
+          </div>
+        </div>
+
+        <!-- Little's Law Card -->
+        <div class="my-5 p-5 bg-slate-100/70 rounded-2xl border border-slate-200">
+          <h4 class="font-bold text-slate-900 text-sm uppercase tracking-wider text-indigo-700 mb-1">Hukum Little (Little's Law, 1961)</h4>
+          <p class="text-xs sm:text-sm text-slate-600 leading-relaxed">
+            Salah satu teorema paling fundamental dalam riset operasi yang berlaku untuk sembarang distribusi kedatangan dan pelayanan:
+          </p>
+          <div class="text-center font-mono font-bold text-slate-900 text-base my-2">
+            $$L = \lambda W \qquad \text{dan} \qquad L_q = \lambda W_q$$
+          </div>
+          <p class="text-xs text-slate-500">
+            Hubungan ini menyatakan bahwa jumlah rata-rata entitas dalam suatu sistem sama dengan laju kedatangan rata-rata dikalikan rata-rata waktu yang dihabiskan entitas di dalam sistem tersebut.
+          </p>
+        </div>
+      </section>
+
+      <!-- 5.5 Model Multi-Server M/M/c -->
+      <section id="model-mmc" class="pt-6 border-t border-slate-200">
+        <h2 class="text-2xl sm:text-3xl font-bold text-slate-900 flex items-center gap-3 mb-4">
+          <span class="text-indigo-600 font-mono text-xl">5.5</span> Model Multi-Server $M/M/c$
+        </h2>
+        <p class="text-sm sm:text-base">
+          Ketika satu antrean tunggal dilayani oleh $c \ge 2$ server paralel (seperti loket bank atau gerbang tol), laju pelayanan total bergantung pada jumlah pelanggan yang ada. Laju utilisasi server gabungan adalah:
+        </p>
+        <div class="my-3 p-4 bg-white border border-slate-200 rounded-xl text-center text-lg font-mono text-slate-900 font-bold shadow-sm">
+          $$\rho = \frac{\lambda}{c \mu} < 1$$
+        </div>
+
+        <h3 class="text-xl font-bold text-slate-900 mt-6 mb-2">Formula Erlang-C</h3>
+        <p class="text-sm text-slate-600">
+          Probabilitas seorang pelanggan yang baru tiba harus menunggu antrean (<em>Probability of Waiting</em>) dirumuskan oleh formula klasik Erlang-C:
+        </p>
+        <div class="my-3 p-4 bg-indigo-50/70 border border-indigo-200 rounded-xl font-mono text-center text-sm sm:text-base text-slate-900">
+          $$P_{\text{wait}} = C(c, \lambda/\mu) = \frac{\frac{(c\rho)^c}{c!(1 - \rho)}}{\sum_{k=0}^{c-1} \frac{(c\rho)^k}{k!} + \frac{(c\rho)^c}{c!(1 - \rho)}}$$
+        </div>
+      </section>
+
+      <!-- 5.6 Analisis Visual Komprehensif (Menggantikan Kode Python) -->
+      <section id="analisis-visual" class="pt-6 border-t border-slate-200">
+        <h2 class="text-2xl sm:text-3xl font-bold text-slate-900 flex items-center gap-3 mb-4">
+          <span class="text-indigo-600 font-mono text-xl">5.6</span> Analisis Visual & Interpretasi Manajerial Antrean
+        </h2>
+        <p class="text-sm sm:text-base leading-relaxed mb-6">
+          Berikut adalah visualisasi mandiri yang menjelaskan struktur aliran antrean dan bahaya nonlinier dari utilisasi server yang berlebihan:
+        </p>
+
+        <!-- GAMBAR 5.1: Struktur Sistem Antrian -->
+        <div class="my-8 p-6 bg-white rounded-3xl border border-slate-200 shadow-sm">
+          <div class="text-center mb-4">
+            <span class="text-xs font-bold uppercase tracking-wider px-3 py-1 rounded-full bg-indigo-50 text-indigo-700 border border-indigo-100">Gambar 5.1</span>
+            <h4 class="text-lg font-bold text-slate-900 mt-2">Arsitektur Aliran Sistem Antrian Multi-Server ($M/M/c$)</h4>
+            <p class="text-xs text-slate-500">Aliran pelanggan dari proses kedatangan hingga keluar sistem</p>
+          </div>
+
+          <!-- SVG Visual 1 -->
+          <div class="max-w-xl mx-auto my-6">
+            <svg viewBox="0 0 520 220" class="w-full h-auto">
+              <!-- Source Population -->
+              <ellipse cx="60" cy="110" rx="40" ry="30" fill="#f8fafc" stroke="#94a3b8" stroke-width="1.5"/>
+              <text x="60" y="108" font-size="10" fill="#475569" text-anchor="middle" font-weight="bold">Sumber</text>
+              <text x="60" y="122" font-size="8" fill="#94a3b8" text-anchor="middle">Populasi (N)</text>
+
+              <!-- Arrival Arrow -->
+              <line x1="100" y1="110" x2="160" y2="110" stroke="#4f46e5" stroke-width="2"/>
+              <polygon points="155,106 165,110 155,114" fill="#4f46e5"/>
+              <text x="130" y="98" font-size="10" fill="#4f46e5" text-anchor="middle" font-weight="bold">Kedatangan (λ)</text>
+
+              <!-- Queue Box (Waiting Line) -->
+              <rect x="170" y="80" width="130" height="60" rx="8" fill="#eef2ff" stroke="#6366f1" stroke-width="2"/>
+              <text x="235" y="70" font-size="11" fill="#4338ca" text-anchor="middle" font-weight="bold">Antrean (Kapasitas K)</text>
+              <text x="235" y="98" font-size="9" fill="#64748b" text-anchor="middle">Disiplin FIFO</text>
+
+              <!-- Queue Items Inside -->
+              <circle cx="195" cy="115" r="7" fill="#818cf8"/>
+              <circle cx="215" cy="115" r="7" fill="#818cf8"/>
+              <circle cx="235" cy="115" r="7" fill="#818cf8"/>
+              <circle cx="255" cy="115" r="7" fill="#818cf8"/>
+              <circle cx="275" cy="115" r="7" fill="#818cf8"/>
+
+              <!-- Dispatch Lines to 2 Servers -->
+              <line x1="300" y1="100" x2="350" y2="70" stroke="#475569" stroke-width="1.5"/>
+              <polygon points="345,67 355,70 347,75" fill="#475569"/>
+
+              <line x1="300" y1="120" x2="350" y2="150" stroke="#475569" stroke-width="1.5"/>
+              <polygon points="347,145 355,150 345,153" fill="#475569"/>
+
+              <!-- Server 1 -->
+              <rect x="360" y="50" width="65" height="40" rx="8" fill="#ecfdf5" stroke="#10b981" stroke-width="2"/>
+              <text x="392" y="70" font-size="10" fill="#065f46" text-anchor="middle" font-weight="bold">Server 1 (μ)</text>
+
+              <!-- Server 2 -->
+              <rect x="360" y="130" width="65" height="40" rx="8" fill="#ecfdf5" stroke="#10b981" stroke-width="2"/>
+              <text x="392" y="150" font-size="10" fill="#065f46" text-anchor="middle" font-weight="bold">Server 2 (μ)</text>
+
+              <!-- Departure Arrows -->
+              <line x1="425" y1="70" x2="480" y2="70" stroke="#10b981" stroke-width="2"/>
+              <polygon points="475,66 485,70 475,74" fill="#10b981"/>
+
+              <line x1="425" y1="150" x2="480" y2="150" stroke="#10b981" stroke-width="2"/>
+              <polygon points="475,146 485,150 475,154" fill="#10b981"/>
+              <text x="460" y="115" font-size="10" fill="#047857" text-anchor="middle" font-weight="bold">Selesai</text>
+            </svg>
+          </div>
+
+          <div class="bg-slate-50 p-4 rounded-2xl border border-slate-200 text-xs sm:text-sm text-slate-700 leading-relaxed">
+            <p><strong>Keterangan Gambar 5.1:</strong> Sistem multi-server dengan satu antrean bersama (<em>single-queue multi-server</em>) selalu terbukti secara matematis lebih efisien daripada sistem di mana masing-masing server memiliki antrean terpisah, karena tidak akan pernah ada server yang menganggur selama masih ada pelanggan di antrean.</p>
+          </div>
+        </div>
+
+        <!-- GAMBAR 5.2: Ledakan Nonlinier Utilisasi -->
+        <div class="my-8 p-6 bg-white rounded-3xl border border-slate-200 shadow-sm">
+          <div class="text-center mb-4">
+            <span class="text-xs font-bold uppercase tracking-wider px-3 py-1 rounded-full bg-red-50 text-red-700 border border-red-100">Gambar 5.2</span>
+            <h4 class="text-lg font-bold text-slate-900 mt-2">Dampak Nonlinier Utilisasi ($\rho$) Terhadap Waktu Tunggu ($W$)</h4>
+            <p class="text-xs text-slate-500">Mengapa antrean meledak secara dramatis saat server mendekati kapasitas 100%</p>
+          </div>
+
+          <!-- SVG Visual 2 -->
+          <div class="max-w-xl mx-auto my-6">
+            <svg viewBox="0 0 520 270" class="w-full h-auto">
+              <!-- Grid -->
+              <line x1="60" y1="220" x2="480" y2="220" stroke="#cbd5e1" stroke-width="1.5"/>
+              <line x1="60" y1="220" x2="60" y2="20" stroke="#cbd5e1" stroke-width="1.5"/>
+              <text x="475" y="240" font-size="11" fill="#475569" font-weight="bold">Utilisasi Server (ρ = λ/μ)</text>
+              <text x="15" y="25" font-size="11" fill="#475569" font-weight="bold">Waktu Tunggu (W)</text>
+
+              <!-- Ticks on X Axis -->
+              <text x="60" y="235" font-size="10" fill="#94a3b8" text-anchor="middle">0</text>
+              <text x="165" y="235" font-size="10" fill="#94a3b8" text-anchor="middle">0.5</text>
+              <text x="270" y="235" font-size="10" fill="#94a3b8" text-anchor="middle">0.75</text>
+              <text x="354" y="235" font-size="10" fill="#94a3b8" text-anchor="middle">0.9</text>
+              <text x="420" y="235" font-size="10" fill="#dc2626" text-anchor="middle" font-weight="bold">1.0</text>
+
+              <!-- Asymptote at rho = 1.0 (Red Dashed) -->
+              <line x1="420" y1="220" x2="420" y2="20" stroke="#ef4444" stroke-dasharray="4" stroke-width="1.5"/>
+              <text x="425" y="40" font-size="10" fill="#dc2626" font-weight="bold">Asimtot: ρ = 1 (W → ∞)</text>
+
+              <!-- Safe Zone Background (rho <= 0.7) -->
+              <rect x="60" y="25" width="210" height="195" fill="#ecfdf5" opacity="0.5"/>
+              <text x="165" y="100" font-size="10" fill="#047857" font-weight="bold" text-anchor="middle">Zona Aman (ρ &lt; 0.7)</text>
+
+              <!-- Danger Zone Background (rho > 0.85) -->
+              <rect x="330" y="25" width="90" height="195" fill="#fef2f2" opacity="0.6"/>
+              <text x="375" y="70" font-size="10" fill="#b91c1c" font-weight="bold" text-anchor="middle">Zona Kritis</text>
+
+              <!-- Hyperbolic Curve W = 1 / (mu * (1 - rho)) -->
+              <path d="M 60 200 C 180 195, 300 175, 350 120 C 380 80, 400 35, 412 20" 
+                    fill="none" stroke="#dc2626" stroke-width="3.5"/>
+
+              <!-- Point at rho = 0.5 -->
+              <circle cx="165" cy="180" r="4" fill="#059669"/>
+              <text x="175" y="178" font-size="9" fill="#047857">ρ=0.5 &rarr; W=2 unit</text>
+
+              <!-- Point at rho = 0.9 -->
+              <circle cx="354" cy="115" r="4" fill="#dc2626"/>
+              <text x="310" y="108" font-size="9" fill="#b91c1c" font-weight="bold">ρ=0.9 &rarr; W=10 unit (Naik 5x!)</text>
+            </svg>
+          </div>
+
+          <div class="bg-slate-50 p-4 rounded-2xl border border-slate-200 text-xs sm:text-sm text-slate-700 leading-relaxed space-y-1.5">
+            <p><strong>Wawasan Manajerial Gambar 5.2:</strong></p>
+            <ul class="list-disc list-inside space-y-1 text-slate-600">
+              <li><span class="text-slate-800 font-semibold">Ledakan Hiperbolik:</span> Hubungan antara beban kerja dan waktu tunggu sama sekali tidak linier. Menaikkan utilisasi dari 50% ke 90% (hanya bertambah 40%) melipatgandakan waktu tunggu hingga <strong>5 kali lipat</strong>!</li>
+              <li><span class="text-red-700 font-semibold">Ilusi Efisiensi 100%:</span> Merancang sistem layanan dengan target kapasitas 100% ($\rho \approx 1$) adalah kesalahan fatal dalam desain industri, karena gangguan acak kecil saja akan menyebabkan antrean meledak tak terkendali.</li>
+            </ul>
+          </div>
+        </div>
+
+      </section>
+
+      <!-- 5.7 Latihan & Diskusi Reflektif -->
+      <section id="latihan" class="pt-6 border-t border-slate-200">
+        <h2 class="text-2xl sm:text-3xl font-bold text-slate-900 flex items-center gap-3 mb-4">
+          <span class="text-indigo-600 font-mono text-xl">5.7</span> Latihan & Pertanyaan Diskusi
+        </h2>
+        
+        <div class="space-y-4 my-6">
+          <div class="p-5 rounded-2xl bg-white border border-slate-200 shadow-sm">
+            <h5 class="font-bold text-slate-900 text-sm mb-2 text-indigo-700">Soal 1: Analisis Loket Drive-Thru ($M/M/1$)</h5>
+            <p class="text-sm text-slate-600">
+              Sebuah loket layanan cepat kendaraan menerima kedatangan rata-rata $\lambda = 24$ mobil per jam mengikuti proses Poisson. Waktu pelayanan rata-rata adalah 2 menit per mobil ($\mu = 30$ mobil/jam) berdistribusi eksponensial.
+            </p>
+            <ul class="list-disc list-inside text-xs sm:text-sm text-slate-600 mt-2 space-y-1">
+              <li>Hitung tingkat utilisasi server ($\rho$) dan peluang loket dalam keadaan menganggur ($P_0$)!</li>
+              <li>Tentukan rata-rata waktu yang dihabiskan pengemudi di dalam antrean murni ($W_q$) dan di dalam keseluruhan sistem ($W$)!</li>
+              <li>Berapa panjang antrean rata-rata mobil ($L_q$)?</li>
+            </ul>
+          </div>
+
+          <div class="p-5 rounded-2xl bg-white border border-slate-200 shadow-sm">
+            <h5 class="font-bold text-slate-900 text-sm mb-2 text-indigo-700">Soal 2: Desain Tambahan Server ($M/M/2$)</h5>
+            <p class="text-sm text-slate-600">
+              Jika manajemen pada Soal 1 menambahkan 1 loket identik tambahan (sehingga menjadi sistem $M/M/2$ dengan antrean tunggal), hitung kembali probabilitas mobil harus menunggu antrean ($P_{\text{wait}}$) dan bandingkan waktu tunggu rata-ratanya. Berapa persen penurunan waktu tunggu yang diperoleh?
+            </p>
+          </div>
+        </div>
+
+        <h3 class="text-xl font-bold text-slate-900 mt-8 mb-2">Penutup Bab</h3>
+        <p class="text-sm sm:text-base text-slate-700">
+          Model antrian memperlihatkan keindahan probabilitas Poisson dan kalkulus Markovian dalam menyelesaikan masalah nyata logistik dan operasi. Pada bab berikutnya (Bab 6), kita memperdalam konsep ini melalui <strong>Model Stokastik dan Rantai Markov</strong> untuk menelaah sistem dengan perubahan status acak diskrit sepanjang waktu.
+        </p>
+      </section>
+
+    </article>
+
+    <!-- Navigation Footer between Chapters -->
+    <div class="mt-16 pt-8 border-t border-slate-200 flex flex-col sm:flex-row items-center justify-between gap-4">
+      <a href="bab4.html" class="inline-flex items-center gap-2 text-sm font-semibold text-slate-600 hover:text-indigo-600 transition">
+        <i class="fa-solid fa-arrow-left"></i>
+        <span>Kembali ke Bab 4</span>
+      </a>
+      <a href="bab6.html" class="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-semibold text-sm shadow-md shadow-indigo-200 transition">
+        <span>Lanjut ke Bab 6: Rantai Markov</span>
+        <i class="fa-solid fa-arrow-right"></i>
+      </a>
+    </div>
+
+  </main>
+
+  <!-- Footer -->
+  <footer class="bg-white border-t border-slate-200 py-8 text-center text-xs text-slate-500 mt-16">
+    <div class="max-w-5xl mx-auto px-4">
+      &copy; 2025 Dr. Mohammad Jamhuri, M.Si. &bull; Program Studi Matematika UIN Maulana Malik Ibrahim Malang.
+    </div>
+  </footer>
+
+</body>
+</html>

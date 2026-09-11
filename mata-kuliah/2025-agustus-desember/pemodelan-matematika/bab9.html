@@ -1,0 +1,484 @@
+<!DOCTYPE html>
+<html lang="id" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bab 9: Model Berbasis Graf dan Jaringan - Pemodelan Matematika</title>
+  <meta name="description" content="Bab 9 Buku Ajar Pemodelan Matematika: Teori Graf, Matriks Ketetanggaan, Jalur Terpendek, Aliran Maksimum, dan Sentralitas Jejaring Sosial oleh Dr. Mohammad Jamhuri, M.Si.">
+  
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  
+  <!-- MathJax CDN untuk render rumus matematika LaTeX -->
+  <script>
+    window.MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']],
+        displayMath: [['$$', '$$'], ['\\[', '\\]']]
+      }
+    };
+  </script>
+  <script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+  <!-- Google Fonts & Font Awesome -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+            mono: ['"JetBrains Mono"', 'monospace'],
+          }
+        }
+      }
+    }
+  </script>
+</head>
+<body class="bg-slate-50 text-slate-800 antialiased selection:bg-indigo-500 selection:text-white">
+
+  <!-- Header Nav -->
+  <header class="sticky top-0 z-50 bg-white/95 backdrop-blur-md border-b border-slate-200">
+    <div class="max-w-5xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
+      <div class="flex items-center gap-4">
+        <a href="index.html" class="flex items-center gap-2 text-slate-700 hover:text-indigo-600 transition font-semibold text-sm">
+          <i class="fa-solid fa-arrow-left text-xs"></i>
+          <span>Beranda</span>
+        </a>
+        <span class="text-slate-300">|</span>
+        <a href="bab8.html" class="text-xs font-semibold text-slate-500 hover:text-indigo-600 transition">
+          &larr; Bab 8: Model Diskrit
+        </a>
+      </div>
+      <div class="text-xs font-mono text-slate-500 hidden sm:block">
+        Mata Kuliah MAT61730 &bull; Bab 09
+      </div>
+      <div class="flex items-center gap-3">
+        <a href="main.pdf" class="inline-flex items-center gap-2 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 text-xs font-bold px-3 py-1.5 rounded-lg border border-indigo-200 transition">
+          <i class="fa-solid fa-file-pdf"></i>
+          <span>Unduh PDF</span>
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Content Container -->
+  <main class="max-w-4xl mx-auto px-4 sm:px-6 py-12">
+    
+    <!-- Chapter Header -->
+    <div class="border-b border-slate-200 pb-8 mb-10">
+      <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-indigo-100 text-indigo-800 text-xs font-mono font-bold mb-4">
+        BAB 09
+      </div>
+      <h1 class="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-slate-900 tracking-tight leading-tight">
+        Model Berbasis Graf dan Jaringan
+      </h1>
+      <p class="text-base sm:text-lg text-slate-600 mt-4 leading-relaxed">
+        Menyelidiki representasi topologis sistem saling terhubung, matriks ketetanggaan dan Laplace, optimasi jalur terpendek, aliran kapasitas jaringan, serta metrik sentralitas struktural pada jejaring sosial dan transportasi.
+      </p>
+      <div class="flex items-center gap-4 mt-6 text-xs text-slate-500 pt-4 border-t border-slate-100">
+        <div><i class="fa-solid fa-user-pen mr-1 text-indigo-600"></i> Dr. Mohammad Jamhuri, M.Si.</div>
+        <div><i class="fa-solid fa-book-bookmark mr-1 text-indigo-600"></i> Program Studi Matematika UIN Malang</div>
+      </div>
+    </div>
+
+    <!-- Article Body -->
+    <article class="prose prose-slate max-w-none space-y-10 text-slate-700 leading-relaxed text-base sm:text-lg">
+
+      <!-- 9.1 Pendahuluan -->
+      <section id="pendahuluan">
+        <h2 class="text-2xl sm:text-3xl font-bold text-slate-900 flex items-center gap-3 mb-4">
+          <span class="text-indigo-600 font-mono text-xl">9.1</span> Pendahuluan
+        </h2>
+        <p>
+          Banyak fenomena dunia nyata yang struktur dasarnya bukan berupa ruang kontinu atau persamaan diferensial sederhana, melainkan berupa <strong>kumpulan entitas diskrit yang saling terhubung</strong>. Contohnya adalah jaringan jalan raya dan rute penerbangan, jaringan pipa distribusi air dan gas, interaksi antar-individu pada media sosial, hingga keterkaitan transmisi paket data di internet.
+        </p>
+        <p>
+          <strong>Teori Graf (<em>Graph Theory</em>)</strong>, yang berakar dari penyelesaian masalah Tujuh Jembatan Königsberg oleh Leonhard Euler (1736), menyediakan kerangka kerja matematika diskrit yang sangat ampuh untuk mengabstraksikan pola hubungan, menganalisis efisiensi rute, dan mengidentifikasi simpul-simpul paling berpengaruh dalam suatu jaringan kompleks.
+        </p>
+      </section>
+
+      <!-- 9.2 Dasar Teori Graf -->
+      <section id="dasar-graf" class="pt-6 border-t border-slate-200">
+        <h2 class="text-2xl sm:text-3xl font-bold text-slate-900 flex items-center gap-3 mb-4">
+          <span class="text-indigo-600 font-mono text-xl">9.2</span> Dasar Teori Graf
+        </h2>
+        <p class="text-sm sm:text-base">
+          Sebuah graf $G = (V, E)$ didefinisikan oleh dua himpunan:
+        </p>
+        <ul class="list-disc list-inside space-y-1.5 text-sm text-slate-700 ml-2">
+          <li><strong>Himpunan Simpul (<em>Vertices/Nodes</em>) $V$:</strong> $V = \{v_1, v_2, \dots, v_n\}$ yang merepresentasikan objek-objek dalam sistem (misal: kota, pengguna medsos, server).</li>
+          <li><strong>Himpunan Sisi (<em>Edges/Links</em>) $E$:</strong> $E \subseteq V \times V$ yang merepresentasikan interaksi atau hubungan antar-objek.</li>
+        </ul>
+
+        <h3 class="text-xl font-bold text-slate-900 mt-6 mb-2">Klasifikasi Graf dalam Pemodelan:</h3>
+        <div class="grid sm:grid-cols-3 gap-4 my-4">
+          <div class="p-4 rounded-xl bg-white border border-slate-200 shadow-sm">
+            <h5 class="font-bold text-slate-900 text-xs uppercase tracking-wider text-indigo-700 mb-1">Tak Berarah (Undirected)</h5>
+            <p class="text-xs text-slate-600">Sisi menghubungkan dua simpul dua arah simetris, $(u,v) = (v,u)$ (misal: pertemanan timbal balik di Facebook atau kabel listrik AC).</p>
+          </div>
+          <div class="p-4 rounded-xl bg-white border border-slate-200 shadow-sm">
+            <h5 class="font-bold text-slate-900 text-xs uppercase tracking-wider text-indigo-700 mb-1">Berarah (Directed/Digraph)</h5>
+            <p class="text-xs text-slate-600">Sisi memiliki arah gerak panah dari $u$ ke $v$, $(u,v) \ne (v,u)$ (misal: jalan satu arah, hubungan <em>following</em> di X/Twitter, atau tautan hiperteks).</p>
+          </div>
+          <div class="p-4 rounded-xl bg-white border border-slate-200 shadow-sm">
+            <h5 class="font-bold text-slate-900 text-xs uppercase tracking-wider text-indigo-700 mb-1">Berbobot (Weighted)</h5>
+            <p class="text-xs text-slate-600">Setiap sisi memiliki nilai numerik $w(e)$ yang melambangkan jarak, biaya transportasi, waktu tempuh, atau kapasitas aliran pipa.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- 9.3 Representasi Matriks Graf -->
+      <section id="representasi-matriks" class="pt-6 border-t border-slate-200">
+        <h2 class="text-2xl sm:text-3xl font-bold text-slate-900 flex items-center gap-3 mb-4">
+          <span class="text-indigo-600 font-mono text-xl">9.3</span> Representasi Matriks Graf
+        </h2>
+        <p class="text-sm sm:text-base">
+          Untuk memproses graf dalam komputasi dan analisis aljabar, graf direpresentasikan dalam bentuk matriks:
+        </p>
+
+        <div class="space-y-4 my-4">
+          <div class="p-5 rounded-2xl bg-white border border-slate-200 shadow-sm">
+            <h4 class="font-bold text-slate-900 text-sm mb-1 text-indigo-700">1. Matriks Ketetanggaan (Adjacency Matrix $A$)</h4>
+            <p class="text-xs sm:text-sm text-slate-600 mb-3">
+              Matriks persegi $n \times n$ di mana elemen $a_{ij} = 1$ jika ada sisi dari simpul $i$ ke $j$, dan $a_{ij} = 0$ jika tidak ada. Untuk graf berbobot, nilai 1 digantikan oleh bobot $w_{ij}$.
+            </p>
+            <div class="font-mono text-xs sm:text-sm text-slate-900 bg-indigo-50/70 p-3 rounded-xl text-center border border-indigo-200">
+              $$A = [a_{ij}], \qquad a_{ij} = \begin{cases} 1, & \text{jika } (v_i, v_j) \in E \\ 0, & \text{lainnya} \end{cases}$$
+            </div>
+            <p class="text-xs text-slate-500 mt-2">
+              <em>Sifat penting:</em> Elemen $(i,j)$ dari matriks $A^k$ menyatakan jumlah jalur (<em>paths</em>) dengan panjang tepat $k$ langkah yang menghubungkan simpul $i$ ke simpul $j$.
+            </p>
+          </div>
+
+          <div class="p-5 rounded-2xl bg-white border border-slate-200 shadow-sm">
+            <h4 class="font-bold text-slate-900 text-sm mb-1 text-indigo-700">2. Matriks Derajat (Degree Matrix $D$) & Matriks Laplace ($L$)</h4>
+            <p class="text-xs sm:text-sm text-slate-600 mb-2">
+              Matriks diagonal $D$ memuat derajat koneksi simpul $d_i = \sum_j a_{ij}$. <strong>Matriks Laplace Graf</strong> didefinisikan sebagai $L = D - A$.
+            </p>
+            <div class="font-mono text-xs sm:text-sm text-slate-900 bg-slate-100/70 p-3 rounded-xl text-center">
+              $$L = D - A$$
+            </div>
+            <p class="text-xs text-slate-500 mt-2">
+              Nilai eigen terkecil kedua dari matriks Laplace ($\lambda_2$), yang dikenal sebagai <em>konektivitas aljabar</em> atau <em>nilai Fiedler</em>, mengukur seberapa kokoh suatu jaringan tersambung dan berperan sentral dalam algoritma pembagian klaster graf (<em>spectral clustering</em>).
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- 9.4 Model Optimasi Jaringan -->
+      <section id="model-optimasi" class="pt-6 border-t border-slate-200">
+        <h2 class="text-2xl sm:text-3xl font-bold text-slate-900 flex items-center gap-3 mb-4">
+          <span class="text-indigo-600 font-mono text-xl">9.4</span> Model Optimasi Jalur & Aliran Jaringan
+        </h2>
+        
+        <h3 class="text-xl font-bold text-slate-900 mt-4 mb-2">A. Masalah Jalur Terpendek (Shortest Path)</h3>
+        <p class="text-sm sm:text-base">
+          Mencari rute perjalanan dengan total bobot (jarak, waktu, atau biaya) minimum dari simpul asal $s$ ke simpul tujuan $t$:
+        </p>
+        <div class="my-3 p-4 bg-white border border-slate-200 rounded-xl font-mono text-center text-sm sm:text-base text-slate-900 shadow-sm">
+          $$\min \sum_{(i,j) \in P} c_{ij}$$
+        </div>
+        <p class="text-xs text-slate-600">
+          Diselesaikan secara efisien menggunakan <strong>Algoritma Dijkstra</strong> (untuk bobot non-negatif) atau algoritma Bellman-Ford. Model ini menjadi mesin inti pada Google Maps, sistem navigasi GPS, dan perutean paket internet (OSPF).
+        </p>
+
+        <h3 class="text-xl font-bold text-slate-900 mt-6 mb-2">B. Masalah Aliran Maksimum (Maximum Flow Problem)</h3>
+        <p class="text-sm sm:text-base">
+          Pada jaringan pipa minyak atau kabel komunikasi, setiap sisi memiliki batas kapasitas maksimum $c_{ij}$. Tujuannya adalah mengalirkan komoditas sebanyak mungkin dari sumber (<em>source</em> $s$) ke muara (<em>sink</em> $t$):
+        </p>
+        <div class="my-3 p-4 bg-white border border-slate-200 rounded-xl font-mono text-center text-sm sm:text-base text-slate-900 shadow-sm">
+          $$\max \sum_{j} f_{sj} \quad \text{dengan kendala } 0 \le f_{ij} \le c_{ij} \text{ dan konservasi aliran: } \sum_i f_{ik} = \sum_j f_{kj}$$
+        </div>
+        
+        <!-- Max-Flow Min-Cut Card -->
+        <div class="my-4 p-4 bg-slate-100/70 rounded-2xl border border-slate-200">
+          <h5 class="font-bold text-slate-900 text-xs uppercase tracking-wider text-indigo-700 mb-1">Teorema Max-Flow Min-Cut (Ford & Fulkerson, 1956)</h5>
+          <p class="text-xs sm:text-sm text-slate-600">
+            Nilai aliran maksimum dari $s$ ke $t$ persis sama dengan kapasitas pemotongan minimum (<em>minimum cut</em>) dari sisi-sisi penutup yang memisahkan $s$ dan $t$. Pemotongan minimum ini mengidentifikasi titik leher botol (<em>bottleneck</em>) sistem.
+          </p>
+        </div>
+      </section>
+
+      <!-- 9.5 Model Sentralitas Sosial -->
+      <section id="sentralitas" class="pt-6 border-t border-slate-200">
+        <h2 class="text-2xl sm:text-3xl font-bold text-slate-900 flex items-center gap-3 mb-4">
+          <span class="text-indigo-600 font-mono text-xl">9.5</span> Model Jejaring Sosial & Metrik Sentralitas
+        </h2>
+        <p class="text-sm sm:text-base">
+          Dalam analisis jejaring sosial (<em>Social Network Analysis / SNA</em>), kita ingin mengukur seberapa "penting" atau "berpengaruh" posisi suatu simpul dalam jaringan:
+        </p>
+
+        <div class="grid sm:grid-cols-3 gap-4 my-4">
+          <div class="p-4 rounded-xl bg-white border border-slate-200 shadow-sm">
+            <h5 class="font-bold text-slate-900 text-xs uppercase tracking-wider text-indigo-700 mb-1">Degree Centrality</h5>
+            <div class="font-mono text-xs text-slate-900 my-1">$$C_D(v) = \frac{\text{deg}(v)}{n-1}$$</div>
+            <p class="text-xs text-slate-500">Mengukur popularitas langsung: proporsi jumlah koneksi langsung yang dimiliki simpul.</p>
+          </div>
+          <div class="p-4 rounded-xl bg-white border border-slate-200 shadow-sm">
+            <h5 class="font-bold text-slate-900 text-xs uppercase tracking-wider text-indigo-700 mb-1">Closeness Centrality</h5>
+            <div class="font-mono text-xs text-slate-900 my-1">$$C_C(v) = \frac{n-1}{\sum_{u \ne v} d(v, u)}$$</div>
+            <p class="text-xs text-slate-500">Mengukur kecepatan jangkauan: kebalikan dari total jarak jalur terpendek ke seluruh simpul lain.</p>
+          </div>
+          <div class="p-4 rounded-xl bg-white border border-slate-200 shadow-sm">
+            <h5 class="font-bold text-slate-900 text-xs uppercase tracking-wider text-indigo-700 mb-1">Betweenness Centrality</h5>
+            <div class="font-mono text-xs text-slate-900 my-1">$$C_B(v) = \sum_{s \ne v \ne t} \frac{\sigma_{st}(v)}{\sigma_{st}}$$</div>
+            <p class="text-xs text-slate-500">Mengukur kendali informasi: seberapa sering simpul menjadi jembatan penghubung jalur terpendek antar-pihak lain.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- 9.6 Analisis Visual Komprehensif -->
+      <section id="analisis-visual" class="pt-6 border-t border-slate-200">
+        <h2 class="text-2xl sm:text-3xl font-bold text-slate-900 flex items-center gap-3 mb-4">
+          <span class="text-indigo-600 font-mono text-xl">9.6</span> Analisis Visual Topologi Jaringan & Sentralitas
+        </h2>
+        <p class="text-sm sm:text-base leading-relaxed mb-6">
+          Berikut diagram mandiri yang menjelaskan struktur matriks ketetanggaan, optimasi rute terpendek, serta peran sentralitas simpul penghubung (<em>broker</em>):
+        </p>
+
+        <!-- GAMBAR 9.1: Representasi Graf & Matriks -->
+        <div class="my-8 p-6 bg-white rounded-3xl border border-slate-200 shadow-sm">
+          <div class="text-center mb-4">
+            <span class="text-xs font-bold uppercase tracking-wider px-3 py-1 rounded-full bg-indigo-50 text-indigo-700 border border-indigo-100">Gambar 9.1</span>
+            <h4 class="text-lg font-bold text-slate-900 mt-2">Struktur Graf Berbobot & Matriks Ketetanggaan Terkait</h4>
+            <p class="text-xs text-slate-500">Representasi topologis jaringan distribusi 5 simpul dan matriks bobotnya</p>
+          </div>
+
+          <!-- SVG Visual 1 -->
+          <div class="max-w-xl mx-auto my-6">
+            <svg viewBox="0 0 520 220" class="w-full h-auto">
+              <!-- Left: Graph Diagram -->
+              <g transform="translate(10, 10)">
+                <!-- Edges -->
+                <line x1="60" y1="100" x2="150" y2="40" stroke="#94a3b8" stroke-width="2"/>
+                <line x1="60" y1="100" x2="150" y2="160" stroke="#94a3b8" stroke-width="2"/>
+                <line x1="150" y1="40" x2="230" y2="100" stroke="#94a3b8" stroke-width="2"/>
+                <line x1="150" y1="160" x2="230" y2="100" stroke="#94a3b8" stroke-width="2"/>
+                <line x1="150" y1="40" x2="150" y2="160" stroke="#94a3b8" stroke-width="2"/>
+
+                <!-- Edge Weights -->
+                <text x="100" y="60" font-size="10" fill="#4f46e5" font-weight="bold">4</text>
+                <text x="100" y="145" font-size="10" fill="#4f46e5" font-weight="bold">2</text>
+                <text x="195" y="65" font-size="10" fill="#4f46e5" font-weight="bold">3</text>
+                <text x="195" y="145" font-size="10" fill="#4f46e5" font-weight="bold">6</text>
+                <text x="157" y="105" font-size="10" fill="#4f46e5" font-weight="bold">1</text>
+
+                <!-- Nodes -->
+                <circle cx="60" cy="100" r="18" fill="#eff6ff" stroke="#3b82f6" stroke-width="2"/>
+                <text x="60" y="104" font-size="11" fill="#1e40af" text-anchor="middle" font-weight="bold">v₁</text>
+
+                <circle cx="150" cy="40" r="18" fill="#eff6ff" stroke="#3b82f6" stroke-width="2"/>
+                <text x="150" y="44" font-size="11" fill="#1e40af" text-anchor="middle" font-weight="bold">v₂</text>
+
+                <circle cx="150" cy="160" r="18" fill="#eff6ff" stroke="#3b82f6" stroke-width="2"/>
+                <text x="150" y="164" font-size="11" fill="#1e40af" text-anchor="middle" font-weight="bold">v₃</text>
+
+                <circle cx="230" cy="100" r="18" fill="#eff6ff" stroke="#3b82f6" stroke-width="2"/>
+                <text x="230" y="104" font-size="11" fill="#1e40af" text-anchor="middle" font-weight="bold">v₄</text>
+              </g>
+
+              <!-- Right: Matrix Table Representation -->
+              <g transform="translate(290, 20)">
+                <text x="100" y="15" font-size="11" fill="#334155" text-anchor="middle" font-weight="bold">Matriks Ketetanggaan Berbobot (A)</text>
+                
+                <rect x="15" y="30" width="170" height="130" rx="8" fill="#f8fafc" stroke="#cbd5e1"/>
+                
+                <text x="35" y="55" font-size="10" fill="#64748b">v₁:</text>
+                <text x="35" y="85" font-size="10" fill="#64748b">v₂:</text>
+                <text x="35" y="115" font-size="10" fill="#64748b">v₃:</text>
+                <text x="35" y="145" font-size="10" fill="#64748b">v₄:</text>
+
+                <text x="65" y="55" font-size="11" fill="#0f172a" font-family="monospace">0  4  2  0</text>
+                <text x="65" y="85" font-size="11" fill="#0f172a" font-family="monospace">4  0  1  3</text>
+                <text x="65" y="115" font-size="11" fill="#0f172a" font-family="monospace">2  1  0  6</text>
+                <text x="65" y="145" font-size="11" fill="#0f172a" font-family="monospace">0  3  6  0</text>
+              </g>
+            </svg>
+          </div>
+
+          <div class="bg-slate-50 p-4 rounded-2xl border border-slate-200 text-xs sm:text-sm text-slate-700 leading-relaxed">
+            <p><strong>Keterangan Gambar 9.1:</strong> Nilai pada matriks $A$ menunjukkan bobot langsung antar-simpul. Karena graf bersifat tak berarah, matriks ketetanggaan bersifat simetris ($A = A^T$).</p>
+          </div>
+        </div>
+
+        <!-- GAMBAR 9.2: Optimasi Rute Terpendek Dijkstra -->
+        <div class="my-8 p-6 bg-white rounded-3xl border border-slate-200 shadow-sm">
+          <div class="text-center mb-4">
+            <span class="text-xs font-bold uppercase tracking-wider px-3 py-1 rounded-full bg-emerald-50 text-emerald-700 border border-emerald-100">Gambar 9.2</span>
+            <h4 class="text-lg font-bold text-slate-900 mt-2">Penentuan Rute Terpendek (Algoritma Dijkstra)</h4>
+            <p class="text-xs text-slate-500">Mencari lintasan biaya minimum dari Simpul Asal S ke Simpul Tujuan T</p>
+          </div>
+
+          <!-- SVG Visual 2 -->
+          <div class="max-w-xl mx-auto my-6">
+            <svg viewBox="0 0 520 200" class="w-full h-auto">
+              <!-- Non-optimal Edges (Gray) -->
+              <line x1="70" y1="100" x2="180" y2="40" stroke="#cbd5e1" stroke-width="2"/>
+              <line x1="180" y1="40" x2="340" y2="40" stroke="#cbd5e1" stroke-width="2"/>
+              <line x1="340" y1="40" x2="450" y2="100" stroke="#cbd5e1" stroke-width="2"/>
+              <line x1="180" y1="160" x2="340" y2="160" stroke="#cbd5e1" stroke-width="2"/>
+              <line x1="340" y1="160" x2="450" y2="100" stroke="#cbd5e1" stroke-width="2"/>
+
+              <!-- Optimal Shortest Path Edges (Emerald Highlighted) -->
+              <line x1="70" y1="100" x2="180" y2="160" stroke="#10b981" stroke-width="4"/>
+              <line x1="180" y1="160" x2="340" y2="40" stroke="#10b981" stroke-width="4"/>
+              <line x1="340" y1="40" x2="450" y2="100" stroke="#10b981" stroke-width="4"/>
+
+              <!-- Weights -->
+              <text x="110" y="60" font-size="10" fill="#94a3b8">7</text>
+              <text x="260" y="32" font-size="10" fill="#94a3b8">5</text>
+              <text x="115" y="145" font-size="10" fill="#047857" font-weight="bold">2 (Pilih)</text>
+              <text x="240" y="115" font-size="10" fill="#047857" font-weight="bold">3 (Pilih)</text>
+              <text x="260" y="175" font-size="10" fill="#94a3b8">6</text>
+              <text x="405" y="60" font-size="10" fill="#047857" font-weight="bold">1 (Pilih)</text>
+              <text x="405" y="145" font-size="10" fill="#94a3b8">4</text>
+
+              <!-- Nodes -->
+              <!-- Start Node S -->
+              <circle cx="70" cy="100" r="20" fill="#ecfdf5" stroke="#10b981" stroke-width="2.5"/>
+              <text x="70" y="104" font-size="12" fill="#047857" text-anchor="middle" font-weight="bold">S [0]</text>
+
+              <!-- Node A -->
+              <circle cx="180" cy="40" r="18" fill="#f8fafc" stroke="#94a3b8" stroke-width="2"/>
+              <text x="180" y="44" font-size="10" fill="#475569" text-anchor="middle" font-weight="bold">A [7]</text>
+
+              <!-- Node B (On optimal path) -->
+              <circle cx="180" cy="160" r="18" fill="#ecfdf5" stroke="#10b981" stroke-width="2.5"/>
+              <text x="180" y="164" font-size="10" fill="#047857" text-anchor="middle" font-weight="bold">B [2]</text>
+
+              <!-- Node C (On optimal path) -->
+              <circle cx="340" cy="40" r="18" fill="#ecfdf5" stroke="#10b981" stroke-width="2.5"/>
+              <text x="340" y="44" font-size="10" fill="#047857" text-anchor="middle" font-weight="bold">C [5]</text>
+
+              <!-- Node D -->
+              <circle cx="340" cy="160" r="18" fill="#f8fafc" stroke="#94a3b8" stroke-width="2"/>
+              <text x="340" y="164" font-size="10" fill="#475569" text-anchor="middle" font-weight="bold">D [8]</text>
+
+              <!-- End Node T -->
+              <circle cx="450" cy="100" r="20" fill="#eff6ff" stroke="#3b82f6" stroke-width="2.5"/>
+              <text x="450" y="104" font-size="12" fill="#1d4ed8" text-anchor="middle" font-weight="bold">T [6]</text>
+            </svg>
+          </div>
+
+          <div class="bg-slate-50 p-4 rounded-2xl border border-slate-200 text-xs sm:text-sm text-slate-700 leading-relaxed">
+            <p><strong>Uraian Analisis Gambar 9.2:</strong> Lintasan optimal terpilih adalah $S \to B \to C \to T$ dengan akumulasi total biaya minimum: $2 + 3 + 1 = 6$ unit, jauh lebih hemat dibanding rute atas $S \to A \to C \to T$ yang membutuhkan $7 + 5 + 1 = 13$ unit.</p>
+          </div>
+        </div>
+
+        <!-- GAMBAR 9.3: Sentralitas Sosial -->
+        <div class="my-8 p-6 bg-white rounded-3xl border border-slate-200 shadow-sm">
+          <div class="text-center mb-4">
+            <span class="text-xs font-bold uppercase tracking-wider px-3 py-1 rounded-full bg-amber-50 text-amber-700 border border-amber-100">Gambar 9.3</span>
+            <h4 class="text-lg font-bold text-slate-900 mt-2">Visualisasi Metrik Sentralitas pada Jejaring Sosial</h4>
+            <p class="text-xs text-slate-500">Peran simpul penghubung (Broker) dengan Betweenness Centrality tertinggi</p>
+          </div>
+
+          <!-- SVG Visual 3 -->
+          <div class="max-w-xl mx-auto my-6">
+            <svg viewBox="0 0 520 200" class="w-full h-auto">
+              <!-- Cluster 1 (Kiri) -->
+              <circle cx="80" cy="70" r="15" fill="#f1f5f9" stroke="#94a3b8" stroke-width="1.5"/>
+              <circle cx="60" cy="130" r="15" fill="#f1f5f9" stroke="#94a3b8" stroke-width="1.5"/>
+              <circle cx="120" cy="140" r="15" fill="#f1f5f9" stroke="#94a3b8" stroke-width="1.5"/>
+              <circle cx="140" cy="80" r="15" fill="#f1f5f9" stroke="#94a3b8" stroke-width="1.5"/>
+
+              <!-- Cluster 1 Edges -->
+              <line x1="80" y1="70" x2="60" y2="130" stroke="#cbd5e1"/>
+              <line x1="80" y1="70" x2="140" y2="80" stroke="#cbd5e1"/>
+              <line x1="60" y1="130" x2="120" y2="140" stroke="#cbd5e1"/>
+              <line x1="140" y1="80" x2="120" y2="140" stroke="#cbd5e1"/>
+
+              <!-- Cluster 2 (Kanan) -->
+              <circle cx="380" cy="70" r="15" fill="#f1f5f9" stroke="#94a3b8" stroke-width="1.5"/>
+              <circle cx="400" cy="130" r="15" fill="#f1f5f9" stroke="#94a3b8" stroke-width="1.5"/>
+              <circle cx="460" cy="80" r="15" fill="#f1f5f9" stroke="#94a3b8" stroke-width="1.5"/>
+              <circle cx="440" cy="140" r="15" fill="#f1f5f9" stroke="#94a3b8" stroke-width="1.5"/>
+
+              <!-- Cluster 2 Edges -->
+              <line x1="380" y1="70" x2="400" y2="130" stroke="#cbd5e1"/>
+              <line x1="380" y1="70" x2="460" y2="80" stroke="#cbd5e1"/>
+              <line x1="400" y1="130" x2="440" y2="140" stroke="#cbd5e1"/>
+              <line x1="460" y1="80" x2="440" y2="140" stroke="#cbd5e1"/>
+
+              <!-- Central Node (Broker / Bridge) - High Betweenness -->
+              <line x1="140" y1="80" x2="260" y2="105" stroke="#ef4444" stroke-width="2.5"/>
+              <line x1="120" y1="140" x2="260" y2="105" stroke="#ef4444" stroke-width="2.5"/>
+              <line x1="260" y1="105" x2="380" y2="70" stroke="#ef4444" stroke-width="2.5"/>
+              <line x1="260" y1="105" x2="400" y2="130" stroke="#ef4444" stroke-width="2.5"/>
+
+              <circle cx="260" cy="105" r="25" fill="#fef2f2" stroke="#ef4444" stroke-width="3"/>
+              <text x="260" y="103" font-size="11" fill="#991b1b" text-anchor="middle" font-weight="bold">Simpul</text>
+              <text x="260" y="117" font-size="10" fill="#dc2626" text-anchor="middle" font-weight="bold">Broker (B)</text>
+
+              <rect x="180" y="150" width="160" height="35" rx="8" fill="#ffffff" stroke="#fca5a5"/>
+              <text x="260" y="172" font-size="10" fill="#b91c1c" text-anchor="middle" font-weight="bold">Betweenness Tertinggi</text>
+            </svg>
+          </div>
+
+          <div class="bg-slate-50 p-4 rounded-2xl border border-slate-200 text-xs sm:text-sm text-slate-700 leading-relaxed">
+            <p><strong>Uraian Analisis Gambar 9.3:</strong> Simpul $B$ bertindak sebagai jembatan (<em>bridge/cut-vertex</em>). Meskipun jumlah teman langsungnya (<em>degree</em>) tidak paling banyak, ia memiliki <em>betweenness centrality</em> tertinggi karena setiap komunikasi atau transaksi antara Komunitas Kiri dan Komunitas Kanan wajib melewati dirinya.</p>
+          </div>
+        </div>
+
+      </section>
+
+      <!-- 9.7 Latihan & Diskusi Reflektif -->
+      <section id="latihan" class="pt-6 border-t border-slate-200">
+        <h2 class="text-2xl sm:text-3xl font-bold text-slate-900 flex items-center gap-3 mb-4">
+          <span class="text-indigo-600 font-mono text-xl">9.7</span> Latihan & Pertanyaan Diskusi
+        </h2>
+        
+        <div class="space-y-4 my-6">
+          <div class="p-5 rounded-2xl bg-white border border-slate-200 shadow-sm">
+            <h5 class="font-bold text-slate-900 text-sm mb-2 text-indigo-700">Soal 1: Rute Terpendek Distribusi Vaksin</h5>
+            <p class="text-sm text-slate-600">
+              Sebuah lembaga logistik kesehatan ingin mendistribusikan vaksin dari gudang pusat di Kota $A$ ke rumah sakit rujukan di Kota $F$. Matriks jarak antarkota (km) adalah:
+              $$A-B: 12, \quad A-C: 15, \quad B-D: 10, \quad B-E: 14, \quad C-E: 8, \quad D-F: 9, \quad E-F: 11$$
+              Gunakan algoritma Dijkstra untuk menentukan urutan rute terpendek dan hitung total jarak tempuhnya!
+            </p>
+          </div>
+
+          <div class="p-5 rounded-2xl bg-white border border-slate-200 shadow-sm">
+            <h5 class="font-bold text-slate-900 text-sm mb-2 text-indigo-700">Soal 2: Kerentanan Jaringan Komunikasi</h5>
+            <p class="text-sm text-slate-600">
+              Dalam suatu jaringan infrastruktur server perbankan, mengapa simpul dengan nilai <em>betweenness centrality</em> tinggi harus diberi cadangan ganda (<em>redundancy</em>) dibanding simpul yang hanya memiliki nilai <em>degree centrality</em> tinggi? Analisis dampaknya terhadap ketahanan sistem jika terjadi kegagalan perangkat keras!
+            </p>
+          </div>
+        </div>
+
+        <h3 class="text-xl font-bold text-slate-900 mt-8 mb-2">Penutup Bab</h3>
+        <p class="text-sm sm:text-base text-slate-700">
+          Model berbasis graf membuktikan kekuatan matematika diskrit dan matriks dalam mengoptimalkan sistem terdistribusi modern. Pada bab berikutnya (Bab 10), kita mengeksplorasi aplikasi sistem persamaan diferensial nonlinier yang sangat unik pada bidang psikososial melalui <strong>Pemodelan Dinamika Hubungan Pasangan (Pernikahan)</strong>.
+        </p>
+      </section>
+
+    </article>
+
+    <!-- Navigation Footer between Chapters -->
+    <div class="mt-16 pt-8 border-t border-slate-200 flex flex-col sm:flex-row items-center justify-between gap-4">
+      <a href="bab8.html" class="inline-flex items-center gap-2 text-sm font-semibold text-slate-600 hover:text-indigo-600 transition">
+        <i class="fa-solid fa-arrow-left"></i>
+        <span>Kembali ke Bab 8: Model Diskrit</span>
+      </a>
+      <a href="bab10.html" class="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-semibold text-sm shadow-md shadow-indigo-200 transition">
+        <span>Lanjut ke Bab 10: Dinamika Pasangan</span>
+        <i class="fa-solid fa-arrow-right"></i>
+      </a>
+    </div>
+
+  </main>
+
+  <!-- Footer -->
+  <footer class="bg-white border-t border-slate-200 py-8 text-center text-xs text-slate-500 mt-16">
+    <div class="max-w-5xl mx-auto px-4">
+      &copy; 2025 Dr. Mohammad Jamhuri, M.Si. &bull; Program Studi Matematika UIN Maulana Malik Ibrahim Malang.
+    </div>
+  </footer>
+
+</body>
+</html>
