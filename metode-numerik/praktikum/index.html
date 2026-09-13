@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Praktikum Metode Numerik — Program Studi Matematika UIN Malang</title>
-<meta name="description" content="Petunjuk ringkas dua belas praktikum Metode Numerik: tujuan, bacaan dari buku, berkas kerangka, dan yang dikumpulkan.">
+<meta name="description" content="Petunjuk ringkas dua belas praktikum Metode Numerik: tujuan, bacaan dari buku, notebook Kaggle, dan cara mengumpulkan.">
 <link rel="icon" href="../ikon.svg" type="image/svg+xml">
 <meta name="theme-color" content="#0E4749">
 <style>
@@ -108,34 +108,37 @@
 <main class="bungkus">
 
   <section id="mulai" class="umum">
-    <h3>1. Pilih tempat bekerja</h3>
-    <ul>
-      <li><b>Google Colab, tanpa memasang apa pun.</b> Klik tombol
-        <i>Buka di Colab</i> pada kartu praktikum. Notebook dari GitHub bersifat
-        hanya baca, jadi pilih <b>File &rarr; Save a copy in Drive</b> sebelum
-        mengisi. Kalau Colab memperingatkan bahwa notebook tidak ditulis oleh
-        Google, pilih <b>Tetap jalankan</b>.</li>
-      <li><b>Komputer sendiri.</b> Pasang Python 3, lalu jalankan:
-<pre><code>python3 -m venv metnum
-source metnum/bin/activate
-pip install numpy scipy matplotlib</code></pre>
-        Pada Windows, baris keduanya menjadi <code>metnum\Scripts\activate</code>.</li>
-    </ul>
-    <p>Seluruh kode diuji dengan Python 3.13.5, NumPy 2.1.3, SciPy 1.15.3, dan
-    Matplotlib 3.10.0. Versi yang lebih baru hampir selalu berjalan.</p>
+    <h3>1. Siapkan akun Kaggle</h3>
+    <p>Seluruh praktikum dikerjakan sebagai notebook di
+    <a href="https://www.kaggle.com">Kaggle</a>. Kaggle menyimpan setiap versi
+    notebook di akun Anda, sehingga pekerjaan lama mudah dicari dan dibuka lagi.
+    Daftar sekali saja, lalu masuk ke akun itu setiap kali praktikum.</p>
 
-    <h3>2. Baca bekal dari buku lebih dahulu</h3>
+    <h3>2. Buka kerangka di Kaggle</h3>
+    <ol>
+      <li>Klik <b>Buka di Kaggle</b> pada kartu praktikum. Kaggle membuat salinan
+        notebook kerangka di akun Anda.</li>
+      <li>Ganti judul notebook menjadi <code>pNN - Nama - NIM</code>, misalnya
+        <code>p01 - Nama Anda - NIM Anda</code>.</li>
+      <li>Biarkan <b>Accelerator</b> bernilai <i>None</i>. Praktikum ini tidak
+        memerlukan GPU.</li>
+    </ol>
+    <p>Kalau tombolnya tidak berjalan, buka <b>Notebook di GitHub</b>, unduh berkas
+    <code>.ipynb</code>-nya, lalu unggah ke notebook baru melalui menu <b>File</b>
+    pada penyunting Kaggle.</p>
+
+    <h3>3. Baca bekal dari buku lebih dahulu</h3>
     <p>Setiap kartu menyebutkan subbab yang harus dibaca sebelum datang ke
     laboratorium. Bawa bukunya:
     <a href="https://play.google.com/store/books/details?id=ehEFEgAAQBAJ">Metode Numerik: Teori, Algoritma, dan Analisis Galat</a>.</p>
 
-    <h3>3. Jalankan kerangka sebelum mengisi apa pun</h3>
+    <h3>4. Jalankan kerangka sebelum mengisi apa pun</h3>
     <p>Setiap kerangka sudah berjalan sampai selesai walaupun seluruh
-    <code>TODO</code> masih kosong. Jalankan sekali untuk memastikan alatnya siap.
-    Sesudah itu, isi <code>TODO</code> berurutan dan jalankan ulang setiap kali
-    satu <code>TODO</code> selesai.</p>
+    <code>TODO</code> masih kosong. Pilih <b>Run All</b> sekali untuk memastikan
+    notebooknya siap. Sesudah itu, isi <code>TODO</code> berurutan dan jalankan
+    ulang sel kegiatannya setiap kali satu <code>TODO</code> selesai.</p>
 
-    <h3>4. Baca hasil pemeriksa isian</h3>
+    <h3>5. Baca hasil pemeriksa isian</h3>
     <p>Setiap kegiatan diakhiri pemeriksaan otomatis:</p>
 <pre><code>Periksa isian kegiatan ini:
   <span class="benar">[BENAR]</span> TODO 1a  selisih terbagi
@@ -153,16 +156,26 @@ pip install numpy scipy matplotlib</code></pre>
         dan <code># &lt;&lt;&lt; pemeriksa</code>.</li>
     </ul>
 
-    <h3>5. Kumpulkan tugas mandiri</h3>
-    <ul>
-      <li>satu berkas <code>pNN_nama.py</code> yang berjalan dari awal sampai akhir
-        tanpa galat;</li>
-      <li>berkas gambar bila diminta, dalam bentuk PNG atau PDF;</li>
-      <li>satu berkas PDF berisi jawaban pertanyaan, paling banyak dua halaman.</li>
-    </ul>
-    <p>Yang dikumpulkan berkas <code>.py</code>, bukan <code>.ipynb</code>. Pada
-    Colab, pilih <b>File &rarr; Download &rarr; Download .py</b>. Jawaban yang hanya
-    berisi angka tanpa penjelasan dinilai separuh.</p>
+    <h3>6. Kumpulkan tautan notebook</h3>
+    <p>Yang dikumpulkan bukan berkas, melainkan <b>tautan notebook Kaggle</b> yang
+    sudah disimpan sebagai versi dan dibuka untuk publik.</p>
+    <ol>
+      <li>Tulis jawaban setiap pertanyaan pada sel <b>Markdown</b> di bawah
+        kegiatannya. Jawaban yang hanya berisi angka tanpa penjelasan dinilai
+        separuh.</li>
+      <li>Klik <b>Save Version</b>, pilih <b>Save &amp; Run All (Commit)</b>, lalu
+        tunggu sampai selesai. Kaggle menjalankan ulang seluruh notebook dari atas
+        pada sesi yang bersih.</li>
+      <li>Buka versi yang tersimpan. Pastikan notebook berjalan sampai akhir tanpa
+        galat dan seluruh pemeriksa tertulis <span class="benar">[BENAR]</span>.
+        Kalau belum, perbaiki notebooknya, lalu simpan versi baru.</li>
+      <li>Klik <b>Share</b>, lalu ubah aksesnya menjadi <b>Public</b>.</li>
+      <li>Salin alamat notebook, yang berbentuk
+        <code>https://www.kaggle.com/code/nama-akun/judul-notebook</code>, lalu
+        kumpulkan alamat itu.</li>
+    </ol>
+    <p>Tautan itu selalu menampilkan versi tersimpan yang terakhir. Karena itu,
+    jangan menyimpan versi yang belum benar sesudah mengumpulkan.</p>
   </section>
 
   <h2>Dua belas praktikum</h2>
@@ -192,11 +205,11 @@ pip install numpy scipy matplotlib</code></pre>
         <li>Subbab 1.7 dan 1.8: bilangan kondisi dan kestabilan algoritma</li>
       </ul>
       <div class="tautan">
-        <a class="utama" href="https://colab.research.google.com/github/jamhuri-tech/praktikum-metode-numerik/blob/main/p01_kerangka.ipynb">Buka di Colab</a>
-        <a href="https://github.com/jamhuri-tech/praktikum-metode-numerik/blob/main/p01_kerangka.py">Berkas .py</a>
+        <a class="utama" href="https://www.kaggle.com/kernels/welcome?src=https://github.com/jamhuri-tech/praktikum-metode-numerik/blob/main/p01_kerangka.ipynb">Buka di Kaggle</a>
+        <a href="https://github.com/jamhuri-tech/praktikum-metode-numerik/blob/main/p01_kerangka.ipynb">Notebook di GitHub</a>
         <a href="https://play.google.com/store/books/details?id=ZcoJEgAAQBAJ">Modul</a>
       </div>
-      <p class="kumpul">Kumpulkan <code>p01_nama.py</code> dan PDF jawaban.
+      <p class="kumpul">Kumpulkan tautan notebook Kaggle <code>p01 - Nama - NIM</code> yang sudah disimpan dan publik.
       Tenggat: <span class="tenggat">belum ditentukan</span></p>
     </div>
   </article>
@@ -223,11 +236,11 @@ pip install numpy scipy matplotlib</code></pre>
         <li>Algoritma 2.1 dan 2.2</li>
       </ul>
       <div class="tautan">
-        <a class="utama" href="https://colab.research.google.com/github/jamhuri-tech/praktikum-metode-numerik/blob/main/p02_kerangka.ipynb">Buka di Colab</a>
-        <a href="https://github.com/jamhuri-tech/praktikum-metode-numerik/blob/main/p02_kerangka.py">Berkas .py</a>
+        <a class="utama" href="https://www.kaggle.com/kernels/welcome?src=https://github.com/jamhuri-tech/praktikum-metode-numerik/blob/main/p02_kerangka.ipynb">Buka di Kaggle</a>
+        <a href="https://github.com/jamhuri-tech/praktikum-metode-numerik/blob/main/p02_kerangka.ipynb">Notebook di GitHub</a>
         <a href="https://play.google.com/store/books/details?id=ZcoJEgAAQBAJ">Modul</a>
       </div>
-      <p class="kumpul">Kumpulkan <code>p02_nama.py</code> dan PDF jawaban.
+      <p class="kumpul">Kumpulkan tautan notebook Kaggle <code>p02 - Nama - NIM</code> yang sudah disimpan dan publik.
       Tenggat: <span class="tenggat">belum ditentukan</span></p>
     </div>
   </article>
@@ -254,11 +267,11 @@ pip install numpy scipy matplotlib</code></pre>
         <li>Algoritma 3.1 dan 3.2</li>
       </ul>
       <div class="tautan">
-        <a class="utama" href="https://colab.research.google.com/github/jamhuri-tech/praktikum-metode-numerik/blob/main/p03_kerangka.ipynb">Buka di Colab</a>
-        <a href="https://github.com/jamhuri-tech/praktikum-metode-numerik/blob/main/p03_kerangka.py">Berkas .py</a>
+        <a class="utama" href="https://www.kaggle.com/kernels/welcome?src=https://github.com/jamhuri-tech/praktikum-metode-numerik/blob/main/p03_kerangka.ipynb">Buka di Kaggle</a>
+        <a href="https://github.com/jamhuri-tech/praktikum-metode-numerik/blob/main/p03_kerangka.ipynb">Notebook di GitHub</a>
         <a href="https://play.google.com/store/books/details?id=ZcoJEgAAQBAJ">Modul</a>
       </div>
-      <p class="kumpul">Kumpulkan <code>p03_nama.py</code> dan PDF jawaban.
+      <p class="kumpul">Kumpulkan tautan notebook Kaggle <code>p03 - Nama - NIM</code> yang sudah disimpan dan publik.
       Tenggat: <span class="tenggat">belum ditentukan</span></p>
     </div>
   </article>
@@ -283,11 +296,11 @@ pip install numpy scipy matplotlib</code></pre>
         <li>Algoritma 4.1</li>
       </ul>
       <div class="tautan">
-        <a class="utama" href="https://colab.research.google.com/github/jamhuri-tech/praktikum-metode-numerik/blob/main/p04_kerangka.ipynb">Buka di Colab</a>
-        <a href="https://github.com/jamhuri-tech/praktikum-metode-numerik/blob/main/p04_kerangka.py">Berkas .py</a>
+        <a class="utama" href="https://www.kaggle.com/kernels/welcome?src=https://github.com/jamhuri-tech/praktikum-metode-numerik/blob/main/p04_kerangka.ipynb">Buka di Kaggle</a>
+        <a href="https://github.com/jamhuri-tech/praktikum-metode-numerik/blob/main/p04_kerangka.ipynb">Notebook di GitHub</a>
         <a href="https://play.google.com/store/books/details?id=ZcoJEgAAQBAJ">Modul</a>
       </div>
-      <p class="kumpul">Kumpulkan <code>p04_nama.py</code> dan PDF jawaban.
+      <p class="kumpul">Kumpulkan tautan notebook Kaggle <code>p04 - Nama - NIM</code> yang sudah disimpan dan publik.
       Tenggat: <span class="tenggat">belum ditentukan</span></p>
     </div>
   </article>
@@ -314,11 +327,11 @@ pip install numpy scipy matplotlib</code></pre>
         <li>Algoritma 5.1, 5.2, dan 5.3</li>
       </ul>
       <div class="tautan">
-        <a class="utama" href="https://colab.research.google.com/github/jamhuri-tech/praktikum-metode-numerik/blob/main/p05_kerangka.ipynb">Buka di Colab</a>
-        <a href="https://github.com/jamhuri-tech/praktikum-metode-numerik/blob/main/p05_kerangka.py">Berkas .py</a>
+        <a class="utama" href="https://www.kaggle.com/kernels/welcome?src=https://github.com/jamhuri-tech/praktikum-metode-numerik/blob/main/p05_kerangka.ipynb">Buka di Kaggle</a>
+        <a href="https://github.com/jamhuri-tech/praktikum-metode-numerik/blob/main/p05_kerangka.ipynb">Notebook di GitHub</a>
         <a href="https://play.google.com/store/books/details?id=ZcoJEgAAQBAJ">Modul</a>
       </div>
-      <p class="kumpul">Kumpulkan <code>p05_nama.py</code> dan PDF jawaban.
+      <p class="kumpul">Kumpulkan tautan notebook Kaggle <code>p05 - Nama - NIM</code> yang sudah disimpan dan publik.
       Tenggat: <span class="tenggat">belum ditentukan</span></p>
     </div>
   </article>
@@ -344,11 +357,11 @@ pip install numpy scipy matplotlib</code></pre>
         <li>Algoritma 6.1, 6.2, dan 6.3</li>
       </ul>
       <div class="tautan">
-        <a class="utama" href="https://colab.research.google.com/github/jamhuri-tech/praktikum-metode-numerik/blob/main/p06_kerangka.ipynb">Buka di Colab</a>
-        <a href="https://github.com/jamhuri-tech/praktikum-metode-numerik/blob/main/p06_kerangka.py">Berkas .py</a>
+        <a class="utama" href="https://www.kaggle.com/kernels/welcome?src=https://github.com/jamhuri-tech/praktikum-metode-numerik/blob/main/p06_kerangka.ipynb">Buka di Kaggle</a>
+        <a href="https://github.com/jamhuri-tech/praktikum-metode-numerik/blob/main/p06_kerangka.ipynb">Notebook di GitHub</a>
         <a href="https://play.google.com/store/books/details?id=ZcoJEgAAQBAJ">Modul</a>
       </div>
-      <p class="kumpul">Kumpulkan <code>p06_nama.py</code> dan PDF jawaban.
+      <p class="kumpul">Kumpulkan tautan notebook Kaggle <code>p06 - Nama - NIM</code> yang sudah disimpan dan publik.
       Tenggat: <span class="tenggat">belum ditentukan</span></p>
     </div>
   </article>
@@ -373,11 +386,11 @@ pip install numpy scipy matplotlib</code></pre>
         <li>Algoritma 7.1 dan 8.1</li>
       </ul>
       <div class="tautan">
-        <a class="utama" href="https://colab.research.google.com/github/jamhuri-tech/praktikum-metode-numerik/blob/main/p07_kerangka.ipynb">Buka di Colab</a>
-        <a href="https://github.com/jamhuri-tech/praktikum-metode-numerik/blob/main/p07_kerangka.py">Berkas .py</a>
+        <a class="utama" href="https://www.kaggle.com/kernels/welcome?src=https://github.com/jamhuri-tech/praktikum-metode-numerik/blob/main/p07_kerangka.ipynb">Buka di Kaggle</a>
+        <a href="https://github.com/jamhuri-tech/praktikum-metode-numerik/blob/main/p07_kerangka.ipynb">Notebook di GitHub</a>
         <a href="https://play.google.com/store/books/details?id=ZcoJEgAAQBAJ">Modul</a>
       </div>
-      <p class="kumpul">Kumpulkan <code>p07_nama.py</code> dan PDF jawaban.
+      <p class="kumpul">Kumpulkan tautan notebook Kaggle <code>p07 - Nama - NIM</code> yang sudah disimpan dan publik.
       Tenggat: <span class="tenggat">belum ditentukan</span></p>
     </div>
   </article>
@@ -404,11 +417,11 @@ pip install numpy scipy matplotlib</code></pre>
         <li>Subbab 10.7: langkah kompleks dan diferensiasi otomatis</li>
       </ul>
       <div class="tautan">
-        <a class="utama" href="https://colab.research.google.com/github/jamhuri-tech/praktikum-metode-numerik/blob/main/p08_kerangka.ipynb">Buka di Colab</a>
-        <a href="https://github.com/jamhuri-tech/praktikum-metode-numerik/blob/main/p08_kerangka.py">Berkas .py</a>
+        <a class="utama" href="https://www.kaggle.com/kernels/welcome?src=https://github.com/jamhuri-tech/praktikum-metode-numerik/blob/main/p08_kerangka.ipynb">Buka di Kaggle</a>
+        <a href="https://github.com/jamhuri-tech/praktikum-metode-numerik/blob/main/p08_kerangka.ipynb">Notebook di GitHub</a>
         <a href="https://play.google.com/store/books/details?id=ZcoJEgAAQBAJ">Modul</a>
       </div>
-      <p class="kumpul">Kumpulkan <code>p08_nama.py</code> dan PDF jawaban.
+      <p class="kumpul">Kumpulkan tautan notebook Kaggle <code>p08 - Nama - NIM</code> yang sudah disimpan dan publik.
       Tenggat: <span class="tenggat">belum ditentukan</span></p>
     </div>
   </article>
@@ -436,11 +449,11 @@ pip install numpy scipy matplotlib</code></pre>
         <li>Algoritma 11.1 dan 12.1</li>
       </ul>
       <div class="tautan">
-        <a class="utama" href="https://colab.research.google.com/github/jamhuri-tech/praktikum-metode-numerik/blob/main/p09_kerangka.ipynb">Buka di Colab</a>
-        <a href="https://github.com/jamhuri-tech/praktikum-metode-numerik/blob/main/p09_kerangka.py">Berkas .py</a>
+        <a class="utama" href="https://www.kaggle.com/kernels/welcome?src=https://github.com/jamhuri-tech/praktikum-metode-numerik/blob/main/p09_kerangka.ipynb">Buka di Kaggle</a>
+        <a href="https://github.com/jamhuri-tech/praktikum-metode-numerik/blob/main/p09_kerangka.ipynb">Notebook di GitHub</a>
         <a href="https://play.google.com/store/books/details?id=ZcoJEgAAQBAJ">Modul</a>
       </div>
-      <p class="kumpul">Kumpulkan <code>p09_nama.py</code> dan PDF jawaban.
+      <p class="kumpul">Kumpulkan tautan notebook Kaggle <code>p09 - Nama - NIM</code> yang sudah disimpan dan publik.
       Tenggat: <span class="tenggat">belum ditentukan</span></p>
     </div>
   </article>
@@ -468,11 +481,11 @@ pip install numpy scipy matplotlib</code></pre>
         <li>Algoritma 13.1</li>
       </ul>
       <div class="tautan">
-        <a class="utama" href="https://colab.research.google.com/github/jamhuri-tech/praktikum-metode-numerik/blob/main/p10_kerangka.ipynb">Buka di Colab</a>
-        <a href="https://github.com/jamhuri-tech/praktikum-metode-numerik/blob/main/p10_kerangka.py">Berkas .py</a>
+        <a class="utama" href="https://www.kaggle.com/kernels/welcome?src=https://github.com/jamhuri-tech/praktikum-metode-numerik/blob/main/p10_kerangka.ipynb">Buka di Kaggle</a>
+        <a href="https://github.com/jamhuri-tech/praktikum-metode-numerik/blob/main/p10_kerangka.ipynb">Notebook di GitHub</a>
         <a href="https://play.google.com/store/books/details?id=ZcoJEgAAQBAJ">Modul</a>
       </div>
-      <p class="kumpul">Kumpulkan <code>p10_nama.py</code> dan PDF jawaban.
+      <p class="kumpul">Kumpulkan tautan notebook Kaggle <code>p10 - Nama - NIM</code> yang sudah disimpan dan publik.
       Tenggat: <span class="tenggat">belum ditentukan</span></p>
     </div>
   </article>
@@ -499,11 +512,11 @@ pip install numpy scipy matplotlib</code></pre>
         <li>Algoritma 15.1</li>
       </ul>
       <div class="tautan">
-        <a class="utama" href="https://colab.research.google.com/github/jamhuri-tech/praktikum-metode-numerik/blob/main/p11_kerangka.ipynb">Buka di Colab</a>
-        <a href="https://github.com/jamhuri-tech/praktikum-metode-numerik/blob/main/p11_kerangka.py">Berkas .py</a>
+        <a class="utama" href="https://www.kaggle.com/kernels/welcome?src=https://github.com/jamhuri-tech/praktikum-metode-numerik/blob/main/p11_kerangka.ipynb">Buka di Kaggle</a>
+        <a href="https://github.com/jamhuri-tech/praktikum-metode-numerik/blob/main/p11_kerangka.ipynb">Notebook di GitHub</a>
         <a href="https://play.google.com/store/books/details?id=ZcoJEgAAQBAJ">Modul</a>
       </div>
-      <p class="kumpul">Kumpulkan <code>p11_nama.py</code> dan PDF jawaban.
+      <p class="kumpul">Kumpulkan tautan notebook Kaggle <code>p11 - Nama - NIM</code> yang sudah disimpan dan publik.
       Tenggat: <span class="tenggat">belum ditentukan</span></p>
     </div>
   </article>
@@ -532,11 +545,11 @@ pip install numpy scipy matplotlib</code></pre>
         <li>Subbab 18.5: difusi dan dispersi numerik</li>
       </ul>
       <div class="tautan">
-        <a class="utama" href="https://colab.research.google.com/github/jamhuri-tech/praktikum-metode-numerik/blob/main/p12_kerangka.ipynb">Buka di Colab</a>
-        <a href="https://github.com/jamhuri-tech/praktikum-metode-numerik/blob/main/p12_kerangka.py">Berkas .py</a>
+        <a class="utama" href="https://www.kaggle.com/kernels/welcome?src=https://github.com/jamhuri-tech/praktikum-metode-numerik/blob/main/p12_kerangka.ipynb">Buka di Kaggle</a>
+        <a href="https://github.com/jamhuri-tech/praktikum-metode-numerik/blob/main/p12_kerangka.ipynb">Notebook di GitHub</a>
         <a href="https://play.google.com/store/books/details?id=ZcoJEgAAQBAJ">Modul</a>
       </div>
-      <p class="kumpul">Kumpulkan <code>p12_nama.py</code> dan PDF jawaban.
+      <p class="kumpul">Kumpulkan tautan notebook Kaggle <code>p12 - Nama - NIM</code> yang sudah disimpan dan publik.
       Tenggat: <span class="tenggat">belum ditentukan</span></p>
     </div>
   </article>
