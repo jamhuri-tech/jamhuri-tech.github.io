@@ -288,3 +288,7 @@ body.latar-gelap #tanda{ color:#9FB6B4; opacity:.42; }
 /* Rumus KaTeX ikut mengecil bersama teks di sekitarnya. */
 .reveal .katex{ font-size:1.02em; }
 .reveal .katex-display{ margin:.55em 0; }
+
+/* Tautan ke halaman praktikum pada catatan laboratorium. */
+.reveal .nota a, .reveal .penutup .lab a{ color:inherit; text-decoration:underline;
+  text-decoration-color:rgba(176,124,41,.6); text-underline-offset:3px; }

@@ -1,0 +1,553 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Praktikum Metode Numerik — Program Studi Matematika UIN Malang</title>
+<meta name="description" content="Petunjuk ringkas dua belas praktikum Metode Numerik: tujuan, bacaan dari buku, berkas kerangka, dan yang dikumpulkan.">
+<link rel="icon" href="../ikon.svg" type="image/svg+xml">
+<meta name="theme-color" content="#0E4749">
+<style>
+  :root{
+    --tosca:#0E4749; --tosca-muda:#2C7873; --ambar:#B07C29;
+    --batu:#3E4C59; --abu:#78828B; --krem:#FBF8F1; --krem-tua:#F1EADC;
+  }
+  *{ box-sizing:border-box; }
+  html{ scroll-behavior:smooth; }
+  body{
+    margin:0; background:var(--krem); color:var(--batu);
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,
+                "Helvetica Neue",Arial,sans-serif;
+    line-height:1.6; -webkit-font-smoothing:antialiased;
+  }
+  .bungkus{ max-width:760px; margin:0 auto; padding:0 24px; }
+  a{ color:var(--tosca-muda); }
+
+  header{ background:var(--tosca); color:var(--krem); padding:40px 0 38px; }
+  header .kembali{ color:#A9BFBD; font-size:.84rem; text-decoration:none; }
+  header .kembali:hover{ color:var(--krem); }
+  header .mk{ color:var(--ambar); font-size:.72rem; letter-spacing:.2em;
+    text-transform:uppercase; margin:1.4em 0 .5em; }
+  header h1{ font-size:2rem; margin:0 0 .35em; line-height:1.15; }
+  header p{ margin:.2em 0; color:#A9BFBD; font-size:.94rem; }
+  .garis{ width:88px; height:2px; background:var(--ambar); margin:1.3em 0 0; }
+
+  nav.lompat{ display:flex; flex-wrap:wrap; gap:6px; margin:22px 0 0; }
+  nav.lompat a{ color:var(--krem); text-decoration:none; font-size:.82rem;
+    padding:3px 10px; border:1px solid rgba(255,255,255,.22); border-radius:12px; }
+  nav.lompat a:hover{ border-color:var(--ambar); }
+
+  main{ padding:40px 0 64px; }
+  h2{ color:var(--tosca); font-size:1.12rem; margin:0 0 .3em; }
+  .ket{ color:var(--abu); font-size:.86rem; margin:0 0 1.2em; }
+
+  .umum{ background:#fff; border:1px solid var(--krem-tua);
+    border-left:3px solid var(--tosca); border-radius:7px;
+    padding:20px 22px; margin:0 0 42px; font-size:.9rem; }
+  .umum h3{ color:var(--tosca); font-size:.95rem; margin:1.3em 0 .3em; }
+  .umum h3:first-child{ margin-top:0; }
+  .umum ul, .umum ol{ margin:.3em 0; padding-left:1.3em; }
+  .umum li{ margin:.2em 0; }
+  pre{ background:var(--krem); border:1px solid var(--krem-tua); border-radius:5px;
+    padding:10px 12px; overflow-x:auto; font-size:.8rem; line-height:1.45; margin:.5em 0; }
+  code{ font-family:"SF Mono",Menlo,Consolas,monospace; font-size:.9em; }
+  .benar{ color:#2E7D4F; font-weight:600; }
+  .belum{ color:#B03A2E; font-weight:600; }
+
+  .kartu{ background:#fff; border:1px solid var(--krem-tua); border-radius:8px;
+    padding:18px 20px 16px; margin:0 0 16px; scroll-margin-top:16px; }
+  .kartu:target{ border-color:var(--ambar); box-shadow:0 0 0 2px rgba(176,124,41,.18); }
+  .kepala{ display:flex; align-items:baseline; gap:14px; }
+  .kepala .no{ color:var(--ambar); font-weight:700; font-size:.86rem; min-width:2.2em; }
+  .kepala h3{ color:var(--tosca); font-size:1.02rem; margin:0; flex:1; line-height:1.3; }
+  .kepala .bab{ color:var(--abu); font-size:.78rem; white-space:nowrap; }
+  .isi{ margin-left:calc(2.2em + 14px); font-size:.88rem; }
+  .isi h4{ font-size:.72rem; letter-spacing:.12em; text-transform:uppercase;
+    color:var(--abu); margin:1em 0 .25em; }
+  .isi ul{ margin:0; padding-left:1.2em; }
+  .isi li{ margin:.15em 0; }
+  .tautan{ display:flex; flex-wrap:wrap; gap:8px; margin:14px 0 0; }
+  .tautan a{ text-decoration:none; font-size:.82rem; padding:5px 12px;
+    border:1px solid var(--tosca-muda); border-radius:5px; color:var(--tosca); }
+  .tautan a:hover{ background:var(--tosca); color:var(--krem); }
+  .tautan a.utama{ background:var(--tosca); color:var(--krem); border-color:var(--tosca); }
+  .tautan a.utama:hover{ background:var(--tosca-muda); }
+  .kumpul{ margin:12px 0 0; padding:8px 12px; background:var(--krem);
+    border-radius:5px; font-size:.84rem; }
+  .kumpul .tenggat{ color:var(--abu); font-style:italic; }
+
+  @media (max-width:560px){
+    .isi{ margin-left:0; }
+    .kepala{ flex-wrap:wrap; gap:4px 12px; }
+    .kepala .bab{ width:100%; }
+  }
+
+  footer{ border-top:1px solid var(--krem-tua); padding:22px 0 40px;
+    color:var(--abu); font-size:.8rem; }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="bungkus">
+    <a class="kembali" href="../">&larr; Metode Numerik</a>
+    <p class="mk">1 sks laboratorium &middot; 90 menit sepekan</p>
+    <h1>Praktikum</h1>
+    <p>Petunjuk ringkas dua belas praktikum. Langkah lengkap, kegiatan, dan angka
+    yang seharusnya keluar ada pada modul praktikum.</p>
+    <div class="garis"></div>
+    <nav class="lompat" aria-label="Lompat ke praktikum">
+      <a href="#mulai">Sebelum mulai</a>
+      <a href="#p01">1</a><a href="#p02">2</a><a href="#p03">3</a><a href="#p04">4</a>
+      <a href="#p05">5</a><a href="#p06">6</a><a href="#p07">7</a><a href="#p08">8</a>
+      <a href="#p09">9</a><a href="#p10">10</a><a href="#p11">11</a><a href="#p12">12</a>
+    </nav>
+  </div>
+</header>
+
+<main class="bungkus">
+
+  <section id="mulai" class="umum">
+    <h3>1. Pilih tempat bekerja</h3>
+    <ul>
+      <li><b>Google Colab, tanpa memasang apa pun.</b> Klik tombol
+        <i>Buka di Colab</i> pada kartu praktikum. Notebook dari GitHub bersifat
+        hanya baca, jadi pilih <b>File &rarr; Save a copy in Drive</b> sebelum
+        mengisi. Kalau Colab memperingatkan bahwa notebook tidak ditulis oleh
+        Google, pilih <b>Tetap jalankan</b>.</li>
+      <li><b>Komputer sendiri.</b> Pasang Python 3, lalu jalankan:
+<pre><code>python3 -m venv metnum
+source metnum/bin/activate
+pip install numpy scipy matplotlib</code></pre>
+        Pada Windows, baris keduanya menjadi <code>metnum\Scripts\activate</code>.</li>
+    </ul>
+    <p>Seluruh kode diuji dengan Python 3.13.5, NumPy 2.1.3, SciPy 1.15.3, dan
+    Matplotlib 3.10.0. Versi yang lebih baru hampir selalu berjalan.</p>
+
+    <h3>2. Baca bekal dari buku lebih dahulu</h3>
+    <p>Setiap kartu menyebutkan subbab yang harus dibaca sebelum datang ke
+    laboratorium. Bawa bukunya:
+    <a href="https://play.google.com/store/books/details?id=ehEFEgAAQBAJ">Metode Numerik: Teori, Algoritma, dan Analisis Galat</a>.</p>
+
+    <h3>3. Jalankan kerangka sebelum mengisi apa pun</h3>
+    <p>Setiap kerangka sudah berjalan sampai selesai walaupun seluruh
+    <code>TODO</code> masih kosong. Jalankan sekali untuk memastikan alatnya siap.
+    Sesudah itu, isi <code>TODO</code> berurutan dan jalankan ulang setiap kali
+    satu <code>TODO</code> selesai.</p>
+
+    <h3>4. Baca hasil pemeriksa isian</h3>
+    <p>Setiap kegiatan diakhiri pemeriksaan otomatis:</p>
+<pre><code>Periksa isian kegiatan ini:
+  <span class="benar">[BENAR]</span> TODO 1a  selisih terbagi
+  <span class="belum">[BELUM]</span> TODO 1b  skema Horner
+          polinomial 1 + 2x + x(x-1) di x = 3 dihitung [1.0], seharusnya 13</code></pre>
+    <ul>
+      <li><b class="benar">[BENAR]</b> berarti isian itu lolos uji.</li>
+      <li><b class="belum">[BELUM]</b> berarti belum. Baris di bawahnya menyebut
+        angka dari kode Anda dan angka yang seharusnya.</li>
+      <li><b>[SENDIRI]</b> hanya ada pada Praktikum 1. Label ini tidak diperiksa
+        otomatis, jadi cocokkan sendiri hasilnya dengan petunjuk pada barisnya.</li>
+      <li>Pemeriksa tidak menjawab pertanyaan pada modul. Anda tetap harus
+        menjelaskan sendiri mengapa angkanya begitu.</li>
+      <li>Jangan mengubah bagian yang diapit <code># &gt;&gt;&gt; pemeriksa</code>
+        dan <code># &lt;&lt;&lt; pemeriksa</code>.</li>
+    </ul>
+
+    <h3>5. Kumpulkan tugas mandiri</h3>
+    <ul>
+      <li>satu berkas <code>pNN_nama.py</code> yang berjalan dari awal sampai akhir
+        tanpa galat;</li>
+      <li>berkas gambar bila diminta, dalam bentuk PNG atau PDF;</li>
+      <li>satu berkas PDF berisi jawaban pertanyaan, paling banyak dua halaman.</li>
+    </ul>
+    <p>Yang dikumpulkan berkas <code>.py</code>, bukan <code>.ipynb</code>. Pada
+    Colab, pilih <b>File &rarr; Download &rarr; Download .py</b>. Jawaban yang hanya
+    berisi angka tanpa penjelasan dinilai separuh.</p>
+  </section>
+
+  <h2>Dua belas praktikum</h2>
+  <p class="ket">Setiap kartu memuat tujuan, bacaan wajib, dan tautan ke berkasnya.
+  <a href="https://play.google.com/store/books/details?id=ZcoJEgAAQBAJ">Modul praktikum</a>
+  gratis diunduh sampai 7 November 2026.</p>
+
+  <article class="kartu" id="p01">
+    <div class="kepala"><span class="no">01</span>
+      <h3>Galat dan Aritmetika Titik-Kambang</h3><span class="bab">Bab 1</span></div>
+    <div class="isi">
+      <h4>Tujuan</h4>
+      <ul>
+        <li>menunjukkan bahwa bilangan desimal sederhana tidak tersimpan tepat di
+          dalam mesin, dan menyebutkan besar melesetnya;</li>
+        <li>mengukur epsilon mesin sendiri, tanpa menanyakannya kepada pustaka;</li>
+        <li>membedakan galat yang menumpuk dari galat yang saling meniadakan;</li>
+        <li>mengenali pengurangan bilangan yang berdekatan, lalu menulis ulang
+          rumusnya supaya aman.</li>
+      </ul>
+      <h4>Bekal dari buku</h4>
+      <ul>
+        <li>Subbab 1.3: galat mutlak, galat relatif, dan angka signifikan</li>
+        <li>Subbab 1.4: bilangan titik-kambang dan epsilon mesin</li>
+        <li>Subbab 1.5: aritmetika titik-kambang dan pembatalan katastrofik</li>
+        <li>Subbab 1.6: penjumlahan terkompensasi, Algoritma 1.1</li>
+        <li>Subbab 1.7 dan 1.8: bilangan kondisi dan kestabilan algoritma</li>
+      </ul>
+      <div class="tautan">
+        <a class="utama" href="https://colab.research.google.com/github/jamhuri-tech/praktikum-metode-numerik/blob/main/p01_kerangka.ipynb">Buka di Colab</a>
+        <a href="https://github.com/jamhuri-tech/praktikum-metode-numerik/blob/main/p01_kerangka.py">Berkas .py</a>
+        <a href="https://play.google.com/store/books/details?id=ZcoJEgAAQBAJ">Modul</a>
+      </div>
+      <p class="kumpul">Kumpulkan <code>p01_nama.py</code> dan PDF jawaban.
+      Tenggat: <span class="tenggat">belum ditentukan</span></p>
+    </div>
+  </article>
+
+  <article class="kartu" id="p02">
+    <div class="kepala"><span class="no">02</span>
+      <h3>Akar Persamaan Nonlinear</h3><span class="bab">Bab 2</span></div>
+    <div class="isi">
+      <h4>Tujuan</h4>
+      <ul>
+        <li>menulis sendiri metode bagi dua, Newton–Raphson, dan secant;</li>
+        <li>mengukur orde konvergensi dari galat yang dihasilkan;</li>
+        <li>menjelaskan mengapa metode yang lebih cepat justru lebih rapuh;</li>
+        <li>memperlihatkan satu keadaan yang membuat Newton kehilangan
+          konvergensi kuadratiknya.</li>
+      </ul>
+      <h4>Bekal dari buku</h4>
+      <ul>
+        <li>Subbab 1.9: orde konvergensi</li>
+        <li>Subbab 2.2: metode bagi dua dan jaminan konvergensinya</li>
+        <li>Subbab 2.5: metode Newton–Raphson dan syarat f′(r) ≠ 0</li>
+        <li>Subbab 2.6: metode secant dan ordenya, 1,618</li>
+        <li>Subbab 2.7: akar kelipatan</li>
+        <li>Algoritma 2.1 dan 2.2</li>
+      </ul>
+      <div class="tautan">
+        <a class="utama" href="https://colab.research.google.com/github/jamhuri-tech/praktikum-metode-numerik/blob/main/p02_kerangka.ipynb">Buka di Colab</a>
+        <a href="https://github.com/jamhuri-tech/praktikum-metode-numerik/blob/main/p02_kerangka.py">Berkas .py</a>
+        <a href="https://play.google.com/store/books/details?id=ZcoJEgAAQBAJ">Modul</a>
+      </div>
+      <p class="kumpul">Kumpulkan <code>p02_nama.py</code> dan PDF jawaban.
+      Tenggat: <span class="tenggat">belum ditentukan</span></p>
+    </div>
+  </article>
+
+  <article class="kartu" id="p03">
+    <div class="kepala"><span class="no">03</span>
+      <h3>Sistem Linear: Metode Langsung</h3><span class="bab">Bab 3</span></div>
+    <div class="isi">
+      <h4>Tujuan</h4>
+      <ul>
+        <li>menulis eliminasi Gauss dengan dan tanpa pivoting parsial, lalu
+          memperlihatkan satu sistem yang membedakan keduanya;</li>
+        <li>membedakan sisa yang kecil dari galat yang kecil, dengan bilangan
+          kondisi sebagai penghubungnya;</li>
+        <li>menjelaskan mengapa faktorisasi LU disimpan, bukan dibuang.</li>
+      </ul>
+      <h4>Bekal dari buku</h4>
+      <ul>
+        <li>Subbab 3.2 dan 3.3: sistem segitiga, substitusi mundur, dan eliminasi
+          Gauss</li>
+        <li>Subbab 3.4: pivoting dan alasannya</li>
+        <li>Subbab 3.5: faktorisasi PA = LU</li>
+        <li>Subbab 3.8 dan 3.9: norma, bilangan kondisi, residu, dan galat</li>
+        <li>Algoritma 3.1 dan 3.2</li>
+      </ul>
+      <div class="tautan">
+        <a class="utama" href="https://colab.research.google.com/github/jamhuri-tech/praktikum-metode-numerik/blob/main/p03_kerangka.ipynb">Buka di Colab</a>
+        <a href="https://github.com/jamhuri-tech/praktikum-metode-numerik/blob/main/p03_kerangka.py">Berkas .py</a>
+        <a href="https://play.google.com/store/books/details?id=ZcoJEgAAQBAJ">Modul</a>
+      </div>
+      <p class="kumpul">Kumpulkan <code>p03_nama.py</code> dan PDF jawaban.
+      Tenggat: <span class="tenggat">belum ditentukan</span></p>
+    </div>
+  </article>
+
+  <article class="kartu" id="p04">
+    <div class="kepala"><span class="no">04</span>
+      <h3>Sistem Linear: Metode Iteratif</h3><span class="bab">Bab 4</span></div>
+    <div class="isi">
+      <h4>Tujuan</h4>
+      <ul>
+        <li>menulis Jacobi, Gauss–Seidel, dan SOR dari pseudokode buku;</li>
+        <li>menghitung jari-jari spektral matriks iterasi, lalu meramalkan jumlah
+          iterasi sebelum kodenya dijalankan;</li>
+        <li>membuktikan ramalan itu, dan menemukan sendiri ω optimal untuk SOR.</li>
+      </ul>
+      <h4>Bekal dari buku</h4>
+      <ul>
+        <li>Subbab 4.2: pemisahan A = D + L + U dan matriks iterasi</li>
+        <li>Subbab 4.3 dan 4.4: metode Jacobi dan Gauss–Seidel</li>
+        <li>Subbab 4.5: syarat ρ(M) &lt; 1 dan taksiran jumlah iterasi</li>
+        <li>Subbab 4.6: SOR dan ω optimal</li>
+        <li>Algoritma 4.1</li>
+      </ul>
+      <div class="tautan">
+        <a class="utama" href="https://colab.research.google.com/github/jamhuri-tech/praktikum-metode-numerik/blob/main/p04_kerangka.ipynb">Buka di Colab</a>
+        <a href="https://github.com/jamhuri-tech/praktikum-metode-numerik/blob/main/p04_kerangka.py">Berkas .py</a>
+        <a href="https://play.google.com/store/books/details?id=ZcoJEgAAQBAJ">Modul</a>
+      </div>
+      <p class="kumpul">Kumpulkan <code>p04_nama.py</code> dan PDF jawaban.
+      Tenggat: <span class="tenggat">belum ditentukan</span></p>
+    </div>
+  </article>
+
+  <article class="kartu" id="p05">
+    <div class="kepala"><span class="no">05</span>
+      <h3>Sistem Nonlinear dan Optimasi</h3><span class="bab">Bab 5</span></div>
+    <div class="isi">
+      <h4>Tujuan</h4>
+      <ul>
+        <li>memperluas Newton dari satu peubah ke sistem, dengan pembagian yang
+          berubah menjadi penyelesaian sistem linear;</li>
+        <li>menerapkan pembaruan Broyden ketika matriks Jacobi terlalu mahal atau
+          tidak tersedia;</li>
+        <li>memperlihatkan Newton yang melenceng, lalu menyelamatkannya dengan
+          pencarian garis mundur.</li>
+      </ul>
+      <h4>Bekal dari buku</h4>
+      <ul>
+        <li>Subbab 5.3: metode Newton untuk sistem</li>
+        <li>Subbab 5.4: Jacobi numerik dan Newton termodifikasi</li>
+        <li>Subbab 5.5: pembaruan Broyden</li>
+        <li>Subbab 5.6: globalisasi melalui pencarian garis</li>
+        <li>Algoritma 5.1, 5.2, dan 5.3</li>
+      </ul>
+      <div class="tautan">
+        <a class="utama" href="https://colab.research.google.com/github/jamhuri-tech/praktikum-metode-numerik/blob/main/p05_kerangka.ipynb">Buka di Colab</a>
+        <a href="https://github.com/jamhuri-tech/praktikum-metode-numerik/blob/main/p05_kerangka.py">Berkas .py</a>
+        <a href="https://play.google.com/store/books/details?id=ZcoJEgAAQBAJ">Modul</a>
+      </div>
+      <p class="kumpul">Kumpulkan <code>p05_nama.py</code> dan PDF jawaban.
+      Tenggat: <span class="tenggat">belum ditentukan</span></p>
+    </div>
+  </article>
+
+  <article class="kartu" id="p06">
+    <div class="kepala"><span class="no">06</span>
+      <h3>Nilai Eigen dan Nilai Singular</h3><span class="bab">Bab 6</span></div>
+    <div class="isi">
+      <h4>Tujuan</h4>
+      <ul>
+        <li>menulis metode pangkat, mengukur lajunya, dan mencocokkannya dengan
+          nisbah |λ₂/λ₁|;</li>
+        <li>memakai pergeseran untuk memilih nilai eigen yang dicari;</li>
+        <li>menjalankan iterasi QR dasar dan melihat matriksnya menjadi
+          segitiga.</li>
+      </ul>
+      <h4>Bekal dari buku</h4>
+      <ul>
+        <li>Subbab 6.3 dan 6.4: metode pangkat dan hasil bagi Rayleigh</li>
+        <li>Subbab 6.5: pangkat invers dan pergeseran</li>
+        <li>Subbab 6.6: transformasi similaritas dan metode QR</li>
+        <li>Subbab 6.8: dekomposisi nilai singular, dipakai pada tugas</li>
+        <li>Algoritma 6.1, 6.2, dan 6.3</li>
+      </ul>
+      <div class="tautan">
+        <a class="utama" href="https://colab.research.google.com/github/jamhuri-tech/praktikum-metode-numerik/blob/main/p06_kerangka.ipynb">Buka di Colab</a>
+        <a href="https://github.com/jamhuri-tech/praktikum-metode-numerik/blob/main/p06_kerangka.py">Berkas .py</a>
+        <a href="https://play.google.com/store/books/details?id=ZcoJEgAAQBAJ">Modul</a>
+      </div>
+      <p class="kumpul">Kumpulkan <code>p06_nama.py</code> dan PDF jawaban.
+      Tenggat: <span class="tenggat">belum ditentukan</span></p>
+    </div>
+  </article>
+
+  <article class="kartu" id="p07">
+    <div class="kepala"><span class="no">07</span>
+      <h3>Interpolasi Polinomial dan Spline</h3><span class="bab">Bab 7 dan 8</span></div>
+    <div class="isi">
+      <h4>Tujuan</h4>
+      <ul>
+        <li>menyusun polinomial interpolasi dengan selisih terbagi Newton;</li>
+        <li>memperlihatkan fenomena Runge, yaitu interpolasi yang memburuk ketika
+          simpulnya diperbanyak;</li>
+        <li>menyembuhkannya dengan simpul Chebyshev, lalu dengan spline.</li>
+      </ul>
+      <h4>Bekal dari buku</h4>
+      <ul>
+        <li>Subbab 7.3: selisih terbagi dan bentuk Newton</li>
+        <li>Subbab 7.4 dan 7.5: galat interpolasi dan fenomena Runge</li>
+        <li>Subbab 7.6: simpul Chebyshev</li>
+        <li>Subbab 8.4 dan 8.6: spline kubik dan syarat batasnya</li>
+        <li>Algoritma 7.1 dan 8.1</li>
+      </ul>
+      <div class="tautan">
+        <a class="utama" href="https://colab.research.google.com/github/jamhuri-tech/praktikum-metode-numerik/blob/main/p07_kerangka.ipynb">Buka di Colab</a>
+        <a href="https://github.com/jamhuri-tech/praktikum-metode-numerik/blob/main/p07_kerangka.py">Berkas .py</a>
+        <a href="https://play.google.com/store/books/details?id=ZcoJEgAAQBAJ">Modul</a>
+      </div>
+      <p class="kumpul">Kumpulkan <code>p07_nama.py</code> dan PDF jawaban.
+      Tenggat: <span class="tenggat">belum ditentukan</span></p>
+    </div>
+  </article>
+
+  <article class="kartu" id="p08">
+    <div class="kepala"><span class="no">08</span>
+      <h3>Kuadrat Terkecil dan Diferensiasi Numerik</h3><span class="bab">Bab 9 dan 10</span></div>
+    <div class="isi">
+      <h4>Tujuan</h4>
+      <ul>
+        <li>memperlihatkan bahwa persamaan normal mengkuadratkan bilangan kondisi,
+          sedangkan QR tidak;</li>
+        <li>memetakan galat diferensiasi numerik terhadap h dan menemukan
+          lembahnya;</li>
+        <li>menjelaskan mengapa lembah itu ada dan meramalkan letaknya;</li>
+        <li>menembus batas itu dengan langkah kompleks.</li>
+      </ul>
+      <h4>Bekal dari buku</h4>
+      <ul>
+        <li>Subbab 9.2 dan 9.3: persamaan normal dan bahayanya</li>
+        <li>Subbab 9.4: penyelesaian lewat faktorisasi QR</li>
+        <li>Subbab 10.2: rumus beda hingga beserta ordenya</li>
+        <li>Subbab 10.4: keseimbangan galat dan langkah optimum</li>
+        <li>Subbab 10.7: langkah kompleks dan diferensiasi otomatis</li>
+      </ul>
+      <div class="tautan">
+        <a class="utama" href="https://colab.research.google.com/github/jamhuri-tech/praktikum-metode-numerik/blob/main/p08_kerangka.ipynb">Buka di Colab</a>
+        <a href="https://github.com/jamhuri-tech/praktikum-metode-numerik/blob/main/p08_kerangka.py">Berkas .py</a>
+        <a href="https://play.google.com/store/books/details?id=ZcoJEgAAQBAJ">Modul</a>
+      </div>
+      <p class="kumpul">Kumpulkan <code>p08_nama.py</code> dan PDF jawaban.
+      Tenggat: <span class="tenggat">belum ditentukan</span></p>
+    </div>
+  </article>
+
+  <article class="kartu" id="p09">
+    <div class="kepala"><span class="no">09</span>
+      <h3>Integrasi Numerik</h3><span class="bab">Bab 11 dan 12</span></div>
+    <div class="isi">
+      <h4>Tujuan</h4>
+      <ul>
+        <li>mengukur orde aturan trapesium dan Simpson dari angkanya;</li>
+        <li>menyusun tabel Romberg dan melihat ekstrapolasi Richardson
+          bekerja;</li>
+        <li>membandingkan kuadratur Gauss dengan Newton–Cotes pada biaya evaluasi
+          yang sama;</li>
+        <li>menemukan satu integran yang membuat Gauss kalah, dan menjelaskan
+          sebabnya.</li>
+      </ul>
+      <h4>Bekal dari buku</h4>
+      <ul>
+        <li>Subbab 11.2 dan 11.3: trapesium, Simpson, dan aturan majemuk</li>
+        <li>Subbab 11.5: metode Romberg dan ekstrapolasi Richardson</li>
+        <li>Subbab 12.1 dan 12.2: kuadratur Gauss</li>
+        <li>Subbab 12.4: kuadratur adaptif</li>
+        <li>Algoritma 11.1 dan 12.1</li>
+      </ul>
+      <div class="tautan">
+        <a class="utama" href="https://colab.research.google.com/github/jamhuri-tech/praktikum-metode-numerik/blob/main/p09_kerangka.ipynb">Buka di Colab</a>
+        <a href="https://github.com/jamhuri-tech/praktikum-metode-numerik/blob/main/p09_kerangka.py">Berkas .py</a>
+        <a href="https://play.google.com/store/books/details?id=ZcoJEgAAQBAJ">Modul</a>
+      </div>
+      <p class="kumpul">Kumpulkan <code>p09_nama.py</code> dan PDF jawaban.
+      Tenggat: <span class="tenggat">belum ditentukan</span></p>
+    </div>
+  </article>
+
+  <article class="kartu" id="p10">
+    <div class="kepala"><span class="no">10</span>
+      <h3>Persamaan Diferensial Biasa</h3><span class="bab">Bab 13 dan 14</span></div>
+    <div class="isi">
+      <h4>Tujuan</h4>
+      <ul>
+        <li>menulis Euler dan Runge–Kutta orde empat, lalu mengukur ordenya;</li>
+        <li>membandingkan keduanya pada biaya yang sama, bukan pada jumlah langkah
+          yang sama;</li>
+        <li>menemukan ambang kestabilan h|λ| &lt; 2 pada persoalan kaku, lalu
+          menembusnya dengan skema implisit;</li>
+        <li>membuat langkah waktu yang menyesuaikan diri.</li>
+      </ul>
+      <h4>Bekal dari buku</h4>
+      <ul>
+        <li>Subbab 13.2 dan 13.3: metode Euler, galat lokal, dan galat global</li>
+        <li>Subbab 13.5: metode Runge–Kutta</li>
+        <li>Subbab 13.7: pengendalian langkah adaptif</li>
+        <li>Subbab 14.6 sampai 14.8: kekakuan, daerah kestabilan mutlak, dan
+          metode implisit</li>
+        <li>Algoritma 13.1</li>
+      </ul>
+      <div class="tautan">
+        <a class="utama" href="https://colab.research.google.com/github/jamhuri-tech/praktikum-metode-numerik/blob/main/p10_kerangka.ipynb">Buka di Colab</a>
+        <a href="https://github.com/jamhuri-tech/praktikum-metode-numerik/blob/main/p10_kerangka.py">Berkas .py</a>
+        <a href="https://play.google.com/store/books/details?id=ZcoJEgAAQBAJ">Modul</a>
+      </div>
+      <p class="kumpul">Kumpulkan <code>p10_nama.py</code> dan PDF jawaban.
+      Tenggat: <span class="tenggat">belum ditentukan</span></p>
+    </div>
+  </article>
+
+  <article class="kartu" id="p11">
+    <div class="kepala"><span class="no">11</span>
+      <h3>Masalah Nilai Batas</h3><span class="bab">Bab 15 dan 17</span></div>
+    <div class="isi">
+      <h4>Tujuan</h4>
+      <ul>
+        <li>menyelesaikan masalah nilai batas dengan metode tembak, yaitu
+          mengubahnya menjadi pencarian akar;</li>
+        <li>menyelesaikannya lagi dengan beda hingga dan mengukur ordenya;</li>
+        <li>memperluasnya ke dua dimensi, lalu melihat mengapa metode langsung
+          kehabisan napas di sana.</li>
+      </ul>
+      <h4>Bekal dari buku</h4>
+      <ul>
+        <li>Subbab 15.2 dan 15.3: metode tembak linear dan nonlinear</li>
+        <li>Subbab 15.4: ketidakstabilan metode tembak</li>
+        <li>Subbab 15.5: metode beda hingga</li>
+        <li>Subbab 17.2 dan 17.3: rangka lima titik untuk persamaan Poisson dan
+          sistem linearnya</li>
+        <li>Algoritma 15.1</li>
+      </ul>
+      <div class="tautan">
+        <a class="utama" href="https://colab.research.google.com/github/jamhuri-tech/praktikum-metode-numerik/blob/main/p11_kerangka.ipynb">Buka di Colab</a>
+        <a href="https://github.com/jamhuri-tech/praktikum-metode-numerik/blob/main/p11_kerangka.py">Berkas .py</a>
+        <a href="https://play.google.com/store/books/details?id=ZcoJEgAAQBAJ">Modul</a>
+      </div>
+      <p class="kumpul">Kumpulkan <code>p11_nama.py</code> dan PDF jawaban.
+      Tenggat: <span class="tenggat">belum ditentukan</span></p>
+    </div>
+  </article>
+
+  <article class="kartu" id="p12">
+    <div class="kepala"><span class="no">12</span>
+      <h3>Persamaan Diferensial Parsial Bergantung Waktu</h3><span class="bab">Bab 16 dan 18</span></div>
+    <div class="isi">
+      <h4>Tujuan</h4>
+      <ul>
+        <li>menemukan syarat kestabilan r ≤ ½ pada skema eksplisit untuk
+          persamaan panas;</li>
+        <li>menembusnya dengan skema implisit, dan menyebutkan harganya;</li>
+        <li>menemukan syarat CFL pada persamaan adveksi, dan melihat skema meledak
+          ketika syarat itu dilanggar;</li>
+        <li>mengenali difusi numerik, yaitu kesalahan yang muncul justru ketika
+          skemanya stabil.</li>
+      </ul>
+      <h4>Bekal dari buku</h4>
+      <ul>
+        <li>Subbab 16.2 dan 16.3: skema eksplisit, bilangan r, dan analisis von
+          Neumann</li>
+        <li>Subbab 16.4 dan 16.5: skema implisit dan Crank–Nicolson</li>
+        <li>Subbab 18.1 sampai 18.3: persamaan adveksi, syarat CFL, dan skema beda
+          hingga</li>
+        <li>Subbab 18.5: difusi dan dispersi numerik</li>
+      </ul>
+      <div class="tautan">
+        <a class="utama" href="https://colab.research.google.com/github/jamhuri-tech/praktikum-metode-numerik/blob/main/p12_kerangka.ipynb">Buka di Colab</a>
+        <a href="https://github.com/jamhuri-tech/praktikum-metode-numerik/blob/main/p12_kerangka.py">Berkas .py</a>
+        <a href="https://play.google.com/store/books/details?id=ZcoJEgAAQBAJ">Modul</a>
+      </div>
+      <p class="kumpul">Kumpulkan <code>p12_nama.py</code> dan PDF jawaban.
+      Tenggat: <span class="tenggat">belum ditentukan</span></p>
+    </div>
+  </article>
+
+</main>
+
+<footer class="bungkus">
+  <p>Kekeliruan pada kerangka dapat dilaporkan lewat
+  <a href="https://github.com/jamhuri-tech/praktikum-metode-numerik/issues">issue di GitHub</a>
+  atau surel ke m.jamhuri@mat.uin-malang.ac.id.</p>
+</footer>
+
+</body>
+</html>
