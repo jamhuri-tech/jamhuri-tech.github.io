@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 290">
+  <defs>
+    <marker id="axkn" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+      <path d="M0,0 L6,3 L0,6 Z" fill="#16425B"/>
+    </marker>
+  </defs>
+  <line x1="10" y1="260" x2="352" y2="260" stroke="#16425B" stroke-width="2" marker-end="url(#axkn)"/>
+  <line x1="180" y1="272" x2="180" y2="10" stroke="#16425B" stroke-width="2" marker-end="url(#axkn)"/>
+  <text x="342" y="253" font-family="Georgia, 'Palatino Linotype', serif" font-style="italic" font-size="16" fill="#16425B">x</text>
+  <text x="164" y="20" font-family="Georgia, 'Palatino Linotype', serif" font-style="italic" font-size="16" fill="#16425B">t</text>
+
+  <line x1="340" y1="260" x2="220" y2="20" stroke="#B7C4CB" stroke-width="1.8"/>
+  <line x1="260" y1="260" x2="140" y2="20" stroke="#B7C4CB" stroke-width="1.8"/>
+  <line x1="60" y1="260" x2="20" y2="140" stroke="#B7C4CB" stroke-width="1.8"/>
+
+  <line x1="300" y1="260" x2="180" y2="20" stroke="#D9713E" stroke-width="2.8"/>
+  <text x="215" y="45" font-family="Georgia, 'Palatino Linotype', serif" font-size="14" fill="#D9713E">x+4t=x&#8320;</text>
+  <text x="40" y="278" font-family="Georgia, 'Palatino Linotype', serif" font-size="13" fill="#78828B">condong ke kiri: c &lt; 0</text>
+</svg>
