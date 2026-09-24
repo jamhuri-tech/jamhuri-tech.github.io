@@ -208,6 +208,10 @@
   }
   .book-card:hover .book-cover{ transform:translate(-2px,-3px); box-shadow:5px 6px 0 var(--brass); }
   .book-cover img{ width:100%; height:100%; object-fit:cover; display:block; }
+  .book-cover-empty{
+    display:flex; align-items:center; justify-content:center; padding:14px; text-align:center;
+    font-family:'Fraunces', serif; font-size:1rem; line-height:1.25; color:var(--ink-soft);
+  }
   .book-badge{
     position:absolute; top:7px; left:7px; font-family:'IBM Plex Mono', monospace;
     font-size:9.5px; letter-spacing:.04em; text-transform:uppercase; color:var(--paper);
@@ -216,11 +220,6 @@
   .book-title{ font-size:.85rem; font-weight:600; line-height:1.32; }
   .book-card:hover .book-title{ color:var(--brass-deep); }
   .book-meta{ font-family:'IBM Plex Mono', monospace; font-size:10px; color:var(--ink-soft); }
-  .buku-subhead{
-    font-family:'IBM Plex Mono', monospace; font-size:12px; letter-spacing:.06em;
-    text-transform:uppercase; color:var(--ink-soft); margin:34px 0 0; padding-top:22px;
-    border-top:1px solid var(--line-soft);
-  }
 
   footer{ padding:40px 0 70px; position:relative; z-index:1; }
   .foot-links{ display:flex; flex-wrap:wrap; gap:16px; margin-bottom:18px; font-size:.9rem; }
@@ -588,39 +587,27 @@
         <div class="book-title">Second-Order Optimization Methods</div>
         <div class="book-meta">Play Books</div>
       </a>
+      <a class="book-card" href="Buku_NN_Versi_4.pdf">
+        <div class="book-cover"><img src="cover-jst-feedforward.jpg" alt="Sampul buku Jaringan Syaraf Tiruan Feedforward Satu Hidden Layer: Satu Model, Tiga Wajah" loading="lazy"></div>
+        <div class="book-title">Jaringan Syaraf Tiruan Feedforward Satu Hidden Layer: Satu Model, Tiga Wajah</div>
+        <div class="book-meta">Ediide Infografika · 2026 · ISBN 978-623-5934-98-3</div>
+      </a>
+      <a class="book-card" href="https://www.google.co.id/books/edition/Panduan_Praktis_Machine_Learning_dengan/dNLGEQAAQBAJ?hl=en&amp;gbpv=0">
+        <div class="book-cover"><img src="cover-panduan-praktis.jpg" alt="Sampul buku Panduan Praktis Machine Learning dengan Python" loading="lazy"></div>
+        <div class="book-title">Panduan Praktis Machine Learning dengan Python</div>
+        <div class="book-meta">Penerbit Adab · 2025 · ISBN 978-634-235-917-4 · bersama M.I. Irawan, I. Mukhlash, A. Kusumastuti</div>
+      </a>
+      <a class="book-card" href="https://www.researchgate.net/publication/389948547_DASAR_-DASAR_EKONOMETRIKA">
+        <div class="book-cover book-cover-empty">Dasar-Dasar Ekonometrika</div>
+        <div class="book-title">Dasar-Dasar Ekonometrika</div>
+        <div class="book-meta">CV Hei Publishing · 2025 · ISBN 978-634-7067-43-2 · kolaborasi 12 penulis</div>
+      </a>
+      <a class="book-card" href="https://bookstore.futuresciencepress.com/book/artificial-intelligence-dalam-pembelajaran-menulis">
+        <div class="book-cover"><img src="cover-ai-menulis.jpg" alt="Sampul buku Artificial Intelligence dalam Pembelajaran Menulis: Perspektif dan Praktik" loading="lazy"></div>
+        <div class="book-title">Artificial Intelligence dalam Pembelajaran Menulis: Perspektif dan Praktik</div>
+        <div class="book-meta">Future Science · 2025 · ISBN 978-634-7430-09-0 · kolaborasi 12 penulis</div>
+      </a>
     </div>
-
-    <p class="buku-subhead">Buku cetak &amp; format lain</p>
-    <ul class="pub-list">
-      <li class="pub">
-        <div class="pub-top">
-          <a class="pub-title" href="Buku_NN_Versi_4.pdf">Jaringan Syaraf Tiruan Feedforward Satu Hidden Layer — Satu Model, Tiga Wajah: Matematika, NumPy, dan TensorFlow</a>
-          <span class="pub-year">2026</span>
-        </div>
-        <div class="pub-venue"><span class="pub-type">Buku</span>Penerbit Ediide Infografika</div>
-      </li>
-      <li class="pub">
-        <div class="pub-top">
-          <a class="pub-title" href="https://www.google.co.id/books/edition/Panduan_Praktis_Machine_Learning_dengan/dNLGEQAAQBAJ?hl=en&amp;gbpv=0">Panduan Praktis Machine Learning dengan Python</a>
-          <span class="pub-year">2025</span>
-        </div>
-        <div class="pub-venue"><span class="pub-type">Buku</span>Penerbit Adab · ISBN 978-634-235-917-4 · E-ISBN 978-634-235-916-7 (PDF) · bersama M.I. Irawan, I. Mukhlash, A. Kusumastuti</div>
-      </li>
-      <li class="pub">
-        <div class="pub-top">
-          <a class="pub-title" href="https://www.researchgate.net/publication/389948547_DASAR_-DASAR_EKONOMETRIKA">Dasar-Dasar Ekonometrika</a>
-          <span class="pub-year">2025</span>
-        </div>
-        <div class="pub-venue"><span class="pub-type">Buku</span>CV Hei Publishing Indonesia · ISBN 978-634-7067-43-2 · buku kolaborasi 12 penulis</div>
-      </li>
-      <li class="pub">
-        <div class="pub-top">
-          <a class="pub-title" href="https://bookstore.futuresciencepress.com/book/artificial-intelligence-dalam-pembelajaran-menulis">Artificial Intelligence dalam Pembelajaran Menulis: Perspektif dan Praktik</a>
-          <span class="pub-year">2025</span>
-        </div>
-        <div class="pub-venue"><span class="pub-type">Buku</span>Future Science · ISBN 978-634-7430-09-0 · buku kolaborasi 12 penulis</div>
-      </li>
-    </ul>
   </section>
 
   <section id="tulisan">
