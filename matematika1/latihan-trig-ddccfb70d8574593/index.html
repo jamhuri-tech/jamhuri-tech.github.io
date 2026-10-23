@@ -55,6 +55,7 @@ function rng(seed){return()=>{seed|=0;seed=seed+0x6D2B79F5|0;let t=Math.imul(see
 function shuf(n,r){const a=[...Array(n).keys()];for(let i=n-1;i>0;i--){const j=Math.floor(r()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a}
 const QO=a=>a.qo||(a.qo=shuf(D.length,rng(a.seed||1)));
 const OO=(a,q)=>{a.oo=a.oo||{};return a.oo[q]||(a.oo[q]=shuf(5,rng((a.seed||1)*7919+q*104729+13)))};
+const cnt=a=>Object.values(a.ans).filter(x=>x.length).length;
 const run=()=>{const a=A();return a&&!a.done};
 const same=(a,i)=>D[i].o.every((o,j)=>!!o[1]===(a.ans[i]||[]).includes(j));
 const score=a=>D.reduce((n,_,i)=>n+(a.ans[i]&&same(a,i)?1:0),0);
@@ -76,10 +77,15 @@ function home(){
  document.querySelectorAll('[data-s]').forEach(x=>x.onclick=e=>{e.preventDefault();kirim(S.att[+x.dataset.s],home)});
 }
 function cur(){return S.rev!=null&&S.view=='exam'&&!run()?S.att[S.rev]:A()}
-function exam(){S.view='exam';if(!run()&&S.rev==null)S.rev=S.att.length-1;if(run())S.rev=null;draw();window.scrollTo(0,0)}
+function leave(){const a=A();if(!a||a.done||S.view!='exam'||S.rev!=null)return true;const qi=QO(a)[S.cur];if(a.ans[qi])return true;
+ const ck=[...document.querySelectorAll('#app .o input')].filter(b=>b.checked).map(b=>+b.dataset.j);
+ if(!ck.length&&!confirm('Soal ini belum dijawab. Bila ditinggalkan, soal DIHITUNG SALAH dan tidak bisa dibuka lagi untuk dijawab. Tinggalkan?'))return false;
+ a.ans[qi]=ck;save();return true}
+function exam(){S.view='exam';{const a=A();if(a&&!a.done&&a.open!=null&&!a.ans[a.open])S.cur=QO(a).indexOf(a.open)}if(!run()&&S.rev==null)S.rev=S.att.length-1;if(run())S.rev=null;draw();window.scrollTo(0,0)}
 function draw(){
  const a=cur(),qi=QO(a)[S.cur],d=D[qi],ans=a.ans[qi],live=!a.done,locked=!!ans||a.done;
- let h='<details class="nvd" id="nvd"'+((S.navOpen===undefined?innerWidth>=700:S.navOpen)?' open':'')+'><summary>Daftar soal · terjawab '+Object.keys(a.ans).length+'/100</summary><div class="nav" id="nav"></div></details><div class="card"><div class="no">SOAL '+(S.cur+1)+' / '+D.length+'</div><div class="stem">'+d.s+'</div><div class="fig">'+d.f+'</div><div class="hint">'+(locked?(ans?'Jawaban terkunci.':'Waktu/percobaan sudah selesai; soal ini tidak dijawab.'):'Centang semua pernyataan yang benar.')+'</div>';
+ if(live&&!locked){a.open=qi;save()}
+ let h='<details class="nvd" id="nvd"'+((S.navOpen===undefined?innerWidth>=700:S.navOpen)?' open':'')+'><summary>Daftar soal · terjawab '+cnt(a)+'/100</summary><div class="nav" id="nav"></div></details><div class="card"><div class="no">SOAL '+(S.cur+1)+' / '+D.length+'</div><div class="stem">'+d.s+'</div><div class="fig">'+d.f+'</div><div class="hint">'+(locked?(ans&&ans.length?'Jawaban terkunci.':(ans?'Soal ditinggalkan tanpa jawaban, dihitung salah.':'Waktu/percobaan sudah selesai; soal ini tidak dijawab.')):'Centang semua pernyataan yang benar. Soal yang sudah dibuka wajib dijawab; bila ditinggalkan tanpa jawaban, dihitung salah.')+'</div>';
  OO(a,qi).forEach((j,pos)=>{const o=d.o[j];const ch=ans&&ans.includes(j);let c='o';if(locked)c+=o[1]?' ok':(ch?' bad':'');
   h+='<label class="'+c+'"><input type="checkbox" data-j="'+j+'"'+(ch?' checked':'')+(locked?' disabled':'')+'><span><b>'+L[pos]+'.</b> '+o[0]+(locked?'<span class="ex"><span class="tag">'+(o[1]?'Pernyataan BENAR':'Pernyataan SALAH')+(ans?(ch===!!o[1]?' (pilihanmu tepat)':' (pilihanmu keliru)'):'')+'.</span> '+o[2]+'</span>':'')+'</span></label>'});
  if(locked)h+='<div class="sol"><b>Pembahasan.</b> '+d.e+(ans?'<div class="res">'+(same(a,qi)?'Jawabanmu BENAR seluruhnya.':'Jawabanmu belum tepat. Kunci: '+OO(a,qi).map((j,pos)=>d.o[j][1]?L[pos]:'').join('')+'.')+'</div>':'')+'</div>';
@@ -88,30 +94,30 @@ function draw(){
  const bx=[...document.querySelectorAll('#app .o input')],k=$('#k');
  if(k){bx.forEach(b=>b.onchange=()=>{k.disabled=!bx.some(x=>x.checked)});
   k.onclick=()=>{if(Date.now()>=a.end){selesai(a);return}a.ans[qi]=bx.filter(b=>b.checked).map(b=>+b.dataset.j);save();draw()}}
- $('#p').onclick=()=>{S.cur--;draw();window.scrollTo(0,0)};$('#n').onclick=()=>{S.cur++;draw();window.scrollTo(0,0)};
- const f=$('#fin');if(f)f.onclick=()=>{const kosong=D.length-Object.keys(a.ans).length;if(confirm('Akhiri dan kirim sekarang? '+(kosong?kosong+' soal belum dijawab dan dihitung salah.':'Semua soal sudah dijawab.')))selesai(a)};
+ $('#p').onclick=()=>{if(live&&!leave())return;S.cur--;draw();window.scrollTo(0,0)};$('#n').onclick=()=>{if(live&&!leave())return;S.cur++;draw();window.scrollTo(0,0)};
+ const f=$('#fin');if(f)f.onclick=()=>{const kosong=D.length-cnt(a);if(confirm('Akhiri dan kirim sekarang? '+(kosong?kosong+' soal belum dijawab dan dihitung salah.':'Semua soal sudah dijawab.')))selesai(a)};
  const hm=$('#hm');if(hm)hm.onclick=home;
  let n='';D.forEach((_,i)=>{const q=QO(a)[i];let c=i==S.cur?'cur':'';if(a.ans[q])c+=a.done?(same(a,q)?' b':' s'):' b';else if(a.done)c+=' s';n+='<button class="'+c+'" data-i="'+i+'">'+(i+1)+'</button>'});
- $('#nav').innerHTML=n;$('#nvd').ontoggle=()=>{S.navOpen=$('#nvd').open};$('#nav').onclick=e=>{if(e.target.dataset.i){S.cur=+e.target.dataset.i;if(innerWidth<700)S.navOpen=false;draw();window.scrollTo(0,0)}};
+ $('#nav').innerHTML=n;$('#nvd').ontoggle=()=>{S.navOpen=$('#nvd').open};$('#nav').onclick=e=>{if(e.target.dataset.i){const t=+e.target.dataset.i;if(t==S.cur)return;if(live&&!leave())return;S.cur=t;if(innerWidth<700)S.navOpen=false;draw();window.scrollTo(0,0)}};
  math();
 }
 function bar(){
  const a=A();let h='';
- if(S.view=='exam'&&a&&S.rev==null&&run()){h='<div class="bar"><div class="nm"><b>'+esc(S.prof.nama)+'</b> <small>'+esc(S.prof.nim)+' · percobaan '+a.n+' · terjawab '+Object.keys(a.ans).length+'/100</small></div><div>⏱ <span class="tm" id="tm"></span></div></div>'}
+ if(S.view=='exam'&&a&&S.rev==null&&run()){h='<div class="bar"><div class="nm"><b>'+esc(S.prof.nama)+'</b> <small>'+esc(S.prof.nim)+' · percobaan '+a.n+' · terjawab '+cnt(a)+'/100</small></div><div>⏱ <span class="tm" id="tm"></span></div></div>'}
  else if(S.view=='exam'&&S.rev!=null){const r=S.att[S.rev];h='<div class="bar"><div><b>Tinjauan percobaan '+r.n+'</b> <small>skor '+score(r)+'/100</small></div></div>'}
  $('#bar').innerHTML=h;tick();
 }
 function tick(){const a=A(),t=$('#tm');if(!t||!a||a.done)return;const left=a.end-Date.now();t.textContent=fmt(left);t.className='tm'+(left<600000?' lo':'');if(left<=0)selesai(a)}
 setInterval(tick,500);
-function selesai(a){if(a.done)return;a.done=true;a.fin=Math.min(Date.now(),a.end);save();S.rev=S.att.indexOf(a);
+function selesai(a){if(a.done)return;{const qo=QO(a);if(S.view=='exam'&&S.rev==null&&qo[S.cur]!=null&&!a.ans[qo[S.cur]])a.ans[qo[S.cur]]=[...document.querySelectorAll('#app .o input')].filter(b=>b.checked).map(b=>+b.dataset.j);else if(a.open!=null&&!a.ans[a.open])a.ans[a.open]=[]}a.done=true;a.fin=Math.min(Date.now(),a.end);save();S.rev=S.att.indexOf(a);
  kirim(a,()=>{});result(a)}
 function result(a){S.view='result';S.cur=0;
  $('#bar').innerHTML='';
- $('#app').innerHTML='<h1>Selesai</h1><div class="card"><p class="res">'+esc(S.prof.nama)+' ('+esc(S.prof.nim)+') · percobaan '+a.n+'</p><p style="font-size:1.4rem;margin:.3rem 0"><b>Skor '+score(a)+'/100</b></p><p>Soal benar penuh: '+score(a)+'. Dijawab: '+Object.keys(a.ans).length+'. Waktu pengerjaan: '+fmt((a.fin||a.end)-a.start)+'.</p><div class="msg" id="st"></div><div class="row"><button id="tj">Tinjau pembahasan</button><button class="g" id="ul">Kerjakan lagi</button><button class="g" id="sl">Salin hasil</button></div></div>';
+ $('#app').innerHTML='<h1>Selesai</h1><div class="card"><p class="res">'+esc(S.prof.nama)+' ('+esc(S.prof.nim)+') · percobaan '+a.n+'</p><p style="font-size:1.4rem;margin:.3rem 0"><b>Skor '+score(a)+'/100</b></p><p>Soal benar penuh: '+score(a)+'. Dijawab: '+cnt(a)+'. Waktu pengerjaan: '+fmt((a.fin||a.end)-a.start)+'.</p><div class="msg" id="st"></div><div class="row"><button id="tj">Tinjau pembahasan</button><button class="g" id="ul">Kerjakan lagi</button><button class="g" id="sl">Salin hasil</button></div></div>';
  stat(a);$('#tj').onclick=()=>exam();$('#ul').onclick=home;
  $('#sl').onclick=()=>{const t=JSON.stringify(payload(a));(navigator.clipboard?navigator.clipboard.writeText(t):Promise.reject()).then(()=>alert('Hasil disalin.'),()=>prompt('Salin teks ini:',t))}}
 function stat(a){const e=$('#st');if(e)e.textContent=a.sent?'Hasil sudah terkirim ke dosen.':(ENDPOINT?'Hasil belum terkirim (periksa koneksi). Akan dicoba lagi otomatis; atau tekan "kirim ulang" di halaman awal.':'Hasil tersimpan di perangkat ini. Pengiriman otomatis belum diaktifkan; tekan "Salin hasil" dan kirim ke dosen.')}
-function payload(a){return{nama:S.prof.nama,nim:S.prof.nim,percobaan:a.n,skor:score(a),dijawab:Object.keys(a.ans).length,mulai:new Date(a.start).toISOString(),durasi_detik:Math.round(((a.fin||a.end)-a.start)/1000),jawaban:D.map((_,i)=>(a.ans[i]||[]).map(j=>L[j]).join('')||'-').join(','),benar:D.map((_,i)=>a.ans[i]&&same(a,i)?1:0).join('')}}
+function payload(a){return{nama:S.prof.nama,nim:S.prof.nim,percobaan:a.n,skor:score(a),dijawab:cnt(a),mulai:new Date(a.start).toISOString(),durasi_detik:Math.round(((a.fin||a.end)-a.start)/1000),jawaban:D.map((_,i)=>(a.ans[i]||[]).map(j=>L[j]).join('')||'-').join(','),benar:D.map((_,i)=>a.ans[i]&&same(a,i)?1:0).join('')}}
 function kirim(a,cb){if(!ENDPOINT){cb&&cb();return}
  fetch(ENDPOINT,{method:'POST',mode:'no-cors',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify(payload(a))}).then(()=>{a.sent=true;save();stat(a);cb&&cb()},()=>{stat(a);cb&&cb()})}
 addEventListener('load',()=>{const a=A();
